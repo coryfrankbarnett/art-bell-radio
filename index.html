@@ -8,6 +8,8 @@
 <meta name="apple-mobile-web-app-title" content="Art Bell">
 <meta name="theme-color" content="#08090c">
 <title>Art Bell Radio</title>
+<link rel="preconnect" href="https://archive.org" crossorigin>
+<link rel="dns-prefetch" href="https://us.archive.org">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -702,7 +704,7 @@ h1 em{font-weight:700;letter-spacing:-.045em}
 <div class="scrim" id="scrim"></div>
 <div class="sheet" id="sheet"></div>
 <div class="toast" id="toast"></div>
-<audio id="audio" preload="metadata"></audio>
+<audio id="audio" preload="auto"></audio>
 
 <script>/* Fuse.js 7.5.0 · Apache-2.0 · https://fusejs.io */(function(){var module={exports:{}},exports=module.exports;
 /**
@@ -798,6 +800,16 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>'
 const fmt = s => { if(!isFinite(s)||s<0) s=0; s=Math.floor(s); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0'); };
 const encPath = p => p.split('/').map(encodeURIComponent).join('/');
 const fileUrl = e => `${API}/download/${encodeURIComponent(e.item)}/${encPath(e.file)}`;
+// Direct storage-server address for each archive.org item: skips the download redirect, so audio starts sooner
+let hosts = {};
+const streamUrl = e => hosts[e.item] ? `${hosts[e.item]}/${encPath(e.file)}` : fileUrl(e);
+async function learnHost(item){
+  if(hosts[item] || item === 'demo') return;
+  try{
+    const [sv, dir] = await Promise.all([getJSON(`${API}/metadata/${encodeURIComponent(item)}/server`), getJSON(`${API}/metadata/${encodeURIComponent(item)}/dir`)]);
+    if(sv && sv.result && dir && dir.result){ hosts[item] = `https://${sv.result}${dir.result}`; const c = store.get(INDEX_KEY, null); if(c){ c.hosts = hosts; store.set(INDEX_KEY, c); } }
+  }catch(x){}
+}
 const niceDate = d => { if(!d) return 'Undated'; if(d.length===4) return d; const [y,m,dd]=d.split('-'); return new Date(+y, +m-1, +dd).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); };
 function toast(msg, ms=2400){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'), ms); }
 const I = {
@@ -881,7 +893,7 @@ async function discover(){
 async function loadLibrary(force){
   const cached = store.get(INDEX_KEY, null);
   if(cached && !force && cached.episodes && cached.episodes.length){
-    episodes = cached.episodes.map(addHay); afterLoad(); return;
+    episodes = cached.episodes.map(addHay); hosts = cached.hosts || {}; afterLoad(); return;
   }
   $('#count').textContent = 'Loading the archive…';
   $('#list').innerHTML = Array(7).fill('<div class="skel"><div class="a"></div><div class="l"><i></i><i></i></div></div>').join('');
@@ -892,6 +904,7 @@ async function loadLibrary(force){
     try{
       const j = await getJSON(`${API}/metadata/${encodeURIComponent(id)}`);
       const it = (j.metadata && [].concat(j.metadata.title)[0]) || id;
+      if(j.server && j.dir) hosts[id] = `https://${j.server}${j.dir}`;
       const files = (j.files||[]).filter(f => /\.mp3$/i.test(f.name));
       const orig = files.filter(f => f.source !== 'derivative');
       (orig.length ? orig : files).forEach(f => {
@@ -908,7 +921,7 @@ async function loadLibrary(force){
     if(cached && cached.episodes){ episodes = cached.episodes.map(addHay); afterLoad(); toast('Offline — showing your saved library'); return; }
     demoMode = true; episodes = DEMO.map(addHay); $('#demo').classList.add('show'); afterLoad(); return;
   }
-  store.set(INDEX_KEY, { at:Date.now(), episodes: episodes.map(({hay,guests,nd,...e})=>e) });
+  store.set(INDEX_KEY, { at:Date.now(), hosts, episodes: episodes.map(({hay,guests,nd,...e})=>e) });
   if(failed) toast(`${failed} collection${failed>1?'s':''} didn’t load — try refreshing later`);
   afterLoad();
 }
@@ -1202,7 +1215,7 @@ async function loadEpisode(e, autoplay){
   audio.dataset.id = e.id;
   if(e.demo){ audio.removeAttribute('src'); }
   else {
-    let src = fileUrl(e);
+    let src = streamUrl(e); if(!hosts[e.item]) learnHost(e.item);
     if(savedKeys.has(e.id)){ try{ const b = await db.get(e.id); if(b){ blobUrl = URL.createObjectURL(b); src = blobUrl; } }catch(x){} }
     audio.src = src; audio.playbackRate = state.speed;
     const p = state.pos[e.id];
@@ -1237,7 +1250,14 @@ function setSeek(v){ $('#seek').value = v; wave.progress = v/1000; drawWave(); }
 audio.addEventListener('play', () => { updatePP(); render(); });
 audio.addEventListener('pause', () => { updatePP(); render(); persistPos(); });
 audio.addEventListener('ended', () => { persistPos(); playNextUp(); });
-audio.addEventListener('error', () => { if(audio.getAttribute('src')) toast('That file wouldn’t load from archive.org — try another'); });
+audio.addEventListener('error', () => {
+  const e = current(), src = audio.getAttribute('src');
+  if(e && src && !src.startsWith('blob:') && src !== fileUrl(e)){ // direct server failed: fall back to the normal archive.org link
+    const t = audio.currentTime; delete hosts[e.item]; audio.src = fileUrl(e);
+    audio.addEventListener('loadedmetadata', () => { if(t) audio.currentTime = t; }, {once:true}); audio.play().catch(()=>{}); return;
+  }
+  if(src) toast('That file wouldn’t load from archive.org — try another');
+});
 let lastP = 0, seeking = false;
 audio.addEventListener('timeupdate', () => {
   const d = audio.duration, t = audio.currentTime;
@@ -1337,19 +1357,30 @@ async function loadWave(e){
   if(e.demo || !e.size){ wave.peaks = fakePeaks(e); wave.approx = true; drawWave(); return; }
   wave.peaks = new Array(WAVE_SEGS).fill(null); wave.loading = true; drawWave();
   let blob = null; if(savedKeys.has(e.id)){ try{ blob = await db.get(e.id); }catch(x){} }
-  const raw = new Array(WAVE_SEGS).fill(null), url = fileUrl(e), size = blob ? blob.size : e.size;
+  if(!blob){
+    // Let the audio have the connection first: only sample once playback has started (or is ready), plus a short pause
+    await new Promise(res => {
+      if(audio.dataset.id === e.id && !audio.paused && audio.readyState >= 3) return res();
+      const go = () => { audio.removeEventListener('playing', go); audio.removeEventListener('canplaythrough', go); res(); };
+      audio.addEventListener('playing', go); audio.addEventListener('canplaythrough', go);
+      setTimeout(go, 15000);
+    });
+    await new Promise(r => setTimeout(r, 2500));
+    if(wave.id !== e.id) return;
+  }
+  const raw = new Array(WAVE_SEGS).fill(null), url = streamUrl(e), size = blob ? blob.size : e.size;
   let next = 0, failed = 0;
   const worker = async () => {
     while(next < WAVE_SEGS && wave.id === e.id){
       const i = next++, start = Math.floor((i + .5) / WAVE_SEGS * (size - WAVE_CHUNK));
       raw[i] = await sliceLevel(() => blob ? blob.slice(start, start + WAVE_CHUNK).arrayBuffer()
-        : fetch(url, { headers:{ Range:`bytes=${start}-${start + WAVE_CHUNK - 1}` }, mode:'cors' }).then(r => { if(!r.ok) throw 0; return r.arrayBuffer(); }));
+        : fetch(url, { headers:{ Range:`bytes=${start}-${start + WAVE_CHUNK - 1}` }, mode:'cors', priority:'low' }).then(r => { if(!r.ok) throw 0; return r.arrayBuffer(); }));
       if(raw[i] == null) failed++;
       if(failed > 12 && i < 30){ next = WAVE_SEGS; break; } // archive.org not allowing it: fall back
       if(wave.id === e.id){ const m = Math.max(...raw.filter(v => v != null), .001); wave.peaks = raw.map(v => v == null ? null : Math.max(.08, Math.sqrt(v/m))); drawWave(); }
     }
   };
-  await Promise.all(Array.from({length:6}, worker));
+  await Promise.all(Array.from({length: blob ? 6 : 2}, worker));
   wave.loading = false; if(wave.id !== e.id) return;
   const norm = normalise(raw);
   if(norm){ wave.peaks = norm; store.set(WAVE_KEY + e.id, norm.map(v => Math.round(v*100)/100)); }
