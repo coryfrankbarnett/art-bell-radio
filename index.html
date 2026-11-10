@@ -459,6 +459,36 @@ h1 em{font-weight:700;letter-spacing:-.045em}
 .gletter{font-weight:500;font-size:15px}
 .extras b{font-weight:500;letter-spacing:-.03em}
 .art .sh,.np .bigart .sh,.np .bigart .freq{font-family:var(--font);font-weight:600;letter-spacing:.06em}
+
+/* ================= 2026 streaming patterns ================= */
+/* shelves */
+.shelf .sec{padding-bottom:12px}
+.seeall{font:600 13px var(--font);color:var(--muted)}
+.shelf .rail{padding-bottom:24px;scroll-snap-type:x mandatory;scroll-padding:0 20px}
+.shelf .card{width:156px;scroll-snap-align:start}
+.shelf .card .art{width:156px;height:156px;border-radius:18px}
+.shelf .card .t{font-size:14.5px;margin-top:10px}
+/* stronger display weight for headings (heavy grotesque + clean sans pairing) */
+.sec h2{font-weight:650;font-size:23px;letter-spacing:-.04em}
+.prog .nm{font-weight:650}
+.np .title{font-weight:650;letter-spacing:-.04em}
+/* now playing: art-led colour wash, bigger flatter art, darker flatter controls */
+.np{background:linear-gradient(180deg,color-mix(in srgb,var(--npc,#ff9a2e) 42%,var(--bg)) 0%,color-mix(in srgb,var(--npc,#ff9a2e) 14%,var(--bg)) 45%,var(--bg) 78%)}
+.np .bgglow{display:none}
+.np .bigart{max-width:420px;width:100%;border-radius:26px;box-shadow:0 30px 70px rgba(0,0,0,.55)}
+.np .meta{margin-top:26px}
+.np .fav{background:rgba(255,255,255,.08)}
+.ctl .big{background:var(--text);box-shadow:none}
+.ctl .big svg{fill:var(--bg)}
+.extras button{opacity:.85}
+.extras .on{opacity:1}
+/* mini player: tinted by the programme, progress along the top edge */
+.mini{background:linear-gradient(90deg,color-mix(in srgb,var(--mc,#ff9a2e) 34%,#15171c) 0%,#15171c 75%);border:1px solid rgba(255,255,255,.07);padding:8px 10px 8px 8px;overflow:hidden}
+.mini .art{width:48px;height:48px;border-radius:12px}
+.mini .line{left:0;right:0;top:0;bottom:auto;height:2px;border-radius:0;background:rgba(255,255,255,.08)}
+.mini .line i{background:var(--text)}
+.mini .pp{background:var(--text);width:40px;height:40px}
+.mini .pp svg{fill:var(--bg);width:20px;height:20px}
 </style>
 </head>
 <body>
@@ -531,6 +561,7 @@ h1 em{font-weight:700;letter-spacing:-.045em}
     <div class="rail" id="rail"></div>
   </section>
 
+  <div id="shelves"></div>
   <section id="progWrap" style="display:none">
     <div class="sec"><h2>Programmes</h2><div class="meta">Swipe →</div></div>
     <div class="progs" id="progs"></div>
@@ -918,6 +949,7 @@ function render(){
 
   const counts = {}; episodes.forEach(e => counts[e.show] = (counts[e.show]||0)+1);
   const showProgs = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value;
+  renderShelves(showProgs);
   $('#progWrap').style.display = showProgs ? '' : 'none';
   if(showProgs) $('#progs').innerHTML = PROGRAMMES.filter(p => counts[p[0]]).map(([n, y]) => {
     const [c1, c2] = SHOW_COLOURS[n] || SHOW_COLOURS['Art Bell'];
@@ -1020,6 +1052,27 @@ $('#guests').addEventListener('click', ev => {
   document.querySelector('.tab[data-tab="all"]').click();
 });
 
+/* ================= Shelves (streaming-app style rows per programme) ================= */
+function dailyPick(list, n){
+  const seed = new Date().toISOString().slice(0,10); let x = 0; for(const c of seed) x = (x*31 + c.charCodeAt(0)) | 0;
+  const r = () => (x = (x*1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+  return list.slice().sort(() => r() - .5).slice(0, n);
+}
+function renderShelves(show){
+  const el = $('#shelves'); if(!show){ el.innerHTML = ''; return; }
+  const byShow = {}; episodes.forEach(e => (byShow[e.show] = byShow[e.show] || []).push(e));
+  const rows = PROGRAMMES.filter(p => (byShow[p[0]] || []).length >= 2).slice(0, 5);
+  el.innerHTML = rows.map(([n]) => {
+    const picks = dailyPick(byShow[n], 10);
+    return `<section class="shelf"><div class="sec"><h2>${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
+      <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(e.title)}</div><div class="m">${niceDate(e.date)}</div></button>`).join('')}</div></section>`;
+  }).join('');
+}
+$('#shelves').addEventListener('click', ev => {
+  const s = ev.target.closest('.seeall'); if(s){ setShow(s.dataset.show); scrollTo({top:0, behavior:smooth()}); return; }
+  const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(e) loadEpisode(e, true);
+});
+
 /* ================= Bento: Tonight ================= */
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function tonightShows(){
@@ -1077,7 +1130,7 @@ async function loadEpisode(e, autoplay){
   $('#miniT').textContent = e.title; $('#miniM').textContent = `${e.show} · ${niceDate(e.date)}`;
   $('#mini').classList.add('show');
   $('#npArt').outerHTML = artHTML(e, 'bigart').replace('class="art ', 'id="npArt" class="art ').replace('</div>', `<span class="freq">${e.show.toUpperCase()} · ${niceDate(e.date).toUpperCase()}</span></div>`);
-  $('#npGlow').style.setProperty('--c2', c2);
+  $('#npGlow').style.setProperty('--c2', c2); $('#np').style.setProperty('--npc', c2); $('#mini').style.setProperty('--mc', c2);
   $('#npShow').textContent = e.show;
   $('#npTitle').textContent = e.title; $('#npSub').textContent = niceDate(e.date);
   syncNPButtons(e);
