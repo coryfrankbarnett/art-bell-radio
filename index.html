@@ -12,9 +12,9 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-/* Fonts bundled with the app (SIL Open Font License): Mona Sans (headings), Hanken Grotesk (text), Geist Mono (times) */
-@font-face{font-family:'Mona Sans';src:url(fonts/mona-sans.woff2) format('woff2-variations');font-weight:200 900;font-stretch:75% 125%;font-display:swap}
-@font-face{font-family:'Hanken Grotesk';src:url(fonts/hanken-grotesk.woff2) format('woff2-variations');font-weight:100 900;font-display:swap}
+/* Fonts bundled with the app (SIL Open Font License): Space Grotesk (headings), Inter (text), Geist Mono (times) */
+@font-face{font-family:'Space Grotesk';src:url(fonts/space-grotesk.woff2) format('woff2-variations');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url(fonts/inter.woff2) format('woff2-variations');font-weight:100 900;font-display:swap}
 @font-face{font-family:'Geist Mono';src:url(fonts/geist-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'Geist Mono';src:url(fonts/geist-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
 :root{
@@ -336,9 +336,9 @@ html.calm-scroll{scroll-behavior:auto}
 
 /* ================= 2026 refresh: one modern typeface, less decoration ================= */
 :root{
-  --font:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  --display:"Mona Sans","Hanken Grotesk",-apple-system,sans-serif;
-  --serif:"Mona Sans","Hanken Grotesk",-apple-system,sans-serif;
+  --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --display:"Space Grotesk","Inter",-apple-system,sans-serif;
+  --serif:"Space Grotesk","Inter",-apple-system,sans-serif;
   --mono:"Geist Mono",ui-monospace,Menlo,monospace;
   --radius:22px;
   --line:rgba(255,255,255,.08);
@@ -437,25 +437,28 @@ h1 em{font-style:normal;color:var(--accent)}
 .btn{border-radius:16px;font:600 15px var(--font)}
 .toast{font:600 13.5px var(--font);border-radius:16px;bottom:calc(160px + var(--sb))}
 
-/* ---- Type pairing: wide Mona Sans for headings, Hanken Grotesk for text ---- */
-h1,.sec h2,.tile .v,.tile.tonight .big,.prog .nm,.proghead .nm,.np .title,.np .bigart .yy,.art .yy,.sheet .hd .t,.gletter,.grow .av,.extras b,.fkey .v{font-family:var(--display);font-stretch:118%}
-h1{font-weight:800;font-stretch:120%;letter-spacing:-.012em;word-spacing:.06em;font-size:clamp(36px,10vw,48px)}
-.sec h2{font-weight:750;font-size:20px;letter-spacing:-.005em}
-.tile.tonight .big{font-weight:800;font-stretch:125%;letter-spacing:-.02em}
-.tile.tonight .big em{font-weight:500;font-stretch:100%}
-.tile .v{font-weight:750;letter-spacing:-.01em}
-.prog .nm{font-weight:750;font-size:20px;letter-spacing:-.008em;font-stretch:110%;word-spacing:.04em}
-.proghead .nm{font-weight:780;letter-spacing:-.01em;word-spacing:.06em;font-stretch:112%}
-.np .title{font-weight:720;font-stretch:108%;letter-spacing:-.005em;word-spacing:.04em;font-size:clamp(21px,6vw,25px)}
-.np .bigart .yy{font-weight:800;font-stretch:112%;letter-spacing:-.03em;font-size:clamp(76px,22vw,104px)}
-.art .yy{font-weight:800;font-stretch:110%;letter-spacing:-.02em}
-.row .t{font-weight:650;font-size:16px;letter-spacing:-.01em}
-.row .m,.card .m,.tile .s,.tile .k,.sec .meta,.sub,.eyebrow{font-weight:500}
-.chip{font-weight:600}
-.tab{font-weight:600;font-size:11px}
-.mini .t{font-weight:650}
-.sheet .hd .t{font-weight:750;font-stretch:110%}
-.art .sh,.np .bigart .sh,.np .bigart .freq{font-family:var(--display);font-stretch:112%;font-weight:650;letter-spacing:.09em;word-spacing:.12em}
+/* ---- Type: Space Grotesk headings (light/bold contrast) + Inter text ---- */
+html,body{font-feature-settings:"cv11","ss03";}
+h1,.sec h2,.tile .v,.tile.tonight .big,.prog .nm,.proghead .nm,.np .title,.np .bigart .yy,.art .yy,.sheet .hd .t,.gletter,.grow .av,.extras b{font-family:var(--display)}
+h1{font-weight:300;font-size:clamp(42px,12vw,56px);letter-spacing:-.055em;line-height:.95}
+h1 em{font-weight:700;letter-spacing:-.045em}
+.sec h2{font-weight:500;font-size:22px;letter-spacing:-.035em}
+.tile.tonight .big{font-weight:300;letter-spacing:-.07em;font-size:clamp(64px,19vw,92px)}
+.tile.tonight .big em{font-weight:600;color:var(--accent);letter-spacing:-.05em}
+.tile .v{font-weight:500;letter-spacing:-.045em}
+.tile.tonight .ep,.row .t,.card .t{font-weight:550;letter-spacing:-.02em}
+.prog .nm{font-weight:500;font-size:23px;letter-spacing:-.04em;line-height:1}
+.proghead .nm{font-weight:500;letter-spacing:-.045em;font-size:clamp(30px,9vw,38px)}
+.np .title{font-weight:500;letter-spacing:-.035em;font-size:clamp(24px,7vw,29px);line-height:1.08}
+.np .bigart .yy{font-weight:300;letter-spacing:-.075em;font-size:clamp(84px,25vw,112px)}
+.art .yy{font-weight:500;letter-spacing:-.05em}
+.row .t{font-size:15.5px}
+.row .m,.card .m{font-feature-settings:"tnum"}
+.sheet .hd .t{font-weight:500;letter-spacing:-.03em;font-size:19px}
+.grow .av{font-weight:500}
+.gletter{font-weight:500;font-size:15px}
+.extras b{font-weight:500;letter-spacing:-.03em}
+.art .sh,.np .bigart .sh,.np .bigart .freq{font-family:var(--font);font-weight:600;letter-spacing:.06em}
 </style>
 </head>
 <body>
