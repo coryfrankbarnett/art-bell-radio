@@ -738,7 +738,7 @@ const SOURCES = [
 ];
 const DISCOVER_QUERY = 'mediatype:audio AND (title:("ultimate art bell collection") OR title:("art bell somewhere in time") OR title:("art bell dreamland") OR title:("art bell area 2000"))';
 const API = 'https://archive.org';
-const INDEX_KEY = 'abr.index.v2', STATE_KEY = 'abr.state.v2';
+const INDEX_KEY = 'abr.index.v3', STATE_KEY = 'abr.state.v2';
 const PAGE = 50;
 // Colour per programme: [base, glow]
 const SHOW_COLOURS = {
@@ -819,7 +819,7 @@ async function learnHost(item){
     if(sv && sv.result && dir && dir.result){ hosts[item] = `https://${sv.result}${dir.result}`; const c = store.get(INDEX_KEY, null); if(c){ c.hosts = hosts; store.set(INDEX_KEY, c); } }
   }catch(x){}
 }
-const niceDate = d => { if(!d) return 'Undated'; if(d.length===4) return d; const [y,m,dd]=d.split('-'); return new Date(+y, +m-1, +dd).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); };
+const niceDate = d => { if(!d) return 'Undated'; if(d.length===4) return d; const [y,m,dd]=d.split('-'); if(+m < 1) return y; if(+dd < 1) return new Date(+y, +m-1, 1).toLocaleDateString('en-GB',{month:'short',year:'numeric'}); return new Date(+y, +m-1, +dd).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); };
 function toast(msg, ms=2400){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'), ms); }
 const I = {
   play:'<svg viewBox="0 0 24 24"><path d="M8 5.1v13.8a1 1 0 0 0 1.5.9l10.6-6.9a1 1 0 0 0 0-1.7L9.5 4.2A1 1 0 0 0 8 5.1z"/></svg>',
@@ -870,26 +870,41 @@ function normaliseShow(s){
   return 'Art Bell';
 }
 const parseLength = v => !v ? 0 : /^\d+(\.\d+)?$/.test(v) ? +v : v.split(':').reduce((a,x)=>a*60+(+x||0),0);
+const SHOW_PREFIX = /^(ab|art bell|art-bell)?\s*(c2c|mitd|dreamland|dark matter|somewhere in time|area 2000|ghost to ghost|coast to coast am|coast to coast)?\s*(with art bell)?\s*[-–:]*\s*/i;
+function cleanTitle(t){
+  if(!/\s/.test(t) && /-/.test(t)) t = t.replace(/-/g, ' ');                      // Art-Bell-Somewhere-in-Time-Guest-Topic
+  let prev; do { prev = t; t = t.replace(SHOW_PREFIX, '').trim(); } while(t !== prev && t);
+  t = t.replace(/^(art bell|ab)\s+(mitd|dreamland|sit)\b\s*[-–:]?\s*/i, '').replace(/^(sit|mitd)\s+/i, '');
+  return t.replace(/\s{2,}/g, ' ').replace(/^[\s\-–:]+|[\s\-–:]+$/g, '');
+}
 function parseFile(item, f, itemTitle){
   const base = f.name.split('/').pop().replace(/\.mp3$/i,'');
-  let date = '', rest = base;
-  const dm = base.match(/(\d{4})[-_.](\d{2})[-_.](\d{2})/);
-  if(dm){ date = `${dm[1]}-${dm[2]}-${dm[3]}`; rest = base.replace(dm[0],''); }
-  else { const ym = base.match(/(?<!\d)(19[89]\d|20[0-2]\d)(?!\d)/); if(ym) date = ym[1]; }
+  let date = '', rest = base, m;
+  if((m = base.match(/(\d{4})[-_.](\d{2})[-_.](\d{2})/))){ date = +m[1] ? `${m[1]}-${m[2]}-${m[3]}` : ''; rest = base.replace(m[0],''); }
+  else if((m = base.match(/(?<!\d)(\d{2})[-_.](\d{2})[-_.]((?:19|20)\d{2})(?!\d)/))){ date = `${m[3]}-${m[1]}-${m[2]}`; rest = base.replace(m[0],''); } // US style MM-DD-YYYY
+  else if((m = base.match(/(?<!\d)(19[89]\d|20[0-2]\d)(?!\d)/))){ date = m[1]; }
   rest = rest.replace(/_/g,' ').replace(/^[\s\-–]+|[\s\-–]+$/g,'');
   const parts = rest.split(/\s+[-–]\s+/).map(s=>s.trim()).filter(Boolean);
-  const showRx = /(coast to coast|c2c|dreamland|dark matter|midnight in the desert|area 2000|somewhere in time|ghost to ghost)/i;
+  const showRx = /(coast to coast|c2c|dreamland|dark matter|midnight in the desert|mitd|area 2000|somewhere in time|ghost to ghost)/i;
   let show = '';
-  if(parts.length > 1 && showRx.test(parts[0]) && parts[0].length < 60) show = parts.shift();
-  if(!show){ const m = (rest+' '+item+' '+itemTitle).match(showRx); show = m ? m[0] : 'Art Bell'; }
-  return { id:item+'/'+f.name, item, file:f.name, date, year:date.slice(0,4), show:normaliseShow(show), title: parts.join(' – ') || rest || base, size:+f.size||0, length:parseLength(f.length) };
+  while(parts.length > 1 && (showRx.test(parts[0]) || /^(ab|art bell)$/i.test(parts[0])) && parts[0].length < 60){ const p0 = parts.shift(); if(!show && showRx.test(p0)) show = p0; }
+  if(!show){ const mm = (rest+' '+item+' '+itemTitle).match(showRx); show = mm ? mm[0] : 'Art Bell'; }
+  if(/mitd/i.test(show)) show = 'Midnight in the Desert';
+  const title = cleanTitle(parts.join(' – ')) || cleanTitle(rest) || base;
+  return { id:item+'/'+f.name, item, file:f.name, date, year:date.slice(0,4), show:normaliseShow(show), title, size:+f.size||0, length:parseLength(f.length) };
 }
-const NOT_GUEST = /^(open lines|area 51|coast to coast|ghost to ghost|dark matter|dreamland|midnight in the desert|somewhere in time|predictions|annual|y2k|best of|halloween|launch night|callers|part \d|hour \d|the |art bell|art’s|art's)/i;
+const NOT_GUEST = /^(global warming|ab\b|ab dreamland|reverse speech|climate change|theoretical physics|open lines|area 51|coast to coast|ghost to ghost|dark matter|dreamland|midnight in the desert|somewhere in time|predictions|annual|y2k|best of|halloween|launch night|callers|part \d|hour \d|the |art bell|art’s|art's)/i;
 const TOPIC_WORDS = /\b(project|viewing|cosmology|hole|lines|experiment|changes|lives|forecasts?|warning|extinctions?|disclosure|abductions?|ufos?|ghosts?|aliens?|time|travel|prophecy|prophecies|predictions?|earth|area|remote|psychic|conspiracy|government|science|show|night|special|update|news|report|bigfoot|sasquatch|crop|circles|end|world|dreams?|angels?|demons?|energy|health|planet|nibiru|mars|moon|sun|space|war|secrets?|hidden|ancient|lost|myster(y|ies)|hour|part|interview|music|callers?|weather|history|stories|story|theory|technology|mind|control|cosmic|universe|healing|spirits?|paranormal|phenomena|cattle|mutilations?|disasters?|economy|collapse|survival|vortex|portal|pyramids?|atlantis|egypt|bible|religion|church|vampires?|werewolves|monsters?|creatures?|cryptids?|reptilians?|greys?|contact|encounters?|sightings?|roswell|military|nasa|cia|fbi|chemtrails|weather|y2k|millennium|apocalypse|armageddon|rapture|consciousness|medicine|cancer|vaccines?|food|water|oil|money|gold|markets?|crash|tribute|memorial|best|classic|special|replay|rebroadcast|first|last|final|day|week|year)\b/i;
+const GUEST_ALIASES = { 'linda howe':'Linda Moulton Howe', 'richard hoagland':'Richard C. Hoagland', 'richard c hoagland':'Richard C. Hoagland', 'david oates':'David John Oates' };
+function normGuest(g){
+  g = g.replace(/^(Major|Maj\.?|Dr\.?|Doctor|Prof\.?|Professor|Rev\.?|Col\.?|Sgt\.?|Mr\.?|Mrs\.?|Ms\.?)\s+/i, '').replace(/\b([A-Z])\s/g, '$1. ').replace(/\.\./g,'.').trim();
+  return GUEST_ALIASES[g.toLowerCase().replace(/\./g,'')] || g;
+}
 function guestsOf(title){
   const parts = title.split(/\s+[–-]\s+|,\s*|\s+&\s+|\s+and\s+|\s+with\s+/).map(x => x.trim());
-  return [...new Set(parts.filter(x =>
-    /^(Dr\.?|Prof\.?|Rev\.?|Col\.?|Maj\.?|Sgt\.?)?\s?[A-Z][\w'’.-]+(\s(de|van|von|del|la|St\.?))?(\s[A-Z][\w'’.-]*){1,2}$/.test(x) && !NOT_GUEST.test(x) && !TOPIC_WORDS.test(x)))];
+  const names = parts.filter(x =>
+    /^(Dr\.?|Prof\.?|Rev\.?|Col\.?|Maj\.?|Major|Sgt\.?)?\s?[A-Z][\w'’.-]+(\s(de|van|von|del|la|St\.?))?(\s[A-Z][\w'’.-]*){1,2}$/.test(x) && !NOT_GUEST.test(x) && !TOPIC_WORDS.test(x)).map(normGuest);
+  return [...new Set(names)];
 }
 const addHay = e => (e.guests = guestsOf(e.title), e.hay = (e.date+' '+niceDate(e.date)+' '+e.show+' '+e.title).toLowerCase(), e.nd = niceDate(e.date), e);
 
@@ -954,7 +969,7 @@ async function loadLibrary(force){
 }
 function afterLoad(quiet){
   idMap = new Map(episodes.map(e => [e.id, e]));
-  $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015 · from the Internet Archive`;
+  $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015`;
   fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
   buildDial(); buildChips(); buildGuests(); applyFilters();
   if(quiet) return;
@@ -985,9 +1000,9 @@ $('#progHead').addEventListener('click', ev => { if(ev.target.id === 'progBack')
 /* Year dial */
 function buildDial(){
   const have = new Set(episodes.map(e => e.year).filter(Boolean));
-  const ys = [...have].map(Number); const lo = Math.min(1988, ...ys), hi = Math.max(2015, ...ys);
+  const ys = [...have].map(Number).filter(y => y >= 1988 && y <= 2016).sort((a,b) => a-b);
   let html = `<button class="yr on" data-y=""><span class="ticks"><i></i><i></i><i></i><i></i><i></i></span><b>ALL</b></button>`;
-  for(let y = lo; y <= hi; y++) html += `<button class="yr${have.has(String(y))?'':' nodata'}" data-y="${y}"><span class="ticks"><i></i><i></i><i></i><i></i><i></i></span><b>${y}</b></button>`;
+  for(const y of ys) html += `<button class="yr${have.has(String(y))?'':' nodata'}" data-y="${y}"><span class="ticks"><i></i><i></i><i></i><i></i><i></i></span><b>${y}</b></button>`;
   $('#dial').innerHTML = html;
 }
 const dial = $('#dial');
