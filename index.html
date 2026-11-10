@@ -574,6 +574,11 @@ body.calm .ctl .big.loading::after,body.calm .mini .pp.loading::after{animation:
 .proghead .em{width:120px;height:120px;right:-18px;bottom:-22px;top:auto;opacity:.14;transform:rotate(-10deg);animation:none}
 .proghead > div,.proghead p,.proghead .nm,.proghead .yrs{position:relative;z-index:2}
 .proghead p{max-width:100%;text-shadow:0 1px 10px rgba(0,0,0,.35)}
+
+/* ⋯ button on the Pick up cards */
+.rcard{position:relative;cursor:pointer}
+.cmore{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:3}
+.cmore svg{width:18px;height:18px;fill:#fff}
 </style>
 </head>
 <body>
@@ -645,7 +650,7 @@ body.calm .ctl .big.loading::after,body.calm .mini .pp.loading::after{animation:
   </section>
 
   <section id="contWrap" style="display:none">
-    <div class="sec"><h2>Pick up where you left off</h2></div>
+    <div class="sec"><h2>Pick up where you left off</h2><button class="seeall" id="resumeClear">Clear</button></div>
     <div class="rail" id="rail"></div>
   </section>
 
@@ -846,7 +851,7 @@ function artHTML(e, cls=''){
 /* ================= State ================= */
 let fuse = null;
 let episodes = [], view = [], shown = PAGE, tab = 'all', showFilter = '', yearFilter = '', demoMode = false;
-const state = Object.assign({ favs:{}, pos:{}, recent:[], speed:1, last:null, sort:'old', queue:[], marks:{}, autoplay:true, boost:false }, store.get(STATE_KEY, {}));
+const state = Object.assign({ favs:{}, pos:{}, recent:[], hideResume:{}, speed:1, last:null, sort:'old', queue:[], marks:{}, autoplay:true, boost:false }, store.get(STATE_KEY, {}));
 let guestFilter = '';
 const saveState = () => store.set(STATE_KEY, state);
 $('#sort').value = state.sort;
@@ -1085,9 +1090,10 @@ function render(){
   renderBento();
   if(tab === 'guests') renderGuests();
   // Continue listening rail
-  const cont = state.recent.map(byId).filter(e => e && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60).slice(0, 10);
+  const inResume = e => !!(e && !state.hideResume[e.id] && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60);
+  const cont = state.recent.map(byId).filter(e => inResume(e) && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60).slice(0, 10);
   $('#contWrap').style.display = (tab === 'all' && cont.length && !$('#q').value) ? '' : 'none';
-  $('#rail').innerHTML = cont.map(e => { const p = state.pos[e.id]; return `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="bar"><i style="width:${p.t/p.d*100}%"></i></div><div class="t">${esc(e.title)}</div><div class="m">${fmt(p.d - p.t)} left</div></button>`; }).join('');
+  $('#rail').innerHTML = cont.map(e => { const p = state.pos[e.id]; return `<div class="card rcard" data-id="${esc(e.id)}" role="button" tabindex="0">${artHTML(e)}<button class="cmore" data-act="more" aria-label="More options">${I.more}</button><div class="bar"><i style="width:${p.t/p.d*100}%"></i></div><div class="t">${esc(e.title)}</div><div class="m">${fmt(p.d - p.t)} left</div></div>`; }).join('');
 
   const counts = {}; episodes.forEach(e => counts[e.show] = (counts[e.show]||0)+1);
   const showProgs = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value;
@@ -1166,7 +1172,9 @@ $('#list').addEventListener('click', ev => {
   });
   list.addEventListener('click', ev => { if(justSwiped){ ev.stopImmediatePropagation(); ev.preventDefault(); } }, true);
 })();
-$('#rail').addEventListener('click', ev => { const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(e) loadEpisode(e, true); });
+$('#rail').addEventListener('click', ev => { const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(!e) return; if(ev.target.closest('[data-act="more"]')) return openSheet(e); loadEpisode(e, true); });
+function hideFromResume(e){ state.hideResume[e.id] = 1; saveState(); render(); toast('Removed from Pick up where you left off'); }
+$('#resumeClear').onclick = () => { state.recent.forEach(id => { const p = state.pos[id]; if(p && p.t > 30) state.hideResume[id] = 1; }); saveState(); render(); toast('Cleared'); };
 
 /* ================= Guests ================= */
 let guestCounts = [];
@@ -1292,6 +1300,7 @@ async function loadEpisode(e, autoplay){
   syncNPButtons(e);
   loadWave(e); updateMarkBadge();
   state.queue = state.queue.filter(x => x !== e.id); updateQueueBadge();
+  if(autoplay && state.hideResume[e.id]) delete state.hideResume[e.id];
   state.last = e.id; state.recent = [e.id].concat(state.recent.filter(x => x !== e.id)).slice(0, 60); saveState();
   if('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title:e.title, artist:'Art Bell', album:`${e.show} · ${niceDate(e.date)}` });
   if(e.demo){ fakeTime(e); if(autoplay){ toast('Preview mode — audio plays once the app is hosted'); openNP(); } }
@@ -1494,6 +1503,7 @@ function openSheet(e){
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd">${artHTML(e,'sm')}<div><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div></div>
     <button class="act" data-a="play">${I.play2} Play now</button>
+    ${(!state.hideResume[e.id] && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60) ? `<button class="act" data-a="unresume"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg> Remove from Pick up where you left off</button>` : ''}
     <button class="act" data-a="next"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-1V9l5 3z"/></svg> Play next</button>
     <button class="act" data-a="queue"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm16-3v-3h-2v3h-3v2h3v3h2v-3h3v-2z"/></svg> Add to Up next</button>
     <button class="act" data-a="fav">${I.star} ${fav?'Remove from favourites':'Add to favourites'}</button>
@@ -1511,6 +1521,7 @@ $('#sheet').addEventListener('click', ev => {
   const b = ev.target.closest('[data-a]'); if(!b) return; const e = byId($('#sheet').dataset.id); if(!e) return;
   ({ next:()=>{ closeSheet(); addToQueue(e, true); }, queue:()=>{ closeSheet(); addToQueue(e, false); },
      share:()=>{ closeSheet(); shareMoment(e); },
+     unresume:()=>{ closeSheet(); hideFromResume(e); },
      guest:()=>{ closeSheet(); closeNP(); guestFilter = b.dataset.g; $('#q').value=''; document.querySelector('.tab[data-tab="all"]').click(); },
      play:()=>{ closeSheet(); loadEpisode(e, true); }, fav:()=>{ closeSheet(); toggleFav(e); }, save:()=>saveOffline(e), unsave:()=>removeOffline(e), dl:()=>downloadToPhone(e) })[b.dataset.a]();
 });
