@@ -12,11 +12,9 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-/* Geist, bundled with the app (SIL Open Font License) */
-@font-face{font-family:'Geist';src:url(fonts/geist-400.woff2) format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'Geist';src:url(fonts/geist-500.woff2) format('woff2');font-weight:500;font-display:swap}
-@font-face{font-family:'Geist';src:url(fonts/geist-600.woff2) format('woff2');font-weight:600;font-display:swap}
-@font-face{font-family:'Geist';src:url(fonts/geist-700.woff2) format('woff2');font-weight:700;font-display:swap}
+/* Fonts bundled with the app (SIL Open Font License): Mona Sans (headings), Hanken Grotesk (text), Geist Mono (times) */
+@font-face{font-family:'Mona Sans';src:url(fonts/mona-sans.woff2) format('woff2-variations');font-weight:200 900;font-stretch:75% 125%;font-display:swap}
+@font-face{font-family:'Hanken Grotesk';src:url(fonts/hanken-grotesk.woff2) format('woff2-variations');font-weight:100 900;font-display:swap}
 @font-face{font-family:'Geist Mono';src:url(fonts/geist-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'Geist Mono';src:url(fonts/geist-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
 :root{
@@ -338,14 +336,14 @@ html.calm-scroll{scroll-behavior:auto}
 
 /* ================= 2026 refresh: one modern typeface, less decoration ================= */
 :root{
-  --font:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  --display:"Geist",-apple-system,sans-serif;
-  --serif:"Geist",-apple-system,sans-serif;
+  --font:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --display:"Mona Sans","Hanken Grotesk",-apple-system,sans-serif;
+  --serif:"Mona Sans","Hanken Grotesk",-apple-system,sans-serif;
   --mono:"Geist Mono",ui-monospace,Menlo,monospace;
   --radius:22px;
   --line:rgba(255,255,255,.08);
 }
-html,body{font-feature-settings:"ss01","cv11";letter-spacing:-.005em}
+html,body{letter-spacing:0}
 body::after{display:none}
 body::before{opacity:.32;height:48vh}
 .top{padding-top:calc(22px + var(--st))}
@@ -438,6 +436,26 @@ h1 em{font-style:normal;color:var(--accent)}
 .field{border-radius:14px}
 .btn{border-radius:16px;font:600 15px var(--font)}
 .toast{font:600 13.5px var(--font);border-radius:16px;bottom:calc(160px + var(--sb))}
+
+/* ---- Type pairing: wide Mona Sans for headings, Hanken Grotesk for text ---- */
+h1,.sec h2,.tile .v,.tile.tonight .big,.prog .nm,.proghead .nm,.np .title,.np .bigart .yy,.art .yy,.sheet .hd .t,.gletter,.grow .av,.extras b,.fkey .v{font-family:var(--display);font-stretch:118%}
+h1{font-weight:800;font-stretch:120%;letter-spacing:-.012em;word-spacing:.06em;font-size:clamp(36px,10vw,48px)}
+.sec h2{font-weight:750;font-size:20px;letter-spacing:-.005em}
+.tile.tonight .big{font-weight:800;font-stretch:125%;letter-spacing:-.02em}
+.tile.tonight .big em{font-weight:500;font-stretch:100%}
+.tile .v{font-weight:750;letter-spacing:-.01em}
+.prog .nm{font-weight:750;font-size:20px;letter-spacing:-.008em;font-stretch:110%;word-spacing:.04em}
+.proghead .nm{font-weight:780;letter-spacing:-.01em;word-spacing:.06em;font-stretch:112%}
+.np .title{font-weight:720;font-stretch:108%;letter-spacing:-.005em;word-spacing:.04em;font-size:clamp(21px,6vw,25px)}
+.np .bigart .yy{font-weight:800;font-stretch:112%;letter-spacing:-.03em;font-size:clamp(76px,22vw,104px)}
+.art .yy{font-weight:800;font-stretch:110%;letter-spacing:-.02em}
+.row .t{font-weight:650;font-size:16px;letter-spacing:-.01em}
+.row .m,.card .m,.tile .s,.tile .k,.sec .meta,.sub,.eyebrow{font-weight:500}
+.chip{font-weight:600}
+.tab{font-weight:600;font-size:11px}
+.mini .t{font-weight:650}
+.sheet .hd .t{font-weight:750;font-stretch:110%}
+.art .sh,.np .bigart .sh,.np .bigart .freq{font-family:var(--display);font-stretch:112%;font-weight:650;letter-spacing:.09em;word-spacing:.12em}
 </style>
 </head>
 <body>
