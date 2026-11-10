@@ -492,12 +492,12 @@ h1 em{font-weight:700;letter-spacing:-.045em}
 
 /* ================= More fun ================= */
 /* living emblems: each programme's icon has its own little motion */
-@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6%)}}
-@keyframes hover{0%,100%{transform:translate(0,0) rotate(-3deg)}50%{transform:translate(0,-7%) rotate(3deg)}}
-@keyframes pulse{0%,100%{opacity:.95;transform:scale(1)}50%{opacity:.75;transform:scale(1.05)}}
-@keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
-@keyframes flip{0%,80%{transform:rotate(0)}90%,100%{transform:rotate(180deg)}}
-@keyframes orbit{to{transform:rotate(360deg)}}
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -6%}}
+@keyframes hover{0%,100%{translate:0 0;rotate:-3deg}50%{translate:0 -7%;rotate:3deg}}
+@keyframes pulse{0%,100%{opacity:.95;scale:1}50%{opacity:.75;scale:1.05}}
+@keyframes sway{0%,100%{rotate:-6deg}50%{rotate:6deg}}
+@keyframes flip{0%,80%{rotate:0deg}90%,100%{rotate:180deg}}
+@keyframes orbit{to{rotate:360deg}}
 .prog .em,.np .bigart .em,.hem{transform-origin:50% 50%}
 .prog .a-ghost,.np .bigart .a-ghost{animation:floaty 3.2s ease-in-out infinite}
 .prog .a-area,.np .bigart .a-area{animation:hover 4s ease-in-out infinite}
@@ -526,12 +526,38 @@ h1 em{font-weight:700;letter-spacing:-.045em}
 .tile.spinning{animation:jiggle .14s linear infinite}
 .tile.spinning svg{animation:orbit .5s linear infinite}
 @keyframes jiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-1.5deg)}75%{transform:rotate(1.5deg)}}
-/* UFO easter egg */
-.ufo{position:fixed;left:-80px;z-index:30;width:56px;height:56px;color:#c9ffd1;filter:drop-shadow(0 0 10px rgba(120,255,160,.7));animation:fly 9s linear forwards}
-.ufo svg{width:100%;height:100%;animation:hover 1.6s ease-in-out infinite}
-.ufo.caught{animation:zoomoff .5s ease-in forwards}
-@keyframes fly{0%{transform:translateX(0) translateY(0)}25%{transform:translateX(30vw) translateY(14px)}50%{transform:translateX(55vw) translateY(-8px)}75%{transform:translateX(80vw) translateY(10px)}100%{transform:translateX(calc(100vw + 160px)) translateY(-20px)}}
-@keyframes zoomoff{to{transform:translate(40vw,-200px) scale(.2);opacity:0}}
+
+
+/* ================= Playful layout (fun through design) ================= */
+/* covers: oversized emblem bleeding off the corner, big year, label as a sticker */
+.art .em{width:78%;height:78%;right:-14%;bottom:-12%;top:auto;opacity:.92;transform:rotate(-10deg)}
+.art .sh{align-self:flex-start;background:rgba(0,0,0,.28);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:5px 8px;border-radius:999px;font-size:9px;letter-spacing:.07em;transform:rotate(-3deg)}
+.art .yy{font-size:34px;font-weight:700;letter-spacing:-.06em;line-height:.9}
+.shelf .card .art .yy,.card .art .yy{font-size:40px}
+.shelf .card .art{justify-content:space-between}
+/* small list tiles stay calm and readable */
+.art.sm .em{width:62%;height:62%;right:-10%;bottom:-8%;left:auto;top:auto;transform:rotate(-10deg);opacity:.85}
+.art.sm .yy{font-size:16px;font-weight:700}
+/* programme cards: big cropped emblem, name low, count as a tilted sticker */
+.prog{justify-content:flex-end;padding:16px}
+.prog .em{width:150px;height:150px;right:-28px;top:-26px;bottom:auto;opacity:.95;transform:rotate(12deg)}
+.prog .yrs{position:absolute;top:14px;left:16px;background:rgba(0,0,0,.3);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:5px 9px;border-radius:999px;font-weight:600;opacity:1}
+.prog .nm{font-size:25px;max-width:85%}
+.prog .ct{display:inline-block;align-self:flex-start;margin-top:8px;background:var(--text);color:var(--bg);padding:4px 9px;border-radius:999px;font-weight:700;font-size:11.5px;transform:rotate(-4deg)}
+/* now playing art: same playful composition, larger */
+.np .bigart .em{width:72%;height:72%;right:-12%;top:auto;bottom:-10%;transform:rotate(-10deg)}
+.np .bigart .yy{position:relative;z-index:2}
+/* shelf headings: emblem in a coloured disc */
+.hem{width:34px;height:34px;padding:6px;border-radius:50%;background:var(--accent-soft)}
+
+.card .art .em{width:80%;height:80%;right:-16%;bottom:-14%}
+.prog .em{width:120px;height:120px;right:-22px;top:-20px;opacity:.85}
+.prog .nm{position:relative;z-index:2;max-width:78%;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.np .bigart .em{width:58%;height:58%;right:-8%;bottom:auto;top:10%}
+.np .bigart .freq{position:relative;z-index:2}
+
+.card .art .em{width:66%;height:66%;right:-12%;bottom:-10%}
+.art .yy{position:relative;z-index:2;text-shadow:0 2px 14px rgba(0,0,0,.45)}
 </style>
 </head>
 <body>
@@ -1102,20 +1128,7 @@ $('#guests').addEventListener('click', ev => {
   const part = h < 5 ? 'Good morning, night owl' : h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
   $('#greet').textContent = `${part} from the high desert`;
 })();
-// UFO easter egg: drifts across the header now and then; tap it for a random UFO show
-function launchUFO(){
-  if(calm() || document.hidden || $('#np').classList.contains('open')) return;
-  const u = document.createElement('button'); u.className = 'ufo'; u.setAttribute('aria-label', 'UFO sighting');
-  u.innerHTML = '<svg viewBox="0 0 64 64"><use href="#em-area"/></svg>';
-  u.style.top = (40 + Math.random()*90) + 'px';
-  u.onclick = () => {
-    const pool = episodes.filter(e => /ufo|area 51|alien|roswell|abduct|greer|disclosure|sighting/i.test(e.title + ' ' + e.show));
-    const e = (pool.length ? pool : episodes)[Math.floor(Math.random()*(pool.length || episodes.length))];
-    u.classList.add('caught'); toast('👽 Sighting confirmed. Patching you through…'); if(e) setTimeout(() => loadEpisode(e, true), 500);
-  };
-  document.body.appendChild(u); setTimeout(() => u.remove(), 9000);
-}
-setTimeout(launchUFO, 6000); setInterval(launchUFO, 45000);
+
 
 /* ================= Shelves (streaming-app style rows per programme) ================= */
 function dailyPick(list, n){
