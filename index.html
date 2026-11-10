@@ -10,6 +10,8 @@
 <title>Art Bell Radio</title>
 <link rel="preconnect" href="https://archive.org" crossorigin>
 <link rel="dns-prefetch" href="https://us.archive.org">
+<link rel="preload" href="fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -560,6 +562,13 @@ h1 em{font-weight:700;letter-spacing:-.045em}
 
 .card .art .em{width:66%;height:66%;right:-12%;bottom:-10%}
 .art .yy{position:relative;z-index:2;text-shadow:0 2px 14px rgba(0,0,0,.45)}
+
+/* buffering ring on the play buttons */
+.ctl .big,.mini .pp{position:relative}
+.ctl .big.loading::after,.mini .pp.loading::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2.5px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent);animation:orbit .8s linear infinite}
+body.calm .ctl .big.loading::after,body.calm .mini .pp.loading::after{animation:none;border-color:var(--accent);opacity:.6}
+/* simple track replaces the waveform */
+.scrub{height:44px}
 </style>
 </head>
 <body>
@@ -890,50 +899,70 @@ async function discover(){
   try{ const j = await getJSON(`${API}/advancedsearch.php?q=${encodeURIComponent(DISCOVER_QUERY)}&fl[]=identifier&rows=40&output=json`); return (j.response&&j.response.docs||[]).map(d=>d.identifier); }
   catch(e){ return []; }
 }
+// Turn archive.org item records into the show list
+function ingest(items){
+  const seen = new Map();
+  for(const it of items){
+    if(it.server && it.dir) hosts[it.id] = `https://${it.server}${it.dir}`;
+    const files = (it.files || []).filter(f => /\.mp3$/i.test(f.name));
+    const orig = files.filter(f => f.source !== 'derivative');
+    (orig.length ? orig : files).forEach(f => {
+      const e = parseFile(it.id, f, it.title || it.id);
+      const key = (e.date + '|' + e.title).toLowerCase().replace(/[^a-z0-9|]/g, '');
+      if(!seen.has(key)) seen.set(key, e);
+    });
+  }
+  return Array.from(seen.values()).map(addHay);
+}
+const saveIndex = at => store.set(INDEX_KEY, { at, hosts, episodes: episodes.map(({hay,guests,nd,...e}) => e) });
+// Prebuilt list (library.json) is made by a GitHub Action on the same site: one small, fast, cacheable request
+async function getPrebuilt(){
+  try{ const r = await fetch('library.json', { cache:'no-cache' }); if(!r.ok) return null; const j = await r.json(); return j && j.items && j.items.length ? j : null; }catch(x){ return null; }
+}
 async function loadLibrary(force){
   const cached = store.get(INDEX_KEY, null);
   if(cached && !force && cached.episodes && cached.episodes.length){
-    episodes = cached.episodes.map(addHay); hosts = cached.hosts || {}; afterLoad(); return;
+    episodes = cached.episodes.map(addHay); hosts = cached.hosts || {}; afterLoad();
+    // quietly check for a newer prebuilt list in the background
+    getPrebuilt().then(j => { if(j && j.built > (cached.at || 0)){ const fresh = ingest(j.items); if(fresh.length){ episodes = fresh; saveIndex(j.built); afterLoad(true); } } });
+    return;
   }
   $('#count').textContent = 'Loading the archive…';
   $('#list').innerHTML = Array(7).fill('<div class="skel"><div class="a"></div><div class="l"><i></i><i></i></div></div>').join('');
+  const pre = force ? null : await getPrebuilt();
+  if(pre){ episodes = ingest(pre.items); saveIndex(pre.built); afterLoad(); return; }
+  // Fall back to asking archive.org directly
   const pr = $('#progress'); pr.style.display = 'block';
   const ids = Array.from(new Set(SOURCES.concat(await discover())));
-  const seen = new Map(); let done = 0, failed = 0;
+  const items = []; let done = 0, failed = 0;
   await Promise.all(ids.map(async id => {
     try{
       const j = await getJSON(`${API}/metadata/${encodeURIComponent(id)}`);
-      const it = (j.metadata && [].concat(j.metadata.title)[0]) || id;
-      if(j.server && j.dir) hosts[id] = `https://${j.server}${j.dir}`;
-      const files = (j.files||[]).filter(f => /\.mp3$/i.test(f.name));
-      const orig = files.filter(f => f.source !== 'derivative');
-      (orig.length ? orig : files).forEach(f => {
-        const e = parseFile(id, f, it);
-        const key = (e.date+'|'+e.title).toLowerCase().replace(/[^a-z0-9|]/g,'');
-        if(!seen.has(key)) seen.set(key, e);
-      });
+      items.push({ id, title: (j.metadata && [].concat(j.metadata.title)[0]) || id, server: j.server, dir: j.dir, files: (j.files || []).filter(f => /\.mp3$/i.test(f.name)) });
     }catch(e){ failed++; }
     done++; pr.firstElementChild.style.width = (done/ids.length*100)+'%';
   }));
   pr.style.display = 'none';
-  episodes = Array.from(seen.values()).map(addHay);
+  episodes = ingest(items);
   if(!episodes.length){
-    if(cached && cached.episodes){ episodes = cached.episodes.map(addHay); afterLoad(); toast('Offline — showing your saved library'); return; }
+    if(cached && cached.episodes){ episodes = cached.episodes.map(addHay); hosts = cached.hosts || {}; afterLoad(); toast('Offline — showing your saved library'); return; }
     demoMode = true; episodes = DEMO.map(addHay); $('#demo').classList.add('show'); afterLoad(); return;
   }
-  store.set(INDEX_KEY, { at:Date.now(), hosts, episodes: episodes.map(({hay,guests,nd,...e})=>e) });
+  saveIndex(Date.now());
   if(failed) toast(`${failed} collection${failed>1?'s':''} didn’t load — try refreshing later`);
   afterLoad();
 }
-
-/* ================= UI build ================= */
-function afterLoad(){
+function afterLoad(quiet){
+  idMap = new Map(episodes.map(e => [e.id, e]));
   $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015 · from the Internet Archive`;
   fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
-  buildDial(); buildChips(); buildGuests(); applyFilters(); handleDeepLink();
+  buildDial(); buildChips(); buildGuests(); applyFilters();
+  if(quiet) return;
+  handleDeepLink();
   if(state.last){ const e = byId(state.last); if(e) loadEpisode(e, false); }
 }
-const byId = id => episodes.find(e => e.id === id);
+let idMap = new Map();
+const byId = id => idMap.get(id);
 
 function buildChips(){
   const counts = {}; episodes.forEach(e => counts[e.show] = (counts[e.show]||0)+1);
@@ -1022,6 +1051,14 @@ function applyFilters(){
   view = list; shown = PAGE; render();
 }
 
+function markPlaying(){
+  const cur = audio.dataset.id, paused = audio.paused;
+  document.querySelectorAll('#list .row').forEach(r => {
+    const on = r.dataset.id === cur; r.classList.toggle('cur', on); r.classList.toggle('paused', on && paused);
+    const m = r.querySelector('.m'), eq = m && m.querySelector('.eq');
+    if(on && !eq && m) m.insertAdjacentHTML('afterbegin', '<span class="eq"><i></i><i></i><i></i></span>'); else if(!on && eq) eq.remove();
+  });
+}
 function render(){
   renderBento();
   if(tab === 'guests') renderGuests();
@@ -1236,9 +1273,12 @@ async function loadEpisode(e, autoplay){
   state.last = e.id; state.recent = [e.id].concat(state.recent.filter(x => x !== e.id)).slice(0, 60); saveState();
   if('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title:e.title, artist:'Art Bell', album:`${e.show} · ${niceDate(e.date)}` });
   if(e.demo){ fakeTime(e); if(autoplay){ toast('Preview mode — audio plays once the app is hosted'); openNP(); } }
-  else if(autoplay){ try{ await audio.play(); }catch(x){ toast('Tap play to start'); } }
-  updatePP(); render();
+  else if(autoplay){ setBuffering(true); audio.play().catch(() => { setBuffering(false); toast('Tap play to start'); }); }
+  updatePP(); markPlaying();
 }
+function setBuffering(on){ $('#pp').classList.toggle('loading', on); $('#miniPP').classList.toggle('loading', on); }
+audio.addEventListener('waiting', () => setBuffering(true));
+['playing','pause','error','ended'].forEach(ev => audio.addEventListener(ev, () => setBuffering(false)));
 function fakeTime(e){ const p = state.pos[e.id]; $('#tCur').textContent = fmt(p?p.t:0); $('#tLeft').textContent = '-' + fmt(e.length - (p?p.t:0)); setSeek(p ? p.t/e.length*1000 : 0); }
 function syncNPButtons(e){
   $('#npFav').classList.toggle('on', !!state.favs[e.id]);
@@ -1247,8 +1287,8 @@ const current = () => byId(audio.dataset.id);
 function togglePlay(){ const e = current(); if(!e) return; if(e.demo){ toast('Preview mode — audio plays once the app is hosted'); return; } audio.paused ? audio.play().catch(()=>toast('Couldn’t start playback')) : audio.pause(); }
 function updatePP(){ const ic = audio.paused ? I.play2 : I.pause; $('#pp').innerHTML = ic; $('#miniPP').innerHTML = ic; }
 function setSeek(v){ $('#seek').value = v; wave.progress = v/1000; drawWave(); }
-audio.addEventListener('play', () => { updatePP(); render(); });
-audio.addEventListener('pause', () => { updatePP(); render(); persistPos(); });
+audio.addEventListener('play', () => { updatePP(); markPlaying(); });
+audio.addEventListener('pause', () => { updatePP(); markPlaying(); persistPos(); });
 audio.addEventListener('ended', () => { persistPos(); playNextUp(); });
 audio.addEventListener('error', () => {
   const e = current(), src = audio.getAttribute('src');
@@ -1322,99 +1362,31 @@ if('mediaSession' in navigator){
 }
 
 /* ================= Waveform scrubber ================= */
-const WAVE_SEGS = 120, WAVE_CHUNK = 12000, WAVE_KEY = 'abr.wave.';
-const wave = { id:null, peaks:null, progress:0, preview:null, loading:false };
-const durOf = e => (audio.duration && audio.dataset.id === e.id && isFinite(audio.duration)) ? audio.duration : (e.length || (state.pos[e.id] && state.pos[e.id].d) || 0);
+const wave = { id:null, progress:0, preview:null };
 let actx = null;
 const getCtx = () => actx || (actx = new (window.AudioContext || window.webkitAudioContext)());
-function seeded(id){ let x = 0; for(const c of id) x = (x*31 + c.charCodeAt(0)) | 0; return () => (x = (x*1103515245 + 12345) & 0x7fffffff) / 0x7fffffff; }
-function fakePeaks(e){ // shaped placeholder: talk-radio rhythm, ad breaks dip
-  const r = seeded(e.id), out = []; let v = .5;
-  for(let i = 0; i < WAVE_SEGS; i++){ v += (r()-.5)*.35; v = Math.min(.95, Math.max(.25, v)); const brk = (i % 30 > 26) ? .45 : 1; out.push(v*brk*(.75 + r()*.25)); }
-  return out;
-}
-async function sliceLevel(getBuf){
-  try{
-    const buf = await getBuf();
-    const audioBuf = await new Promise((res, rej) => { const p = getCtx().decodeAudioData(buf, res, rej); if(p && p.then) p.then(res, rej); });
-    const d = audioBuf.getChannelData(0); let sum = 0, n = 0;
-    for(let i = 0; i < d.length; i += 4){ sum += d[i]*d[i]; n++; }
-    return n ? Math.sqrt(sum/n) : null;
-  }catch(x){ return null; }
-}
-function normalise(raw){
-  const vals = raw.filter(v => v != null); if(vals.length < WAVE_SEGS*.4) return null;
-  const sorted = vals.slice().sort((a,b)=>a-b), hi = sorted[Math.floor(sorted.length*.97)] || 1;
-  // fill gaps from neighbours
-  const out = raw.map((v,i) => { if(v != null) return v; for(let k = 1; k < 6; k++){ if(raw[i-k] != null) return raw[i-k]; if(raw[i+k] != null) return raw[i+k]; } return hi*.4; });
-  return out.map(v => Math.max(.08, Math.min(1, Math.sqrt(v/hi))));
-}
-async function loadWave(e){
-  wave.id = e.id; wave.preview = null; wave.approx = false;
-  { const p = state.pos[e.id]; wave.progress = p && p.d ? p.t/p.d : 0; }
-  const cached = store.get(WAVE_KEY + e.id, null);
-  if(cached){ wave.peaks = cached; drawWave(); return; }
-  if(e.demo || !e.size){ wave.peaks = fakePeaks(e); wave.approx = true; drawWave(); return; }
-  wave.peaks = new Array(WAVE_SEGS).fill(null); wave.loading = true; drawWave();
-  let blob = null; if(savedKeys.has(e.id)){ try{ blob = await db.get(e.id); }catch(x){} }
-  if(!blob){
-    // Let the audio have the connection first: only sample once playback has started (or is ready), plus a short pause
-    await new Promise(res => {
-      if(audio.dataset.id === e.id && !audio.paused && audio.readyState >= 3) return res();
-      const go = () => { audio.removeEventListener('playing', go); audio.removeEventListener('canplaythrough', go); res(); };
-      audio.addEventListener('playing', go); audio.addEventListener('canplaythrough', go);
-      setTimeout(go, 15000);
-    });
-    await new Promise(r => setTimeout(r, 2500));
-    if(wave.id !== e.id) return;
-  }
-  const raw = new Array(WAVE_SEGS).fill(null), url = streamUrl(e), size = blob ? blob.size : e.size;
-  let next = 0, failed = 0;
-  const worker = async () => {
-    while(next < WAVE_SEGS && wave.id === e.id){
-      const i = next++, start = Math.floor((i + .5) / WAVE_SEGS * (size - WAVE_CHUNK));
-      raw[i] = await sliceLevel(() => blob ? blob.slice(start, start + WAVE_CHUNK).arrayBuffer()
-        : fetch(url, { headers:{ Range:`bytes=${start}-${start + WAVE_CHUNK - 1}` }, mode:'cors', priority:'low' }).then(r => { if(!r.ok) throw 0; return r.arrayBuffer(); }));
-      if(raw[i] == null) failed++;
-      if(failed > 12 && i < 30){ next = WAVE_SEGS; break; } // archive.org not allowing it: fall back
-      if(wave.id === e.id){ const m = Math.max(...raw.filter(v => v != null), .001); wave.peaks = raw.map(v => v == null ? null : Math.max(.08, Math.sqrt(v/m))); drawWave(); }
-    }
-  };
-  await Promise.all(Array.from({length: blob ? 6 : 2}, worker));
-  wave.loading = false; if(wave.id !== e.id) return;
-  const norm = normalise(raw);
-  if(norm){ wave.peaks = norm; store.set(WAVE_KEY + e.id, norm.map(v => Math.round(v*100)/100)); }
-  else { wave.peaks = fakePeaks(e); wave.approx = true; }
-  drawWave();
-}
+const durOf = e => (audio.duration && audio.dataset.id === e.id && isFinite(audio.duration)) ? audio.duration : (e.length || (state.pos[e.id] && state.pos[e.id].d) || 0);
+function loadWave(e){ wave.id = e.id; wave.preview = null; const p = state.pos[e.id]; wave.progress = p && p.d ? p.t/p.d : 0; drawWave(); }
 function drawWave(){
   const c = $('#wave'); if(!c) return; const dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight; if(!w) return;
   if(c.width !== w*dpr || c.height !== h*dpr){ c.width = w*dpr; c.height = h*dpr; }
   const g = c.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,w,h);
-  const cs = getComputedStyle(document.documentElement), accent = cs.getPropertyValue('--accent').trim() || '#ffa53d';
-  const peaks = wave.peaks || [], barW = 2.5, gap = 1.5, n = Math.max(1, Math.floor(w/(barW+gap))), mid = h*.42, maxH = h*.38;
-  const prog = wave.preview != null ? wave.preview : wave.progress;
-  for(let i = 0; i < n; i++){
-    const f = i/n, src = peaks.length ? peaks[Math.min(peaks.length-1, Math.floor(f*peaks.length))] : null;
-    const v = src == null ? .06 : src, bh = Math.max(2, v*maxH), x = i*(barW+gap);
-    const played = f < prog, previewing = wave.preview != null && ((f >= wave.progress && f < wave.preview) || (f < wave.progress && f >= wave.preview));
-    g.fillStyle = previewing ? 'rgba(255,255,255,.75)' : played ? accent : (src == null ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.22)');
-    g.fillRect(x, mid - bh, barW, bh*2*.78); // slightly asymmetric: top-heavy like a VU reflection
-  }
-  // hour markers (radio hours)
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#ffa53d';
+  const prog = wave.preview != null ? wave.preview : wave.progress, y = h*.42, th = wave.preview != null ? 8 : 6;
+  const bar = (x0, x1, col) => { g.fillStyle = col; g.beginPath(); g.roundRect(x0, y - th/2, Math.max(0, x1 - x0), th, th/2); g.fill(); };
+  bar(0, w, 'rgba(255,255,255,.14)');
+  bar(0, Math.max(th, prog*w), wave.preview != null ? '#fff' : accent);
   const e = current(), d = e ? durOf(e) : 0;
-  if(d > 3600){
-    g.fillStyle = 'rgba(255,255,255,.35)'; g.font = '500 9.5px "Geist Mono", monospace'; g.textAlign = 'center';
-    for(let hr = 1; hr*3600 < d; hr++){ const x = hr*3600/d*w; g.fillRect(x-.5, h-14, 1, 5); g.fillText('HR '+(hr+1), Math.min(w-16, x+18), h-2); }
+  if(d > 3600){ // radio-hour markers
+    g.fillStyle = 'rgba(255,255,255,.4)'; g.font = '500 9.5px "Geist Mono", monospace'; g.textAlign = 'center';
+    for(let hr = 1; hr*3600 < d; hr++){ const x = hr*3600/d*w; g.fillRect(x-.5, y + th/2 + 3, 1, 5); g.fillText('HR '+(hr+1), Math.min(w-16, x+18), h-2); }
     g.fillText('HR 1', 16, h-2);
   }
-  // bookmark pins
-  if(e && state.marks[e.id] && d){
+  if(e && state.marks[e.id] && d){ // bookmark pins
     g.fillStyle = accent;
-    for(const m of state.marks[e.id]){ const x = m.t/d*w; g.beginPath(); g.moveTo(x-4, 0); g.lineTo(x+4, 0); g.lineTo(x, 6); g.closePath(); g.fill(); g.fillRect(x-.5, 6, 1, mid-maxH); }
+    for(const m of state.marks[e.id]){ const x = m.t/d*w; g.beginPath(); g.moveTo(x-5, y - th/2 - 11); g.lineTo(x+5, y - th/2 - 11); g.lineTo(x, y - th/2 - 3); g.closePath(); g.fill(); }
   }
-  // playhead
-  const px = Math.min(w-1, Math.max(1, prog*w)); g.fillStyle = '#fff'; g.fillRect(px-1, mid-maxH-4, 2, maxH*2*.78+8);
+  const px = Math.min(w - 8, Math.max(8, prog*w)); g.fillStyle = '#fff'; g.beginPath(); g.arc(px, y, wave.preview != null ? 11 : 8, 0, Math.PI*2); g.fill();
 }
 window.addEventListener('resize', drawWave);
 function seekTo(f){

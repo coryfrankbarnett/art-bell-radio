@@ -1,5 +1,5 @@
 // Art Bell Radio — offline app shell. Audio is not cached here (saved shows live in IndexedDB).
-const VERSION = 'abr-v6';
+const VERSION = 'abr-v7';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './fonts/space-grotesk.woff2', './fonts/inter.woff2', './fonts/geist-mono-400.woff2', './fonts/geist-mono-500.woff2'];
 
 self.addEventListener('install', e => {
@@ -13,6 +13,11 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   // Never intercept archive.org (audio, ranges, metadata) — let the browser handle it directly
   if (url.hostname.endsWith('archive.org')) return;
+  // Show list: network first, cached copy when offline
+  if (url.origin === location.origin && url.pathname.endsWith('/library.json')) {
+    e.respondWith(fetch(e.request).then(r => { const c = r.clone(); caches.open(VERSION).then(x => x.put(e.request, c)); return r; }).catch(() => caches.match(e.request)));
+    return;
+  }
   // App page: network first so updates arrive, cached copy when offline
   if (e.request.mode === 'navigate') {
     e.respondWith(fetch(e.request).then(r => { const c = r.clone(); caches.open(VERSION).then(x => x.put('./index.html', c)); return r; })
