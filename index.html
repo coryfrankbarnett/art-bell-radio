@@ -489,6 +489,49 @@ h1 em{font-weight:700;letter-spacing:-.045em}
 .mini .line i{background:var(--text)}
 .mini .pp{background:var(--text);width:40px;height:40px}
 .mini .pp svg{fill:var(--bg);width:20px;height:20px}
+
+/* ================= More fun ================= */
+/* living emblems: each programme's icon has its own little motion */
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6%)}}
+@keyframes hover{0%,100%{transform:translate(0,0) rotate(-3deg)}50%{transform:translate(0,-7%) rotate(3deg)}}
+@keyframes pulse{0%,100%{opacity:.95;transform:scale(1)}50%{opacity:.75;transform:scale(1.05)}}
+@keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes flip{0%,80%{transform:rotate(0)}90%,100%{transform:rotate(180deg)}}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.prog .em,.np .bigart .em,.hem{transform-origin:50% 50%}
+.prog .a-ghost,.np .bigart .a-ghost{animation:floaty 3.2s ease-in-out infinite}
+.prog .a-area,.np .bigart .a-area{animation:hover 4s ease-in-out infinite}
+.prog .a-coast,.np .bigart .a-coast{animation:pulse 2.4s ease-in-out infinite}
+.prog .a-dream,.np .bigart .a-dream{animation:sway 6s ease-in-out infinite}
+.prog .a-time,.np .bigart .a-time{animation:flip 6s ease-in-out infinite}
+.prog .a-dark,.np .bigart .a-dark{animation:orbit 18s linear infinite}
+.prog .a-midnight,.np .bigart .a-midnight{animation:pulse 4s ease-in-out infinite}
+.prog .a-art,.np .bigart .a-art{animation:floaty 4s ease-in-out infinite}
+.np:not(.open) .bigart .em{animation-play-state:paused}
+/* springy presses */
+.prog,.tile,.card,.chip,.shelf .card .art{transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.prog:active{transform:scale(.95) rotate(-1.5deg)}
+.card:active .art{transform:scale(.94) rotate(1.5deg)}
+.tile:active{transform:scale(.96)}
+.chip:active{transform:scale(.92)}
+/* programmes first: bigger, bolder cards */
+#progWrap .sec{padding-top:6px}
+.prog{width:230px;height:176px}
+.prog .em{width:84px;height:84px}
+/* shelf headings get their programme's little emblem */
+.shelf .sec h2{display:flex;align-items:center;gap:10px}
+.hem{width:26px;height:26px;color:var(--accent);flex:none}
+/* Wild Card dial */
+.tile[data-t=spin] .v{font-size:24px}
+.tile.spinning{animation:jiggle .14s linear infinite}
+.tile.spinning svg{animation:orbit .5s linear infinite}
+@keyframes jiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-1.5deg)}75%{transform:rotate(1.5deg)}}
+/* UFO easter egg */
+.ufo{position:fixed;left:-80px;z-index:30;width:56px;height:56px;color:#c9ffd1;filter:drop-shadow(0 0 10px rgba(120,255,160,.7));animation:fly 9s linear forwards}
+.ufo svg{width:100%;height:100%;animation:hover 1.6s ease-in-out infinite}
+.ufo.caught{animation:zoomoff .5s ease-in forwards}
+@keyframes fly{0%{transform:translateX(0) translateY(0)}25%{transform:translateX(30vw) translateY(14px)}50%{transform:translateX(55vw) translateY(-8px)}75%{transform:translateX(80vw) translateY(10px)}100%{transform:translateX(calc(100vw + 160px)) translateY(-20px)}}
+@keyframes zoomoff{to{transform:translate(40vw,-200px) scale(.2);opacity:0}}
 </style>
 </head>
 <body>
@@ -532,7 +575,7 @@ h1 em{font-weight:700;letter-spacing:-.045em}
 <div class="app">
   <div class="top">
     <div>
-      <div class="eyebrow"><span class="live"></span>From the high desert</div>
+      <div class="eyebrow"><span class="live"></span><span id="greet">From the high desert</span></div>
       <h1>Art <em>Bell</em></h1>
       <div class="sub" id="count">Loading the archive…</div>
     </div>
@@ -554,18 +597,19 @@ h1 em{font-weight:700;letter-spacing:-.045em}
 
   <div class="progress" id="progress"><i></i></div>
 
-  <div class="bento" id="bento" style="display:none"></div>
-
-  <section id="contWrap" style="display:none">
-    <div class="sec"><h2>Continue listening</h2></div>
-    <div class="rail" id="rail"></div>
-  </section>
-
-  <div id="shelves"></div>
   <section id="progWrap" style="display:none">
     <div class="sec"><h2>Programmes</h2><div class="meta">Swipe →</div></div>
     <div class="progs" id="progs"></div>
   </section>
+
+  <section id="contWrap" style="display:none">
+    <div class="sec"><h2>Pick up where you left off</h2></div>
+    <div class="rail" id="rail"></div>
+  </section>
+
+  <div id="shelves"></div>
+
+  <div class="bento" id="bento" style="display:none"></div>
   <div class="art proghead" id="progHead"></div>
 
   <div class="filterpill" id="pill"></div>
@@ -682,7 +726,7 @@ const PROGRAMMES = [
   ['Art Bell',               'Other',       'Shows that couldn’t be matched to a specific programme.']
 ];
 const SHOW_EMBLEM = {'Coast to Coast AM':'coast','Dreamland':'dream','Area 2000':'area','Ghost to Ghost':'ghost','Somewhere in Time':'time','Dark Matter':'dark','Midnight in the Desert':'midnight','Art Bell':'art'};
-const emblem = (show, cls='em') => `<svg class="${cls}" aria-hidden="true"><use href="#em-${SHOW_EMBLEM[show] || 'art'}"/></svg>`;
+const emblem = (show, cls='em') => `<svg class="${cls} a-${SHOW_EMBLEM[show] || 'art'}" aria-hidden="true"><use href="#em-${SHOW_EMBLEM[show] || 'art'}"/></svg>`;
 const SHOW_SHORT = {'Coast to Coast AM':'Coast to Coast','Midnight in the Desert':'Midnight','Somewhere in Time':'Somewhere in Time'};
 
 /* Sample shows used only when archive.org can't be reached (e.g. this preview) */
@@ -1052,6 +1096,27 @@ $('#guests').addEventListener('click', ev => {
   document.querySelector('.tab[data-tab="all"]').click();
 });
 
+/* ================= Fun bits ================= */
+(function(){
+  const h = new Date().getHours();
+  const part = h < 5 ? 'Good morning, night owl' : h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+  $('#greet').textContent = `${part} from the high desert`;
+})();
+// UFO easter egg: drifts across the header now and then; tap it for a random UFO show
+function launchUFO(){
+  if(calm() || document.hidden || $('#np').classList.contains('open')) return;
+  const u = document.createElement('button'); u.className = 'ufo'; u.setAttribute('aria-label', 'UFO sighting');
+  u.innerHTML = '<svg viewBox="0 0 64 64"><use href="#em-area"/></svg>';
+  u.style.top = (40 + Math.random()*90) + 'px';
+  u.onclick = () => {
+    const pool = episodes.filter(e => /ufo|area 51|alien|roswell|abduct|greer|disclosure|sighting/i.test(e.title + ' ' + e.show));
+    const e = (pool.length ? pool : episodes)[Math.floor(Math.random()*(pool.length || episodes.length))];
+    u.classList.add('caught'); toast('👽 Sighting confirmed. Patching you through…'); if(e) setTimeout(() => loadEpisode(e, true), 500);
+  };
+  document.body.appendChild(u); setTimeout(() => u.remove(), 9000);
+}
+setTimeout(launchUFO, 6000); setInterval(launchUFO, 45000);
+
 /* ================= Shelves (streaming-app style rows per programme) ================= */
 function dailyPick(list, n){
   const seed = new Date().toISOString().slice(0,10); let x = 0; for(const c of seed) x = (x*31 + c.charCodeAt(0)) | 0;
@@ -1062,9 +1127,9 @@ function renderShelves(show){
   const el = $('#shelves'); if(!show){ el.innerHTML = ''; return; }
   const byShow = {}; episodes.forEach(e => (byShow[e.show] = byShow[e.show] || []).push(e));
   const rows = PROGRAMMES.filter(p => (byShow[p[0]] || []).length >= 2).slice(0, 5);
-  el.innerHTML = rows.map(([n]) => {
+  el.innerHTML = rows.map(([n], idx) => {
     const picks = dailyPick(byShow[n], 10);
-    return `<section class="shelf"><div class="sec"><h2>${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
+    return `<section class="shelf"><div class="sec"><h2>${emblem(n,'hem')}${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
       <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(e.title)}</div><div class="m">${niceDate(e.date)}</div></button>`).join('')}</div></section>`;
   }).join('');
 }
@@ -1098,7 +1163,7 @@ function renderBento(){
       <span class="big">${now.getDate()} <em>${MONTHS[now.getMonth()]}</em></span>
       ${first ? `<span class="s">${tn.exact ? `${tn.list.length} broadcast${tn.list.length>1?'s':''} · ${years.join(', ')}` : niceDate(first.date) + ' · ' + esc(first.show)}</span><span class="ep">${esc(first.title)}</span><span class="go">${I.play2}</span>` : '<span class="s">No dated shows yet</span>'}
     </button>
-    <button class="tile" data-t="spin"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-2.05-4.95L14 10h7V3l-2.64 2.64A8.96 8.96 0 0 0 12 3z"/></svg><span class="v">Spin</span><span class="s">Random show</span></button>
+    <button class="tile" data-t="spin"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-2.05-4.95L14 10h7V3l-2.64 2.64A8.96 8.96 0 0 0 12 3z"/></svg><span class="v">Wild Card</span><span class="s">Random caller · tap to dial</span></button>
     <button class="tile" data-t="fav"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg><span class="v">${favN}</span><span class="s">Favourite${favN===1?'':'s'}</span></button>
     <button class="tile wide" data-t="saved"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span><span class="v">${offN} offline</span><span class="s" style="display:block">${storageText || 'Save shows for no-signal listening'}</span></span></button>`;
 }
@@ -1106,7 +1171,13 @@ $('#bento').addEventListener('click', ev => {
   const t = ev.target.closest('.tile'); if(!t) return; if(navigator.vibrate && !calm()) navigator.vibrate(8);
   const k = t.dataset.t;
   if(k === 'tonight'){ const e = byId(t.dataset.id); if(e) loadEpisode(e, true); }
-  if(k === 'spin'){ const pool = episodes.filter(e => !state.pos[e.id]); const e = (pool.length ? pool : episodes)[Math.floor(Math.random()*(pool.length||episodes.length))]; if(e){ toast('📻 ' + e.title); loadEpisode(e, true); } }
+  if(k === 'spin'){
+    const pool = episodes.filter(e => !state.pos[e.id]); const list = pool.length ? pool : episodes;
+    t.classList.add('spinning'); const v = t.querySelector('.v'); let n = 0;
+    const iv = setInterval(() => { v.textContent = list[Math.floor(Math.random()*list.length)].year || '19??'; if(++n > (calm() ? 0 : 9)){ clearInterval(iv);
+      const e = list[Math.floor(Math.random()*list.length)]; t.classList.remove('spinning'); v.textContent = 'Wild Card';
+      if(e){ toast(`☎️ You're on the air: ${e.title}`); loadEpisode(e, true); } } }, 70);
+  }
   if(k === 'fav' || k === 'saved'){ document.querySelector(`.tab[data-tab="${k}"]`).click(); }
 });
 
