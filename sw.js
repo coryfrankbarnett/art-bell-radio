@@ -1,5 +1,5 @@
 // Art Bell Radio — offline app shell. Audio is not cached here (saved shows live in IndexedDB).
-const VERSION = 'abr-v1';
+const VERSION = 'abr-v2';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

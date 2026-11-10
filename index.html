@@ -112,6 +112,16 @@ h1 em{color:var(--accent)}
 .art::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 15%,var(--c2),transparent 60%),radial-gradient(circle at 10% 110%,rgba(0,0,0,.55),transparent 60%)}
 .art::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:12.5% 12.5%;mix-blend-mode:overlay}
 .art > *{position:relative;z-index:1}
+.art .em{position:absolute;right:8%;bottom:9%;width:46%;height:46%;color:#fff;opacity:.9;z-index:1;filter:drop-shadow(0 0 10px var(--c2))}
+.art.sm .em{right:auto;left:7px;top:7px;bottom:auto;width:20px;height:20px;opacity:.95;filter:none}
+.art.sm .sh{display:none}
+.art.sm{justify-content:flex-end}
+.mini .art .em{left:50%;top:7px;transform:translateX(-50%);width:20px;height:20px}
+.card .art .em{width:40%;height:40%}
+.np .bigart .em{width:42%;height:42%;right:9%;bottom:auto;top:11%;opacity:.95}
+.prog .em{width:64px;height:64px;right:14px;top:14px;bottom:auto;opacity:.9}
+.proghead .em{width:110px;height:110px;right:-6px;bottom:-8px;top:auto;opacity:.18;filter:none}
+.chip .emi{width:16px;height:16px;flex:none}
 .art .sh{font:500 9.5px/1.15 var(--mono);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
 .art .yy{font:700 26px/1 var(--display);letter-spacing:-.02em}
 .art.sm{width:56px;height:56px;border-radius:12px;padding:6px}
@@ -324,6 +334,43 @@ html.calm-scroll{scroll-behavior:auto}
 </style>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- Original line-art emblems, one per programme (64x64, stroke = currentColor) -->
+  <symbol id="em-coast" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 52h56"/><path d="M8 52l8-10h7l5-6h8l5 6h8l9 10"/>
+    <path d="M32 36V12"/><path d="M27 36l5-24 5 24"/><path d="M28.5 28h7M29.5 22h5"/>
+    <circle cx="32" cy="10" r="1.6" fill="currentColor"/>
+    <path d="M24 8a11 11 0 0 0 0 9M40 8a11 11 0 0 1 0 9M19 4a17 17 0 0 0 0 17M45 4a17 17 0 0 1 0 17"/></g></symbol>
+  <symbol id="em-dream" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M38 10a16 16 0 1 0 14 24 13 13 0 0 1-14-24z"/>
+    <path d="M14 14v6M11 17h6M50 46v4M48 48h4M20 44v3M18.5 45.5h3"/>
+    <path d="M4 56c8-4 14-4 20 0s12 4 20 0 12-4 16 0"/></g></symbol>
+  <symbol id="em-area" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="32" cy="24" rx="22" ry="6"/><path d="M20 22a12 9 0 0 1 24 0"/>
+    <circle cx="20" cy="25" r="1.3" fill="currentColor"/><circle cx="32" cy="27" r="1.3" fill="currentColor"/><circle cx="44" cy="25" r="1.3" fill="currentColor"/>
+    <path d="M24 31l-8 21M40 31l8 21" stroke-dasharray="2 4"/><path d="M6 54h52"/></g></symbol>
+  <symbol id="em-ghost" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 54V28a14 14 0 0 1 28 0v26l-5-4-4.5 4-4.5-4-4.5 4-4.5-4z"/>
+    <circle cx="27" cy="29" r="2" fill="currentColor"/><circle cx="37" cy="29" r="2" fill="currentColor"/>
+    <path d="M10 22a24 24 0 0 0 0 20M54 22a24 24 0 0 1 0 20M5 18a31 31 0 0 0 0 28M59 18a31 31 0 0 1 0 28"/></g></symbol>
+  <symbol id="em-time" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 6h24M20 58h24"/><path d="M22 6c0 14 20 16 20 26S22 46 22 58"/><path d="M42 6c0 14-20 16-20 26s20 14 20 26"/>
+    <path d="M27 52h10M29 49h6" /><circle cx="32" cy="38" r="1" fill="currentColor"/><circle cx="32" cy="43" r="1" fill="currentColor"/></g></symbol>
+  <symbol id="em-dark" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="32" r="9" fill="currentColor" fill-opacity=".9"/>
+    <ellipse cx="32" cy="32" rx="26" ry="8" transform="rotate(-18 32 32)"/>
+    <ellipse cx="32" cy="32" rx="18" ry="4.5" transform="rotate(-18 32 32)" stroke-dasharray="3 3"/>
+    <circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="54" cy="50" r="1.2" fill="currentColor"/><circle cx="50" cy="10" r="1" fill="currentColor"/></g></symbol>
+  <symbol id="em-midnight" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="44" cy="16" r="8"/>
+    <path d="M22 56V30M22 40l-7-5v-7M22 36l7-5v-6M22 46l-5-3"/>
+    <path d="M4 56h56"/><path d="M36 56c3-6 9-8 14-8s8 3 10 8"/>
+    <circle cx="10" cy="10" r="1" fill="currentColor"/><circle cx="28" cy="8" r="1" fill="currentColor"/></g></symbol>
+  <symbol id="em-art" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="24" y="6" width="16" height="28" rx="8"/><path d="M24 18h5M24 24h5M35 18h5M35 24h5"/>
+    <path d="M17 28a15 15 0 0 0 30 0"/><path d="M32 43v9M22 56h20"/></g></symbol>
+</svg>
+
 <div class="app">
   <div class="top">
     <div>
@@ -475,6 +522,8 @@ const PROGRAMMES = [
   ['Midnight in the Desert', '2015',        'His final show, streamed online and on a handful of stations from July 2015 until he retired for good that December.'],
   ['Art Bell',               'Other',       'Shows that couldn’t be matched to a specific programme.']
 ];
+const SHOW_EMBLEM = {'Coast to Coast AM':'coast','Dreamland':'dream','Area 2000':'area','Ghost to Ghost':'ghost','Somewhere in Time':'time','Dark Matter':'dark','Midnight in the Desert':'midnight','Art Bell':'art'};
+const emblem = (show, cls='em') => `<svg class="${cls}" aria-hidden="true"><use href="#em-${SHOW_EMBLEM[show] || 'art'}"/></svg>`;
 const SHOW_SHORT = {'Coast to Coast AM':'Coast to Coast','Midnight in the Desert':'Midnight','Somewhere in Time':'Somewhere in Time'};
 
 /* Sample shows used only when archive.org can't be reached (e.g. this preview) */
@@ -536,7 +585,7 @@ const I = {
 function artHTML(e, cls=''){
   const [c1, c2] = SHOW_COLOURS[e.show] || SHOW_COLOURS['Art Bell'];
   const yy = e.year ? "’" + e.year.slice(2) : '—';
-  return `<div class="art ${cls}" style="--c1:${c1};--c2:${c2}"><span class="sh">${esc(SHOW_SHORT[e.show]||e.show)}</span><span class="yy">${yy}</span></div>`;
+  return `<div class="art ${cls}" style="--c1:${c1};--c2:${c2}">${emblem(e.show)}<span class="sh">${esc(SHOW_SHORT[e.show]||e.show)}</span><span class="yy">${yy}</span></div>`;
 }
 
 /* ================= State ================= */
@@ -648,7 +697,7 @@ function buildChips(){
   const counts = {}; episodes.forEach(e => counts[e.show] = (counts[e.show]||0)+1);
   const order = PROGRAMMES.map(p => p[0]); const shows = Object.keys(counts).sort((a,b) => order.indexOf(a)-order.indexOf(b));
   $('#chips').innerHTML = `<button class="chip on" data-show="">All</button>` + shows.map(s =>
-    `<button class="chip" data-show="${esc(s)}"><span class="dot" style="background:${(SHOW_COLOURS[s]||SHOW_COLOURS['Art Bell'])[1]}"></span>${esc(s)}</button>`).join('');
+    `<button class="chip" data-show="${esc(s)}"><svg class="emi" style="color:${(SHOW_COLOURS[s]||SHOW_COLOURS['Art Bell'])[1]}" aria-hidden="true"><use href="#em-${SHOW_EMBLEM[s]||'art'}"/></svg>${esc(s)}</button>`).join('');
 }
 function setShow(v){
   showFilter = v;
@@ -744,13 +793,13 @@ function render(){
   $('#progWrap').style.display = showProgs ? '' : 'none';
   if(showProgs) $('#progs').innerHTML = PROGRAMMES.filter(p => counts[p[0]]).map(([n, y]) => {
     const [c1, c2] = SHOW_COLOURS[n] || SHOW_COLOURS['Art Bell'];
-    return `<button class="art prog" data-show="${esc(n)}" style="--c1:${c1};--c2:${c2}"><span class="yrs">${esc(y)}</span><span class="nm">${esc(n)}</span><span class="ct">${counts[n].toLocaleString('en-GB')} ${counts[n]===1?'show':'shows'}</span></button>`;
+    return `<button class="art prog" data-show="${esc(n)}" style="--c1:${c1};--c2:${c2}">${emblem(n)}<span class="yrs">${esc(y)}</span><span class="nm">${esc(n)}</span><span class="ct">${counts[n].toLocaleString('en-GB')} ${counts[n]===1?'show':'shows'}</span></button>`;
   }).join('');
   const ph = $('#progHead'), info = PROGRAMMES.find(p => p[0] === showFilter);
   if(showFilter && info){
     const [c1, c2] = SHOW_COLOURS[showFilter] || SHOW_COLOURS['Art Bell'];
     ph.style.setProperty('--c1', c1); ph.style.setProperty('--c2', c2);
-    ph.innerHTML = `<button class="back" id="progBack">All programmes</button><div><div class="yrs">${esc(info[1])}</div><div class="nm">${esc(info[0])}</div><p>${esc(info[2])}</p></div>`;
+    ph.innerHTML = `${emblem(showFilter)}<button class="back" id="progBack">All programmes</button><div><div class="yrs">${esc(info[1])}</div><div class="nm">${esc(info[0])}</div><p>${esc(info[2])}</p></div>`;
     ph.classList.add('show');
   } else ph.classList.remove('show');
   $('#secTitle').textContent = showFilter && tab === 'all' ? 'Episodes' : { all:'All shows', fav:'Favourites', recent:'Recently played', saved:'Saved offline', guests:'Guests' }[tab];
