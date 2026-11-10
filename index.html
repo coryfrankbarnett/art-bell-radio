@@ -13,7 +13,8 @@
 <link rel="preload" href="fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon-192.png">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="icon" href="icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 /* Fonts bundled with the app (SIL Open Font License): Space Grotesk (headings), Inter (text), Geist Mono (times) */
@@ -1302,7 +1303,7 @@ async function loadEpisode(e, autoplay){
   state.queue = state.queue.filter(x => x !== e.id); updateQueueBadge();
   if(autoplay && state.hideResume[e.id]) delete state.hideResume[e.id];
   state.last = e.id; state.recent = [e.id].concat(state.recent.filter(x => x !== e.id)).slice(0, 60); saveState();
-  if('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title:e.title, artist:'Art Bell', album:`${e.show} · ${niceDate(e.date)}` });
+  if('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title:e.title, artist:'Art Bell', album:`${e.show} · ${niceDate(e.date)}`, artwork:[{src:'artwork-1024.png',sizes:'1024x1024',type:'image/png'},{src:'icon-512.png',sizes:'512x512',type:'image/png'}] });
   if(e.demo){ fakeTime(e); if(autoplay){ toast('Preview mode — audio plays once the app is hosted'); openNP(); } }
   else if(autoplay){ setBuffering(true); audio.play().catch(() => { setBuffering(false); toast('Tap play to start'); }); }
   updatePP(); markPlaying();

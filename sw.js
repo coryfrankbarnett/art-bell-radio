@@ -1,6 +1,6 @@
 // Art Bell Radio — offline app shell. Audio is not cached here (saved shows live in IndexedDB).
-const VERSION = 'abr-v7';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './fonts/space-grotesk.woff2', './fonts/inter.woff2', './fonts/geist-mono-400.woff2', './fonts/geist-mono-500.woff2'];
+const VERSION = 'abr-v8';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './artwork-1024.png', './icon-maskable-512.png', './logo.svg', './fonts/space-grotesk.woff2', './fonts/inter.woff2', './fonts/geist-mono-400.woff2', './fonts/geist-mono-500.woff2'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
