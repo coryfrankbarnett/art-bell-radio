@@ -569,6 +569,11 @@ h1 em{font-weight:700;letter-spacing:-.045em}
 body.calm .ctl .big.loading::after,body.calm .mini .pp.loading::after{animation:none;border-color:var(--accent);opacity:.6}
 /* simple track replaces the waveform */
 .scrub{height:44px}
+
+/* programme header: keep the emblem as a faint corner watermark so text stays readable */
+.proghead .em{width:120px;height:120px;right:-18px;bottom:-22px;top:auto;opacity:.14;transform:rotate(-10deg);animation:none}
+.proghead > div,.proghead p,.proghead .nm,.proghead .yrs{position:relative;z-index:2}
+.proghead p{max-width:100%;text-shadow:0 1px 10px rgba(0,0,0,.35)}
 </style>
 </head>
 <body>
@@ -738,7 +743,7 @@ const SOURCES = [
 ];
 const DISCOVER_QUERY = 'mediatype:audio AND (title:("ultimate art bell collection") OR title:("art bell somewhere in time") OR title:("art bell dreamland") OR title:("art bell area 2000"))';
 const API = 'https://archive.org';
-const INDEX_KEY = 'abr.index.v3', STATE_KEY = 'abr.state.v2';
+const INDEX_KEY = 'abr.index.v4', STATE_KEY = 'abr.state.v2';
 const PAGE = 50;
 // Colour per programme: [base, glow]
 const SHOW_COLOURS = {
@@ -914,6 +919,8 @@ async function discover(){
   try{ const j = await getJSON(`${API}/advancedsearch.php?q=${encodeURIComponent(DISCOVER_QUERY)}&fl[]=identifier&rows=40&output=json`); return (j.response&&j.response.docs||[]).map(d=>d.identifier); }
   catch(e){ return []; }
 }
+// Programmes left out of the app
+const HIDDEN_SHOWS = new Set(['Area 2000', 'Art Bell']);
 // Turn archive.org item records into the show list
 function ingest(items){
   const seen = new Map();
@@ -927,7 +934,7 @@ function ingest(items){
       if(!seen.has(key)) seen.set(key, e);
     });
   }
-  return Array.from(seen.values()).map(addHay);
+  return Array.from(seen.values()).filter(e => !HIDDEN_SHOWS.has(e.show)).map(addHay);
 }
 const saveIndex = at => store.set(INDEX_KEY, { at, hosts, episodes: episodes.map(({hay,guests,nd,...e}) => e) });
 // Prebuilt list (library.json) is made by a GitHub Action on the same site: one small, fast, cacheable request
@@ -961,7 +968,7 @@ async function loadLibrary(force){
   episodes = ingest(items);
   if(!episodes.length){
     if(cached && cached.episodes){ episodes = cached.episodes.map(addHay); hosts = cached.hosts || {}; afterLoad(); toast('Offline — showing your saved library'); return; }
-    demoMode = true; episodes = DEMO.map(addHay); $('#demo').classList.add('show'); afterLoad(); return;
+    demoMode = true; episodes = DEMO.filter(e => !HIDDEN_SHOWS.has(e.show)).map(addHay); $('#demo').classList.add('show'); afterLoad(); return;
   }
   saveIndex(Date.now());
   if(failed) toast(`${failed} collection${failed>1?'s':''} didn’t load — try refreshing later`);
