@@ -1297,6 +1297,8 @@ body.calm .cs-reel{animation:none!important}
   body.np-open .mini{display:none}
 }
 
+#otnWrap:has(#bento[style*="none"]){display:none}
+#otnWrap .bento{margin-top:4px}
 </style>
 </head>
 <body>
@@ -1385,11 +1387,15 @@ body.calm .cs-reel{animation:none!important}
 
   <div class="progress" id="progress"><i></i></div>
 
-  <div class="bento" id="bento" style="display:none"></div>
 
   <section id="progWrap" style="display:none">
     <div class="sec"><h2>Programmes</h2></div>
     <div class="progs" id="progs"></div>
+  </section>
+
+  <section id="otnWrap">
+    <div class="sec"><h2 id="otnTitle">On this night</h2></div>
+    <div class="bento" id="bento" style="display:none"></div>
   </section>
 
   <section id="contWrap" style="display:none">
@@ -2674,11 +2680,13 @@ $('#shelves').addEventListener('click', ev => {
 
 /* ================= Bento: Tonight ================= */
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function setOtnTitle(exact){ const t = document.getElementById('otnTitle'); if(t) t.textContent = exact ? 'On this night' : 'Closest to tonight'; }
 function tonightShows(){
   const now = new Date(), md = String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
   const dated = episodes.filter(e => e.date && e.date.length === 10);
   const exact = dated.filter(e => e.date.slice(5) === md);
-  if(exact.length) return { exact:true, list:exact.sort((a,b)=>a.date.localeCompare(b.date)) };
+  if(exact.length){ setOtnTitle(true); return { exact:true, list:exact.sort((a,b)=>a.date.localeCompare(b.date)) }; }
+  setOtnTitle(false);
   const doy = d => { const [m, dd] = d.slice(5).split('-').map(Number); return m*31 + dd; }, t = doy('0000-'+md);
   const best = dated.slice().sort((a,b) => Math.min(Math.abs(doy(a.date)-t), 403-Math.abs(doy(a.date)-t)) - Math.min(Math.abs(doy(b.date)-t), 403-Math.abs(doy(b.date)-t)));
   return { exact:false, list:best.slice(0,1) };
@@ -2702,7 +2710,7 @@ function renderBento(){
   const cards = list.length ? list.map((e, i) => {
     const c = coverStyle(e.id, e.show, e.title), [fill, line] = progCol(e.show);
     return `<button class="tile tonight cv otn2" data-t="tonight" data-i="${i}" data-id="${esc(e.id)}" style="--pc:${fill};--pl:${line}">
-      <span class="o-top"><span class="k">${tn.exact ? 'On this night' : 'Closest to tonight'}</span>${e.year ? `<span class="yr">${esc(e.year)}</span>` : ''}</span>
+      <span class="o-top"><span class="k">${esc(e.show)}</span>${e.year ? `<span class="yr">${esc(e.year)}</span>` : ''}</span>
       <span class="o-mid">${dayBig}<span class="hero-art">${motifSVG(c.kind)}</span></span>
       <span class="o-bot"><span class="o-tx"><span class="ep">${esc(headOf(e))}</span><span class="s">${esc(topicOf(e) || '')}${topicOf(e) ? ' · ' : ''}${esc(e.show)}</span></span><span class="go">${I.play2}</span></span>
     </button>`;
@@ -3117,17 +3125,50 @@ function bedTick(){
 async function openBedside(){ bedTick(); $('#bedside').classList.add('show'); clearInterval(bedT); bedT = setInterval(bedTick, 10000); try{ wakeLock = await navigator.wakeLock.request('screen'); }catch(x){} }
 function closeBedside(){ $('#bedside').classList.remove('show'); clearInterval(bedT); try{ wakeLock && wakeLock.release(); }catch(x){} wakeLock = null; }
 $('#bedBtn').onclick = openBedside; $('#bedside').onclick = closeBedside;
-// cast to a speaker (Chromecast on Android Chrome, AirPlay on Safari)
-$('#castBtn').onclick = async () => {
+// play through a speaker: Chromecast / AirPlay, or any output already connected to this device (Bluetooth included)
+async function castSearch(){
   try{
-    if(audio.webkitShowPlaybackTargetPicker){ audio.webkitShowPlaybackTargetPicker(); return; }
-    if(audio.remote && audio.remote.prompt){ await audio.remote.prompt(); return; }
-    toast('This browser can’t send audio to speakers. Try Chrome on Android or Safari on iPhone.', 4000);
-  }catch(x){ toast(x && x.name === 'NotFoundError' ? 'No speakers found on this Wi-Fi' : x && x.name === 'NotSupportedError' ? 'This show can’t be sent to a speaker from here' : 'Speaker picker closed'); }
-};
+    if(audio.webkitShowPlaybackTargetPicker){ audio.webkitShowPlaybackTargetPicker(); return true; }
+    if(audio.remote && audio.remote.prompt){ toast('Looking for speakers…', 2500); await audio.remote.prompt(); return true; }
+  }catch(x){
+    if(x && x.name === 'NotFoundError'){ toast('No Chromecast or smart speaker answered on this Wi-Fi', 3500); return false; }
+    if(x && x.name === 'NotSupportedError'){ toast('This browser can’t cast this show', 3500); return false; }
+    return false;
+  }
+  toast('Casting isn’t supported in this browser', 3500); return false;
+}
+async function pickOutput(){
+  try{
+    if(navigator.mediaDevices && navigator.mediaDevices.selectAudioOutput){ const d = await navigator.mediaDevices.selectAudioOutput(); await audio.setSinkId(d.deviceId); toast('Playing through ' + (d.label || 'that speaker')); closeSheet(); return; }
+    if(!audio.setSinkId || !navigator.mediaDevices){ toast('This browser can’t switch speakers. Use your device’s sound settings.', 4000); return; }
+    let outs = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'audiooutput');
+    if(outs.length && !outs.some(d => d.label)){
+      // browsers only show speaker names once audio permission is granted; ask once, then let go of the mic straight away
+      try{ const st = await navigator.mediaDevices.getUserMedia({ audio:true }); st.getTracks().forEach(t => t.stop()); outs = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'audiooutput'); }catch(x){}
+    }
+    const list = $('#spkList'); if(!list) return;
+    list.innerHTML = outs.filter(d => d.label).map(d => `<button class="act" data-sink="${esc(d.deviceId)}">${esc(d.label)}${audio.sinkId === d.deviceId ? '<small>Playing here</small>' : ''}</button>`).join('') || '<p class="lp-empty">No other speakers are connected. Pair one in Bluetooth settings first, then try again.</p>';
+  }catch(x){ toast('Couldn’t list speakers here', 3000); }
+}
+function openSpeakers(){
+  const canCast = !!(audio.webkitShowPlaybackTargetPicker || (audio.remote && audio.remote.prompt));
+  const canPick = !!((navigator.mediaDevices && navigator.mediaDevices.selectAudioOutput) || audio.setSinkId);
+  $('#sheet').innerHTML = `<div class="grab"></div>
+    <div class="hd"><div style="flex:1"><div class="t">Play through a speaker</div><div class="m">Smart speakers on your Wi-Fi, or anything connected to this device</div></div></div>
+    ${canCast ? `<button class="act" data-spk="cast">Search for Chromecast or AirPlay<small>On this Wi-Fi</small></button>` : ''}
+    ${canPick ? `<button class="act" data-spk="pick">Choose a connected speaker<small>Bluetooth, headphones, monitor</small></button><div id="spkList"></div>` : ''}
+    <p class="sy-note"><b>Bluetooth speaker?</b> Turn it on and pair it in your ${/iPhone|iPad|Android/i.test(navigator.userAgent) ? 'phone’s' : 'computer’s'} Bluetooth settings. Once it’s connected, the app plays through it automatically. Browsers aren’t allowed to scan for Bluetooth speakers themselves.</p>`;
+  $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
+}
+$('#castBtn').onclick = openSpeakers;
+$('#sheet').addEventListener('click', async ev => {
+  const b = ev.target.closest('[data-spk]'); if(b){ if(b.dataset.spk === 'cast'){ closeSheet(); castSearch(); } else pickOutput(); return; }
+  const k = ev.target.closest('[data-sink]'); if(k){ try{ await audio.setSinkId(k.dataset.sink); toast('Playing through ' + k.textContent.replace('Playing here', '')); closeSheet(); }catch(x){ toast('Couldn’t switch to that speaker', 3000); } }
+});
 
 /* ================= Sheet ================= */
 function openSheet(e){
+  prepCard(e);
   const fav = !!state.favs[e.id], sv = savedKeys.has(e.id), mb = e.size ? Math.round(e.size/1048576)+' MB' : '';
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd">${artHTML(e,'sm')}<div><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div></div>
@@ -3250,17 +3291,22 @@ async function shareCard(e, t){
   g.font = '500 24px "Inter", sans-serif'; g.fillStyle = '#8e877b'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
   return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-${e.no || 'show'}.png`, { type:'image/png' }) : null), 'image/png'));
 }
+const cardReady = new Map();
+function prepCard(e){
+  if(!navigator.share || !e) return; const t = audio.dataset.id === e.id ? curTime(e) : 0, k = e.id + '|' + Math.floor(t / 5);
+  if(!cardReady.has(k)) cardReady.set(k, null), shareCard(e, t).then(f => cardReady.set(k, f)).catch(() => cardReady.delete(k));
+}
 async function shareMoment(e){
   const t = audio.dataset.id === e.id ? curTime(e) : 0, url = shareUrl(e, t);
   const text = `${e.title} (${e.show}, ${niceDate(e.date)})${t > 5 ? ' from ' + fmt(t) : ''}`;
   if(navigator.share){
-    toast('Making a share card…', 4000);
-    let file = null; try{ file = await shareCard(e, t); }catch(x){}
+    const file = cardReady.get(e.id + '|' + Math.floor(t / 5)) || null;
     try{
       if(file && navigator.canShare && navigator.canShare({ files:[file] })) await navigator.share({ files:[file], title:'The Art Bell Tapes', text: text + '\n' + url });
       else await navigator.share({ title:'The Art Bell Tapes', text, url });
       toast('Shared'); return;
-    }catch(x){ if(x && x.name === 'AbortError'){ toast('Cancelled'); return; } }
+    }catch(x){ if(x && x.name === 'AbortError'){ toast('Cancelled'); return; }
+      try{ await navigator.share({ title:'The Art Bell Tapes', text, url }); toast('Shared'); return; }catch(y){ if(y && y.name === 'AbortError'){ toast('Cancelled'); return; } } }
   }
   try{ await navigator.clipboard.writeText(text + '\n' + url); toast('Link copied'); }catch(x){ toast('Couldn’t share from here — works once the app is hosted'); }
 }
