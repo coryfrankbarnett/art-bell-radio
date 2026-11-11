@@ -19,6 +19,8 @@ self.addEventListener('fetch', e => {
     return;
   }
   // App page: network first so updates arrive, cached copy when offline
+  // The /preview/ copy is a trial build: leave it alone so it never replaces the real app's offline copy
+  if (url.pathname.includes('/preview/')) return;
   if (e.request.mode === 'navigate') {
     e.respondWith(fetch(e.request).then(r => { const c = r.clone(); caches.open(VERSION).then(x => x.put('./index.html', c)); return r; })
       .catch(() => caches.match('./index.html')));

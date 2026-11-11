@@ -1244,6 +1244,11 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
 
 /* ---- player: subject markers and hours ---- */
 .scrub{position:relative}
+:root{--sc0:#e2805a;--sc1:#86acd4;--sc2:#c8a97f;--sc3:#a29ce6;--sc4:#d48cbf;--sc5:#93c7a0;--sc6:#e6c46a;--sc7:#7fc4c4}
+html.light{--sc0:#b9532e;--sc1:#3f6f9e;--sc2:#8a6a3c;--sc3:#5f56b8;--sc4:#a24a86;--sc5:#3f7f50;--sc6:#94701a;--sc7:#2f7d7d}
+.sd{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mc);flex:none;margin-right:7px;vertical-align:1px}
+::view-transition-group(hero){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
 .np-now{display:flex;align-items:center;gap:8px;min-height:18px;margin-top:14px;font:500 12px/1.2 var(--font);color:var(--muted);letter-spacing:.01em}
 .np-now b{font-weight:600;color:var(--text)}
 .np-now i{width:7px;height:7px;border-radius:50%;background:var(--mc,var(--muted));flex:none}
@@ -1451,6 +1456,69 @@ html.cine .jl, html.cine .nm-l, html.cine .bt-s, html.cine .act small, html.cine
 html.cine .row .m{font-size:12px!important}
 html.cine .tabs .tab{font-size:10.5px!important}
 /* ---- 1. text size ---- */
+
+/* ================= Design pass: one system =================
+   Type: four sizes only — label 11.5 (caps), body 15, title 19 (serif), heading 28 (serif) — plus the big display numbers.
+   Boxes: outlines removed from chrome; things are grouped by space and type, and only the main action is filled. */
+html{--fs-label:11.5px;--fs-body:15px;--fs-title:19px;--fs-head:28px;--soft:color-mix(in srgb,var(--text) 6.5%,transparent);--soft-2:color-mix(in srgb,var(--text) 11%,transparent)}
+body{font-variant-numeric:tabular-nums}
+html.cine .gp-facts,html.cine .browsetop .bt-t,html.cine .np-now,html.cine .empty,html.cine .note{font-size:var(--fs-body)!important}
+html.cine .suggest .sg,html.cine .searchbox input{font-size:var(--fs-title)!important}
+html.cine .sec h2{font-size:var(--fs-head)!important}
+html.cine .np-topics .tp,html.cine .playall{font-size:var(--fs-label)!important}
+
+/* chrome without outlines */
+html.cine.mono .prog.cvp,html.cine.mono .proghead{background:color-mix(in srgb,var(--text) 5%,var(--bg))!important;box-shadow:none!important}
+#secTitle,.sec,#yearHead,#pill{scroll-margin-top:calc(var(--st,0px) + 18px)}
+.searchbox #q:focus,.searchbox #q:focus-visible{outline:none!important;box-shadow:none!important}
+html.cine .searchbox:focus-within{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--accent) 70%,transparent)}
+html.cine body.bsearch .searchbox:focus-within{box-shadow:0 12px 32px rgba(0,0,0,.38),inset 0 0 0 1.5px color-mix(in srgb,var(--accent) 70%,transparent)}
+html.cine .gear{border:0;background:var(--soft);border-radius:50%}
+html.cine .searchbox{border:0;background:var(--soft);border-radius:12px}
+html.cine .chip,html.cine .otn-chip,html.cine .np-topics .tp{border:0!important;background:var(--soft);border-radius:999px}
+html.cine .np-topics .tp.on{background:var(--soft-2);box-shadow:inset 0 0 0 1.5px var(--mc)}
+html.cine .np-topics .hrbtn{background:none;box-shadow:inset 0 0 0 1px var(--line)}
+html.cine .chip.on,html.cine .otn-chip.on{background:var(--text);color:var(--bg)}
+html.cine .playall{border-radius:999px}
+html.cine .saveall{border:0!important;background:var(--soft)!important}
+.suggest{border:0!important;border-radius:14px!important;box-shadow:0 18px 50px rgba(0,0,0,.45)!important}
+.suggest .sg{border-top:0!important}
+
+/* "Browse all shows": a line of type, not a panel */
+html.cine .browsetop{border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;padding:16px 0;width:calc(100% - 40px)}
+html.cine .browsetop .bt-t{font:400 var(--fs-title)/1.1 var(--serif)!important}
+@media (hover:hover){ html.cine .browsetop:hover{border-color:var(--line)} html.cine .browsetop:hover .bt-t{color:var(--accent)} }
+
+/* year and guest pages: open, no panel */
+.yearhead{border:0!important;background:none!important;padding:4px 0 6px!important}
+.gp-x,.yh-step{border:0!important;padding:12px 0!important;min-height:44px;background:none!important;font:500 var(--fs-label)/1 var(--font)!important;letter-spacing:.07em!important;text-transform:uppercase;color:var(--muted)!important}
+.gp-x{color:var(--text)!important}
+.yh-nav{gap:18px!important}
+
+/* year grid: numbers on the page, a thin bar for how many shows */
+.ycard{border:0!important;background:none!important;padding:8px 0 12px!important;border-radius:0!important}
+.ycard i{height:2px;bottom:2px;border-radius:2px}
+#yearWrap .ycard .n{font-size:var(--fs-label)!important;letter-spacing:.04em!important}
+#yearWrap .years{gap:4px 14px!important}
+@media (hover:hover){ .ycard:hover .y{color:var(--accent)} }
+
+/* Search within thumb reach on phones: docked above the tab bar; with a show loaded it tucks into a round button beside the mini player */
+@media (max-width:959px){
+  body.bsearch .sticky{position:fixed;top:auto;left:12px;right:12px;bottom:calc(var(--tabsH,64px) + 10px);z-index:22;padding:0;margin:0;isolation:auto}
+  body.bsearch .sticky::before,body.bsearch .sticky::after{display:none}
+  body.bsearch .searchbox{height:52px;border-radius:26px;background:color-mix(in srgb,var(--surface) 96%,transparent);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);box-shadow:0 12px 32px rgba(0,0,0,.38),inset 0 0 0 1px var(--line);transition:border-radius .2s}
+  html.light body.bsearch .searchbox{box-shadow:0 12px 30px rgba(60,40,10,.16),inset 0 0 0 1px var(--line)}
+  body.bsearch .suggest{top:auto!important;bottom:calc(100% + 8px)}
+  body.bsearch .list,body.bsearch .guests,body.bsearch #yearWrap{padding-bottom:calc(var(--tabsH,64px) + 150px)!important}
+  body.bsearch.hasmini .sticky:not(.open){right:auto;bottom:var(--miniB,74px)}
+  body.bsearch.hasmini .sticky:not(.open) .searchbox{width:var(--miniH,56px);height:var(--miniH,56px);padding:0;justify-content:center;border-radius:50%;gap:0}
+  body.bsearch.hasmini .sticky:not(.open) #q{width:0;min-width:0;padding:0;opacity:0;flex:0 0 0}
+  body.bsearch.hasmini .sticky:not(.open) .fbtn,body.bsearch.hasmini .sticky:not(.open) .clear{display:none}
+  body.bsearch.hasmini .mini{left:calc(var(--miniH,56px) + 20px)!important;right:10px!important;width:auto!important;max-width:none!important;transform:none!important}
+  body.bsearch.searching .mini{opacity:0;pointer-events:none}
+  body.bsearch.typing .tabs,body.bsearch.typing .mini{display:none!important}
+  body.bsearch.typing .sticky{bottom:calc(var(--kb,0px) + 10px)}
+}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2392,7 +2460,7 @@ function setShow(v){
 }
 $('#chips').addEventListener('click', ev => { const b = ev.target.closest('.chip'); if(b) setShow(b.dataset.show === showFilter ? '' : b.dataset.show); });
 $('#progs').addEventListener('click', ev => { const b = ev.target.closest('.prog'); if(!b) return; setShow(b.dataset.show); scrollTo({top:0, behavior:smooth()}); });
-$('#pill').addEventListener('click', ev => { if(ev.target.id === 'pillX'){ guestFilter = ''; applyFilters(); } });
+$('#pill').addEventListener('click', ev => { if(ev.target.id === 'pillX'){ nav.back(() => { guestFilter = ''; applyFilters(); }); } });
 $('#closeAll').onclick = () => { allOpen = false; shown = PAGE; render(); $('#secTitle').scrollIntoView({ block:'center', behavior:smooth() }); };
 $('#playAll').onclick = () => { if(!view.length) return; state.queue = view.slice(1, 200).map(e => e.id); saveState(); loadEpisode(view[0], true); toast(`Playing ${view.length.toLocaleString('en-GB')} shows in order`); };
 $('#progHead').addEventListener('click', ev => { if(ev.target.closest('#progBack')) setShow(''); });
@@ -2424,7 +2492,7 @@ dial.addEventListener('click', ev => {
 /* Search */
 let qT;
 $('#q').addEventListener('input', () => { searchScope = 'all'; suggest(); $('#clear').classList.toggle('show', !!$('#q').value); clearTimeout(qT); qT = setTimeout(applyFilters, 140); });
-$('#filterBtn').onclick = ev => { ev.preventDefault(); state.filtersOpen = !state.filtersOpen; saveState(); syncFilters(); };
+$('#filterBtn').onclick = ev => { ev.preventDefault(); state.filtersOpen = !state.filtersOpen; saveState(); syncFilters(); if(state.filtersOpen && document.body.classList.contains('bsearch')) scrollTo({ top:0, behavior:smooth() }); };
 $('#q').addEventListener('focus', syncFilters);
 $('#q').addEventListener('blur', () => setTimeout(syncFilters, 250));
 $('#clear').onclick = () => { $('#q').value=''; $('#clear').classList.remove('show'); applyFilters(); };
@@ -2475,6 +2543,14 @@ setInterval(addRailArrows, 2500); window.addEventListener('resize', () => setTim
 
 
 
+/* Page changes inside the library: the tapped thing (year, guest) carries over into the new page's heading */
+function viewMorph(update, fromEl){
+  if(!document.startViewTransition || calm() || matchMedia('(prefers-reduced-motion: reduce)').matches){ update(); return; }
+  if(fromEl) fromEl.style.viewTransitionName = 'hero';
+  const vt = document.startViewTransition(() => { if(fromEl) fromEl.style.viewTransitionName = ''; update(); const h = document.querySelector('#yearHead .yh-y, #pill .gp-n'); if(h && fromEl) h.style.viewTransitionName = 'hero'; });
+  vt.finished.finally(() => document.querySelectorAll('#yearHead .yh-y, #pill .gp-n').forEach(h => h.style.viewTransitionName = '')).catch(() => {});
+}
+
 /* ================= Years as their own libraries ================= */
 function setYear(y){
   yearFilter = y || ''; showFilter = ''; guestFilter = '';
@@ -2489,7 +2565,7 @@ function renderYears(show){
   const ys = Object.keys(c).sort(), max = Math.max(...Object.values(c));
   $('#years').innerHTML = ys.map(y => `<button class="ycard" data-year="${y}"><span class="y">${y}</span><span class="n">${c[y]} show${c[y] === 1 ? '' : 's'}</span><i style="width:${Math.max(6, c[y] / max * 100)}%"></i></button>`).join('');
 }
-$('#years').addEventListener('click', ev => { const b = ev.target.closest('[data-year]'); if(b) setYear(b.dataset.year); });
+$('#years').addEventListener('click', ev => { const b = ev.target.closest('[data-year]'); if(b) viewMorph(() => { setYear(b.dataset.year); scrollTo({ top:0, behavior:'instant' }); }, b.querySelector('.y')); });
 function renderYearHead(){
   const h = $('#yearHead');
   if(!yearFilter || showFilter || tab !== 'all'){ h.classList.remove('show'); h.innerHTML = ''; return; }
@@ -2497,15 +2573,15 @@ function renderYearHead(){
   const progs = {}; eps.forEach(e => progs[e.show] = (progs[e.show] || 0) + 1);
   const nos = eps.length ? `No. ${eps[0].no}–${eps[eps.length - 1].no}` : '';
   const prev = String(+yearFilter - 1), next = String(+yearFilter + 1), have = new Set(episodes.filter(e => e.no).map(e => e.year));
-  h.innerHTML = `<div class="yh-top"><button class="gp-x" id="yearBack">All years</button><span class="yh-nav">${have.has(prev) ? `<button class="yh-step" data-year="${prev}" aria-label="${prev}">‹ ${prev}</button>` : ''}${have.has(next) ? `<button class="yh-step" data-year="${next}" aria-label="${next}">${next} ›</button>` : ''}</span></div>
+  h.innerHTML = `<div class="yh-top"><button class="gp-x" id="yearBack">← Back</button><span class="yh-nav">${have.has(prev) ? `<button class="yh-step" data-year="${prev}" aria-label="${prev}">‹ ${prev}</button>` : ''}${have.has(next) ? `<button class="yh-step" data-year="${next}" aria-label="${next}">${next} ›</button>` : ''}</span></div>
     <div class="yh-y">${yearFilter}</div>
     <div class="gp-facts"><span><b>${eps.length}</b> show${eps.length === 1 ? '' : 's'}</span>${nos ? `<span>${nos}</span>` : ''}</div>
     <div class="yh-progs">${Object.entries(progs).sort((a, b) => b[1] - a[1]).map(([n, k]) => `<button class="chip" data-yshow="${esc(n)}">${esc(n)}<small>${k}</small></button>`).join('')}</div>`;
   h.classList.add('show');
 }
 $('#yearHead').addEventListener('click', ev => {
-  if(ev.target.closest('#yearBack')){ setYear(''); return; }
-  const st = ev.target.closest('.yh-step'); if(st){ setYear(st.dataset.year); return; }
+  if(ev.target.closest('#yearBack')){ nav.back(() => setYear('')); return; }
+  const st = ev.target.closest('.yh-step'); if(st){ nav.stepNext(); setYear(st.dataset.year); return; }
   const ps = ev.target.closest('[data-yshow]'); if(ps){ const y = yearFilter; setShow(ps.dataset.yshow); yearFilter = y; applyFilters(); }
 });
 
@@ -2682,7 +2758,7 @@ function maybeTour(){
 /* ================= Guest pages ================= */
 function guestPage(g){
   const eps = episodes.filter(e => (e.guests || []).includes(g) && e.date).sort((a, b) => a.date.localeCompare(b.date));
-  if(!eps.length) return `<div class="gp-top"><span class="gp-k">Guest</span><button id="pillX" class="gp-x">All shows</button></div><div class="gp-n">${esc(g)}</div>`;
+  if(!eps.length) return `<div class="gp-top"><span class="gp-k">Guest</span><button id="pillX" class="gp-x">← Back</button></div><div class="gp-n">${esc(g)}</div>`;
   const first = eps[0], last = eps[eps.length - 1];
   const years = {}; eps.forEach(e => years[e.year] = (years[e.year] || 0) + 1);
   const y0 = +first.year, y1 = +last.year, span = [];
@@ -2693,12 +2769,12 @@ function guestPage(g){
   eps.forEach(e => [].concat(e.tags || []).forEach(t => { const tl = t.toLowerCase(); if(tl !== gl && !gparts.some(w => tl.includes(w)) && !/^[A-Z][a-z]+ [A-Z]/.test(t)) subj[t] = (subj[t] || 0) + 1; }));
   const top = Object.entries(subj).sort((a, b) => b[1] - a[1]).slice(0, 8);
   const shows = [...new Set(eps.map(e => e.show))];
-  return `<div class="gp-top"><span class="gp-k">Guest</span><button id="pillX" class="gp-x">All shows</button></div>
+  return `<div class="gp-top"><span class="gp-k">Guest</span><button id="pillX" class="gp-x">← Back</button></div>
     <div class="gp-n">${esc(g)}</div>
     <div class="gp-facts"><span><b>${eps.length}</b> appearance${eps.length > 1 ? 's' : ''}</span><span>First <b>${niceDate(first.date)}</b></span>${eps.length > 1 ? `<span>Last <b>${niceDate(last.date)}</b></span>` : ''}<span>${shows.map(esc).join(' · ')}</span></div>
     <div class="gp-time" aria-label="Appearances by year">${span.map(y => `<i title="${y}: ${years[y] || 0}" style="height:${years[y] ? 6 + 26 * years[y] / max : 2}px"${years[y] ? ' class="on"' : ''}></i>`).join('')}</div>
     <div class="gp-yrs"><span>${span[0]}</span><span>${span[span.length - 1]}</span></div>
-    ${top.length ? `<div class="gp-sub"><span class="gp-k">Talked about</span><div class="nt-topics">${top.map(([t]) => `<button class="chip" data-gtopic="${esc(t)}">${esc(t)}</button>`).join('')}</div></div>` : ''}`;
+    ${top.length ? `<div class="gp-sub"><span class="gp-k">Talked about</span><div class="nt-topics">${top.map(([t]) => `<button class="chip" data-gtopic="${esc(t)}">${sdot(t)}${esc(t)}</button>`).join('')}</div></div>` : ''}`;
 }
 $('#pill').addEventListener('click', ev => { const t = ev.target.closest('[data-gtopic]'); if(!t) return; const g = guestFilter; $('#q').value = t.dataset.gtopic; $('#clear').classList.add('show'); guestFilter = g; applyFilters(); });
 
@@ -2780,7 +2856,7 @@ function suggest(){
   sugSel = -1;
   if(!hits.length){ box.classList.remove('show'); box.innerHTML = ''; return; }
   const hl = l => { const i = l.toLowerCase().indexOf(q); return i < 0 ? esc(l) : esc(l.slice(0, i)) + '<b>' + esc(l.slice(i, i + q.length)) + '</b>' + esc(l.slice(i + q.length)); };
-  box.innerHTML = hits.map((x, i) => `<button type="button" class="sg" data-i="${i}" data-kind="${x.kind}" data-label="${esc(x.label)}"><span>${hl(x.label)}</span><small>${x.kind}</small></button>`).join('');
+  box.innerHTML = hits.map((x, i) => `<button type="button" class="sg" data-i="${i}" data-kind="${x.kind}" data-label="${esc(x.label)}"><span>${x.kind === 'Topic' ? sdot(x.label) : ''}${hl(x.label)}</span><small>${x.kind}</small></button>`).join('');
   box.classList.add('show');
 }
 function pickSuggestion(b){
@@ -3032,8 +3108,10 @@ function renderGuests(){
 }
 $('#guests').addEventListener('click', ev => {
   const b = ev.target.closest('.grow'); if(!b) return;
-  guestFilter = b.dataset.g; $('#q').value = ''; $('#clear').classList.remove('show');
-  document.querySelector('.tab[data-tab="all"]').click();
+  viewMorph(() => {
+    guestFilter = b.dataset.g; $('#q').value = ''; $('#clear').classList.remove('show');
+    document.querySelector('.tab[data-tab="all"]').click(); scrollTo({ top:0, behavior:'instant' });
+  }, b.querySelector('.n'));
 });
 
 /* ================= Fun bits ================= */
@@ -3595,7 +3673,9 @@ async function downloadToPhone(e){
 }
 
 /* ================= Player: subject markers, hours, cassette, bedside, cast ================= */
-const MARK_COL = ['#e2805a','#86acd4','#c8a97f','#a29ce6','#d48cbf','#93c7a0','#e6c46a','#7fc4c4'];
+// One colour per subject, the same everywhere in the app (player dots, chips, search, notes)
+const subjCol = l => { let h = 0; const k = String(l).toLowerCase(); for(let i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) >>> 0; return `var(--sc${h % 8})`; };
+const sdot = l => `<i class="sd" style="--mc:${subjCol(l)}"></i>`;
 let npMarkSel = '';
 let npMarkList = [], npSubj = [], nowKey = '';
 // "Hour 2 · on Bigfoot" — what's being talked about right now, from the facts-only moment times
@@ -3604,7 +3684,7 @@ function renderNowLine(force){
   if(!e || !d){ el.innerHTML = ''; nowKey = ''; return; }
   const now = audio.currentTime || 0, hr = Math.floor(now / 3600) + 1;
   let best = null;
-  npSubj.forEach(([l, ts], i) => ts.forEach(t => { if(t <= now + 15 && now - t < 900 && (!best || t > best.t)) best = { t, l, c: MARK_COL[i % MARK_COL.length] }; }));
+  npSubj.forEach(([l, ts], i) => ts.forEach(t => { if(t <= now + 15 && now - t < 900 && (!best || t > best.t)) best = { t, l, c: subjCol(l) }; }));
   const key = hr + '|' + (best ? best.l : ''); if(!force && key === nowKey) return; nowKey = key;
   const hrTxt = d > 3700 ? `Hour ${hr}` : '';
   el.innerHTML = best ? `<i style="--mc:${best.c}"></i><span>${hrTxt ? hrTxt + ' · ' : ''}now on <b>${esc(best.l)}</b></span>` : (hrTxt ? `<span>${hrTxt} of ${Math.ceil(d / 3600)}</span>` : '');
@@ -3622,12 +3702,12 @@ function renderNPMarks(){
   const m = momentsFor(e) || {};
   const subj = Object.entries(m).sort((a, b) => b[1].length - a[1].length).slice(0, 6);
   let ticks = '';
-  subj.forEach(([l, ts], i) => (npMarkSel ? (l === npMarkSel ? ts : []) : ts.slice(0, 3)).forEach(t => { ticks += `<i class="mk${npMarkSel && npMarkSel !== l ? ' dim' : ''}" data-l="${esc(l)}" style="left:${Math.min(99.5, t / d * 100)}%;--mc:${MARK_COL[i % MARK_COL.length]}"></i>`; }));
+  subj.forEach(([l, ts], i) => (npMarkSel ? (l === npMarkSel ? ts : []) : ts.slice(0, 3)).forEach(t => { ticks += `<i class="mk${npMarkSel && npMarkSel !== l ? ' dim' : ''}" data-l="${esc(l)}" style="left:${Math.min(99.5, t / d * 100)}%;--mc:${subjCol(l)}"></i>`; }));
   box.innerHTML = ticks;
   npMarkList = []; subj.forEach(([l, ts], i) => (npMarkSel ? (l === npMarkSel ? ts : []) : ts.slice(0, 3)).forEach(t => npMarkList.push({ t, l })));
   npSubj = subj; renderNowLine(true);
   const cur = audio.currentTime || 0, nextHr = Math.ceil((cur + 1) / 3600) * 3600;
-  row.innerHTML = (subj.length ? `<span class="nt-k">In this show</span>` : '') + subj.map(([l], i) => `<button class="tp${npMarkSel === l ? ' on' : ''}" data-tp="${esc(l)}" style="--mc:${MARK_COL[i % MARK_COL.length]}"><i></i>${esc(l)}</button>`).join('') +
+  row.innerHTML = (subj.length ? `<span class="nt-k">In this show</span>` : '') + subj.map(([l], i) => `<button class="tp${npMarkSel === l ? ' on' : ''}" data-tp="${esc(l)}" style="--mc:${subjCol(l)}"><i></i>${esc(l)}</button>`).join('') +
     (d > 3700 && nextHr < d - 60 ? `<button class="tp hrbtn" data-hr="${nextHr}">Hour ${Math.round(nextHr / 3600) + 1} ▸</button>` : '');
 }
 $('#npTopics').addEventListener('click', ev => {
@@ -3777,8 +3857,8 @@ function openNotes(e){
       </dl>
       ${e.guests && e.guests.length ? `<div class="nt-h">Guests</div><div class="nt-guests">${e.guests.map(g => `<button class="chip" data-g="${esc(g)}">${esc(g)}</button>`).join('')}</div>` : ''}
       <div id="ntMoments"></div>
-      ${(e.ment || []).length ? `<div class="nt-h">Also comes up</div><div class="nt-topics">${e.ment.map(t => `<button class="chip" data-topic="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
-      ${topicTags(e).length ? `<div class="nt-h">Topics</div><div class="nt-topics">${topicTags(e).map(t => `<button class="chip" data-topic="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
+      ${(e.ment || []).length ? `<div class="nt-h">Also comes up</div><div class="nt-topics">${e.ment.map(t => `<button class="chip" data-topic="${esc(t)}">${sdot(t)}${esc(t)}</button>`).join('')}</div>` : ''}
+      ${topicTags(e).length ? `<div class="nt-h">Topics</div><div class="nt-topics">${topicTags(e).map(t => `<button class="chip" data-topic="${esc(t)}">${sdot(t)}${esc(t)}</button>`).join('')}</div>` : ''}
       ${(() => { const r = related(e, 6); return r.length ? `<div class="nt-h">More like this</div><div class="nt-rel">${r.map(x => `<button class="nr" data-rel="${esc(x.id)}">${artHTML(x,'sm')}<span><b>${esc(topicOf(x) || x.title)}</b><small>${esc(x.show)} · ${niceDate(x.date)}</small></span></button>`).join('')}</div>` : ''; })()}
       ${prog ? `<div class="nt-h">${esc(prog[0])}</div><p>${esc(prog[2])}</p>` : ''}
       ${e.demo ? '' : `<div class="nt-h">From the collection</div><p class="nt-src" id="ntSrc">Loading notes from archive.org…</p>`}
@@ -4096,11 +4176,86 @@ const layerStack = []; let layerSkip = 0;
     else { const i = layerStack.lastIndexOf(sel); if(i < 0) return; layerStack.splice(i, 1); layerSkip++; history.back(); }
   }).observe(el, { attributes:true, attributeFilter:['class'] });
 });
-addEventListener('popstate', () => {
-  if(layerSkip){ layerSkip--; return; }
-  const sel = layerStack.pop(); if(!sel) return;
-  if(sel === '#np') closeNP(); else if(sel === '#tribute') closeTribute(); else closeSheet();
+addEventListener('popstate', ev => {
+  if(layerSkip){ layerSkip--; nav.sync(); return; }
+  const sel = layerStack.pop();
+  if(sel){ if(sel === '#np') closeNP(); else if(sel === '#tribute') closeTribute(); else closeSheet(); return; }
+  nav.restore(ev.state);
 });
+
+/* Back steps through what you browsed — a year, a guest, a programme, the catalogue, a search, a tab —
+   and lands exactly where you were scrolled, with the same number of shows loaded */
+const nav = (() => {
+  let restoring = false, timer = 0, tapY = scrollY, liveShown = shown, replaceNext = false;
+  addEventListener('pointerdown', () => { tapY = scrollY; }, true);
+  addEventListener('keydown', () => { tapY = scrollY; }, true);
+  const snap = () => ({ tab, show: showFilter, year: yearFilter, guest: guestFilter, all: allOpen, list: listFilter, q: $('#q').value.trim() });
+  const key = s => [s.tab, s.show, s.year, s.guest, s.all ? 1 : 0, s.list, s.q ? 'Q' : ''].join('|');
+  const cur = () => (history.state && history.state.abrView) ? history.state : null;
+  function sync(){
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if(restoring) return;
+      if(layerSkip){ sync(); return; }
+      if(layerStack.length) return;
+      const s = snap(), c = cur();
+      try{
+        if(!c){ history.replaceState({ abrView: s, y: scrollY, shown, d: 0 }, ''); liveShown = shown; return; }
+        if(key(s) === key(c.abrView)){ liveShown = shown; if(s.q !== c.abrView.q) history.replaceState({ ...c, abrView: s }, ''); return; }
+        if(replaceNext){ replaceNext = false; history.replaceState({ ...c, abrView: s, y: 0, shown }, ''); liveShown = shown; return; }
+        history.replaceState({ ...c, y: tapY, shown: liveShown }, '');
+        history.pushState({ abrView: s, y: 0, shown, d: (c.d || 0) + 1 }, '');
+        liveShown = shown;
+      }catch(x){}
+    }, 60);
+  }
+  function restore(st){
+    const s = st && st.abrView; if(!s) return;
+    restoring = true; clearTimeout(timer);
+    tab = s.tab; showFilter = s.show; yearFilter = s.year; guestFilter = s.guest; allOpen = s.all; listFilter = s.list;
+    $('#q').value = s.q; $('#clear').classList.toggle('show', !!s.q); try{ hideSuggest(); }catch(x){}
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === tab));
+    document.querySelectorAll('#chips .chip').forEach(c => c.classList.toggle('on', c.dataset.show === showFilter));
+    try{ dialLock = true; dial.querySelectorAll('.yr').forEach(x => x.classList.toggle('on', x.dataset.y === yearFilter)); setTimeout(() => dialLock = false, 400); }catch(x){}
+    const y = st.y || 0;
+    viewMorph(() => { applyFilters(); if((st.shown || PAGE) > shown){ shown = st.shown; render(); } scrollTo({ top: y, behavior: 'instant' }); });
+    requestAnimationFrame(() => requestAnimationFrame(() => { scrollTo({ top: y, behavior: 'instant' }); liveShown = shown; restoring = false; }));
+  }
+  // in-app back buttons: go back if there's somewhere to go back to, otherwise do the fallback
+  function back(fallback){ const c = cur(); if(c && c.d > 0 && !layerStack.length) history.back(); else fallback(); }
+  return { sync, restore, back, stepNext(){ replaceNext = true; }, depth: () => (cur() && cur().d) || 0 };
+})();
+{ const _render = render; render = function(){ const r = _render.apply(this, arguments); nav.sync(); return r; }; }
+// Installed on iPhone there's no browser back gesture, so a swipe in from the left edge does the same job
+if(matchMedia('(display-mode: standalone)').matches || navigator.standalone === true){
+  let sx = null, sy = 0;
+  addEventListener('touchstart', ev => { const t = ev.touches[0]; sx = (t.clientX < 24 && !layerStack.length && nav.depth() > 0) ? t.clientX : null; sy = t.clientY; }, { passive:true });
+  addEventListener('touchend', ev => { if(sx == null) return; const t = ev.changedTouches[0]; if(t.clientX - sx > 70 && Math.abs(t.clientY - sy) < 60) history.back(); sx = null; }, { passive:true });
+}
+
+/* Bottom search on phones: keeps its place above the tab bar, beside the mini player, or above the keyboard */
+(function(){
+  const mq = matchMedia('(max-width:959px)'), st = $('.sticky'), q = $('#q'), mini = $('#mini'), root = document.documentElement, vv = window.visualViewport;
+  function layout(){
+    const on = mq.matches; document.body.classList.toggle('bsearch', on);
+    if(!on){ document.body.classList.remove('hasmini', 'searching', 'typing'); return; }
+    const tabs = $('#tabs') || document.querySelector('.tabs');
+    if(tabs && getComputedStyle(tabs).display !== 'none') root.style.setProperty('--tabsH', tabs.getBoundingClientRect().height + 'px');
+    const hasMini = mini.classList.contains('show') && !document.body.classList.contains('np-open');
+    document.body.classList.toggle('hasmini', hasMini);
+    if(hasMini && getComputedStyle(mini).display !== 'none'){ const r = mini.getBoundingClientRect(); if(r.height){ root.style.setProperty('--miniH', Math.round(r.height) + 'px'); root.style.setProperty('--miniB', Math.round(innerHeight - r.bottom) + 'px'); } }
+    const focused = document.activeElement === q, open = focused || !!q.value;
+    st.classList.toggle('open', open); document.body.classList.toggle('searching', open && hasMini);
+    document.body.classList.toggle('typing', focused && matchMedia('(pointer:coarse)').matches);
+    const kb = vv ? Math.max(0, innerHeight - vv.height - vv.offsetTop) : 0; root.style.setProperty('--kb', kb + 'px');
+  }
+  ['focus', 'blur', 'input'].forEach(t => q.addEventListener(t, () => requestAnimationFrame(layout)));
+  new MutationObserver(() => requestAnimationFrame(layout)).observe(mini, { attributes:true, attributeFilter:['class'] });
+  new MutationObserver(() => requestAnimationFrame(layout)).observe(document.body, { attributes:true, attributeFilter:['class'], attributeOldValue:false });
+  addEventListener('resize', layout); if(vv){ vv.addEventListener('resize', layout); vv.addEventListener('scroll', layout); }
+  mq.addEventListener ? mq.addEventListener('change', layout) : mq.addListener(layout);
+  layout();
+})();
 
 /* ================= Install (banner, header button, Settings) ================= */
 const installer = (() => {
