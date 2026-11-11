@@ -1299,6 +1299,8 @@ body.calm .cs-reel{animation:none!important}
 
 #otnWrap:has(#bento[style*="none"]){display:none}
 #otnWrap .bento{margin-top:4px}
+.rail{align-items:flex-start}
+@media (min-width:960px){ .rail{align-items:start} }
 </style>
 </head>
 <body>
@@ -1521,8 +1523,14 @@ const SOURCES = [
   'Art-Bell_Midnight_In_the_Desert',
   'ArtBell_Somewhere_In_Time',
   'coast-to-coast-am-with-art-bell-ghost-to-ghost',
-  'coast-to-coast-am-w-art-bell-open-lines-collection'
+  'coast-to-coast-am-w-art-bell-open-lines-collection',
+  'art-bell-episodes',
+  'art-bell-archive',
+  'art-bell-1990-2000',
+  'art-bell-2001-to-2010'
 ];
+// gap-fillers: only nights not already in the library are added from these
+const EXTRA_SOURCES = new Set(['art-bell-episodes','art-bell-archive','art-bell-1990-2000','art-bell-2001-to-2010']);
 const DISCOVER_QUERY = 'mediatype:audio AND (title:("ultimate art bell collection") OR title:("art bell somewhere in time") OR title:("art bell dreamland") OR title:("art bell area 2000"))';
 const API = 'https://archive.org';
 const INDEX_KEY = 'abr.index.v4', STATE_KEY = 'abr.state.v2';
@@ -1879,20 +1887,54 @@ function cleanTitle(t){
   t = t.replace(/^(art bell|ab)\s+(mitd|dreamland|sit)\b\s*[-–:]?\s*/i, '').replace(/^(sit|mitd)\s+/i, '');
   return t.replace(/\s{2,}/g, ' ').replace(/^[\s\-–:]+|[\s\-–:]+$/g, '');
 }
+// For gap-filling files that don't name their programme: what Art was hosting on that date
+function showByDate(d){
+  const y = +d.slice(0, 4), dow = new Date(d + 'T12:00:00Z').getUTCDay();
+  if(d >= '2015-07-01') return 'Midnight in the Desert';
+  if(d >= '2013-09-01' && d <= '2013-11-30') return 'Dark Matter';
+  if(dow === 0 && y >= 1994 && y <= 1998) return 'Dreamland';
+  return 'Coast to Coast AM';
+}
 function parseFile(item, f, itemTitle){
   const base = f.name.split('/').pop().replace(/\.mp3$/i,'');
   let date = '', rest = base, m;
   if((m = base.match(/(\d{4})[-_.](\d{2})[-_.](\d{2})/))){ date = +m[1] ? `${m[1]}-${m[2]}-${m[3]}` : ''; rest = base.replace(m[0],''); }
   else if((m = base.match(/(?<!\d)(\d{2})[-_.](\d{2})[-_.]((?:19|20)\d{2})(?!\d)/))){ date = `${m[3]}-${m[1]}-${m[2]}`; rest = base.replace(m[0],''); } // US style MM-DD-YYYY
   else if((m = base.match(/(?<!\d)(19[89]\d|20[0-2]\d)(?!\d)/))){ date = m[1]; }
+  const under = /_/.test(rest) && rest === rest.toLowerCase();
   rest = rest.replace(/_/g,' ').replace(/^[\s\-–]+|[\s\-–]+$/g,'');
-  const parts = rest.split(/\s+[-–]\s+/).map(s=>s.trim()).filter(Boolean);
+  if(EXTRA_SOURCES.has(item)){
+    rest = rest.replace(/\s*[-–]\s+|\s+[-–]\s*/g, ' - ');
+    if(!/ - /.test(rest) && /-/.test(rest)){
+      const bits = rest.split('-').map(x => x.trim()).filter(Boolean);
+      // words joined by hyphens (Art-Bell-SIT-Open-Lines-…) are one title, not separate parts
+      rest = bits.length >= 4 && bits.filter(x => !/\s/.test(x)).length / bits.length > .7 ? bits.join(' ') : bits.join(' - ');
+    }
+    if(/^art bell sit\b/i.test(rest)){ rest = rest.replace(/^art bell sit\s*/i, 'Somewhere in Time - '); }
+    rest = rest.replace(/^art bell\s+/i, '').replace(/^[\s,.\-–]+/, '');
+    if(under) rest = rest.replace(/\b([a-z])([a-z']*)/g, (m, a, b) => /^(of|the|and|in|on|a|an|to|for|with|vs)$/.test(m) ? m : a.toUpperCase() + b).replace(/^./, c => c.toUpperCase());
+  }
+  let parts = rest.split(/\s+[-–]\s+/).map(s=>s.trim()).filter(Boolean);
+  let hint = '';
+  if(EXTRA_SOURCES.has(item)){
+    parts = parts.filter(x => { if(/^(coast|c2cam|c2c|coast am)$/i.test(x)){ hint = 'Coast to Coast AM'; return false; } return !/^(art bell|ab)$/i.test(x); });
+    if(!parts.length) parts = [hint || 'Coast to Coast AM'];
+  }
   const showRx = /(coast to coast|c2c|dreamland|dark matter|midnight in the desert|mitd|area 2000|somewhere in time|ghost to ghost)/i;
   let show = '';
   while(parts.length > 1 && (showRx.test(parts[0]) || /^(ab|art bell)$/i.test(parts[0])) && parts[0].length < 60){ const p0 = parts.shift(); if(!show && showRx.test(p0)) show = p0; }
-  if(!show){ const mm = (rest+' '+item+' '+itemTitle).match(showRx); show = mm ? mm[0] : 'Art Bell'; }
+  if(!show && hint) show = hint;
+  if(!show){ const mm = (rest+' '+(EXTRA_SOURCES.has(item) ? '' : item+' '+itemTitle)).match(showRx); show = mm ? mm[0] : (EXTRA_SOURCES.has(item) && date.length === 10 ? showByDate(date) : 'Art Bell'); }
   if(/mitd/i.test(show)) show = 'Midnight in the Desert';
   const title = cleanTitle(parts.join(' – ')) || cleanTitle(rest) || base;
+  if(EXTRA_SOURCES.has(item)){
+    // a programme name in a topic ("Dark Matter and Hubble") isn't the programme, outside the years it ran
+    const ns = normaliseShow(show);
+    if((ns === 'Dark Matter' && !date.startsWith('2013')) || (ns === 'Midnight in the Desert' && !/^201[56]/.test(date))) show = date.length === 10 ? showByDate(date) : 'Coast to Coast AM';
+    let t2 = title.replace(/^\d{1,2}[-.]\d{1,2}[-.]\d{2,4}\s*[–-]?\s*/, '').replace(/^coast\s+(?!to)/i, '').trim();
+    if(normaliseShow(show) === 'Ghost to Ghost' && t2.length < 12) t2 = 'Ghost to Ghost ' + date.slice(0, 4);
+    return { id:item+'/'+f.name, item, file:f.name, date, year:date.slice(0,4), show:normaliseShow(show), title:t2 || title, size:+f.size||0, length:parseLength(f.length) };
+  }
   return { id:item+'/'+f.name, item, file:f.name, date, year:date.slice(0,4), show:normaliseShow(show), title, size:+f.size||0, length:parseLength(f.length) };
 }
 const NOT_GUEST = /^(global warming|ab\b|ab dreamland|reverse speech|climate change|theoretical physics|open lines|area 51|coast to coast|ghost to ghost|dark matter|dreamland|midnight in the desert|somewhere in time|predictions|annual|y2k|best of|halloween|launch night|callers|part \d|hour \d|the |art bell|art’s|art's)/i;
@@ -1921,14 +1963,23 @@ const HIDDEN_SHOWS = new Set(['Area 2000', 'Art Bell']);
 // Turn archive.org item records into the show list
 function ingest(items){
   const seen = new Map();
+  items = items.filter(it => !EXTRA_SOURCES.has(it.id)).concat(items.filter(it => EXTRA_SOURCES.has(it.id)));
+  const nights = new Set(), partRx = /\b(hour|hr|part|pt)\.?\s*(\d)/i;
   for(const it of items){
+    const extra = EXTRA_SOURCES.has(it.id);
     if(it.server && it.dir) hosts[it.id] = `https://${it.server}${it.dir}`;
     const files = (it.files || []).filter(f => /\.mp3$/i.test(f.name));
     const orig = files.filter(f => f.source !== 'derivative');
     (orig.length ? orig : files).forEach(f => {
       const e = parseFile(it.id, f, it.title || it.id);
+      const night = e.date + '|' + e.show, pm = (e.title.match(partRx) || f.name.match(partRx) || [])[2];
+      if(extra){
+        if(e.date.length !== 10 || nights.has(night) || (pm && nights.has(night + '|full'))) return;
+        const k2 = night + '|' + (pm || 'full'); if(seen.has(k2)) return;
+        seen.set(k2, e); if(!pm) nights.add(night); return;
+      }
       const key = (e.date + '|' + e.title).toLowerCase().replace(/[^a-z0-9|]/g, '');
-      if(!seen.has(key)) seen.set(key, e);
+      if(!seen.has(key)){ seen.set(key, e); if(e.date.length === 10){ nights.add(night); if(!pm) nights.add(night + '|full'); } }
     });
   }
   return Array.from(seen.values()).filter(e => !HIDDEN_SHOWS.has(e.show)).map(addHay);
@@ -1986,6 +2037,14 @@ function applyTopics(){
   episodes.forEach(e => {
     const t = (e.date && TOPICS[e.date]) || [], m = (e.date && MENTIONED[e.date]) || [];
     e.tags = t; e.ment = m; if(e.hay0 === undefined) e.hay0 = e.hay;
+    if(!e.title0) e.title0 = e.title;
+    const weak = /^(\d{4}|am|open lines?|coast to coast am?|dreamland|untitled|\s*)$/i.test(e.title0.trim());
+    if(weak){
+      const g2g = /-10-3[01]$/.test(e.date) && (/^(\d{4}|am)$/i.test(e.title0.trim()) || /ghost/i.test(e.hay0));
+      const subj = t.filter(x => !/^[A-Z][\w.'’-]+ [A-Z]/.test(x) && !/open lines|ghost to ghost/i.test(x)).concat(m.filter(x => !/open lines/i.test(x))).slice(0, 3);
+      const base = g2g ? 'Ghost to Ghost ' + e.year : /^\d{4}$/.test(e.title0.trim()) || !e.title0.trim() ? (subj.length ? 'Open Lines' : e.show + ' ' + e.year) : e.title0;
+      e.title = subj.length && !g2g ? base + ' – ' + subj.join(', ') : base;
+    }
     e.about = (e.hay0 + ' | ' + t.join(' | ')).toLowerCase();
     e.hay = e.about + (m.length ? ' | ' + m.join(' | ').toLowerCase() : '');
   });
