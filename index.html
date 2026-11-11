@@ -1335,6 +1335,53 @@ $('#guests').addEventListener('click', ev => {
 })();
 
 
+/* ================= Lock-screen artwork =================
+   Draws the show's generated cover onto a 512px canvas so the phone's lock screen,
+   notification and Bluetooth/car displays show the actual episode, sharp at any size. */
+const artCache = new Map();
+function emblemImage(show, color, px){
+  return new Promise(res => {
+    const sym = document.getElementById('em-' + (SHOW_EMBLEM[show] || 'art')); if(!sym){ res(null); return; }
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="${px}" height="${px}" color="${color}" style="color:${color}">${sym.innerHTML}</svg>`;
+    const img = new Image(); img.onload = () => res(img); img.onerror = () => res(null);
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  });
+}
+async function coverPNG(e, S = 512){
+  const key = e.id + '|' + S; if(artCache.has(key)) return artCache.get(key);
+  const c = coverStyle(e.id, e.show), h = hashStr(e.id);
+  const v = (h >>> 3) % 6, px = (45 + (h >>> 7) % 55)/100*S, py = ((h >>> 11) % 55)/100*S, a = (h >>> 15) % 180, k = S/156, sz = (9 + (h >>> 19) % 9)*k;
+  const cv = document.createElement('canvas'); cv.width = cv.height = S; const g = cv.getContext('2d');
+  const far = (x, y) => Math.max(Math.hypot(x, y), Math.hypot(S-x, y), Math.hypot(x, S-y), Math.hypot(S-x, S-y));
+  g.fillStyle = c.bg; g.fillRect(0, 0, S, S);
+  if(v === 0){ g.fillStyle = c.fg; for(let y = sz/2; y < S + sz; y += sz) for(let x = sz/2; x < S + sz; x += sz){ g.beginPath(); g.arc(x, y, sz*.27, 0, Math.PI*2); g.fill(); } }
+  if(v === 1){ g.fillStyle = c.ac; g.beginPath(); g.arc(px, py, .36*far(px, py), 0, Math.PI*2); g.fill(); }
+  if(v === 2){ g.save(); g.translate(S/2, S/2); g.rotate((a - 90) * Math.PI/180); g.fillStyle = c.fg; for(let x = -S; x < S; x += sz) g.fillRect(x, -S, sz/2, S*2); g.restore(); }
+  if(v === 3){ const R = far(px, -.08*S); [[.54, c.ac], [.40, c.fg], [.26, c.ac]].forEach(([r, col]) => { g.fillStyle = col; g.beginPath(); g.arc(px, -.08*S, r*R, 0, Math.PI*2); g.fill(); }); }
+  if(v === 4){ const st = (a - 90) * Math.PI/180, R = S*2; [[0, c.fg], [1, c.ac]].forEach(([q, col]) => { g.fillStyle = col; g.beginPath(); g.moveTo(px, py); g.arc(px, py, R, st + q*Math.PI/2, st + (q+1)*Math.PI/2); g.closePath(); g.fill(); }); }
+  if(v === 5){ g.strokeStyle = c.fg; g.lineWidth = 2.5*k; for(let r = 1.25*k; r < S*1.6; r += (sz/k + 5)*k){ g.beginPath(); g.arc(px, py, r, 0, Math.PI*2); g.stroke(); } }
+  const fade = g.createLinearGradient(0, S, 0, 0); fade.addColorStop(0, c.bg); fade.addColorStop(.24, c.bg); fade.addColorStop(.5, c.bg + '00'); g.fillStyle = fade; g.fillRect(0, 0, S, S);
+  try{ await document.fonts.load(`700 ${Math.round(S*.3)}px "Space Grotesk"`); }catch(x){}
+  g.fillStyle = c.ink; g.textBaseline = 'alphabetic';
+  g.font = `700 ${Math.round(S*.3)}px "Space Grotesk", sans-serif`; g.fillText(e.year ? '’' + e.year.slice(2) : '', S*.06, S*.3);
+  const fit = (txt, wt, size, y) => { let f = size; do { g.font = `${wt} ${Math.round(f)}px "Inter", sans-serif`; f -= 1; } while(g.measureText(txt).width > S*.86 && f > 8); g.fillText(txt, S*.07, y); };
+  fit(e.show.toUpperCase(), 700, S*.058, S*.86);
+  if(e.date) fit(niceDate(e.date).toUpperCase(), 500, S*.046, S*.93);
+  const em = await emblemImage(e.show, c.ink, Math.round(S*.24)); if(em) g.drawImage(em, S*.7, S*.07, S*.24, S*.24);
+  const url = cv.toDataURL('image/png'); artCache.set(key, url); return url;
+}
+async function setNowPlayingMeta(e){
+  if(!('mediaSession' in navigator) || typeof MediaMetadata === 'undefined') return;
+  const base = { title: e.title, artist: `${e.show} · ${niceDate(e.date)}`, album: 'Art Bell Radio' };
+  navigator.mediaSession.metadata = new MediaMetadata(base);
+  try{
+    const [big, small] = await Promise.all([coverPNG(e, 512), coverPNG(e, 256)]);
+    if(audio.dataset.id !== e.id) return;
+    navigator.mediaSession.metadata = new MediaMetadata(Object.assign(base, { artwork: [
+      { src: small, sizes: '256x256', type: 'image/png' }, { src: big, sizes: '512x512', type: 'image/png' } ] }));
+  }catch(x){}
+}
+
 /* ================= Shelves (streaming-app style rows per programme) ================= */
 function dailyPick(list, n){
   const seed = new Date().toISOString().slice(0,10); let x = 0; for(const c of seed) x = (x*31 + c.charCodeAt(0)) | 0;
@@ -1431,7 +1478,7 @@ async function loadEpisode(e, autoplay){
   state.queue = state.queue.filter(x => x !== e.id); updateQueueBadge();
   if(autoplay && state.hideResume[e.id]) delete state.hideResume[e.id];
   state.last = e.id; state.recent = [e.id].concat(state.recent.filter(x => x !== e.id)).slice(0, 60); saveState();
-  if('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title:e.title, artist:'Art Bell', album:`${e.show} · ${niceDate(e.date)}` });
+  setNowPlayingMeta(e);
   if(e.demo){ fakeTime(e); if(autoplay){ toast('Preview mode — audio plays once the app is hosted'); } }
   else if(autoplay){ setBuffering(true); audio.play().catch(() => { setBuffering(false); toast('Tap play to start'); }); }
   updatePP(); markPlaying();
