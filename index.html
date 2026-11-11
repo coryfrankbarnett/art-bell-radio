@@ -723,6 +723,24 @@ h1 em{display:inline}
 @keyframes inFade{to{opacity:.85}}
 @media (prefers-reduced-motion:reduce){#intro *{animation:none!important;transition:none!important}#intro .in-top span,#intro .in-sub{opacity:1}#intro .in-top i,#intro .in-word span{transform:none}}
 
+/* ---- Sleeves: framed art panel, type on the border so it always reads ---- */
+html.cine .art.sleeve{background:var(--cbg)!important;color:var(--ink);padding:0;container-type:size}
+html.cine .art.sleeve .win{position:absolute;left:8%;right:8%;top:8%;bottom:27%;display:block;z-index:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+html.cine .art.sleeve .em,html.cine .art.sleeve .sh,html.cine .art.sleeve .freq{display:none!important}
+html.cine .art.sleeve .yy{position:absolute;left:8%;bottom:4%;margin:0;font:italic 400 21cqw/1 var(--serif)!important;letter-spacing:0!important;color:var(--ink)!important;z-index:1}
+html.cine .art.sleeve .no{display:block;position:absolute;left:auto;top:auto;right:8%;bottom:8.5%;font:600 6.2cqw/1 var(--font)!important;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);opacity:.75;z-index:1}
+html.cine .art.sleeve.sm .no,html.cine .mini .art.sleeve .no{display:none}
+html.cine .art.sleeve.sm .yy,html.cine .mini .art.sleeve .yy{font-size:26cqw!important;bottom:3%}
+html.cine .art.sleeve.sm .win,html.cine .mini .art.sleeve .win{left:7%;right:7%;top:7%;bottom:33%}
+html.cine .np .bigart.sleeve{padding:0}
+html.cine .np .bigart.sleeve .yy{font-size:21cqw!important;left:8%;right:auto;top:auto;bottom:4%}
+html.cine .np .bigart.sleeve .no{left:auto;top:auto;right:8%;bottom:8.5%;font-size:5cqw!important}
+.swatches.two{grid-template-columns:1fr 1fr}
+.swatches.two .sw i{height:64px}
+.swatches.two .sw span{font:400 24px/1 var(--serif);white-space:normal}
+.swatches.two .sw small{display:block;font:500 10px/1 var(--font);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+html.cine.light body::after{mix-blend-mode:multiply;opacity:.05}
+html.cine.light .tile.tonight .go{background:#f2ede3}html.cine.light .tile.tonight .go svg{fill:#17140f}
 /* ================= Collection theme: a film-library look (serif type, monochrome, catalogue numbers) ================= */
 .art .no,.row .m .cno{display:none}
 .sw.feat{grid-column:1/-1;display:flex;align-items:center;gap:12px;text-align:left;padding:8px}
@@ -1109,29 +1127,51 @@ const CINE_PALETTES = {
   'Ghost to Ghost':         [['#2b2233','#e7dfe9','#9a86a8'], ['#e7dfe9','#2b2233','#6a5378'], ['#6a5378','#f1ebf2','#151118']]
 };
 const isCine = () => document.documentElement.classList.contains('cine');
+/* Sleeve art: the subject picks the motif where it can (UFOs get a saucer, Earth changes a horizon...) */
+const MOTIF_KEYS = [
+  [/ufo|alien|abduct|saucer|roswell|reptil|contact|extraterr|\bet\b|greys?\b|hybrid/i, 'saucer'],
+  [/bigfoot|sasquatch|cryptid|yeti|creature|monster|chupacabra|mothman|skinwalker|dogman|werewolf|loch ness/i, 'peaks'],
+  [/ghost|haunt|spirit|paranormal|demon|possess|exorc|poltergeist|afterlife|near.death|\bnde\b|angel|shadow people|medium/i, 'arches'],
+  [/area 51|government|conspir|military|secret|\bcia\b|\bnsa\b|black ops|groom lake|lazar|whistle|cover.?up|mind control|ultra|chemtrail|new world order|surveil/i, 'grid'],
+  [/space|mars|moon|stars?\b|comet|hale|bopp|cosmo|astro|nasa|asteroid|galax|universe|physics|quantum|planet x|nibiru/i, 'stars'],
+  [/earth|quake|climate|weather|pole shift|flood|volcan|solar|storm|tsunami|disaster|apocal|end times|2012|superstorm/i, 'horizon'],
+  [/time|prophe|predict|future|y2k|nostrad|remote view|psychic|precog|dream|vision/i, 'rings'],
+  [/open lines|caller|phone/i, 'halftone']
+];
+const MOTIFS = ['saucer','peaks','arches','grid','stars','horizon','rings','halftone','stripes','quarters','split'];
+function motifOf(key, title){ if(title) for(const [re, m] of MOTIF_KEYS) if(re.test(title)) return m; return MOTIFS[hashStr(key + 'm') % MOTIFS.length]; }
+function motifCSS(kind, A, B, h){
+  const x = 30 + (h >>> 7) % 41, y = 25 + (h >>> 11) % 41, a = (h >>> 15) % 180, sz = 9 + (h >>> 19) % 8, d = (h >>> 5) % 10;
+  const soft = c => `color-mix(in srgb, ${c} 38%, transparent)`;
+  switch(kind){
+    case 'saucer': return `radial-gradient(ellipse 36% 8% at 50% ${40+d}%, ${A} 0 96%, transparent 100%), radial-gradient(ellipse 15% 13% at 50% ${35+d}%, ${B} 0 96%, transparent 100%), conic-gradient(from 162deg at 50% ${43+d}%, ${soft(A)} 0 36deg, transparent 36deg), radial-gradient(${A} .8px, transparent 1.3px) 3px 4px/15px 15px`;
+    case 'peaks': return `conic-gradient(from 140deg at ${62+d}% 52%, ${A} 0 80deg, transparent 80deg), conic-gradient(from 135deg at ${32+d}% 30%, ${B} 0 90deg, transparent 90deg), radial-gradient(circle at ${78-d}% 18%, ${A} 0 7%, transparent 7.5%)`;
+    case 'arches': return `radial-gradient(circle at ${x}% 112%, ${B} 0 20%, ${A} 20% 32%, ${B} 32% 44%, ${A} 44% 56%, transparent 56.5%)`;
+    case 'grid': return `radial-gradient(circle at ${x}% ${y}%, ${B} 0 16%, transparent 16.5%), linear-gradient(${A} 1.5px, transparent 1.5px) 0 0/${sz+3}px ${sz+3}px, linear-gradient(90deg, ${A} 1.5px, transparent 1.5px) 0 0/${sz+3}px ${sz+3}px`;
+    case 'stars': return `radial-gradient(ellipse 34% 7% at ${x}% ${y}%, transparent 0 80%, ${A} 82% 96%, transparent 100%), radial-gradient(circle at ${x}% ${y}%, ${B} 0 19%, transparent 19.5%), radial-gradient(${A} .9px, transparent 1.4px) 0 0/13px 13px, radial-gradient(${A} .7px, transparent 1.2px) 6px 8px/19px 19px`;
+    case 'horizon': return `linear-gradient(transparent 63%, ${A} 63%), repeating-linear-gradient(transparent 0 ${sz/2+3}px, ${A} ${sz/2+3}px ${sz/2+5}px) 0 0/100% 63% no-repeat, radial-gradient(circle at ${x}% 63%, ${B} 0 30%, transparent 30.5%)`;
+    case 'rings': return `radial-gradient(circle at ${x}% ${y}%, ${B} 0 7%, transparent 7.5%), repeating-radial-gradient(circle at ${x}% ${y}%, ${A} 0 2px, transparent 2.5px ${sz+4}px)`;
+    case 'halftone': return `radial-gradient(circle at ${x}% ${y}%, ${B} 0 24%, transparent 24.5%), radial-gradient(${A} 27%, transparent 29%) 0 0/${sz}px ${sz}px`;
+    case 'stripes': return `radial-gradient(circle at ${x}% ${y}%, ${B} 0 20%, transparent 20.5%), repeating-linear-gradient(${a}deg, ${A} 0 ${sz/2}px, transparent ${sz/2}px ${sz}px)`;
+    case 'quarters': return `conic-gradient(from ${a}deg at ${x}% ${y}%, ${A} 0 25%, ${B} 0 50%, transparent 0)`;
+    default: return `radial-gradient(circle at ${x}% ${y}%, ${B} 0 22%, transparent 22.5%), linear-gradient(${a}deg, ${A} 50%, transparent 50%)`;
+  }
+}
 function hashStr(str){ let h = 2166136261; for(let i = 0; i < str.length; i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 function lum(hex){ const n = parseInt(hex.slice(1), 16), c = [n >> 16, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v/12.92 : Math.pow((v+.055)/1.055, 2.4); }); return .2126*c[0] + .7152*c[1] + .0722*c[2]; }
 const coverCache = new Map();
-function coverStyle(key, show){
-  const cine = isCine(), ck = key + '|' + show + (cine ? '|c' : ''); if(coverCache.has(ck)) return coverCache.get(ck);
-  const PAL = cine ? CINE_PALETTES : PALETTES, h = hashStr(key), pals = PAL[show] || PAL['Coast to Coast AM'], [bg, fg, ac] = pals[h % pals.length];
-  const v = (h >>> 3) % 6, x = 45 + (h >>> 7) % 55, y = (h >>> 11) % 55, a = (h >>> 15) % 180, sz = 9 + (h >>> 19) % 9;
-  const pats = [
-    `radial-gradient(${fg} 27%, transparent 29%) 0 0/${sz}px ${sz}px`,                                         // halftone
-    `radial-gradient(circle at ${x}% ${y}%, ${ac} 0 36%, transparent 36.5%)`,                                    // big disc
-    `repeating-linear-gradient(${a}deg, ${fg} 0 ${sz/2}px, transparent ${sz/2}px ${sz}px)`,                      // stripes
-    `radial-gradient(circle at ${x}% -8%, ${ac} 0 26%, ${fg} 26% 40%, ${ac} 40% 54%, transparent 54.5%)`,        // arches
-    `conic-gradient(from ${a}deg at ${x}% ${y}%, ${fg} 0 25%, ${ac} 0 50%, transparent 0)`,                      // quarters
-    `repeating-radial-gradient(circle at ${x}% ${y}%, ${fg} 0 2.5px, transparent 3px ${sz + 5}px)`               // rings
-  ];
+function coverStyle(key, show, title){
+  const ck = key + '|' + show; if(coverCache.has(ck)) return coverCache.get(ck);
+  const PAL = CINE_PALETTES, h = hashStr(key), pals = PAL[show] || PAL['Coast to Coast AM'], [bg, fg, ac] = pals[h % pals.length];
+  const kind = motifOf(key, title);
   const ink = lum(bg) > .35 ? '#14110d' : '#fffaf2';
-  const out = { bg, fg, ac, ink, layers: `linear-gradient(to top, ${bg} 0 24%, transparent 50%), ${pats[v]}, ${bg}` };
+  const out = { bg, fg, ac, ink, kind, win: `${motifCSS(kind, bg, ac, h)}, ${fg}`, layers: `linear-gradient(to top, ${bg} 0 24%, transparent 50%), ${motifCSS(kind, fg, ac, h)}, ${bg}` };
   coverCache.set(ck, out); return out;
 }
 function artHTML(e, cls=''){
-  const c = coverStyle(e.id, e.show);
+  const c = coverStyle(e.id, e.show, e.title);
   const yy = e.year ? "’" + e.year.slice(2) : '—';
-  return `<div class="art gen ${cls}" style="--cv:${c.layers};--ink:${c.ink};--c2:${c.ac}">${emblem(e.show)}<span class="sh">${esc(SHOW_SHORT[e.show]||e.show)}</span>${e.no ? `<span class="no">No. ${e.no}</span>` : ''}<span class="yy">${yy}</span></div>`;
+  return `<div class="art gen sleeve ${cls}" style="--cbg:${c.bg};--ink:${c.ink};--c2:${c.ac}"><i class="win" style="background:${c.win}"></i>${e.no ? `<span class="no">No. ${e.no}</span>` : ''}<span class="yy">${yy}</span></div>`;
 }
 
 /* ================= State ================= */
@@ -1520,25 +1560,40 @@ function emblemImage(show, color, px){
 }
 async function coverPNG(e, S = 512){
   const key = e.id + '|' + S; if(artCache.has(key)) return artCache.get(key);
-  const c = coverStyle(e.id, e.show), h = hashStr(e.id);
-  const v = (h >>> 3) % 6, px = (45 + (h >>> 7) % 55)/100*S, py = ((h >>> 11) % 55)/100*S, a = (h >>> 15) % 180, k = S/156, sz = (9 + (h >>> 19) % 9)*k;
+  const c = coverStyle(e.id, e.show, e.title), h = hashStr(e.id);
   const cv = document.createElement('canvas'); cv.width = cv.height = S; const g = cv.getContext('2d');
-  const far = (x, y) => Math.max(Math.hypot(x, y), Math.hypot(S-x, y), Math.hypot(x, S-y), Math.hypot(S-x, S-y));
+  const wx = S*.08, wy = S*.08, ww = S*.84, wh = S*.65, A = c.bg, B = c.ac;
+  const x = wx + (30 + (h >>> 7) % 41)/100*ww, y = wy + (25 + (h >>> 11) % 41)/100*wh, a = ((h >>> 15) % 180) * Math.PI/180, k = S/156, sz = (9 + (h >>> 19) % 8)*k, d = (h >>> 5) % 10;
+  const far = (px, py) => Math.max(Math.hypot(px-wx, py-wy), Math.hypot(wx+ww-px, py-wy), Math.hypot(px-wx, wy+wh-py), Math.hypot(wx+ww-px, wy+wh-py));
+  const disc = (px, py, r, col) => { g.fillStyle = col; g.beginPath(); g.arc(px, py, r, 0, Math.PI*2); g.fill(); };
+  const dots = (step, r, col, ox = 0, oy = 0) => { g.fillStyle = col; for(let yy = wy + oy; yy < wy + wh + step; yy += step) for(let xx = wx + ox; xx < wx + ww + step; xx += step){ g.beginPath(); g.arc(xx, yy, r, 0, Math.PI*2); g.fill(); } };
   g.fillStyle = c.bg; g.fillRect(0, 0, S, S);
-  if(v === 0){ g.fillStyle = c.fg; for(let y = sz/2; y < S + sz; y += sz) for(let x = sz/2; x < S + sz; x += sz){ g.beginPath(); g.arc(x, y, sz*.27, 0, Math.PI*2); g.fill(); } }
-  if(v === 1){ g.fillStyle = c.ac; g.beginPath(); g.arc(px, py, .36*far(px, py), 0, Math.PI*2); g.fill(); }
-  if(v === 2){ g.save(); g.translate(S/2, S/2); g.rotate((a - 90) * Math.PI/180); g.fillStyle = c.fg; for(let x = -S; x < S; x += sz) g.fillRect(x, -S, sz/2, S*2); g.restore(); }
-  if(v === 3){ const R = far(px, -.08*S); [[.54, c.ac], [.40, c.fg], [.26, c.ac]].forEach(([r, col]) => { g.fillStyle = col; g.beginPath(); g.arc(px, -.08*S, r*R, 0, Math.PI*2); g.fill(); }); }
-  if(v === 4){ const st = (a - 90) * Math.PI/180, R = S*2; [[0, c.fg], [1, c.ac]].forEach(([q, col]) => { g.fillStyle = col; g.beginPath(); g.moveTo(px, py); g.arc(px, py, R, st + q*Math.PI/2, st + (q+1)*Math.PI/2); g.closePath(); g.fill(); }); }
-  if(v === 5){ g.strokeStyle = c.fg; g.lineWidth = 2.5*k; for(let r = 1.25*k; r < S*1.6; r += (sz/k + 5)*k){ g.beginPath(); g.arc(px, py, r, 0, Math.PI*2); g.stroke(); } }
-  const fade = g.createLinearGradient(0, S, 0, 0); fade.addColorStop(0, c.bg); fade.addColorStop(.24, c.bg); fade.addColorStop(.5, c.bg + '00'); g.fillStyle = fade; g.fillRect(0, 0, S, S);
-  try{ await document.fonts.load(`700 ${Math.round(S*.3)}px "Space Grotesk"`); }catch(x){}
+  g.save(); g.beginPath(); g.rect(wx, wy, ww, wh); g.clip(); g.fillStyle = c.fg; g.fillRect(wx, wy, ww, wh);
+  switch(c.kind){
+    case 'saucer': { dots(15*k, .9*k, A, 3*k, 4*k); const cx = wx + ww/2, cy = wy + (40+d)/100*wh;
+      g.globalAlpha = .38; g.fillStyle = A; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx - Math.tan(18*Math.PI/180)*wh, wy + wh); g.lineTo(cx + Math.tan(18*Math.PI/180)*wh, wy + wh); g.closePath(); g.fill(); g.globalAlpha = 1;
+      g.fillStyle = B; g.beginPath(); g.ellipse(cx, wy + (35+d)/100*wh, .15*ww*1.1, .13*wh*1.1, 0, 0, Math.PI*2); g.fill();
+      g.fillStyle = A; g.beginPath(); g.ellipse(cx, cy, .36*ww*1.1, .08*wh*1.1, 0, 0, Math.PI*2); g.fill(); break; }
+    case 'peaks': { const tri = (px, py, half, col) => { g.fillStyle = col; g.beginPath(); g.moveTo(px, py); g.lineTo(px - Math.tan(half)*S, py + S); g.lineTo(px + Math.tan(half)*S, py + S); g.closePath(); g.fill(); };
+      disc(wx + (78-d)/100*ww, wy + .18*wh, .07*far(wx+ww*.78, wy+wh*.18), A);
+      tri(wx + (32+d)/100*ww, wy + .30*wh, Math.PI/4, B); tri(wx + (62+d)/100*ww, wy + .52*wh, 40*Math.PI/180, A); break; }
+    case 'arches': { const cy = wy + 1.12*wh, R = far(x, cy); [[.56, A], [.44, B], [.32, A], [.20, B]].forEach(([r, col]) => disc(x, cy, r*R, col)); break; }
+    case 'grid': { g.strokeStyle = A; g.lineWidth = 1.5*k; const st = sz + 3*k; for(let p = wx; p < wx + ww; p += st){ g.beginPath(); g.moveTo(p, wy); g.lineTo(p, wy + wh); g.stroke(); } for(let p = wy; p < wy + wh; p += st){ g.beginPath(); g.moveTo(wx, p); g.lineTo(wx + ww, p); g.stroke(); } disc(x, y, .16*far(x, y), B); break; }
+    case 'stars': { dots(13*k, .9*k, A); dots(19*k, .7*k, A, 6*k, 8*k); const R = far(x, y); disc(x, y, .19*R, B); g.strokeStyle = A; g.lineWidth = .05*R; g.beginPath(); g.ellipse(x, y, .34*ww*1.25, .07*wh*1.25, 0, 0, Math.PI*2); g.stroke(); break; }
+    case 'horizon': { const hz = wy + .63*wh; disc(x, hz, .30*far(x, hz), B); g.fillStyle = A; for(let p = wy + sz/2 + 3*k; p < hz; p += sz/2 + 5*k) g.fillRect(wx, p, ww, 2*k); g.fillRect(wx, hz, ww, wy + wh - hz); break; }
+    case 'rings': { g.strokeStyle = A; g.lineWidth = 2.2*k; for(let r = 1.2*k; r < S*1.4; r += sz + 4*k){ g.beginPath(); g.arc(x, y, r, 0, Math.PI*2); g.stroke(); } disc(x, y, .07*far(x, y), B); break; }
+    case 'halftone': dots(sz, sz*.27, A); disc(x, y, .24*far(x, y), B); break;
+    case 'stripes': { g.save(); g.translate(x, y); g.rotate(a - Math.PI/2); g.fillStyle = A; for(let p = -S; p < S; p += sz) g.fillRect(p, -S, sz/2, S*2); g.restore(); disc(x, y, .20*far(x, y), B); break; }
+    case 'quarters': { [[0, A], [1, B]].forEach(([q, col]) => { g.fillStyle = col; g.beginPath(); g.moveTo(x, y); g.arc(x, y, S*2, a - Math.PI/2 + q*Math.PI/2, a - Math.PI/2 + (q+1)*Math.PI/2); g.closePath(); g.fill(); }); break; }
+    default: { g.save(); g.translate(wx + ww/2, wy + wh/2); g.rotate(a); g.fillStyle = A; g.fillRect(-S, -S, S*2, S); g.restore(); disc(x, y, .22*far(x, y), B); }
+  }
+  g.restore();
+  try{ await Promise.all([document.fonts.load(`italic 400 ${Math.round(S*.2)}px "Instrument Serif"`), document.fonts.load(`600 ${Math.round(S*.05)}px "Inter"`)]); }catch(x){}
   g.fillStyle = c.ink; g.textBaseline = 'alphabetic';
-  g.font = `700 ${Math.round(S*.3)}px "Space Grotesk", sans-serif`; g.fillText(e.year ? '’' + e.year.slice(2) : '', S*.06, S*.3);
-  const fit = (txt, wt, size, y) => { let f = size; do { g.font = `${wt} ${Math.round(f)}px "Inter", sans-serif`; f -= 1; } while(g.measureText(txt).width > S*.86 && f > 8); g.fillText(txt, S*.07, y); };
-  fit(e.show.toUpperCase(), 700, S*.058, S*.86);
-  if(e.date) fit(niceDate(e.date).toUpperCase(), 500, S*.046, S*.93);
-  const em = await emblemImage(e.show, c.ink, Math.round(S*.24)); if(em) g.drawImage(em, S*.7, S*.07, S*.24, S*.24);
+  g.font = `italic 400 ${Math.round(S*.2)}px "Instrument Serif", Georgia, serif`; g.fillText(e.year ? '’' + e.year.slice(2) : '', S*.08, S*.95);
+  g.textAlign = 'right'; g.font = `600 ${Math.round(S*.045)}px "Inter", sans-serif`;
+  if(e.no) g.fillText(`NO. ${e.no}`, S*.92, S*.875);
+  g.globalAlpha = .7; g.font = `500 ${Math.round(S*.036)}px "Inter", sans-serif`; g.fillText((SHOW_SHORT[e.show] || e.show).toUpperCase(), S*.92, S*.935); g.globalAlpha = 1;
   const url = cv.toDataURL('image/png'); artCache.set(key, url); return url;
 }
 async function setNowPlayingMeta(e){
@@ -1602,7 +1657,7 @@ function renderBento(){
   if(tonightIdx >= list.length) tonightIdx = 0;
   const dayBig = `<span class="big">${now.getDate()} <em>${MONTHS[now.getMonth()]}</em></span>`;
   const cards = list.length ? list.map((e, i) => {
-    const c = coverStyle(e.id, e.show);
+    const c = coverStyle(e.id, e.show, e.title);
     return `<button class="tile tonight" data-t="tonight" data-i="${i}" data-id="${esc(e.id)}" style="--cv:${c.layers};--ink:${c.ink};--cbg:${c.bg}">
       <span class="hero-art"></span>
       <span class="k">${tn.exact ? 'On this night' : 'Closest to tonight'}</span>
@@ -2018,30 +2073,21 @@ audio.addEventListener('play', () => { if(state.boost && !boost.src) setBoost(tr
 const DARK_BASE = { '--text':'#f2efe8', '--muted':'#8a8f9c', '--line':'rgba(255,255,255,.08)' };
 const THEMES = {
   'Collection': { '--accent':'#d4b483', '--accent-soft':'rgba(212,180,131,.13)', '--glow':'rgba(212,180,131,.18)', '--bg':'#0e0d0c', '--surface':'#171614', '--surface-2':'#211f1c', '--text':'#ece6da', '--muted':'#8e877b', '--line':'rgba(236,230,218,.1)' },
-  'Auto':      null,
-  'Desert':    Object.assign({ '--accent':'#ffa53d', '--accent-soft':'rgba(255,165,61,.14)', '--glow':'rgba(255,140,30,.35)', '--bg':'#08090c', '--surface':'#111318', '--surface-2':'#191c23' }, DARK_BASE),
-  'Paper':     { '--accent':'#e4560c', '--accent-soft':'rgba(228,86,12,.12)', '--glow':'rgba(255,170,90,.35)', '--bg':'#f2ede3', '--surface':'#fffcf6', '--surface-2':'#e8e1d3', '--text':'#17140f', '--muted':'#6d665a', '--line':'rgba(23,20,15,.09)' },
-  'Phosphor':  Object.assign({ '--accent':'#5dff8a', '--accent-soft':'rgba(93,255,138,.12)', '--glow':'rgba(60,255,120,.28)', '--bg':'#050906', '--surface':'#0c140e', '--surface-2':'#132016' }, DARK_BASE),
-  'Dreamland': Object.assign({ '--accent':'#5ad1ff', '--accent-soft':'rgba(90,209,255,.13)', '--glow':'rgba(60,170,255,.32)', '--bg':'#05080d', '--surface':'#0d131c', '--surface-2':'#141c28' }, DARK_BASE),
-  'Neon':      Object.assign({ '--accent':'#ff4fa3', '--accent-soft':'rgba(255,79,163,.14)', '--glow':'rgba(190,70,255,.38)', '--bg':'#0a0710', '--surface':'#151020', '--surface-2':'#1e172c' }, DARK_BASE)
+  'Paper':      { '--accent':'#a8432a', '--accent-soft':'rgba(168,67,42,.1)', '--glow':'rgba(168,67,42,.14)', '--bg':'#f2ede3', '--surface':'#fbf8f2', '--surface-2':'#e7e0d2', '--text':'#17140f', '--muted':'#6d665a', '--line':'rgba(23,20,15,.12)' }
 };
 const THEME_RENAMES = { 'Amber':'Desert', 'Area 51':'Dreamland', 'Dopamine':'Neon' };
-if(THEME_RENAMES[state.theme]){ state.theme = THEME_RENAMES[state.theme]; saveState(); }
+if(state.theme !== 'Paper' && state.theme !== 'Collection'){ state.theme = 'Collection'; saveState(); }
 const prefersLight = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : { matches:false };
 function applyTheme(name){
   name = THEMES.hasOwnProperty(name) ? name : 'Collection';
-  const wasCine = isCine();
-  document.documentElement.classList.toggle('cine', name === 'Collection');
-  const t = THEMES[name] || THEMES[prefersLight.matches ? 'Paper' : 'Desert'];
+  const t = THEMES[name];
+  document.documentElement.classList.add('cine');
   for(const k in t) document.documentElement.style.setProperty(k, t[k]);
-  document.documentElement.classList.toggle('light', t === THEMES['Paper']);
+  document.documentElement.classList.toggle('light', name === 'Paper');
   const m = document.querySelector('meta[name=theme-color]'); if(m) m.content = t['--bg'];
   drawWave();
-  if(wasCine !== isCine() && episodes.length){ try{ render(); const e = byId(audio.dataset.id); if(e){ setNowPlayingMeta(e); const na = $('#npArt'); if(na) na.outerHTML = artHTML(e, 'bigart').replace('class="art ', 'id="npArt" class="art ').replace('</div>', `<span class="freq">${e.show.toUpperCase()} · ${niceDate(e.date).toUpperCase()}</span></div>`); } }catch(_){} }
 }
-if(!state.cineDefault){ if(!state.theme || state.theme === 'Auto') state.theme = 'Collection'; state.cineDefault = 1; saveState(); }
 applyTheme(state.theme);
-try{ prefersLight.addEventListener('change', () => { if(!state.theme || state.theme === 'Auto') applyTheme('Auto'); }); }catch(x){}
 
 /* ================= Settings ================= */
 if(state.calm) document.body.classList.add('calm');
@@ -2049,7 +2095,7 @@ $('#gear').onclick = () => {
   const cached = store.get(INDEX_KEY, null);
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd"><div><div class="t">Settings</div><div class="m">${episodes.length.toLocaleString('en-GB')} shows in your library${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB') : ''}</div></div></div>
-    <div class="sh-lbl">Theme</div><div class="swatches">${Object.entries(THEMES).map(([n,t]) => { const bg = t ? t['--bg'] : 'linear-gradient(135deg,#f2ede3 0 50%,#08090c 50%)', sf = t ? t['--surface-2'] : 'rgba(128,128,128,.35)', ac = t ? t['--accent'] : 'linear-gradient(90deg,#e4560c 50%,#ffa53d 50%)'; return `<button class="sw${(state.theme||'Collection')===n?' on':''}${n==='Collection'?' feat':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}${n==='Collection'?'<small>Black & white, serif, numbered like a film library</small>':''}</span></button>`; }).join('')}</div>
+    <div class="sh-lbl">Theme</div><div class="swatches two">${[['Collection','Night','#0e0d0c','#d4b483','#211f1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Collection')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <button class="act" data-s="refresh">Refresh library from archive.org</button>
     <button class="act" data-s="sources">Sources<small>${SOURCES.length} collections</small></button>`;
