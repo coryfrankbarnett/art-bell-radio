@@ -15,6 +15,19 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/640x1136.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/750x1334.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1242x2208.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1125x2436.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/828x1792.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1242x2688.png">
+<link rel="apple-touch-startup-image" media="(device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1080x2340.png">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1170x2532.png">
+<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1284x2778.png">
+<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1179x2556.png">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1290x2796.png">
+<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1206x2622.png">
+<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1320x2868.png">
 <style>
 /* Fonts bundled with the app (SIL Open Font License): Space Grotesk (headings), Inter (text), Geist Mono (times) */
 @font-face{font-family:'Space Grotesk';src:url(fonts/space-grotesk.woff2) format('woff2-variations');font-weight:300 700;font-display:swap}
@@ -680,9 +693,45 @@ h1 em{display:inline}
 .otn-chips::-webkit-scrollbar{display:none}
 .otn-chip{flex:none;height:30px;padding:0 12px;border-radius:99px;font:600 13px/30px var(--font);color:var(--muted);background:var(--surface);border:1px solid var(--line);transition:background .2s,color .2s}
 .otn-chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+/* ---- Opening animation (plays once per launch, tap to skip) ---- */
+#intro{position:fixed;inset:0;z-index:9999;background:#ff7a1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4vmin;
+  transition:clip-path .55s cubic-bezier(.7,0,.2,1),opacity .4s ease;clip-path:circle(150% at 50% 46%)}
+#intro .in-g{width:min(78vw,420px);overflow:visible;animation:inDrop .6s cubic-bezier(.2,.9,.25,1.15) both}
+#intro .sun{transform-box:fill-box;transform-origin:center;animation:inSun 1.1s .15s cubic-bezier(.25,.8,.3,1) both}
+#intro .lens rect:first-child{animation:inSky 1.2s .1s ease both}
+#intro .glint{animation:inGlint 1.1s .5s ease both}
+#intro .w1,#intro .w2{animation:inWave 1s infinite;opacity:0}
+#intro .w1{animation-delay:.7s}#intro .w2{animation-delay:.95s}
+#intro .in-t{font:400 clamp(22px,7vw,34px)/1 'Space Grotesk',system-ui,sans-serif;color:#1d0a03;letter-spacing:-.02em;animation:inText .6s .45s ease both}
+#intro .in-t b{font-weight:700}
+#intro.out{clip-path:circle(0% at 50% 46%)}
+#intro.out .in-g{transform:scale(1.08);transition:transform .5s ease}
+@keyframes inDrop{from{opacity:0;transform:translateY(-6vh) scale(.88)}to{opacity:1;transform:none}}
+@keyframes inSun{from{transform:translateY(16px)}to{transform:none}}
+@keyframes inSky{from{opacity:.35}to{opacity:1}}
+@keyframes inGlint{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:none}}
+@keyframes inWave{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+@keyframes inText{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#intro *{animation:none!important}#intro{transition:opacity .25s}#intro.out{clip-path:none;opacity:0}}
 </style>
 </head>
 <body>
+<div id="intro" aria-label="Art Bell Archive"><svg class="in-g" viewBox="0 40 240 120" aria-hidden="true"><defs><path id="in-L" d="M30 92 C30 78 40 72 56 72 L98 72 C110 72 114 80 113 92 L110 116 C108 132 98 140 82 140 L62 140 C44 140 34 132 32 116 Z"/><path id="in-R" d="M210 92 C210 78 200 72 184 72 L142 72 C130 72 126 80 127 92 L130 116 C132 132 142 140 158 140 L178 140 C196 140 206 132 208 116 Z"/><clipPath id="in-cL"><use href="#in-L"/></clipPath><clipPath id="in-cR"><use href="#in-R"/></clipPath><linearGradient id="in-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4d6d"/><stop offset=".45" stop-color="#ff7a1a"/><stop offset=".75" stop-color="#ffb347"/></linearGradient><linearGradient id="in-gl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><g class="lens" clip-path="url(#in-cL)"><rect x="22" y="62" width="100" height="90" fill="url(#in-sky)"/><circle class="sun" cx="66" cy="118" r="20" fill="#ffe3a3"/><path d="M22 120 L42 120 L48 110 L76 110 L82 120 L122 120 L122 152 L22 152Z" fill="#3a1606"/><path d="M22 132 Q62 126 122 134 L122 152 L22 152Z" fill="#1d0a03"/><rect class="glint" x="20" y="60" width="100" height="90" fill="url(#in-gl)"/></g><g class="lens" clip-path="url(#in-cR)"><rect x="118" y="62" width="100" height="90" fill="url(#in-sky)"/><circle class="sun" cx="162" cy="118" r="20" fill="#ffe3a3"/><path d="M118 120 L138 120 L144 110 L172 110 L178 120 L218 120 L218 152 L118 152Z" fill="#3a1606"/><path d="M118 132 Q158 126 218 134 L218 152 L118 152Z" fill="#1d0a03"/><g class="tw" fill="none" stroke="#3a1606" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" transform="translate(182,116) scale(.9)"><path d="M0 0 V-26"/><path d="M-5 0 L0 -26 L5 0"/><path d="M-3.5 -8 H3.5 M-2.3 -15 H2.3"/><path class="w1" d="M-7 -30 A9 9 0 0 0 -7 -21 M7 -30 A9 9 0 0 1 7 -21"/><path class="w2" d="M-11 -33 A14 14 0 0 0 -11 -18 M11 -33 A14 14 0 0 1 11 -18"/></g><rect class="glint" x="120" y="60" width="100" height="90" fill="url(#in-gl)"/></g><g fill="none" stroke="#1d0a03" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"><use href="#in-L"/><use href="#in-R"/><path d="M113 84 Q120 78 127 84"/><path d="M106 74 Q120 66 134 74"/><path d="M30 86 L12 81"/><path d="M210 86 L228 81"/></g></svg><div class="in-t"><b>Art Bell</b> Archive</div></div>
+<script>
+/* Opening animation: shown once per launch; leaves as soon as the library is ready (min ~1.3s, max 2.6s) */
+(function(){
+  const el = document.getElementById('intro'); if(!el) return;
+  let seen = false; try{ seen = sessionStorage.getItem('abr.intro') === '1'; sessionStorage.setItem('abr.intro','1'); }catch(_){}
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || (()=>{ try{ return JSON.parse(localStorage.getItem('abr.state.v2')||'{}').calm }catch(_){ return false } })();
+  if(seen){ el.remove(); return; }
+  const t0 = performance.now(), min = reduce ? 350 : 1300;
+  let done = false;
+  const go = () => { if(done) return; done = true; if(reduce) el.style.clipPath = 'none'; el.classList.add('out'); setTimeout(() => el.remove(), 600); };
+  window.__introReady = () => setTimeout(go, Math.max(0, min - (performance.now() - t0)));
+  el.addEventListener('click', go);
+  setTimeout(go, 2600);
+})();
+</script>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <!-- Original line-art emblems, one per programme (64x64, stroke = currentColor) -->
   <symbol id="em-coast" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1115,7 +1164,7 @@ function afterLoad(quiet){
   idMap = new Map(episodes.map(e => [e.id, e]));
   $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015`;
   fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
-  buildDial(); buildChips(); buildGuests(); applyFilters();
+  buildDial(); buildChips(); buildGuests(); applyFilters(); if(window.__introReady){ window.__introReady(); window.__introReady = null; }
   if(quiet) return;
   handleDeepLink();
   if(state.last){ const e = byId(state.last); if(e) loadEpisode(e, false); }
