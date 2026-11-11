@@ -1972,6 +1972,7 @@ function parseFile(item, f, itemTitle){
   let date = '', rest = base, m;
   if((m = base.match(/(\d{4})[-_.](\d{2})[-_.](\d{2})/))){ date = +m[1] ? `${m[1]}-${m[2]}-${m[3]}` : ''; rest = base.replace(m[0],''); }
   else if((m = base.match(/(?<!\d)(\d{2})[-_.](\d{2})[-_.]((?:19|20)\d{2})(?!\d)/))){ date = `${m[3]}-${m[1]}-${m[2]}`; rest = base.replace(m[0],''); } // US style MM-DD-YYYY
+  else if((m = base.match(/\((\d{1,2})-(\d{1,2})-(\d{2})\)/))){ const yy = +m[3]; date = `${yy > 50 ? 1900 + yy : 2000 + yy}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`; rest = base.replace(m[0],''); }
   else if((m = base.match(/(?<!\d)(19[89]\d|20[0-2]\d)(?!\d)/))){ date = m[1]; }
   const under = /_/.test(rest) && rest === rest.toLowerCase();
   rest = rest.replace(/_/g,' ').replace(/^[\s\-–]+|[\s\-–]+$/g,'');
@@ -2032,6 +2033,9 @@ async function discover(){
 }
 // Programmes left out of the app
 const HIDDEN_SHOWS = new Set(['Area 2000', 'Art Bell']);
+// Art's voice only: leave out nights hosted by someone else and recordings Art isn't on
+const NOT_ART = /hilly rose|billy goodman|jeff rense|rense art bell|at ohio state|dreamland with whitley strieber|phil hendrie|old time radio|george noory|mike siegel|ian punnett|barbara simpson|rollye james|psilocybin and the sands of time/i;
+const notArt = e => NOT_ART.test(e.file) || (e.date && e.date < '1992-01-01');
 // Turn archive.org item records into the show list
 function ingest(items){
   const seen = new Map();
@@ -2054,7 +2058,7 @@ function ingest(items){
       if(!seen.has(key)){ seen.set(key, e); if(e.date.length === 10){ nights.add(night); if(!pm) nights.add(night + '|full'); } }
     });
   }
-  return Array.from(seen.values()).filter(e => !HIDDEN_SHOWS.has(e.show)).map(addHay);
+  return Array.from(seen.values()).filter(e => !HIDDEN_SHOWS.has(e.show) && !notArt(e)).map(addHay);
 }
 const saveIndex = at => store.set(INDEX_KEY, { at, hosts, episodes: episodes.map(({hay,hay0,about,tags,ment,guests,nd,...e}) => e) });
 // Prebuilt list (library.json) is made by a GitHub Action on the same site: one small, fast, cacheable request
@@ -2064,7 +2068,7 @@ async function getPrebuilt(){
 async function loadLibrary(force){
   const cached = store.get(INDEX_KEY, null);
   if(cached && !force && cached.episodes && cached.episodes.length){
-    episodes = cached.episodes.map(addHay); hosts = cached.hosts || {}; afterLoad();
+    episodes = cached.episodes.filter(e => !notArt(e)).map(addHay); hosts = cached.hosts || {}; afterLoad();
     // quietly check for a newer prebuilt list in the background
     getPrebuilt().then(j => { if(j && j.built > (cached.at || 0)){ const fresh = ingest(j.items); if(fresh.length){ episodes = fresh; saveIndex(j.built); afterLoad(true); } } });
     return;
@@ -2154,7 +2158,9 @@ function afterLoad(quiet){
   mergeGuestSpellings();
   idMap = new Map(episodes.map(e => [e.id, e]));
   applyTopics(); sugIndex = null; coverCache.clear();
-  [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach((e, i) => { e.no = i + 1; });
+  // catalogue numbers start with Art's first show in the archive (12 Dec 1992); earlier odds and ends stay unnumbered
+  let catNo = 0;
+  [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach(e => { e.no = e.date && e.date < '1992-12-12' ? 0 : ++catNo; });
   $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015`;
   fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}, {name:'tags', weight:.35}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
   buildDial(); buildChips(); buildGuests(); applyFilters(); if(window.__introReady){ window.__introReady(); window.__introReady = null; }
