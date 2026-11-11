@@ -1414,12 +1414,27 @@ html.cine.easy .nt-rel .nr b,html.cine.easy .suggest .sg{font:500 15px/1.3 var(-
 html.cine.easy .nt-facts dd{font:500 15.5px/1.3 var(--font)}
 html.cine.easy .nt-ess{font:italic 400 15.5px/1.45 var(--font)}
 html.cine.easy .grow .n{font-family:var(--font);font-weight:500}
-html.cine.easy .np .title{font:600 clamp(20px,5.4vw,24px)/1.25 var(--font)!important;letter-spacing:-.015em}
 html.cine.easy .spine .sp-t{font:500 12.5px/1.05 var(--font)}
 html.cine.easy .tt-tx,html.cine.easy .note,html.cine.easy .ess-intro{font-family:var(--font)}
 html.cine.easy .ess-intro{font-style:normal;font-size:14px}
 html.cine.easy .lp-new input,html.cine.easy .searchbox input{font:400 17px var(--font)}
 html.cine.easy .searchbox input::placeholder{font-style:normal}
+
+/* years */
+.years{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;padding:0 20px 24px}
+.ycard{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:12px 12px 14px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--text);text-align:left;overflow:hidden}
+.ycard .y{font:400 30px/1 var(--serif)}
+.ycard .n{font:500 10px/1 var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ycard i{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);opacity:.7}
+@media (hover:hover){ .ycard:hover{border-color:var(--muted)} }
+.yearhead{display:none;margin:0 20px 16px;padding:16px 20px 18px;border:1px solid var(--line);border-radius:2px;background:var(--surface)}
+.yearhead.show{display:block}
+.yh-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.yh-nav{display:flex;gap:6px}
+.yh-step{font:500 11px/1 var(--font);letter-spacing:.1em;color:var(--muted);border:1px solid var(--line);border-radius:2px;padding:8px 10px;background:none}
+.yh-y{font:400 clamp(64px,20vw,96px)/.9 var(--serif);margin:14px 0 10px}
+.yh-progs{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.yh-progs .chip small{margin-left:8px;opacity:.6;font-size:10px}
 </style>
 </head>
 <body>
@@ -1515,6 +1530,11 @@ html.cine.easy .searchbox input::placeholder{font-style:normal}
     <div class="progs" id="progs"></div>
   </section>
 
+  <section id="yearWrap" style="display:none">
+    <div class="sec"><h2>Years</h2></div>
+    <div class="years" id="years"></div>
+  </section>
+
   <section id="otnWrap">
     <div class="sec"><h2 id="otnTitle">On this night</h2></div>
     <div class="bento" id="bento" style="display:none"></div>
@@ -1529,13 +1549,13 @@ html.cine.easy .searchbox input::placeholder{font-style:normal}
 
 
   <div class="art proghead" id="progHead"></div>
+  <div class="yearhead" id="yearHead"></div>
 
   <div class="listbar" id="listbar"></div>
   <div class="filterpill" id="pill"></div>
   <div class="sec">
     <h2 id="secTitle">All shows</h2>
     <div class="meta"><button class="playall" id="playAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play all</button><button class="playall saveall" id="saveAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span>Save all</span></button><button class="seeall" id="closeAll" style="display:none">Close</button><span id="secCount"></span>
-      <button class="viewtog" id="viewTog" type="button" aria-label="Switch between list and shelf"></button>
       <select id="sort" aria-label="Sort">
         <option value="old">Oldest</option><option value="new">Newest</option><option value="az">A–Z</option><option value="rand">Shuffle</option>
       </select>
@@ -2364,17 +2384,6 @@ $('#tabs').addEventListener('click', ev => {
 
 
 
-/* ================= List or shelf ================= */
-function syncViewTog(){
-  const b = $('#viewTog'); if(!b) return; const shelf = state.listView === 'shelf';
-  b.innerHTML = shelf ? '<svg viewBox="0 0 24 24"><path d="M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z"/></svg>List' : '<svg viewBox="0 0 24 24"><path d="M4 4h3v16H4zm5 0h3v16H9zm5 1.2 2.9-.8 3.6 15.4-2.9.7z"/></svg>Shelf';
-}
-$('#viewTog').addEventListener('click', () => { state.listView = state.listView === 'shelf' ? '' : 'shelf'; saveState(); render(); });
-let spineTimer = null;
-$('#list').addEventListener('contextmenu', ev => { const sp = ev.target.closest('.spine'); if(!sp) return; ev.preventDefault(); const e = byId(sp.dataset.id); if(e) openSheet(e); });
-$('#list').addEventListener('touchstart', ev => { const sp = ev.target.closest('.spine'); if(!sp) return; clearTimeout(spineTimer); spineTimer = setTimeout(() => { const e = byId(sp.dataset.id); if(e){ if(navigator.vibrate) navigator.vibrate(10); openSheet(e); } }, 550); }, { passive:true });
-['touchend','touchmove','touchcancel'].forEach(t => $('#list').addEventListener(t, () => clearTimeout(spineTimer), { passive:true }));
-
 /* ================= Drawings sketch themselves in ================= */
 const sketchSeen = new WeakSet();
 const sketchIO = 'IntersectionObserver' in window ? new IntersectionObserver(entries => entries.forEach(en => {
@@ -2401,6 +2410,41 @@ function addRailArrows(){
 }
 setInterval(addRailArrows, 2500); window.addEventListener('resize', () => setTimeout(addRailArrows, 300));
 
+
+
+/* ================= Years as their own libraries ================= */
+function setYear(y){
+  yearFilter = y || ''; showFilter = ''; guestFilter = '';
+  document.querySelectorAll('#chips .chip').forEach(c => c.classList.toggle('on', c.dataset.show === ''));
+  try{ dialLock = true; const b = [...dial.querySelectorAll('.yr')].find(x => x.dataset.y === yearFilter); if(b){ dial.querySelectorAll('.yr').forEach(x => x.classList.toggle('on', x === b)); dial.scrollTo({ left: b.offsetLeft - dial.clientWidth / 2 + b.offsetWidth / 2 }); } setTimeout(() => dialLock = false, 500); }catch(x){}
+  if(tab !== 'all'){ tab = 'all'; document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === 'all')); }
+  applyFilters(); scrollTo({ top:0, behavior:smooth() });
+}
+function renderYears(show){
+  const w = $('#yearWrap'); w.style.display = show ? '' : 'none'; if(!show) return;
+  const c = {}; episodes.forEach(e => { if(e.no && e.year) c[e.year] = (c[e.year] || 0) + 1; });
+  const ys = Object.keys(c).sort(), max = Math.max(...Object.values(c));
+  $('#years').innerHTML = ys.map(y => `<button class="ycard" data-year="${y}"><span class="y">${y}</span><span class="n">${c[y]} show${c[y] === 1 ? '' : 's'}</span><i style="width:${Math.max(6, c[y] / max * 100)}%"></i></button>`).join('');
+}
+$('#years').addEventListener('click', ev => { const b = ev.target.closest('[data-year]'); if(b) setYear(b.dataset.year); });
+function renderYearHead(){
+  const h = $('#yearHead');
+  if(!yearFilter || showFilter || tab !== 'all'){ h.classList.remove('show'); h.innerHTML = ''; return; }
+  const eps = episodes.filter(e => e.year === yearFilter && e.no).sort((a, b) => a.no - b.no);
+  const progs = {}; eps.forEach(e => progs[e.show] = (progs[e.show] || 0) + 1);
+  const nos = eps.length ? `No. ${eps[0].no}–${eps[eps.length - 1].no}` : '';
+  const prev = String(+yearFilter - 1), next = String(+yearFilter + 1), have = new Set(episodes.filter(e => e.no).map(e => e.year));
+  h.innerHTML = `<div class="yh-top"><button class="gp-x" id="yearBack">All years</button><span class="yh-nav">${have.has(prev) ? `<button class="yh-step" data-year="${prev}" aria-label="${prev}">‹ ${prev}</button>` : ''}${have.has(next) ? `<button class="yh-step" data-year="${next}" aria-label="${next}">${next} ›</button>` : ''}</span></div>
+    <div class="yh-y">${yearFilter}</div>
+    <div class="gp-facts"><span><b>${eps.length}</b> show${eps.length === 1 ? '' : 's'}</span>${nos ? `<span>${nos}</span>` : ''}</div>
+    <div class="yh-progs">${Object.entries(progs).sort((a, b) => b[1] - a[1]).map(([n, k]) => `<button class="chip" data-yshow="${esc(n)}">${esc(n)}<small>${k}</small></button>`).join('')}</div>`;
+  h.classList.add('show');
+}
+$('#yearHead').addEventListener('click', ev => {
+  if(ev.target.closest('#yearBack')){ setYear(''); return; }
+  const st = ev.target.closest('.yh-step'); if(st){ setYear(st.dataset.year); return; }
+  const ps = ev.target.closest('[data-yshow]'); if(ps){ const y = yearFilter; setShow(ps.dataset.yshow); yearFilter = y; applyFilters(); }
+});
 
 /* ================= Getting to the full list ================= */
 function openFullList(){ allOpen = true; shown = PAGE; if(tab !== 'all') document.querySelector('.tab[data-tab="all"]').click(); render(); requestAnimationFrame(() => $('#secTitle').scrollIntoView({ block:'start', behavior:smooth() })); }
@@ -2637,16 +2681,17 @@ function buildSugIndex(){
   const m = new Map(); const add = (label, kind, w) => { const k = kind + '|' + label.toLowerCase(); const x = m.get(k); if(x) x.n += w; else m.set(k, { label, kind, n:w }); };
   episodes.forEach(e => { (e.guests || []).forEach(g => add(g, 'Guest', 3)); (e.tags || []).forEach(t => add(t, 'Topic', 2)); (e.ment || []).forEach(t => add(t, 'Topic', 1)); });
   PROGRAMMES.forEach(p => add(p[0], 'Programme', 50));
+  [...new Set(episodes.filter(e => e.no).map(e => e.year))].forEach(y => add(y, 'Year', 40));
   // a name that is also a guest shows once, as a guest
   const guests = new Set([...m.values()].filter(x => x.kind === 'Guest').map(x => x.label.toLowerCase()));
   sugIndex = [...m.values()].filter(x => !(x.kind === 'Topic' && guests.has(x.label.toLowerCase())));
 }
 function suggest(){
   const box = $('#suggest'), q = $('#q').value.trim().toLowerCase();
-  if(q.length < 2 || !episodes.length){ box.classList.remove('show'); box.innerHTML = ''; sugSel = -1; return; }
+  if((q.length < 2 && !/^\d$/.test(q)) || !episodes.length){ box.classList.remove('show'); box.innerHTML = ''; sugSel = -1; return; }
   if(!sugIndex) buildSugIndex();
   const starts = x => { const l = x.label.toLowerCase(); return l.startsWith(q) ? 2 : l.split(/[\s\-–.']+/).some(w => w.startsWith(q)) ? 1 : 0; };
-  const hits = sugIndex.map(x => [x, starts(x)]).filter(([, s]) => s).sort((a, b) => b[1] - a[1] || b[0].n - a[0].n).slice(0, 7).map(([x]) => x);
+  const hits = sugIndex.map(x => [x, starts(x)]).filter(([, s]) => s).sort((a, b) => b[1] - a[1] || (a[0].kind === 'Year' && b[0].kind === 'Year' ? a[0].label.localeCompare(b[0].label) : b[0].n - a[0].n)).slice(0, 7).map(([x]) => x);
   sugSel = -1;
   if(!hits.length){ box.classList.remove('show'); box.innerHTML = ''; return; }
   const hl = l => { const i = l.toLowerCase().indexOf(q); return i < 0 ? esc(l) : esc(l.slice(0, i)) + '<b>' + esc(l.slice(i, i + q.length)) + '</b>' + esc(l.slice(i + q.length)); };
@@ -2658,6 +2703,7 @@ function pickSuggestion(b){
   box.classList.remove('show'); box.innerHTML = '';
   if(kind === 'Guest'){ guestFilter = label; $('#q').value = ''; $('#clear').classList.remove('show'); applyFilters(); }
   else if(kind === 'Programme'){ $('#q').value = ''; $('#clear').classList.remove('show'); setShow(label); }
+  else if(kind === 'Year'){ $('#q').value = ''; $('#clear').classList.remove('show'); setYear(label); }
   else { $('#q').value = label; $('#clear').classList.add('show'); searchScope = 'all'; applyFilters(); }
   $('#q').blur();
 }
@@ -2668,6 +2714,7 @@ $('#q').addEventListener('keydown', ev => {
   if(ev.key === 'ArrowDown' || ev.key === 'ArrowUp'){ ev.preventDefault(); sugSel = (sugSel + (ev.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length; items.forEach((x, i) => x.classList.toggle('sel', i === sugSel)); }
   else if(ev.key === 'Enter' && sugSel >= 0){ ev.preventDefault(); pickSuggestion(items[sugSel]); }
   else if(ev.key === 'Escape'){ $('#suggest').classList.remove('show'); }
+  else if(ev.key === 'Enter' && /^(19|20)\d\d$/.test($('#q').value.trim()) && episodes.some(e => e.year === $('#q').value.trim())){ ev.preventDefault(); const y = $('#q').value.trim(); $('#q').value = ''; $('#clear').classList.remove('show'); hideSuggest(); setYear(y); }
 });
 $('#q').addEventListener('blur', () => setTimeout(() => $('#suggest').classList.remove('show'), 150));
 const hideSuggest = () => { const b = $('#suggest'); b.classList.remove('show'); b.innerHTML = ''; };
@@ -2789,8 +2836,8 @@ function render(){
     ph.classList.add('show');
   } else ph.classList.remove('show');
   const curList = tab === 'fav' && listFilter && state.lists.find(l => l.id === listFilter);
-  $('#secTitle').textContent = curList ? curList.name : showFilter && tab === 'all' ? 'Episodes' : { all:'All shows', fav:'Favourites', recent:'Recently played', saved:'Saved offline', guests:'Guests' }[tab];
-  renderListBar(); syncBrowseTop();
+  $('#secTitle').textContent = curList ? curList.name : (showFilter || yearFilter) && tab === 'all' ? 'Episodes' : { all:'All shows', fav:'Favourites', recent:'Recently played', saved:'Saved offline', guests:'Guests' }[tab];
+  renderListBar(); syncBrowseTop(); renderYears(showProgs); renderYearHead();
   const pill = $('#pill');
   if(guestFilter){ pill.innerHTML = guestPage(guestFilter); pill.classList.add('show', 'gpage'); }
   else pill.classList.remove('show', 'gpage');
@@ -2818,19 +2865,7 @@ function render(){
   }
   const cur = audio.dataset.id, paused = audio.paused;
   const qTerms = $('#q').value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-  syncViewTog();
   const dated = ['old','new'].includes(state.sort) && tab !== 'recent' && !qTerms.length;
-  if(state.listView === 'shelf'){
-    el.classList.add('shelfview');
-    let lastY = '';
-    el.innerHTML = `<div class="spines">` + view.slice(0, shown).map(e => {
-      const yh = dated && e.year && e.year !== lastY ? `</div><div class="sp-year">${esc(e.year)}</div><div class="spines">` : ''; if(dated) lastY = e.year;
-      const [fill] = progCol(e.show);
-      return `${yh}<button class="spine${cur === e.id ? ' cur' : ''}${isPlayed(e.id) ? ' played' : ''}" data-id="${esc(e.id)}" style="--pc:${fill}" title="${esc(e.title)}" aria-label="${esc(e.title)}, ${e.date ? niceDate(e.date) : 'date unknown'}${e.no ? ', number ' + e.no : ''}. Play"><span class="sp-no">${e.no || ''}</span><span class="sp-t">${esc(topicOf(e) || e.title)}</span><span class="sp-d">${e.date ? niceDate(e.date) : ''}</span></button>`;
-    }).join('') + `</div>` + (shown < view.length ? `<button class="loadmore" id="loadmore">Show more (${(view.length - shown).toLocaleString('en-GB')} left)</button>` : '');
-    return;
-  }
-  el.classList.remove('shelfview');
   let lastYr = '';
   el.innerHTML = view.slice(0, shown).map(e => {
     const yhead = dated && e.year && e.year !== lastYr ? `<div class="yhead">${esc(e.year)}</div>` : ''; if(dated) lastYr = e.year;
@@ -2850,7 +2885,6 @@ function render(){
 }
 $('#list').addEventListener('click', ev => {
   if(ev.target.id === 'loadmore'){ shown += PAGE; render(); return; }
-  const sp = ev.target.closest('.spine'); if(sp){ const e = byId(sp.dataset.id); if(e) playFrom(e); return; }
   if(ev.target.closest('#browseAll')){ allOpen = true; render(); return; }
   const row = ev.target.closest('.row'); if(!row) return;
   const e = byId(row.dataset.id); if(!e) return;
