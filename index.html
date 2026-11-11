@@ -2018,7 +2018,7 @@ function renderBento(){
     return `<button class="tile tonight cv otn2" data-t="tonight" data-i="${i}" data-id="${esc(e.id)}" style="--pc:${fill};--pl:${line}">
       <span class="o-top"><span class="k">${tn.exact ? 'On this night' : 'Closest to tonight'}</span>${e.year ? `<span class="yr">${esc(e.year)}</span>` : ''}</span>
       <span class="o-mid">${dayBig}<span class="hero-art">${motifSVG(c.kind)}</span></span>
-      <span class="o-bot"><span class="o-tx"><span class="ep">${esc(headOf(e))}</span><span class="s">${esc(topicOf(e) || '')}${topicOf(e) ? ' · ' : ''}${esc(SHOW_SHORT[e.show] || e.show)}</span></span><span class="go">${I.play2}</span></span>
+      <span class="o-bot"><span class="o-tx"><span class="ep">${esc(headOf(e))}</span><span class="s">${esc(topicOf(e) || '')}${topicOf(e) ? ' · ' : ''}${esc(e.show)}</span></span><span class="go">${I.play2}</span></span>
     </button>`;
   }).join('') : (() => { const c = coverStyle('tonight', 'Coast to Coast AM');
     return `<div class="tile tonight" style="--cv:${c.layers};--ink:${c.ink};--cbg:${c.bg}"><span class="hero-art"></span><span class="k">On this night</span>${dayBig}<span class="s">No dated shows yet</span></div>`; })();
