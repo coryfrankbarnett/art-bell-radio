@@ -28,5 +28,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add library.json
-          [ -f topics.json ] && git add topics.json || true
+          [ -f topics.json ] && git add topics.json topics-cache.json || true
           git diff --cached --quiet || (git commit -m "Update show library and topics" && git push)

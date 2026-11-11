@@ -161,11 +161,13 @@ def main():
     print("feed:", url)
     root = ET.fromstring(get(url))
     ns = {"content": "http://purl.org/rss/1.0/modules/content/", "itunes": "http://www.itunes.com/dtds/podcast-1.0.dtd"}
-    try:
-        old = json.load(open("topics.json"))
+    try:   # the builder's own record of transcripts already scanned (not loaded by the app)
+        tx_done = json.load(open("topics-cache.json"))
     except Exception:
-        old = {}
-    tx_done = old.get("transcripts", {})   # air date -> subject words already pulled from that night's transcript
+        try:
+            tx_done = json.load(open("topics.json")).get("transcripts", {})
+        except Exception:
+            tx_done = {}   # air date -> subject words already pulled from that night's transcript
     by_date, fetched, failed = {}, 0, 0
 
     def add(d, tags):
@@ -203,7 +205,9 @@ def main():
         raise SystemExit(f"Only {len(by_date)} dated episodes found; keeping the previous topics.json")
     with open("topics.json", "w") as fh:
         json.dump({"built": int(time.time() * 1000), "source": "The Art Bell Archive podcast (facts only: subjects, people, places)",
-                   "dates": by_date, "transcripts": tx_done}, fh, separators=(",", ":"), ensure_ascii=False)
+                   "dates": by_date}, fh, separators=(",", ":"), ensure_ascii=False)
+    with open("topics-cache.json", "w") as fh:
+        json.dump(tx_done, fh, separators=(",", ":"), ensure_ascii=False)
     print("wrote topics.json for", len(by_date), "dates;", fetched, "transcripts scanned this run,", len(tx_done), "in total,", failed, "failed")
 
 

@@ -1890,6 +1890,13 @@ function applyFilters(){
     if(s==='az') list.sort((a,b)=>a.title.localeCompare(b.title));
     if(s==='rand'){ const h = id => { let x=0; for(const c of id) x=(x*31+c.charCodeAt(0))|0; return Math.sin(x+shuffleSeed); }; list.sort((a,b)=>h(a.id)-h(b.id)); }
   }
+  // Searching: shows named for the subject come first, then nights where it came up
+  if(terms.length && tab !== 'recent'){
+    const base = e => (e.hay0 !== undefined ? e.hay0 : e.hay);
+    const named = [], rest = [];
+    list.forEach(e => (terms.every(t => termHit(base(e), t)) ? named : rest).push(e));
+    list = named.concat(rest);
+  }
   view = list; shown = PAGE; render();
 }
 
