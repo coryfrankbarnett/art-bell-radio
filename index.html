@@ -722,6 +722,90 @@ h1 em{display:inline}
 @keyframes inRise{to{transform:none}}
 @keyframes inFade{to{opacity:.85}}
 @media (prefers-reduced-motion:reduce){#intro *{animation:none!important;transition:none!important}#intro .in-top span,#intro .in-sub{opacity:1}#intro .in-top i,#intro .in-word span{transform:none}}
+
+/* ================= Collection theme: a film-library look (serif type, monochrome, catalogue numbers) ================= */
+.art .no,.row .m .cno{display:none}
+.sw.feat{grid-column:1/-1;display:flex;align-items:center;gap:12px;text-align:left;padding:8px}
+.sw.feat i{width:92px;flex:none;margin:0;background:#0e0d0c!important}
+.sw.feat span{white-space:normal;font:400 22px/1 var(--serif)}
+.sw.feat small{display:block;font:500 11.5px/1.3 var(--font);color:var(--muted);margin-top:4px}
+html.cine{--radius:3px;--serif:"Instrument Serif",Georgia,serif}
+html.cine body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+html.cine .eyebrow{font:500 10px/1 var(--font);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+html.cine .eyebrow .live{background:var(--accent)}
+html.cine h1{font:400 clamp(44px,12.5vw,60px)/.95 var(--serif);letter-spacing:-.005em}
+html.cine h1 em{font-style:italic;color:var(--accent)}
+html.cine .top .sub{font:500 10.5px var(--font);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+html.cine .gear{border-radius:2px;background:none;border:1px solid var(--line)}
+html.cine .searchbox{border-radius:2px;background:transparent;border:1px solid var(--line);height:48px}
+html.cine .searchbox input{font:400 19px var(--serif)}
+html.cine .searchbox input::placeholder{font-style:italic}
+html.cine .sec{border-top:1px solid var(--line);margin:0 20px;padding:16px 0 12px}
+html.cine .sec h2,html.cine .shelf .sec h2{font:400 28px/1 var(--serif);letter-spacing:0}
+html.cine .sec h2 .hem{display:none}
+html.cine .seeall,html.cine .sec select,html.cine .sec .meta{font:500 10.5px var(--font);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+html.cine .chip,html.cine .otn-chip{border-radius:2px;background:transparent;font:500 11px/28px var(--font);letter-spacing:.12em;height:30px}
+html.cine .chip.on,html.cine .otn-chip.on{background:var(--text);color:var(--bg)}
+/* On this night: a poster */
+html.cine .tile{border-radius:2px;box-shadow:none}
+html.cine .tile.tonight{border:1px solid var(--line)}
+html.cine .tile.tonight .k{font:500 10px var(--font);letter-spacing:.24em;text-transform:uppercase}
+html.cine .tile.tonight .big{font:400 clamp(70px,22vw,98px)/.85 var(--serif)!important;letter-spacing:-.01em}
+html.cine .tile.tonight .big em{font-style:italic}
+html.cine .tile.tonight .yr{font:italic 400 30px/1 var(--serif)!important}
+html.cine .tile.tonight .ep{font:400 22px/1.1 var(--serif)!important;letter-spacing:0}
+html.cine .tile.tonight .go{border-radius:50%;background:var(--text);box-shadow:none}
+html.cine .tile.tonight .go svg{fill:var(--bg)}
+html.cine .tile.q{background:transparent;border:1px solid var(--line)}
+html.cine .tile.q .v{font:400 18px/1 var(--serif)!important;letter-spacing:0}
+html.cine .tile.q svg{fill:var(--accent)}
+/* Programmes */
+html.cine .prog{border-radius:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+html.cine .prog .nm{font:400 27px/1 var(--serif)!important;letter-spacing:0}
+html.cine .prog .yrs,html.cine .prog .ct{font:500 10px var(--font);letter-spacing:.18em;text-transform:uppercase}
+html.cine .proghead{border-radius:2px}
+html.cine .proghead .nm{font:400 40px/1 var(--serif)!important}
+/* Covers: numbered like spines */
+html.cine .art{border-radius:2px!important}
+html.cine .art::after{background:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+html.cine .art:not(.prog):not(.proghead) .em{display:none}
+html.cine .art .no{display:block;position:absolute;left:10px;top:9px;font:500 9.5px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.8;z-index:2}
+html.cine .art .sh{position:absolute;right:10px;top:9px;font:500 9px/1 var(--font)!important;letter-spacing:.14em!important;color:var(--ink);opacity:.6}
+html.cine .art .yy{margin-top:auto;font:italic 400 34px/1 var(--serif)!important;letter-spacing:0!important;color:var(--ink)}
+html.cine .art.sm .no{left:5px;top:5px;font-size:7px;letter-spacing:.06em}
+html.cine .art.sm .yy{font-size:19px!important}
+html.cine .mini .art .no,html.cine .art.sm .no{display:none}
+html.cine .prog::before{display:block;content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,var(--cbg) 0 38%,color-mix(in srgb,var(--cbg) 70%,transparent) 55%,transparent 80%)}
+html.cine .prog .nm,html.cine .prog .ct,html.cine .prog .yrs{position:relative;z-index:2}
+/* Shelves and lists */
+html.cine .card .t{font:400 18px/1.15 var(--serif);letter-spacing:0}
+html.cine .card .m{font:500 10px var(--font);letter-spacing:.14em;text-transform:uppercase}
+html.cine .list{padding-left:20px;padding-right:20px}
+html.cine .row{border-radius:0;padding:12px 0;border-bottom:1px solid var(--line)}
+html.cine .row .t{font:400 19px/1.15 var(--serif)!important;letter-spacing:0}
+html.cine .row .m{font:500 10.5px var(--font)!important;letter-spacing:.12em;text-transform:uppercase}
+html.cine .row .m .cno{display:inline;color:var(--accent)}
+html.cine .row .m .played{border-radius:2px;letter-spacing:.1em}
+html.cine .swipe{border-radius:0}
+html.cine .rcard .t{font:400 18px/1.15 var(--serif)}
+/* Bars: flat, ruled */
+html.cine .tabs{left:0;right:0;bottom:0;border-radius:0;border:0;border-top:1px solid var(--line);background:color-mix(in srgb,var(--bg) 94%,transparent);padding-bottom:var(--sb)}
+html.cine .tabs::before{display:none}
+html.cine .tab{border-radius:0;font:500 9.5px var(--font);letter-spacing:.14em;text-transform:uppercase}
+html.cine .tab.on{background:none;color:var(--text);box-shadow:inset 0 2px 0 var(--accent)}
+html.cine .mini{border-radius:2px;background:var(--surface);bottom:calc(64px + var(--sb))}
+html.cine .mini .t{font:400 17px/1.1 var(--serif)}
+html.cine .mini .m{font:500 10px var(--font);letter-spacing:.12em;text-transform:uppercase}
+/* Player */
+html.cine .np .bigart{border-radius:2px!important;box-shadow:0 30px 70px rgba(0,0,0,.6)}
+html.cine .np .bigart .no{left:18px;top:16px;font-size:12px}
+html.cine .np .bigart .sh{right:18px;top:16px;font-size:11px!important}
+html.cine .np .bigart .yy{font:italic 400 clamp(90px,28vw,130px)/.85 var(--serif)!important}
+html.cine .np .title{font:400 clamp(28px,8vw,34px)/1.05 var(--serif)!important;letter-spacing:0}
+html.cine .np .bgglow{opacity:.18}
+html.cine .sheet{border-radius:4px 4px 0 0}
+html.cine .sheet .hd .t{font:400 22px/1.1 var(--serif)!important;letter-spacing:0}
+html.cine .sw{border-radius:3px}.cine .sw i{border-radius:2px}
 </style>
 </head>
 <body>
@@ -1016,12 +1100,21 @@ const PALETTES = {
   'Midnight in the Desert': [['#ff4a3d','#2c0806','#ffd0b8'], ['#2a0806','#ff6a4a','#ffd9a8'], ['#ffd6c4','#7a140c','#ff4a3d']],
   'Ghost to Ghost':         [['#b06bff','#1e0f2e','#f2dcff'], ['#1c0f2a','#c48bff','#fff0a8'], ['#ecdcff','#4b1f7a','#a35cff']]
 };
+const CINE_PALETTES = {
+  'Coast to Coast AM':      [['#ebe4d6','#141210','#b0472a'], ['#141210','#ebe4d6','#c9a46a'], ['#b0472a','#f0e6d4','#141210']],
+  'Dreamland':              [['#1c2733','#e6e0d4','#8aa3b5'], ['#e6e0d4','#1c2733','#3e5a70'], ['#3e5a70','#ece6da','#121518']],
+  'Somewhere in Time':      [['#d9d3c7','#2a2723','#7b6f5e'], ['#2a2723','#d9d3c7','#a8957a'], ['#7b6f5e','#efe9dd','#1d1b18']],
+  'Dark Matter':            [['#13201e','#d8e0d8','#6f8f86'], ['#d8e0d8','#13201e','#456b62'], ['#456b62','#eef0ea','#0e1413']],
+  'Midnight in the Desert': [['#5e1a16','#efe2cf','#d9a77c'], ['#efe2cf','#5e1a16','#a8392c'], ['#16100e','#d9a77c','#efe2cf']],
+  'Ghost to Ghost':         [['#2b2233','#e7dfe9','#9a86a8'], ['#e7dfe9','#2b2233','#6a5378'], ['#6a5378','#f1ebf2','#151118']]
+};
+const isCine = () => document.documentElement.classList.contains('cine');
 function hashStr(str){ let h = 2166136261; for(let i = 0; i < str.length; i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 function lum(hex){ const n = parseInt(hex.slice(1), 16), c = [n >> 16, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v/12.92 : Math.pow((v+.055)/1.055, 2.4); }); return .2126*c[0] + .7152*c[1] + .0722*c[2]; }
 const coverCache = new Map();
 function coverStyle(key, show){
-  const ck = key + '|' + show; if(coverCache.has(ck)) return coverCache.get(ck);
-  const h = hashStr(key), pals = PALETTES[show] || PALETTES['Coast to Coast AM'], [bg, fg, ac] = pals[h % pals.length];
+  const cine = isCine(), ck = key + '|' + show + (cine ? '|c' : ''); if(coverCache.has(ck)) return coverCache.get(ck);
+  const PAL = cine ? CINE_PALETTES : PALETTES, h = hashStr(key), pals = PAL[show] || PAL['Coast to Coast AM'], [bg, fg, ac] = pals[h % pals.length];
   const v = (h >>> 3) % 6, x = 45 + (h >>> 7) % 55, y = (h >>> 11) % 55, a = (h >>> 15) % 180, sz = 9 + (h >>> 19) % 9;
   const pats = [
     `radial-gradient(${fg} 27%, transparent 29%) 0 0/${sz}px ${sz}px`,                                         // halftone
@@ -1038,7 +1131,7 @@ function coverStyle(key, show){
 function artHTML(e, cls=''){
   const c = coverStyle(e.id, e.show);
   const yy = e.year ? "’" + e.year.slice(2) : '—';
-  return `<div class="art gen ${cls}" style="--cv:${c.layers};--ink:${c.ink};--c2:${c.ac}">${emblem(e.show)}<span class="sh">${esc(SHOW_SHORT[e.show]||e.show)}</span><span class="yy">${yy}</span></div>`;
+  return `<div class="art gen ${cls}" style="--cv:${c.layers};--ink:${c.ink};--c2:${c.ac}">${emblem(e.show)}<span class="sh">${esc(SHOW_SHORT[e.show]||e.show)}</span>${e.no ? `<span class="no">No. ${e.no}</span>` : ''}<span class="yy">${yy}</span></div>`;
 }
 
 /* ================= State ================= */
@@ -1174,6 +1267,7 @@ async function loadLibrary(force){
   afterLoad();
 }
 function afterLoad(quiet){
+  [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach((e, i) => { e.no = i + 1; });
   idMap = new Map(episodes.map(e => [e.id, e]));
   $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015`;
   fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
@@ -1337,7 +1431,7 @@ function render(){
       ${artHTML(e,'sm')}
       <div class="info">
         <div class="t">${esc(e.title)}</div>
-        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${fmt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?'<span class="played">✓ Played</span>':''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span>`:''}</div>
+        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${fmt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?'<span class="played">✓ Played</span>':''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span>`:''}</div>
       </div>
       <button class="more" data-act="more" aria-label="More options">${I.more}</button>
     </div></div>`;
@@ -1923,6 +2017,7 @@ audio.addEventListener('play', () => { if(state.boost && !boost.src) setBoost(tr
 /* ================= Themes ================= */
 const DARK_BASE = { '--text':'#f2efe8', '--muted':'#8a8f9c', '--line':'rgba(255,255,255,.08)' };
 const THEMES = {
+  'Collection': { '--accent':'#d4b483', '--accent-soft':'rgba(212,180,131,.13)', '--glow':'rgba(212,180,131,.18)', '--bg':'#0e0d0c', '--surface':'#171614', '--surface-2':'#211f1c', '--text':'#ece6da', '--muted':'#8e877b', '--line':'rgba(236,230,218,.1)' },
   'Auto':      null,
   'Desert':    Object.assign({ '--accent':'#ffa53d', '--accent-soft':'rgba(255,165,61,.14)', '--glow':'rgba(255,140,30,.35)', '--bg':'#08090c', '--surface':'#111318', '--surface-2':'#191c23' }, DARK_BASE),
   'Paper':     { '--accent':'#e4560c', '--accent-soft':'rgba(228,86,12,.12)', '--glow':'rgba(255,170,90,.35)', '--bg':'#f2ede3', '--surface':'#fffcf6', '--surface-2':'#e8e1d3', '--text':'#17140f', '--muted':'#6d665a', '--line':'rgba(23,20,15,.09)' },
@@ -1934,13 +2029,17 @@ const THEME_RENAMES = { 'Amber':'Desert', 'Area 51':'Dreamland', 'Dopamine':'Neo
 if(THEME_RENAMES[state.theme]){ state.theme = THEME_RENAMES[state.theme]; saveState(); }
 const prefersLight = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : { matches:false };
 function applyTheme(name){
-  name = THEMES.hasOwnProperty(name) ? name : 'Auto';
+  name = THEMES.hasOwnProperty(name) ? name : 'Collection';
+  const wasCine = isCine();
+  document.documentElement.classList.toggle('cine', name === 'Collection');
   const t = THEMES[name] || THEMES[prefersLight.matches ? 'Paper' : 'Desert'];
   for(const k in t) document.documentElement.style.setProperty(k, t[k]);
   document.documentElement.classList.toggle('light', t === THEMES['Paper']);
   const m = document.querySelector('meta[name=theme-color]'); if(m) m.content = t['--bg'];
   drawWave();
+  if(wasCine !== isCine() && episodes.length){ try{ render(); const e = byId(audio.dataset.id); if(e){ setNowPlayingMeta(e); const na = $('#npArt'); if(na) na.outerHTML = artHTML(e, 'bigart').replace('class="art ', 'id="npArt" class="art ').replace('</div>', `<span class="freq">${e.show.toUpperCase()} · ${niceDate(e.date).toUpperCase()}</span></div>`); } }catch(_){} }
 }
+if(!state.cineDefault){ if(!state.theme || state.theme === 'Auto') state.theme = 'Collection'; state.cineDefault = 1; saveState(); }
 applyTheme(state.theme);
 try{ prefersLight.addEventListener('change', () => { if(!state.theme || state.theme === 'Auto') applyTheme('Auto'); }); }catch(x){}
 
@@ -1950,7 +2049,7 @@ $('#gear').onclick = () => {
   const cached = store.get(INDEX_KEY, null);
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd"><div><div class="t">Settings</div><div class="m">${episodes.length.toLocaleString('en-GB')} shows in your library${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB') : ''}</div></div></div>
-    <div class="sh-lbl">Theme</div><div class="swatches">${Object.entries(THEMES).map(([n,t]) => { const bg = t ? t['--bg'] : 'linear-gradient(135deg,#f2ede3 0 50%,#08090c 50%)', sf = t ? t['--surface-2'] : 'rgba(128,128,128,.35)', ac = t ? t['--accent'] : 'linear-gradient(90deg,#e4560c 50%,#ffa53d 50%)'; return `<button class="sw${(state.theme||'Auto')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}</span></button>`; }).join('')}</div>
+    <div class="sh-lbl">Theme</div><div class="swatches">${Object.entries(THEMES).map(([n,t]) => { const bg = t ? t['--bg'] : 'linear-gradient(135deg,#f2ede3 0 50%,#08090c 50%)', sf = t ? t['--surface-2'] : 'rgba(128,128,128,.35)', ac = t ? t['--accent'] : 'linear-gradient(90deg,#e4560c 50%,#ffa53d 50%)'; return `<button class="sw${(state.theme||'Collection')===n?' on':''}${n==='Collection'?' feat':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}${n==='Collection'?'<small>Black & white, serif, numbered like a film library</small>':''}</span></button>`; }).join('')}</div>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <button class="act" data-s="refresh">Refresh library from archive.org</button>
     <button class="act" data-s="sources">Sources<small>${SOURCES.length} collections</small></button>`;
