@@ -1244,6 +1244,9 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
 
 /* ---- player: subject markers and hours ---- */
 .scrub{position:relative}
+:root{--sc0:#e2805a;--sc1:#86acd4;--sc2:#c8a97f;--sc3:#a29ce6;--sc4:#d48cbf;--sc5:#93c7a0;--sc6:#e6c46a;--sc7:#7fc4c4}
+html.light{--sc0:#b9532e;--sc1:#3f6f9e;--sc2:#8a6a3c;--sc3:#5f56b8;--sc4:#a24a86;--sc5:#3f7f50;--sc6:#94701a;--sc7:#2f7d7d}
+.sd{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mc);flex:none;margin-right:7px;vertical-align:1px}
 .np-now{display:flex;align-items:center;gap:8px;min-height:18px;margin-top:14px;font:500 12px/1.2 var(--font);color:var(--muted);letter-spacing:.01em}
 .np-now b{font-weight:600;color:var(--text)}
 .np-now i{width:7px;height:7px;border-radius:50%;background:var(--mc,var(--muted));flex:none}
@@ -1451,6 +1454,176 @@ html.cine .jl, html.cine .nm-l, html.cine .bt-s, html.cine .act small, html.cine
 html.cine .row .m{font-size:12px!important}
 html.cine .tabs .tab{font-size:10.5px!important}
 /* ---- 1. text size ---- */
+
+/* ================= Design pass: one system =================
+   Type: four sizes only — label 11.5 (caps), body 15, title 19 (serif), heading 28 (serif) — plus the big display numbers.
+   Boxes: outlines removed from chrome; things are grouped by space and type, and only the main action is filled. */
+html{--fs-label:11.5px;--fs-body:15px;--fs-title:19px;--fs-head:28px;--soft:color-mix(in srgb,var(--text) 6.5%,transparent);--soft-2:color-mix(in srgb,var(--text) 11%,transparent)}
+body{font-variant-numeric:tabular-nums}
+html.cine .gp-facts,html.cine .browsetop .bt-t,html.cine .np-now,html.cine .empty,html.cine .note{font-size:var(--fs-body)!important}
+html.cine .suggest .sg,html.cine .searchbox input{font-size:var(--fs-title)!important}
+html.cine .sec h2{font-size:var(--fs-head)!important}
+html.cine .np-topics .tp,html.cine .playall{font-size:var(--fs-label)!important}
+
+/* chrome without outlines */
+html.cine.mono .prog.cvp,html.cine.mono .proghead{background:color-mix(in srgb,var(--text) 5%,var(--bg))!important;box-shadow:none!important}
+#secTitle,.sec,#yearHead,#pill{scroll-margin-top:calc(var(--st,0px) + 18px)}
+.searchbox #q:focus,.searchbox #q:focus-visible{outline:none!important;box-shadow:none!important}
+html.cine .searchbox:focus-within{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--accent) 70%,transparent)}
+html.cine body.bsearch .searchbox:focus-within{box-shadow:0 12px 32px rgba(0,0,0,.38),inset 0 0 0 1.5px color-mix(in srgb,var(--accent) 70%,transparent)}
+html.cine .gear{border:0;background:var(--soft);border-radius:50%}
+html.cine .searchbox{border:0;background:var(--soft);border-radius:12px}
+html.cine .chip,html.cine .otn-chip,html.cine .np-topics .tp{border:0!important;background:var(--soft);border-radius:999px}
+html.cine .np-topics .tp.on{background:var(--soft-2);box-shadow:inset 0 0 0 1.5px var(--mc)}
+html.cine .np-topics .hrbtn{background:none;box-shadow:inset 0 0 0 1px var(--line)}
+html.cine .chip.on,html.cine .otn-chip.on{background:var(--text);color:var(--bg)}
+html.cine .playall{border-radius:999px}
+html.cine .saveall{border:0!important;background:var(--soft)!important}
+.suggest{border:0!important;border-radius:14px!important;box-shadow:0 18px 50px rgba(0,0,0,.45)!important}
+.suggest .sg{border-top:0!important}
+
+/* "Browse all shows": a line of type, not a panel */
+html.cine .browsetop{border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;padding:16px 0;width:calc(100% - 40px)}
+html.cine .browsetop .bt-t{font:400 var(--fs-title)/1.1 var(--serif)!important}
+@media (hover:hover){ html.cine .browsetop:hover{border-color:var(--line)} html.cine .browsetop:hover .bt-t{color:var(--accent)} }
+
+/* year and guest pages: open, no panel */
+.yearhead{border:0!important;background:none!important;padding:4px 0 6px!important}
+.gp-x,.yh-step{border:0!important;padding:12px 0!important;min-height:44px;background:none!important;font:500 var(--fs-label)/1 var(--font)!important;letter-spacing:.07em!important;text-transform:uppercase;color:var(--muted)!important}
+.gp-x{color:var(--text)!important}
+.yh-nav{gap:18px!important}
+
+/* year grid: numbers on the page, a thin bar for how many shows */
+.ycard{border:0!important;background:none!important;padding:8px 0 12px!important;border-radius:0!important}
+.ycard i{height:2px;bottom:2px;border-radius:2px}
+#yearWrap .ycard .n{font-size:var(--fs-label)!important;letter-spacing:.04em!important}
+#yearWrap .years{gap:4px 14px!important}
+@media (hover:hover){ .ycard:hover .y{color:var(--accent)} }
+
+/* Search within thumb reach on phones: docked above the tab bar; with a show loaded it tucks into a round button beside the mini player */
+@media (max-width:959px){
+  body.bsearch .sticky{position:fixed;top:auto;left:12px;right:12px;bottom:calc(var(--tabsH,64px) + 10px);z-index:22;padding:0;margin:0;isolation:auto}
+  body.bsearch .sticky::before,body.bsearch .sticky::after{display:none}
+  body.bsearch .searchbox{height:52px;border-radius:26px;background:color-mix(in srgb,var(--surface) 96%,transparent);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);box-shadow:0 12px 32px rgba(0,0,0,.38),inset 0 0 0 1px var(--line);transition:border-radius .2s}
+  html.light body.bsearch .searchbox{box-shadow:0 12px 30px rgba(60,40,10,.16),inset 0 0 0 1px var(--line)}
+  body.bsearch .suggest{top:auto!important;bottom:calc(100% + 8px)}
+  body.bsearch .list,body.bsearch .guests,body.bsearch #yearWrap{padding-bottom:calc(var(--tabsH,64px) + 150px)!important}
+  body.bsearch.hasmini .sticky:not(.open){right:auto;bottom:var(--miniB,74px)}
+  body.bsearch.hasmini .sticky:not(.open) .searchbox{width:var(--miniH,56px);height:var(--miniH,56px);padding:0;justify-content:center;border-radius:50%;gap:0}
+  body.bsearch.hasmini .sticky:not(.open) #q{width:0;min-width:0;padding:0;opacity:0;flex:0 0 0}
+  body.bsearch.hasmini .sticky:not(.open) .fbtn,body.bsearch.hasmini .sticky:not(.open) .clear{display:none}
+  body.bsearch.hasmini .mini{left:calc(var(--miniH,56px) + 20px)!important;right:10px!important;width:auto!important;max-width:none!important;transform:none!important}
+  body.bsearch.searching .mini{opacity:0;pointer-events:none}
+  body.bsearch.typing .tabs,body.bsearch.typing .mini{display:none!important}
+  body.bsearch.typing .sticky{bottom:calc(var(--kb,0px) + 10px)}
+}
+
+/* the pinned heading now says which year you're in, so the list's year markers just scroll with the page */
+.yhead{position:static!important;background:none!important}
+/* recent searches */
+.suggest .sg-h{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 4px;font:500 var(--fs-label)/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.suggest .sg-clr{font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--muted);padding:8px 0 8px 12px;min-height:36px}
+.suggest .sg-r span{display:flex;align-items:center}
+.suggest .sg-ic{width:15px;height:15px;fill:var(--muted);margin-right:10px;vertical-align:-2px;flex:none}
+/* plain-English progress */
+.row .m .left{color:var(--text);opacity:.85}
+html.cine .row .m .played{background:none;padding:0;color:var(--muted)}
+/* bigger ⋯ target, same look */
+.row .more{position:relative}
+.row .more::after{content:"";position:absolute;inset:-6px -10px -6px -6px}
+.row{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.row.held{transform:scale(.985);transition:transform .2s}
+/* pinned heading */
+.pinbar{position:fixed;left:50%;top:calc(var(--st,0px) + 8px);z-index:23;transform:translate(-50%,-14px);opacity:0;pointer-events:none;display:flex;align-items:center;gap:10px;max-width:calc(100% - 32px);height:38px;padding:0 12px 0 16px;border-radius:19px;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);box-shadow:0 8px 24px rgba(0,0,0,.3),inset 0 0 0 1px var(--line);color:var(--text);transition:opacity .2s,transform .25s cubic-bezier(.2,.8,.2,1)}
+html.light .pinbar{box-shadow:0 8px 22px rgba(60,40,10,.14),inset 0 0 0 1px var(--line)}
+.pinbar.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.pinbar .pb-t{font:400 17px/1 var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.pinbar .pb-n{font:500 var(--fs-label)/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.pinbar svg{width:18px;height:18px;fill:var(--muted);flex:none}
+@media (min-width:960px){ .pinbar{display:none} }
+@media (prefers-reduced-motion:reduce){ .pinbar{transition:none} }
+
+/* loading shapes */
+.skel{padding:6px 20px 0;transition:opacity .25s}
+.skel.gone{opacity:0}
+.skel>div,.skel .sk-two>div{border-radius:3px;background:linear-gradient(100deg,var(--soft) 30%,var(--soft-2) 50%,var(--soft) 70%);background-size:300% 100%;animation:skel 1.6s ease-in-out infinite}
+.skel .sk-h{height:22px;width:42%;margin:18px 0 18px}
+.skel .sk-big{height:180px}
+.skel .sk-two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;background:none!important;animation:none!important}
+.skel .sk-two>div{height:170px}
+@keyframes skel{from{background-position:100% 0}to{background-position:0 0}}
+@media (prefers-reduced-motion:reduce){ .skel>div,.skel .sk-two>div{animation:none} }
+@media (min-width:960px){ .skel{padding:6px 0 0} }
+/* offline */
+.offnote{display:none;align-items:center;gap:10px;margin:0 20px 14px;padding:12px 0;border-bottom:1px solid var(--line);font:500 var(--fs-body)/1.3 var(--font);color:var(--text)}
+.offnote svg{width:18px;height:18px;fill:var(--accent);flex:none}
+body.offline .offnote{display:flex}
+body.offline .row:not(.saved):not(.cur){opacity:.4}
+body.offline .row.saved .badge{color:var(--accent)}
+/* about: collections with counts, dedication */
+.ab-cols{padding-left:0!important;list-style:none;word-break:normal!important;font:400 var(--fs-body)/1.35 var(--font)!important}
+.ab-cols li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.ab-cols .ab-few{font:inherit!important;letter-spacing:0!important;color:var(--text)!important}
+.ab-cols li span{font:500 var(--fs-label)/1.4 var(--font);letter-spacing:.07em;color:var(--muted)}
+.ab-ded{margin:26px 0 20px;text-align:center;font:italic 400 21px/1.35 var(--serif);color:var(--text)}
+
+/* line icons: one stroke weight, matching the hand-drawn covers; play/pause stay solid as the main action */
+svg.ln{fill:none!important;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+svg.ln *{fill:none!important}
+svg.ln text{fill:currentColor!important;stroke:none!important;font-family:var(--font)!important;font-weight:600!important}
+.searchbox svg.ln{stroke:var(--muted)}
+.tile svg.ln{stroke:var(--accent)}
+.tile.tonight .go svg.ln{stroke:#140c02}
+.gear svg.ln{stroke:var(--muted)}
+.mini .pp svg.ln{stroke:var(--text)}
+.np .head svg.ln{stroke:var(--text)}
+.np .fav svg.ln{stroke:var(--muted)}
+.np .fav.on svg.ln{stroke:var(--accent)}
+.ctl svg.ln{stroke:var(--text)}
+.ctl .big svg.ln{stroke:#1b1104}
+.sheet .act svg.ln{stroke:var(--muted)}
+.ctl .big svg.ln{stroke:var(--bg)}
+.mini .pp svg.ln{stroke:var(--bg)}
+.cmore svg.ln{stroke:#fff}
+.tile.tonight .go svg.ln{stroke:var(--cv-bg,#000)}
+.tab.on svg.ln{stroke:var(--accent)}
+html.light .np .head svg.ln{stroke:var(--text)}
+.tile.tonight .go svg.ln{stroke:var(--cbg)}
+.tb-head svg.ln{stroke:var(--text)}
+.tb-listen svg.ln{stroke:var(--accent)}
+.tile.memo .mp svg.ln{stroke:var(--accent)}
+html.cine.light .tile.tonight .go svg.ln{stroke:#17140f}
+html.cine .tile.tonight .go svg.ln{stroke:var(--bg)}
+html.cine .tile.q svg.ln{stroke:var(--accent)}
+.ib-x svg.ln{stroke:var(--muted)}
+.ib-steps svg.ln{stroke:var(--accent)}
+html.cine .otn2 .go svg.ln{stroke:#17140f}
+.tb-listen svg.ln{stroke:var(--bg)}
+.jump svg.ln{stroke:var(--bg)}
+.pinbar svg.ln{stroke:var(--muted)}
+.offnote svg.ln{stroke:var(--accent)}
+.cb-go svg.ln{stroke:var(--bg)}
+.sheet .act-g{margin:14px 0 2px;padding:12px 2px 6px;border-top:1px solid var(--line);font:500 var(--fs-label)/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+
+/* One motion style: surfaces slide on one curve at one speed, small things fade quicker on the same curve */
+html{--ease:cubic-bezier(.2,.8,.2,1);--t-move:.34s;--t-quick:.2s}
+.np,.sheet,.tribute{transition-duration:var(--t-move)!important;transition-timing-function:var(--ease)!important}
+.scrim,.toast,.pinbar,.bubble,.np-now,.skel,.row.held{transition-duration:var(--t-quick)!important;transition-timing-function:var(--ease)!important}
+
+/* The gold accent means one thing: what's playing or selected (plus the logo). Everything else is neutral. */
+html.cine .row .m .cno{color:var(--text)!important;opacity:.78}
+.row .m .badge{color:var(--muted)!important}
+.sec select,html.cine .sec select{color:var(--muted)!important}
+.gletter,.esscard .enum,.nt-ess b{color:var(--muted)!important}
+.nt-ess{border-left-color:var(--line)!important}
+.li .tm{color:var(--text)!important}
+.tile svg,html.cine .tile.q svg{fill:var(--text)!important}
+.tile svg.ln,html.cine .tile.q svg.ln{stroke:var(--text)!important}
+.notes a{color:var(--text)!important;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.ycard i{background:color-mix(in srgb,var(--text) 35%,transparent)!important;opacity:1!important}
+.offnote svg.ln{stroke:var(--text)!important}
+.sec h2,.tb-sec h3{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 2 80 7 120 4 S180 3 198 5' fill='none' stroke='%238e877b' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")!important}
+html.light .sec h2,html.light .tb-sec h3{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 2 80 7 120 4 S180 3 198 5' fill='none' stroke='%23a39a8b' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")!important}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -1565,17 +1738,18 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
       <h1><a href="./" id="homeLogo" class="home-logo" aria-label="The Art Bell Tapes, back to the start">Art Bell <em>Tapes</em></a></h1>
       <div class="sub" id="count">Loading the archive…</div>
     </div>
-    <button class="gear" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7 7 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7 7 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7 7 0 0 0 1.7 1l.4 2.7h4l.4-2.7a7 7 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></button>
+    <button class="gear" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24" class="ln"><path d="M4 7.5h9M17 7.5h3M4 16.5h3M11 16.5h9"/><circle cx="15" cy="7.5" r="2"/><circle cx="9" cy="16.5" r="2"/></svg></button>
   </div>
+  <div class="offnote" id="offNote" role="status"><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg><span>Offline · your saved shows still play</span></div>
   <div class="demo" id="demo">Preview mode: showing sample shows. When the app is hosted, the full library loads live from archive.org.</div>
 
   <div class="sticky">
     <label class="searchbox">
-      <svg viewBox="0 0 24 24"><path d="M10 4a6 6 0 1 0 3.7 10.7l4.8 4.8 1.4-1.4-4.8-4.8A6 6 0 0 0 10 4zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg>
+      <svg viewBox="0 0 24 24" class="ln"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>
       <input id="q" type="search" placeholder="Guest, topic, date…" autocomplete="off" enterkeyhint="search">
       <button class="clear" id="clear" type="button">Clear</button>
       <span class="suggest" id="suggest" role="listbox"></span>
-      <button class="fbtn" id="filterBtn" type="button" aria-label="Filter by year or programme"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm4 5h10v2H7zm3 5h4v2h-4z"/></svg></button>
+      <button class="fbtn" id="filterBtn" type="button" aria-label="Filter by year or programme"><svg viewBox="0 0 24 24" class="ln"><path d="M4 7h16M7 12h10M10 17h4"/></svg></button>
     </label>
   </div>
   <div class="filtersblock">
@@ -1587,7 +1761,12 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 
 
   <button class="continuebig" id="contBig" type="button" style="display:none"></button>
-  <button class="browsetop" id="browseTop" type="button"><span class="bt-t">Browse all shows</span><span class="bt-s" id="browseTopN"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="browsetop" id="browseTop" type="button"><span class="bt-t">Browse all shows</span><span class="bt-s" id="browseTopN"></span><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div class="skel" id="skel" aria-hidden="true">
+    <div class="sk-h"></div>
+    <div class="sk-big"></div>
+    <div class="sk-two"><div></div><div></div></div>
+  </div>
   <section id="progWrap" style="display:none">
     <div class="sec"><h2>Programmes</h2><button class="seeall" id="progAll">All shows</button></div>
     <div class="progs" id="progs"></div>
@@ -1613,7 +1792,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   <div class="filterpill" id="pill"></div>
   <div class="sec">
     <h2 id="secTitle">All shows</h2>
-    <div class="meta"><button class="playall" id="playAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play all</button><button class="playall saveall" id="saveAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span>Save all</span></button><button class="seeall" id="closeAll" style="display:none">Close</button><span id="secCount"></span>
+    <div class="meta"><button class="playall" id="playAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play all</button><button class="playall saveall" id="saveAll" style="display:none"><svg viewBox="0 0 24 24" class="ln"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg><span>Save all</span></button><button class="seeall" id="closeAll" style="display:none">Close</button><span id="secCount"></span>
       <select id="sort" aria-label="Sort">
         <option value="old">Oldest</option><option value="new">Newest</option><option value="az">A–Z</option><option value="rand">Shuffle</option>
       </select>
@@ -1631,15 +1810,15 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 <input type="file" id="restoreFile" accept="application/json,.json" hidden>
 <svg class="skdefs" aria-hidden="true" style="position:absolute;width:0;height:0"><defs><filter id="skw" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs></svg>
 <div class="tribute" id="tribute" aria-hidden="true">
-  <div class="tb-head"><button id="tbClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button><span>In memory</span><span></span></div>
+  <div class="tb-head"><button id="tbClose" aria-label="Close"><svg viewBox="0 0 24 24" class="ln"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button><span>In memory</span><span></span></div>
   <div class="tb-body" id="tbBody"></div>
 </div>
 <div class="install" id="install" role="dialog" aria-label="Install the app" aria-hidden="true">
   <img src="apple-touch-icon.png" alt="" width="44" height="44">
   <div class="ib-tx"><b>Install The Art Bell Tapes</b><span id="ibSub">Open it from your home screen, full screen, like any other app.</span></div>
   <button class="ib-go" id="ibGo">Install</button>
-  <button class="ib-x" id="ibX" aria-label="Not now"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button>
-  <ol class="ib-steps" id="ibSteps"><li>Tap the <b>Share</b> button <svg viewBox="0 0 24 24"><path d="M12 3 7.5 7.5l1.4 1.4L11 6.8V15h2V6.8l2.1 2.1 1.4-1.4zM5 11v9h14v-9h-3v2h1v5H7v-5h1v-2z"/></svg> in Safari’s toolbar</li><li>Scroll down and choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li></ol>
+  <button class="ib-x" id="ibX" aria-label="Not now"><svg viewBox="0 0 24 24" class="ln"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button>
+  <ol class="ib-steps" id="ibSteps"><li>Tap the <b>Share</b> button <svg viewBox="0 0 24 24" class="ln"><path d="M12 3.5v11M8 7.5l4-4 4 4M6 11.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-7.5"/></svg> in Safari’s toolbar</li><li>Scroll down and choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li></ol>
 </div>
 <!-- Mini player -->
 <div class="mini" id="mini">
@@ -1651,18 +1830,18 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 
 <!-- Tab bar -->
 <nav class="tabs"><div class="side-brand" aria-hidden="true"><span>The</span>Art Bell<em>Tapes</em></div><div class="inner" id="tabs">
-  <button class="tab on" data-tab="all"><svg viewBox="0 0 24 24"><path d="M4 5h3v14H4zm5 0h3v14H9zm5.2.6 2.9-.8 3.7 13.5-2.9.8z"/></svg>Library</button>
-  <button class="tab" data-tab="guests"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5zM19 8V6h-2V4h-2v2h-2v2h2v2h2V8z" transform="translate(0 0)"/></svg>Guests</button>
-  <button class="tab" data-tab="fav"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg>Favourites</button>
-  <button class="tab" data-tab="recent"><svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 2.1 5l-1.4 1.4A9 9 0 1 0 13 3zm-1 5v5l4.3 2.5.7-1.2-3.5-2.1V8z"/></svg>Recent</button>
-  <button class="tab" data-tab="saved"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg>Offline</button>
+  <button class="tab on" data-tab="all"><svg viewBox="0 0 24 24" class="ln"><path d="M5.5 4.5v15M10 4.5v15M14 5.5l4.5 14"/></svg>Library</button>
+  <button class="tab" data-tab="guests"><svg viewBox="0 0 24 24" class="ln"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg>Guests</button>
+  <button class="tab" data-tab="fav"><svg viewBox="0 0 24 24" class="ln"><path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/></svg>Favourites</button>
+  <button class="tab" data-tab="recent"><svg viewBox="0 0 24 24" class="ln"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.7h3.7M12 8v4.3l3 1.8"/></svg>Recent</button>
+  <button class="tab" data-tab="saved"><svg viewBox="0 0 24 24" class="ln"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg>Offline</button>
 </div></nav>
 
 <!-- Now playing -->
 <div class="np" id="np">
   <div class="bgglow" id="npGlow"></div>
   <div class="head">
-    <button id="npClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6L18 10l-6 6-6-6z"/></svg></button>
+    <button id="npClose" aria-label="Close"><svg viewBox="0 0 24 24" class="ln"><path d="M6 9.5l6 6 6-6"/></svg></button>
     <div class="lbl">Now playing<br><span id="npShow" style="color:var(--text);letter-spacing:.08em"></span></div>
     <button id="npMore" aria-label="More"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
   </div>
@@ -1689,27 +1868,27 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   </button>
   <div class="meta">
     <div class="tx"><div class="title" id="npTitle"></div><div class="subt" id="npSub"></div></div>
-    <button class="fav" id="npFav" aria-label="Favourite"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg></button>
+    <button class="fav" id="npFav" aria-label="Favourite"><svg viewBox="0 0 24 24" class="ln"><path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/></svg></button>
   </div>
   <div class="np-now" id="npNow" aria-live="polite"></div>
   <div class="scrub" id="scrub"><canvas id="wave"></canvas><div class="np-marks" id="npMarks"></div><div class="bubble" id="bubble"></div><input class="sr" id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek"></div>
   <div class="times"><span id="tCur">0:00</span><span class="scrubmode" id="scrubMode"></span><span id="tLeft">-0:00</span></div>
   <div class="np-topics" id="npTopics"></div>
   <div class="ctl">
-    <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
-    <button class="skip" id="back" aria-label="Back 30 seconds"><svg viewBox="0 0 24 24"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/><text x="12" y="15.2" font-size="5.4" font-weight="700" text-anchor="middle" font-family="sans-serif">30</text></svg></button>
+    <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24" class="ln"><path d="M7 6v12M18 6.5v11l-8-5.5z"/></svg></button>
+    <button class="skip" id="back" aria-label="Back 30 seconds"><svg viewBox="0 0 24 24" class="ln"><path d="M6.2 8.2A7.2 7.2 0 1 1 4.8 12.5"/><path d="M5.8 3.8v4.6h4.6"/><text x="12" y="15.2" font-size="5.4" font-weight="700" text-anchor="middle" font-family="sans-serif">30</text></svg></button>
     <button class="big" id="pp" aria-label="Play or pause"></button>
-    <button class="skip" id="fwd" aria-label="Forward 30 seconds"><svg viewBox="0 0 24 24"><path d="M12 5V2l5 4-5 4V7a5 5 0 1 0 5 5h2a7 7 0 1 1-7-7z"/><text x="12" y="15.2" font-size="5.4" font-weight="700" text-anchor="middle" font-family="sans-serif">30</text></svg></button>
-    <button id="next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+    <button class="skip" id="fwd" aria-label="Forward 30 seconds"><svg viewBox="0 0 24 24" class="ln"><path d="M17.8 8.2A7.2 7.2 0 1 0 19.2 12.5"/><path d="M18.2 3.8v4.6h-4.6"/><text x="12" y="15.2" font-size="5.4" font-weight="700" text-anchor="middle" font-family="sans-serif">30</text></svg></button>
+    <button id="next" aria-label="Next"><svg viewBox="0 0 24 24" class="ln"><path d="M17 6v12M6 6.5v11l8-5.5z"/></svg></button>
   </div>
   <div class="extras">
     <button id="speed"><b id="speedVal">1×</b>Speed</button>
-    <button id="sleep"><svg viewBox="0 0 24 24"><path d="M12.3 2a10 10 0 1 0 9.7 12.4A8 8 0 0 1 12.3 2z"/></svg><span id="sleepVal">Sleep</span></button>
-    <button id="markBtn"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span id="markVal">Bookmark</span></button>
-    <button id="queueBtn"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-1V9l5 3z"/></svg><span id="queueVal">Up next</span></button>
-    <button id="bedBtn"><svg viewBox="0 0 24 24"><path d="M3 18v-6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v6h-2v-2H5v2zm2-4h14v-2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1zM7 8V6h4v2z"/></svg><span>Bedside</span></button>
-    <button id="castBtn"><svg viewBox="0 0 24 24"><path d="M2 16v2a3 3 0 0 1 3 3h2a5 5 0 0 0-5-5zm0-4v2a7 7 0 0 1 7 7h2a9 9 0 0 0-9-9zm0-4v2a11 11 0 0 1 11 11h2A13 13 0 0 0 2 8zm19-5H3a2 2 0 0 0-2 2v2h2V5h18v14h-5v2h5a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg><span>Speaker</span></button>
-    <button id="boostBtn"><svg viewBox="0 0 24 24"><path d="M3 10v4h3l5 4V6L6 10zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg><span>Voice boost</span></button>
+    <button id="sleep"><svg viewBox="0 0 24 24" class="ln"><path d="M19.5 14.5A7.8 7.8 0 1 1 9.5 4.5a6.2 6.2 0 0 0 10 10z"/></svg><span id="sleepVal">Sleep</span></button>
+    <button id="markBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M7 3.5h10v17l-5-3.6-5 3.6z"/></svg><span id="markVal">Bookmark</span></button>
+    <button id="queueBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M16 14v6l4.5-3z"/></svg><span id="queueVal">Up next</span></button>
+    <button id="bedBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M3 18.5v-6.5a2.5 2.5 0 0 1 2.5-2.5h13a2.5 2.5 0 0 1 2.5 2.5v6.5M3 15.5h18M6.5 9.5V7h4v2.5"/></svg><span>Bedside</span></button>
+    <button id="castBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M3.5 17.5a3 3 0 0 1 3 3M3.5 13.5a7 7 0 0 1 7 7M3.5 9.5V6A1.5 1.5 0 0 1 5 4.5h14A1.5 1.5 0 0 1 20.5 6v12a1.5 1.5 0 0 1-1.5 1.5h-5"/></svg><span>Speaker</span></button>
+    <button id="boostBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>Voice boost</span></button>
   </div>
 </div>
 
@@ -1841,11 +2020,11 @@ const I = {
   play:'<svg viewBox="0 0 24 24"><path d="M8 5.1v13.8a1 1 0 0 0 1.5.9l10.6-6.9a1 1 0 0 0 0-1.7L9.5 4.2A1 1 0 0 0 8 5.1z"/></svg>',
   pause:'<svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg>',
   more:'<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>',
-  star:'<svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg>',
-  dl:'<svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg>',
-  share:'<svg viewBox="0 0 24 24"><path d="M12 3 7 8l1.4 1.4L11 6.8V15h2V6.8l2.6 2.6L17 8zM5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6h-2v6H7v-6z"/></svg>',
-  trash:'<svg viewBox="0 0 24 24"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"/></svg>',
-  link:'<svg viewBox="0 0 24 24"><path d="M14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3zM5 5v14h14v-6h-2v4H7V7h4V5z"/></svg>',
+  star:'<svg viewBox="0 0 24 24" class="ln"><path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/></svg>',
+  dl:'<svg viewBox="0 0 24 24" class="ln"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg>',
+  share:'<svg viewBox="0 0 24 24" class="ln"><path d="M12 3.5v11M8 7.5l4-4 4 4M6 11.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-7.5"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" class="ln"><path d="M4.5 6.5h15M9.5 6.5V4h5v2.5M6.5 6.5l.8 13a1.5 1.5 0 0 0 1.5 1.5h6.4a1.5 1.5 0 0 0 1.5-1.5l.8-13"/></svg>',
+  link:'<svg viewBox="0 0 24 24" class="ln"><path d="M13.5 4h6.5v6.5M20 4l-9 9M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></svg>',
   play2:'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'
 };
 /* Generated cover art: every show gets its own bold, flat cover from its id */
@@ -2272,7 +2451,7 @@ function applyTopics(){
       const g2g = /-10-3[01]$/.test(e.date) && (/^(\d{4}|am)$/i.test(e.title0.trim()) || /ghost/i.test(e.hay0));
       const subj = t.filter(x => !/^[A-Z][\w.'’-]+ [A-Z]/.test(x) && !/open lines|ghost to ghost/i.test(x)).concat(m.filter(x => !/open lines/i.test(x))).slice(0, 3);
       const base = g2g ? 'Ghost to Ghost ' + e.year : /^\d{4}$/.test(e.title0.trim()) || !e.title0.trim() ? (subj.length ? 'Open Lines' : e.show + ' ' + e.year) : e.title0;
-      e.title = subj.length && !g2g ? base + ' – ' + subj.join(', ') : base;
+      e.title = smartText(subj.length && !g2g ? base + ' – ' + subj.join(', ') : base);
     }
     e.about = (e.hay0 + ' | ' + t.join(' | ')).toLowerCase();
     e.hay = e.about + (m.length ? ' | ' + m.join(' | ').toLowerCase() : '');
@@ -2331,6 +2510,14 @@ function resolveUndated(){
 }
 // Rough titles from the gap-filling collections become "Topic – Guest", like the rest
 const CAPS = [[/\bufo(s?)\b/gi, 'UFO$1'], [/\bet(s?)\b/g, 'ET$1'], [/\bEt(s?)\b/g, 'ET$1'], [/\bnasa\b/gi, 'NASA'], [/\bhaarp\b/gi, 'HAARP'], [/\bdna\b/gi, 'DNA'], [/\bjfk\b/gi, 'JFK'], [/\bcia\b/gi, 'CIA'], [/\bfbi\b/gi, 'FBI'], [/\bnde(s?)\b/gi, 'NDE$1'], [/\bobe(s?)\b/gi, 'OBE$1'], [/\bevp\b/gi, 'EVP'], [/\by2k\b/gi, 'Y2K'], [/\bmufon\b/gi, 'MUFON'], [/\bseti\b/gi, 'SETI']];
+function smartText(t){
+  return String(t || '')
+    .replace(/\.\.\./g, '…')
+    .replace(/\s+-{1,2}\s+/g, ' – ')
+    .replace(/(^|[\s(\[–—-])"(?=\S)/g, '$1“').replace(/"/g, '”')
+    .replace(/(^|[\s(\[–—-])'(?=\S)/g, '$1‘').replace(/'/g, '’')
+    .replace(/‘(\d\d)s\b/g, '’$1s');
+}
 function tidyTitles(){
   const count = new Map(); episodes.forEach(e => (e.guests || []).forEach(g => count.set(g, (count.get(g) || 0) + 1)));
   const known = [...count.entries()].filter(([g, n]) => n >= 2 && g.split(' ').length >= 2).map(([g]) => g).sort((a, b) => b.length - a.length);
@@ -2359,7 +2546,7 @@ function tidyTitles(){
 function afterLoad(quiet){
   resolveUndated();
   mergeGuestSpellings();
-  tidyTitles();
+  tidyTitles(); episodes.forEach(e => { e.title = smartText(e.title); });
   idMap = new Map(episodes.map(e => [e.id, e]));
   applyTopics(); sugIndex = null; coverCache.clear();
   // catalogue numbers start with Art's first show in the archive (12 Dec 1992); earlier odds and ends stay unnumbered
@@ -2392,7 +2579,7 @@ function setShow(v){
 }
 $('#chips').addEventListener('click', ev => { const b = ev.target.closest('.chip'); if(b) setShow(b.dataset.show === showFilter ? '' : b.dataset.show); });
 $('#progs').addEventListener('click', ev => { const b = ev.target.closest('.prog'); if(!b) return; setShow(b.dataset.show); scrollTo({top:0, behavior:smooth()}); });
-$('#pill').addEventListener('click', ev => { if(ev.target.id === 'pillX'){ guestFilter = ''; applyFilters(); } });
+$('#pill').addEventListener('click', ev => { if(ev.target.id === 'pillX'){ nav.back(() => { guestFilter = ''; applyFilters(); }); } });
 $('#closeAll').onclick = () => { allOpen = false; shown = PAGE; render(); $('#secTitle').scrollIntoView({ block:'center', behavior:smooth() }); };
 $('#playAll').onclick = () => { if(!view.length) return; state.queue = view.slice(1, 200).map(e => e.id); saveState(); loadEpisode(view[0], true); toast(`Playing ${view.length.toLocaleString('en-GB')} shows in order`); };
 $('#progHead').addEventListener('click', ev => { if(ev.target.closest('#progBack')) setShow(''); });
@@ -2424,7 +2611,7 @@ dial.addEventListener('click', ev => {
 /* Search */
 let qT;
 $('#q').addEventListener('input', () => { searchScope = 'all'; suggest(); $('#clear').classList.toggle('show', !!$('#q').value); clearTimeout(qT); qT = setTimeout(applyFilters, 140); });
-$('#filterBtn').onclick = ev => { ev.preventDefault(); state.filtersOpen = !state.filtersOpen; saveState(); syncFilters(); };
+$('#filterBtn').onclick = ev => { ev.preventDefault(); state.filtersOpen = !state.filtersOpen; saveState(); syncFilters(); if(state.filtersOpen && document.body.classList.contains('bsearch')) scrollTo({ top:0, behavior:smooth() }); };
 $('#q').addEventListener('focus', syncFilters);
 $('#q').addEventListener('blur', () => setTimeout(syncFilters, 250));
 $('#clear').onclick = () => { $('#q').value=''; $('#clear').classList.remove('show'); applyFilters(); };
@@ -2465,7 +2652,7 @@ function addRailArrows(){
     if(r.scrollWidth <= r.clientWidth + 8) return;
     host.classList.add('has-arrows');
     ['l','r'].forEach(d => { const b = document.createElement('button'); b.className = 'rarrow ' + d; b.type = 'button'; b.setAttribute('aria-label', d === 'l' ? 'Scroll left' : 'Scroll right');
-      b.innerHTML = `<svg viewBox="0 0 24 24"><path d="${d === 'l' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      b.innerHTML = `<svg viewBox="0 0 24 24" class="ln"><path d="${d === 'l' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
       b.onclick = () => r.scrollBy({ left:(d === 'l' ? -1 : 1) * r.clientWidth * .8, behavior:'smooth' }); host.appendChild(b); });
     const upd = () => { host.querySelector(':scope > .rarrow.l').toggleAttribute('hidden', r.scrollLeft < 8); host.querySelector(':scope > .rarrow.r').toggleAttribute('hidden', r.scrollLeft + r.clientWidth >= r.scrollWidth - 8); };
     r.addEventListener('scroll', upd, { passive:true }); upd();
@@ -2474,6 +2661,8 @@ function addRailArrows(){
 setInterval(addRailArrows, 2500); window.addEventListener('resize', () => setTimeout(addRailArrows, 300));
 
 
+
+function viewMorph(update){ update(); }
 
 /* ================= Years as their own libraries ================= */
 function setYear(y){
@@ -2489,7 +2678,7 @@ function renderYears(show){
   const ys = Object.keys(c).sort(), max = Math.max(...Object.values(c));
   $('#years').innerHTML = ys.map(y => `<button class="ycard" data-year="${y}"><span class="y">${y}</span><span class="n">${c[y]} show${c[y] === 1 ? '' : 's'}</span><i style="width:${Math.max(6, c[y] / max * 100)}%"></i></button>`).join('');
 }
-$('#years').addEventListener('click', ev => { const b = ev.target.closest('[data-year]'); if(b) setYear(b.dataset.year); });
+$('#years').addEventListener('click', ev => { const b = ev.target.closest('[data-year]'); if(b) viewMorph(() => { setYear(b.dataset.year); scrollTo({ top:0, behavior:'instant' }); }, b.querySelector('.y')); });
 function renderYearHead(){
   const h = $('#yearHead');
   if(!yearFilter || showFilter || tab !== 'all'){ h.classList.remove('show'); h.innerHTML = ''; return; }
@@ -2497,15 +2686,15 @@ function renderYearHead(){
   const progs = {}; eps.forEach(e => progs[e.show] = (progs[e.show] || 0) + 1);
   const nos = eps.length ? `No. ${eps[0].no}–${eps[eps.length - 1].no}` : '';
   const prev = String(+yearFilter - 1), next = String(+yearFilter + 1), have = new Set(episodes.filter(e => e.no).map(e => e.year));
-  h.innerHTML = `<div class="yh-top"><button class="gp-x" id="yearBack">All years</button><span class="yh-nav">${have.has(prev) ? `<button class="yh-step" data-year="${prev}" aria-label="${prev}">‹ ${prev}</button>` : ''}${have.has(next) ? `<button class="yh-step" data-year="${next}" aria-label="${next}">${next} ›</button>` : ''}</span></div>
+  h.innerHTML = `<div class="yh-top"><button class="gp-x" id="yearBack">← Back</button><span class="yh-nav">${have.has(prev) ? `<button class="yh-step" data-year="${prev}" aria-label="${prev}">‹ ${prev}</button>` : ''}${have.has(next) ? `<button class="yh-step" data-year="${next}" aria-label="${next}">${next} ›</button>` : ''}</span></div>
     <div class="yh-y">${yearFilter}</div>
     <div class="gp-facts"><span><b>${eps.length}</b> show${eps.length === 1 ? '' : 's'}</span>${nos ? `<span>${nos}</span>` : ''}</div>
     <div class="yh-progs">${Object.entries(progs).sort((a, b) => b[1] - a[1]).map(([n, k]) => `<button class="chip" data-yshow="${esc(n)}">${esc(n)}<small>${k}</small></button>`).join('')}</div>`;
   h.classList.add('show');
 }
 $('#yearHead').addEventListener('click', ev => {
-  if(ev.target.closest('#yearBack')){ setYear(''); return; }
-  const st = ev.target.closest('.yh-step'); if(st){ setYear(st.dataset.year); return; }
+  if(ev.target.closest('#yearBack')){ nav.back(() => setYear('')); return; }
+  const st = ev.target.closest('.yh-step'); if(st){ nav.stepNext(); setYear(st.dataset.year); return; }
   const ps = ev.target.closest('[data-yshow]'); if(ps){ const y = yearFilter; setShow(ps.dataset.yshow); yearFilter = y; applyFilters(); }
 });
 
@@ -2641,13 +2830,19 @@ function openAbout(){
     <div class="ab-head"><div class="ab-the">The</div><div class="ab-n">Art Bell <em>Tapes</em></div><div class="ab-s">${episodes.length.toLocaleString('en-GB')} recordings · ${nights.toLocaleString('en-GB')} nights · Art’s voice only</div></div>
     <p class="ab-p">A listening room for Art Bell’s radio shows, made by a fan. Everything streams straight from the Internet Archive; nothing is copied or hosted here.</p>
     <div class="sh-lbl">The recordings</div>
-    <p class="ab-p">Uploaded to the Internet Archive by listeners who taped, kept and shared the shows, in these collections:</p>
-    <ul class="ab-list">${SOURCES.map(id => `<li><a href="${API}/details/${encodeURIComponent(id)}" target="_blank" rel="noopener">${esc(id)}</a></li>`).join('')}</ul>
+    <p class="ab-p">Every show here exists because listeners taped it off the radio, kept the cassettes for years, digitised them and shared them on the Internet Archive. Thank you to all of them. These are the collections, and how many shows each one gives this app:</p>
+    <ul class="ab-list ab-cols">${(() => { const n = {}; episodes.forEach(e => n[e.item] = (n[e.item] || 0) + 1);
+      const NAMES = { 'the-ultimate-art-bell-collection_202201':'The Ultimate Art Bell Collection', 'ArtBellArea2000':'Area 2000', 'Art-Bell_Midnight_In_the_Desert':'Midnight in the Desert', 'ArtBell_Somewhere_In_Time':'Somewhere in Time', 'coast-to-coast-am-with-art-bell-ghost-to-ghost':'Coast to Coast AM: Ghost to Ghost', 'coast-to-coast-am-w-art-bell-open-lines-collection':'Coast to Coast AM: Open Lines', 'art-bell-episodes':'Art Bell Episodes', 'art-bell-archive':'Art Bell Archive', 'art-bell-1990-2000':'Art Bell 1990–2000', 'art-bell-2001-to-2010':'Art Bell 2001–2010', 'ultimate-ultimate-art-bell-collection':'The Ultimate Ultimate Art Bell Collection', 'art-bell-dreamland':'Dreamland' };
+      const nice = id => NAMES[id] || id.replace(/_\d{6}$/, '').replace(/[-_]+/g, ' ').replace(/\bw\b/i, 'with').replace(/\b(art|bell|am|coast|to|the|ultimate|collection|episodes|archive|open|lines|ghost|midnight|in|desert|somewhere|time|area|with)\b/gi, w => w[0].toUpperCase() + w.slice(1).toLowerCase()).replace(/^./, c => c.toUpperCase()).replace(/Artbell/i, 'Art Bell').replace(/Area2000/i, 'Area 2000').replace(/(\d{4}) (\d{4})/, '$1–$2').replace(/(\d{4}) To (\d{4})/i, '$1–$2');
+      const big = Object.keys(n).filter(id => n[id] >= 10).sort((a, b) => n[b] - n[a]), small = Object.keys(n).filter(id => n[id] < 10), sn = small.reduce((t, id) => t + n[id], 0);
+      return big.map(id => `<li><a href="${API}/details/${encodeURIComponent(id)}" target="_blank" rel="noopener">${esc(nice(id))}</a><span>${n[id].toLocaleString('en-GB')}</span></li>`).join('') +
+        (sn ? `<li><span class="ab-few">${small.length} smaller uploads</span><span>${sn}</span></li>` : ''); })()}</ul>
     <div class="sh-lbl">Topics and moments</div>
     <p class="ab-p">Subject tags and the times subjects come up are facts drawn from the show notes and transcripts of <a href="https://artbellarchive.org" target="_blank" rel="noopener">The Art Bell Archive</a> podcast. None of their writing is stored.</p>
     <div class="sh-lbl">Type</div>
     <p class="ab-p">Instrument Serif, Inter, Space Grotesk and Geist Mono, under the SIL Open Font License.</p>
     <p class="ab-p ab-small">Art Bell’s programmes belong to their rights holders. This app is a non-commercial tribute.</p>
+    <div class="ab-ded">For Art Bell, 1945–2018,<br>and everyone who stayed up to listen.</div>
     <button class="act" data-s="back">Back to Settings</button>`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
@@ -2682,7 +2877,7 @@ function maybeTour(){
 /* ================= Guest pages ================= */
 function guestPage(g){
   const eps = episodes.filter(e => (e.guests || []).includes(g) && e.date).sort((a, b) => a.date.localeCompare(b.date));
-  if(!eps.length) return `<div class="gp-top"><span class="gp-k">Guest</span><button id="pillX" class="gp-x">All shows</button></div><div class="gp-n">${esc(g)}</div>`;
+  if(!eps.length) return `<div class="gp-top"><span class="gp-k">Guest</span><button id="pillX" class="gp-x">← Back</button></div><div class="gp-n">${esc(g)}</div>`;
   const first = eps[0], last = eps[eps.length - 1];
   const years = {}; eps.forEach(e => years[e.year] = (years[e.year] || 0) + 1);
   const y0 = +first.year, y1 = +last.year, span = [];
@@ -2693,12 +2888,12 @@ function guestPage(g){
   eps.forEach(e => [].concat(e.tags || []).forEach(t => { const tl = t.toLowerCase(); if(tl !== gl && !gparts.some(w => tl.includes(w)) && !/^[A-Z][a-z]+ [A-Z]/.test(t)) subj[t] = (subj[t] || 0) + 1; }));
   const top = Object.entries(subj).sort((a, b) => b[1] - a[1]).slice(0, 8);
   const shows = [...new Set(eps.map(e => e.show))];
-  return `<div class="gp-top"><span class="gp-k">Guest</span><button id="pillX" class="gp-x">All shows</button></div>
+  return `<div class="gp-top"><span class="gp-k">Guest</span><button id="pillX" class="gp-x">← Back</button></div>
     <div class="gp-n">${esc(g)}</div>
     <div class="gp-facts"><span><b>${eps.length}</b> appearance${eps.length > 1 ? 's' : ''}</span><span>First <b>${niceDate(first.date)}</b></span>${eps.length > 1 ? `<span>Last <b>${niceDate(last.date)}</b></span>` : ''}<span>${shows.map(esc).join(' · ')}</span></div>
     <div class="gp-time" aria-label="Appearances by year">${span.map(y => `<i title="${y}: ${years[y] || 0}" style="height:${years[y] ? 6 + 26 * years[y] / max : 2}px"${years[y] ? ' class="on"' : ''}></i>`).join('')}</div>
     <div class="gp-yrs"><span>${span[0]}</span><span>${span[span.length - 1]}</span></div>
-    ${top.length ? `<div class="gp-sub"><span class="gp-k">Talked about</span><div class="nt-topics">${top.map(([t]) => `<button class="chip" data-gtopic="${esc(t)}">${esc(t)}</button>`).join('')}</div></div>` : ''}`;
+    ${top.length ? `<div class="gp-sub"><span class="gp-k">Talked about</span><div class="nt-topics">${top.map(([t]) => `<button class="chip" data-gtopic="${esc(t)}">${sdot(t)}${esc(t)}</button>`).join('')}</div></div>` : ''}`;
 }
 $('#pill').addEventListener('click', ev => { const t = ev.target.closest('[data-gtopic]'); if(!t) return; const g = guestFilter; $('#q').value = t.dataset.gtopic; $('#clear').classList.add('show'); guestFilter = g; applyFilters(); });
 
@@ -2771,8 +2966,33 @@ function buildSugIndex(){
   const guests = new Set([...m.values()].filter(x => x.kind === 'Guest').map(x => x.label.toLowerCase()));
   sugIndex = [...m.values()].filter(x => !(x.kind === 'Topic' && guests.has(x.label.toLowerCase())));
 }
+// Recent searches: shown when you tap an empty search bar
+function rememberSearch(label, kind){
+  label = String(label || '').trim(); if(label.length < 2) return;
+  const old = (state.recentQ || []).find(x => x.label.toLowerCase() === label.toLowerCase());
+  if(old && (!kind || kind === 'Search')) kind = old.kind;
+  const r = (state.recentQ || []).filter(x => x !== old);
+  r.unshift({ label, kind: kind || 'Search' }); state.recentQ = r.slice(0, 6); saveState();
+}
+function showRecent(){
+  const box = $('#suggest'), r = state.recentQ || []; sugSel = -1;
+  if(!r.length){ box.classList.remove('show'); box.innerHTML = ''; return; }
+  box.innerHTML = `<div class="sg-h"><span>Recent searches</span><button type="button" class="sg-clr" id="sgClr">Clear</button></div>` +
+    r.map((x, i) => `<button type="button" class="sg sg-r" data-i="${i}" data-kind="${esc(x.kind)}" data-label="${esc(x.label)}"><span><svg class="ln sg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.7h3.7M12 8v4.3l3 1.8"/></svg>${x.kind === 'Topic' ? sdot(x.label) : ''}${esc(x.label)}</span><small>${x.kind === 'Search' ? '' : esc(x.kind)}</small></button>`).join('');
+  box.classList.add('show');
+}
+function lenTxt(sec){ const m = Math.round(sec / 60), h = Math.floor(m / 60), r = m % 60; return h ? h + ' hr' + (r ? ' ' + r + ' min' : '') : m + ' min'; }
+function leftTxt(sec){ sec = Math.max(0, Math.round(sec / 60)); if(sec < 1) return 'Almost done'; const h = Math.floor(sec / 60), m = sec % 60; return (h ? h + ' hr' + (m ? ' ' + m + ' min' : '') : m + ' min') + ' left'; }
+function whenTxt(at){
+  if(!at) return 'Played'; const d = new Date(at), now = new Date(), day = 864e5;
+  const days = Math.floor((new Date(now.toDateString()) - new Date(d.toDateString())) / day);
+  if(days <= 0) return 'Played today'; if(days === 1) return 'Played yesterday';
+  if(days < 7) return 'Played ' + d.toLocaleDateString('en-GB', { weekday:'long' });
+  return 'Played ' + d.toLocaleDateString('en-GB', { day:'numeric', month:'short' }) + (d.getFullYear() !== now.getFullYear() ? ' ' + d.getFullYear() : '');
+}
 function suggest(){
   const box = $('#suggest'), q = $('#q').value.trim().toLowerCase();
+  if(!q && document.activeElement === $('#q')){ showRecent(); return; }
   if((q.length < 2 && !/^\d$/.test(q)) || !episodes.length){ box.classList.remove('show'); box.innerHTML = ''; sugSel = -1; return; }
   if(!sugIndex) buildSugIndex();
   const starts = x => { const l = x.label.toLowerCase(); return l.startsWith(q) ? 2 : l.split(/[\s\-–.']+/).some(w => w.startsWith(q)) ? 1 : 0; };
@@ -2780,12 +3000,12 @@ function suggest(){
   sugSel = -1;
   if(!hits.length){ box.classList.remove('show'); box.innerHTML = ''; return; }
   const hl = l => { const i = l.toLowerCase().indexOf(q); return i < 0 ? esc(l) : esc(l.slice(0, i)) + '<b>' + esc(l.slice(i, i + q.length)) + '</b>' + esc(l.slice(i + q.length)); };
-  box.innerHTML = hits.map((x, i) => `<button type="button" class="sg" data-i="${i}" data-kind="${x.kind}" data-label="${esc(x.label)}"><span>${hl(x.label)}</span><small>${x.kind}</small></button>`).join('');
+  box.innerHTML = hits.map((x, i) => `<button type="button" class="sg" data-i="${i}" data-kind="${x.kind}" data-label="${esc(x.label)}"><span>${x.kind === 'Topic' ? sdot(x.label) : ''}${hl(x.label)}</span><small>${x.kind}</small></button>`).join('');
   box.classList.add('show');
 }
 function pickSuggestion(b){
   const label = b.dataset.label, kind = b.dataset.kind, box = $('#suggest');
-  box.classList.remove('show'); box.innerHTML = '';
+  box.classList.remove('show'); box.innerHTML = ''; rememberSearch(label, kind);
   if(kind === 'Guest'){ guestFilter = label; $('#q').value = ''; $('#clear').classList.remove('show'); applyFilters(); }
   else if(kind === 'Programme'){ $('#q').value = ''; $('#clear').classList.remove('show'); setShow(label); }
   else if(kind === 'Year'){ $('#q').value = ''; $('#clear').classList.remove('show'); setYear(label); }
@@ -2793,7 +3013,7 @@ function pickSuggestion(b){
   $('#q').blur();
 }
 $('#suggest').addEventListener('mousedown', ev => ev.preventDefault());
-$('#suggest').addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); const b = ev.target.closest('.sg'); if(b) pickSuggestion(b); });
+$('#suggest').addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); if(ev.target.closest('#sgClr')){ state.recentQ = []; saveState(); hideSuggest(); toast('Recent searches cleared'); return; } const b = ev.target.closest('.sg'); if(b) pickSuggestion(b); });
 $('#q').addEventListener('keydown', ev => {
   const items = [...document.querySelectorAll('#suggest .sg')]; if(!items.length) return;
   if(ev.key === 'ArrowDown' || ev.key === 'ArrowUp'){ ev.preventDefault(); sugSel = (sugSel + (ev.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length; items.forEach((x, i) => x.classList.toggle('sel', i === sugSel)); }
@@ -2805,7 +3025,8 @@ $('#q').addEventListener('blur', () => setTimeout(() => $('#suggest').classList.
 const hideSuggest = () => { const b = $('#suggest'); b.classList.remove('show'); b.innerHTML = ''; };
 document.addEventListener('pointerdown', ev => { if(!ev.target.closest('.searchbox')) hideSuggest(); }, true);
 $('#tabs').addEventListener('click', hideSuggest, true);
-$('#q').addEventListener('focus', () => { if($('#q').value.trim().length >= 2) suggest(); });
+$('#q').addEventListener('focus', () => { const v = $('#q').value.trim(); if(v.length >= 2 || !v) suggest(); });
+$('#q').addEventListener('blur', () => { const v = $('#q').value.trim(); if(v.length >= 2 && view.length) rememberSearch(v, 'Search'); });
 
 /* Logo: back to the start, like a fresh open */
 function goHome(){
@@ -2832,9 +3053,10 @@ const TOPIC_ALIASES = [
   ['ghost','ghosts','haunting','haunted','poltergeist','ghost to ghost'],
   ['remote viewing','remote viewer','ed dames','courtney brown','joe mcmoneagle','lyn buchanan']
 ];
-const termHit = (hay, t) => { const g = TOPIC_ALIASES.find(g => g[0] === t || (t === 'sasquatch' && g[0] === 'bigfoot') || (t === 'yeti' && g[0] === 'bigfoot')); return g ? g.some(a => hay.includes(a)) : hay.includes(t); };
+const plainQ = h => /[’‘“”]/.test(h) ? h.replace(/[’‘]/g, "'").replace(/[“”]/g, '"') : h;
+const termHit = (hay, t) => { hay = plainQ(hay); const g = TOPIC_ALIASES.find(g => g[0] === t || (t === 'sasquatch' && g[0] === 'bigfoot') || (t === 'yeti' && g[0] === 'bigfoot')); return g ? g.some(a => hay.includes(a)) : hay.includes(t); };
 function applyFilters(){
-  const terms = $('#q').value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const terms = $('#q').value.trim().toLowerCase().replace(/[’‘]/g, "'").replace(/[“”]/g, '"').split(/\s+/).filter(Boolean);
   let list = episodes;
   if(tab === 'fav'){ const L = listFilter && state.lists.find(l => l.id === listFilter); if(!L) listFilter = ''; list = L ? L.ids.map(byId).filter(Boolean) : list.filter(e => state.favs[e.id]); }
   if(tab === 'saved') list = list.filter(e => savedKeys.has(e.id));
@@ -2845,7 +3067,7 @@ function applyFilters(){
   let ranked = false;
   if(terms.length){
     const q0 = $('#q').value.trim().toLowerCase(), phrase = TOPIC_ALIASES.find(g => g[0] === q0);
-    const exact = phrase ? list.filter(e => phrase.some(a => e.hay.includes(a))) : list.filter(e => terms.every(t => termHit(e.hay, t)));
+    const exact = phrase ? list.filter(e => phrase.some(a => plainQ(e.hay).includes(a))) : list.filter(e => terms.every(t => termHit(e.hay, t)));
     const q = $('#q').value.trim();
     if(fuse && q.length > 2 && !/^\d+$/.test(q)){
       const allowed = new Set(list.map(e => e.id)), seen = new Set(exact.map(e => e.id));
@@ -2901,7 +3123,7 @@ function render(){
   const inResume = e => !!(e && !state.hideResume[e.id] && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60);
   const cont = state.recent.map(byId).filter(e => inResume(e) && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60).slice(0, 10);
   $('#contWrap').style.display = (tab === 'all' && cont.length && !$('#q').value) ? '' : 'none';
-  $('#rail').innerHTML = cont.map(e => { const p = state.pos[e.id]; return `<div class="card rcard" data-id="${esc(e.id)}" role="button" tabindex="0">${artHTML(e)}<button class="cmore" data-act="more" aria-label="More options">${I.more}</button><div class="bar"><i style="width:${p.t/p.d*100}%"></i></div><div class="t">${esc(e.title)}</div><div class="m">${fmt(p.d - p.t)} left</div></div>`; }).join('');
+  $('#rail').innerHTML = cont.map(e => { const p = state.pos[e.id]; return `<div class="card rcard" data-id="${esc(e.id)}" role="button" tabindex="0">${artHTML(e)}<button class="cmore" data-act="more" aria-label="More options">${I.more}</button><div class="bar"><i style="width:${p.t/p.d*100}%"></i></div><div class="t">${esc(e.title)}</div><div class="m">${leftTxt(p.d - p.t)}</div></div>`; }).join('');
 
   const counts = {}; episodes.forEach(e => counts[e.show] = (counts[e.show]||0)+1);
   const showProgs = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value;
@@ -2917,7 +3139,7 @@ function render(){
     ph.style.setProperty('--c1', c1); ph.style.setProperty('--c2', c2);
     const [hfill, hline] = progCol(showFilter);
     ph.style.setProperty('--pc', hfill); ph.style.setProperty('--pl', hline);
-    ph.innerHTML = `${PROG_SCENE[showFilter] ? sceneSVG(showFilter) : emblem(showFilter)}<div class="ph-in"><button class="back" id="progBack"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>All programmes</button><div class="yrs">${esc(info[1])}</div><div class="nm">${esc(info[0])}</div><p>${esc(info[2])}</p><span class="ct">${(counts[showFilter]||0).toLocaleString('en-GB')} ${counts[showFilter]===1?'show':'shows'}</span></div>`;
+    ph.innerHTML = `${PROG_SCENE[showFilter] ? sceneSVG(showFilter) : emblem(showFilter)}<div class="ph-in"><button class="back" id="progBack"><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>All programmes</button><div class="yrs">${esc(info[1])}</div><div class="nm">${esc(info[0])}</div><p>${esc(info[2])}</p><span class="ct">${(counts[showFilter]||0).toLocaleString('en-GB')} ${counts[showFilter]===1?'show':'shows'}</span></div>`;
     ph.classList.add('show');
   } else ph.classList.remove('show');
   const curList = tab === 'fav' && listFilter && state.lists.find(l => l.id === listFilter);
@@ -2957,17 +3179,33 @@ function render(){
     const ml = qTerms.length ? momentLabelFor(e, qTerms) : null, mt = ml ? momentsFor(e)[ml] : null;
     const p = state.pos[e.id], done = isPlayed(e.id), pct = !done && p && p.d ? Math.min(100, p.t/p.d*100) : 0, isCur = cur === e.id;
     const len = e.length || (p && p.d) || 0;
-    return `${yhead}<div class="swipe"><div class="bg l">★ ${state.favs[e.id]?'Unfavourite':'Favourite'}</div><div class="bg r">${savedKeys.has(e.id)?'Remove offline':'Save offline'} ↓</div><div class="row${isCur?' cur':''}${isCur&&paused?' paused':''}" data-id="${esc(e.id)}">
+    return `${yhead}<div class="swipe"><div class="bg l">★ ${state.favs[e.id]?'Unfavourite':'Favourite'}</div><div class="bg r">${savedKeys.has(e.id)?'Remove offline':'Save offline'} ↓</div><div class="row${isCur?' cur':''}${isCur&&paused?' paused':''}${savedKeys.has(e.id)?' saved':''}" data-id="${esc(e.id)}">
       ${artHTML(e,'sm')}
       <div class="info">
         <div class="t">${esc(e.title)}</div>
-        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${fmt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?'<span class="played">✓ Played</span>':''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span>`:''}</div>
+        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${lenTxt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?`<span class="played">✓ ${whenTxt(p && p.at)}</span>`:''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span><span class="left">${leftTxt(p.d - p.t)}</span>`:''}</div>
         ${mt && mt.length ? `<div class="jumps"><span class="jl">${esc(ml)}</span>${mt.slice(0,4).map(t => `<button class="jump" data-t="${t}" aria-label="Play ${esc(ml)} at ${fmt(Math.max(0,t-10))}">${I.play2}${fmt(Math.max(0,t-10))}</button>`).join('')}${mt.length > 4 ? `<span class="jl">+${mt.length-4}</span>` : ''}</div>` : ''}
       </div>
       <button class="more" data-act="more" aria-label="More options">${I.more}</button>
     </div></div>`;
   }).join('') + (view.length > shown ? `<button class="loadmore" id="loadmore">Show more · ${(view.length-shown).toLocaleString('en-GB')} left</button>` : '');
 }
+// Press and hold a show for its menu (same as ⋯); moving the finger cancels, so swipes and scrolling are untouched
+(function(){
+  let t = 0, x0 = 0, y0 = 0, fired = false;
+  const list = $('#list');
+  list.addEventListener('pointerdown', ev => {
+    const row = ev.target.closest('.row'); fired = false; if(!row || ev.target.closest('button') || ev.pointerType === 'mouse') return;
+    x0 = ev.clientX; y0 = ev.clientY; clearTimeout(t);
+    t = setTimeout(() => { const e = byId(row.dataset.id); if(!e) return; fired = true; swallowUntil = Date.now() + 8000; row.classList.add('held'); setTimeout(() => row.classList.remove('held'), 260); if(navigator.vibrate && !calm()) navigator.vibrate(12); openSheet(e); }, 480);
+  });
+  list.addEventListener('pointermove', ev => { if(t && (Math.abs(ev.clientX - x0) > 8 || Math.abs(ev.clientY - y0) > 8)){ clearTimeout(t); t = 0; } });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(k => list.addEventListener(k, () => { clearTimeout(t); t = 0; }));
+  let swallowUntil = 0;
+  list.addEventListener('touchend', ev => { if(fired){ ev.preventDefault(); fired = false; swallowUntil = Date.now() + 400; } }, { passive:false });
+  document.addEventListener('click', ev => { if(Date.now() < swallowUntil){ fired = false; swallowUntil = 0; ev.stopImmediatePropagation(); ev.preventDefault(); } }, true);
+  list.addEventListener('contextmenu', ev => { if(ev.target.closest('.row') && matchMedia('(pointer:coarse)').matches) ev.preventDefault(); });
+})();
 $('#list').addEventListener('click', ev => {
   if(ev.target.id === 'loadmore'){ shown += PAGE; render(); return; }
   if(ev.target.closest('#browseAll')){ allOpen = true; render(); return; }
@@ -3032,8 +3270,10 @@ function renderGuests(){
 }
 $('#guests').addEventListener('click', ev => {
   const b = ev.target.closest('.grow'); if(!b) return;
-  guestFilter = b.dataset.g; $('#q').value = ''; $('#clear').classList.remove('show');
-  document.querySelector('.tab[data-tab="all"]').click();
+  viewMorph(() => {
+    guestFilter = b.dataset.g; $('#q').value = ''; $('#clear').classList.remove('show');
+    document.querySelector('.tab[data-tab="all"]').click(); scrollTo({ top:0, behavior:'instant' });
+  }, b.querySelector('.n'));
 });
 
 /* ================= Fun bits ================= */
@@ -3215,9 +3455,9 @@ function renderBento(){
     ${(() => { const sd = specialDay(); return sd ? `<button class="tile memo" data-t="memo" ${sd.pick ? `data-id="${esc(sd.pick.id)}"` : ''}><span class="k">${sd.kind === 'birthday' ? '17 June' : '13 April'}</span><span class="mt">${esc(sd.title)}</span><span class="ms">${esc(sd.sub)}</span>${sd.pick ? `<span class="mp">${I.play2}${esc(sd.pick.title)}</span>` : ''}</button>` : ''; })()}
     <div class="otn-rail${list.length > 1 ? '' : ' solo'}">${cards}</div>${chips}
     <div class="quick">
-      <button class="tile q radio${state.radio ? ' on' : ''}" data-t="radio"><svg viewBox="0 0 24 24"><path d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-4.2-2.8 1.4 1.4a4 4 0 0 0 0 5.7l-1.4 1.4a6 6 0 0 1 0-8.5zm8.4 0a6 6 0 0 1 0 8.5l-1.4-1.4a4 4 0 0 0 0-5.7zM5 4.4l1.4 1.4a8.5 8.5 0 0 0 0 12.4L5 19.6a10.5 10.5 0 0 1 0-15.2zm14 0a10.5 10.5 0 0 1 0 15.2l-1.4-1.4a8.5 8.5 0 0 0 0-12.4z"/></svg><span class="v">${state.radio ? 'On air' : 'Overnight'}</span></button>
-      <button class="tile q" data-t="spin"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-2.05-4.95L14 10h7V3l-2.64 2.64A8.96 8.96 0 0 0 12 3z"/></svg><span class="v">Wild Card<small class="q-hint">Random show</small></span></button>
-      <button class="tile q" data-t="saved"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span class="v">${offN} offline</span></button>
+      <button class="tile q radio${state.radio ? ' on' : ''}" data-t="radio"><svg viewBox="0 0 24 24" class="ln"><circle cx="12" cy="12" r="1.8"/><path d="M8.6 8.6a4.8 4.8 0 0 0 0 6.8M15.4 8.6a4.8 4.8 0 0 1 0 6.8M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg><span class="v">${state.radio ? 'On air' : 'Overnight'}</span></button>
+      <button class="tile q" data-t="spin"><svg viewBox="0 0 24 24" class="ln"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v3.7h-3.7"/></svg><span class="v">Wild Card<small class="q-hint">Random show</small></span></button>
+      <button class="tile q" data-t="saved"><svg viewBox="0 0 24 24" class="ln"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg><span class="v">${offN} offline</span></button>
     </div>`;
   const rail = b.querySelector('.otn-rail');
   if(rail && list.length > 1){
@@ -3253,6 +3493,7 @@ $('#bento').addEventListener('click', ev => {
 const audio = $('#audio');
 let blobUrl = null;
 async function loadEpisode(e, autoplay){
+  if(autoplay && !e.demo && !navigator.onLine && !savedKeys.has(e.id)){ toast('That one isn’t saved for offline. It’ll play when you’re back online.', 3600); return; }
   if(blobUrl){ URL.revokeObjectURL(blobUrl); blobUrl = null; }
   audio.dataset.id = e.id;
   if(e.demo){ audio.removeAttribute('src'); }
@@ -3595,7 +3836,9 @@ async function downloadToPhone(e){
 }
 
 /* ================= Player: subject markers, hours, cassette, bedside, cast ================= */
-const MARK_COL = ['#e2805a','#86acd4','#c8a97f','#a29ce6','#d48cbf','#93c7a0','#e6c46a','#7fc4c4'];
+// One colour per subject, the same everywhere in the app (player dots, chips, search, notes)
+const subjCol = l => { let h = 0; const k = String(l).toLowerCase(); for(let i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) >>> 0; return `var(--sc${h % 8})`; };
+const sdot = l => `<i class="sd" style="--mc:${subjCol(l)}"></i>`;
 let npMarkSel = '';
 let npMarkList = [], npSubj = [], nowKey = '';
 // "Hour 2 · on Bigfoot" — what's being talked about right now, from the facts-only moment times
@@ -3604,7 +3847,7 @@ function renderNowLine(force){
   if(!e || !d){ el.innerHTML = ''; nowKey = ''; return; }
   const now = audio.currentTime || 0, hr = Math.floor(now / 3600) + 1;
   let best = null;
-  npSubj.forEach(([l, ts], i) => ts.forEach(t => { if(t <= now + 15 && now - t < 900 && (!best || t > best.t)) best = { t, l, c: MARK_COL[i % MARK_COL.length] }; }));
+  npSubj.forEach(([l, ts], i) => ts.forEach(t => { if(t <= now + 15 && now - t < 900 && (!best || t > best.t)) best = { t, l, c: subjCol(l) }; }));
   const key = hr + '|' + (best ? best.l : ''); if(!force && key === nowKey) return; nowKey = key;
   const hrTxt = d > 3700 ? `Hour ${hr}` : '';
   el.innerHTML = best ? `<i style="--mc:${best.c}"></i><span>${hrTxt ? hrTxt + ' · ' : ''}now on <b>${esc(best.l)}</b></span>` : (hrTxt ? `<span>${hrTxt} of ${Math.ceil(d / 3600)}</span>` : '');
@@ -3622,12 +3865,12 @@ function renderNPMarks(){
   const m = momentsFor(e) || {};
   const subj = Object.entries(m).sort((a, b) => b[1].length - a[1].length).slice(0, 6);
   let ticks = '';
-  subj.forEach(([l, ts], i) => (npMarkSel ? (l === npMarkSel ? ts : []) : ts.slice(0, 3)).forEach(t => { ticks += `<i class="mk${npMarkSel && npMarkSel !== l ? ' dim' : ''}" data-l="${esc(l)}" style="left:${Math.min(99.5, t / d * 100)}%;--mc:${MARK_COL[i % MARK_COL.length]}"></i>`; }));
+  subj.forEach(([l, ts], i) => (npMarkSel ? (l === npMarkSel ? ts : []) : ts.slice(0, 3)).forEach(t => { ticks += `<i class="mk${npMarkSel && npMarkSel !== l ? ' dim' : ''}" data-l="${esc(l)}" style="left:${Math.min(99.5, t / d * 100)}%;--mc:${subjCol(l)}"></i>`; }));
   box.innerHTML = ticks;
   npMarkList = []; subj.forEach(([l, ts], i) => (npMarkSel ? (l === npMarkSel ? ts : []) : ts.slice(0, 3)).forEach(t => npMarkList.push({ t, l })));
   npSubj = subj; renderNowLine(true);
   const cur = audio.currentTime || 0, nextHr = Math.ceil((cur + 1) / 3600) * 3600;
-  row.innerHTML = (subj.length ? `<span class="nt-k">In this show</span>` : '') + subj.map(([l], i) => `<button class="tp${npMarkSel === l ? ' on' : ''}" data-tp="${esc(l)}" style="--mc:${MARK_COL[i % MARK_COL.length]}"><i></i>${esc(l)}</button>`).join('') +
+  row.innerHTML = (subj.length ? `<span class="nt-k">In this show</span>` : '') + subj.map(([l], i) => `<button class="tp${npMarkSel === l ? ' on' : ''}" data-tp="${esc(l)}" style="--mc:${subjCol(l)}"><i></i>${esc(l)}</button>`).join('') +
     (d > 3700 && nextHr < d - 60 ? `<button class="tp hrbtn" data-hr="${nextHr}">Hour ${Math.round(nextHr / 3600) + 1} ▸</button>` : '');
 }
 $('#npTopics').addEventListener('click', ev => {
@@ -3735,18 +3978,20 @@ function openSheet(e){
   const fav = !!state.favs[e.id], sv = savedKeys.has(e.id), mb = e.size ? Math.round(e.size/1048576)+' MB' : '';
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd">${artHTML(e,'sm')}<div><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div></div>
-    <button class="act" data-a="play">${I.play2} Play now</button>
-    <button class="act" data-a="notes"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zm8 1.5V8h4.5zM8 12h10v1.6H8zm0 3.5h10v1.6H8zm0 3.5h7v1.6H8z"/></svg> Show notes</button>
-    ${(!state.hideResume[e.id] && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60) ? `<button class="act" data-a="unresume"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg> Remove from Pick up where you left off</button>` : ''}
-    <button class="act" data-a="played"><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> ${isPlayed(e.id) ? 'Mark as not played' : 'Mark as played'}</button>
-    <button class="act" data-a="next"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-1V9l5 3z"/></svg> Play next</button>
-    <button class="act" data-a="queue"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm16-3v-3h-2v3h-3v2h3v3h2v-3h3v-2z"/></svg> Add to Up next</button>
+    <button class="act" data-a="play">${I.play2} ${(() => { const p = state.pos[e.id]; return p && p.t > 30 && p.t < p.d - 60 ? `Resume <small>from ${fmt(p.t)} · ${leftTxt(p.d - p.t)}</small>` : isPlayed(e.id) ? 'Play again' : 'Play now'; })()}</button>
+    <button class="act" data-a="next"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M16 14v6l4.5-3z"/></svg> Play next</button>
+    <button class="act" data-a="queue"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M18 13v7M14.5 16.5h7"/></svg> Add to Up next</button>
+    <button class="act" data-a="notes"><svg viewBox="0 0 24 24" class="ln"><path d="M6.5 3.5h8l4 4v13h-12zM14 3.5V8h4.5M9 12.5h7M9 16h7"/></svg> Show notes</button>
+    <div class="act-g">Keep</div>
     <button class="act" data-a="fav">${I.star} ${fav?'Remove from favourites':'Add to favourites'}</button>
-    <button class="act" data-a="lists"><svg viewBox="0 0 24 24"><path d="M4 6h11v2H4zm0 5h11v2H4zm0 5h7v2H4zm13-2v-3h2v3h3v2h-3v3h-2v-3h-3v-2z"/></svg> Add to a list${(() => { const n = state.lists.filter(l => l.ids.includes(e.id)).length; return n ? `<small>In ${n} list${n>1?'s':''}</small>` : ''; })()}</button>
+    <button class="act" data-a="lists"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M18 13v7M14.5 16.5h7"/></svg> Add to a list${(() => { const n = state.lists.filter(l => l.ids.includes(e.id)).length; return n ? `<small>In ${n} list${n>1?'s':''}</small>` : ''; })()}</button>
     ${sv ? `<button class="act" data-a="unsave">${I.trash} Remove offline copy</button>` : `<button class="act" data-a="save">${I.dl} Save offline<small>${mb}</small></button>`}
-    <button class="act" data-a="dl">${I.share} Download MP3 to phone<small>${mb}</small></button>
+    <button class="act" data-a="played"><svg viewBox="0 0 24 24" class="ln"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> ${isPlayed(e.id) ? 'Mark as not played' : 'Mark as played'}</button>
+    <div class="act-g">More</div>
     <button class="act" data-a="share">${I.link} ${audio.dataset.id === e.id ? 'Share this moment<small>' + fmt(curTime(e)) + '</small>' : 'Share link to this show'}</button>
-    ${e.guests && e.guests.length ? e.guests.map(g => `<button class="act" data-a="guest" data-g="${esc(g)}"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5z"/></svg> More with ${esc(g)}</button>`).join('') : ''}
+    <button class="act" data-a="dl">${I.share} Download MP3 to phone<small>${mb}</small></button>
+    ${e.guests && e.guests.length ? e.guests.map(g => `<button class="act" data-a="guest" data-g="${esc(g)}"><svg viewBox="0 0 24 24" class="ln"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg> More with ${esc(g)}</button>`).join('') : ''}
+    ${(!state.hideResume[e.id] && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60) ? `<button class="act" data-a="unresume"><svg viewBox="0 0 24 24" class="ln"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg> Remove from Pick up where you left off</button>` : ''}
     ${e.demo ? '' : `<a class="act" href="${API}/details/${encodeURIComponent(e.item)}" target="_blank" rel="noopener">${I.link} View on archive.org</a>`}`;
   $('#sheet').dataset.id = e.id;
   $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
@@ -3777,8 +4022,8 @@ function openNotes(e){
       </dl>
       ${e.guests && e.guests.length ? `<div class="nt-h">Guests</div><div class="nt-guests">${e.guests.map(g => `<button class="chip" data-g="${esc(g)}">${esc(g)}</button>`).join('')}</div>` : ''}
       <div id="ntMoments"></div>
-      ${(e.ment || []).length ? `<div class="nt-h">Also comes up</div><div class="nt-topics">${e.ment.map(t => `<button class="chip" data-topic="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
-      ${topicTags(e).length ? `<div class="nt-h">Topics</div><div class="nt-topics">${topicTags(e).map(t => `<button class="chip" data-topic="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
+      ${(e.ment || []).length ? `<div class="nt-h">Also comes up</div><div class="nt-topics">${e.ment.map(t => `<button class="chip" data-topic="${esc(t)}">${sdot(t)}${esc(t)}</button>`).join('')}</div>` : ''}
+      ${topicTags(e).length ? `<div class="nt-h">Topics</div><div class="nt-topics">${topicTags(e).map(t => `<button class="chip" data-topic="${esc(t)}">${sdot(t)}${esc(t)}</button>`).join('')}</div>` : ''}
       ${(() => { const r = related(e, 6); return r.length ? `<div class="nt-h">More like this</div><div class="nt-rel">${r.map(x => `<button class="nr" data-rel="${esc(x.id)}">${artHTML(x,'sm')}<span><b>${esc(topicOf(x) || x.title)}</b><small>${esc(x.show)} · ${niceDate(x.date)}</small></span></button>`).join('')}</div>` : ''; })()}
       ${prog ? `<div class="nt-h">${esc(prog[0])}</div><p>${esc(prog[2])}</p>` : ''}
       ${e.demo ? '' : `<div class="nt-h">From the collection</div><p class="nt-src" id="ntSrc">Loading notes from archive.org…</p>`}
@@ -3797,7 +4042,7 @@ $('#sheet').addEventListener('click', ev => {
      share:()=>{ closeSheet(); shareMoment(e); },
      unresume:()=>{ closeSheet(); hideFromResume(e); },
      notes:()=>openNotes(e),
-     played:()=>{ closeSheet(); const was = isPlayed(e.id), d = durOf(e) || e.length || 1; if(was) delete state.pos[e.id]; else state.pos[e.id] = { t:Math.floor(d), d:Math.floor(d) }; saveState(); render(); toast(was ? 'Marked as not played' : 'Marked as played'); },
+     played:()=>{ closeSheet(); const was = isPlayed(e.id), d = durOf(e) || e.length || 1; if(was) delete state.pos[e.id]; else state.pos[e.id] = { t:Math.floor(d), d:Math.floor(d), at:Date.now() }; saveState(); render(); toast(was ? 'Marked as not played' : 'Marked as played'); },
      guest:()=>{ closeSheet(); closeNP(); guestFilter = b.dataset.g; $('#q').value=''; document.querySelector('.tab[data-tab="all"]').click(); },
      play:()=>{ closeSheet(); loadEpisode(e, true); }, fav:()=>{ closeSheet(); toggleFav(e); }, lists:()=>openListPicker(e), save:()=>saveOffline(e), unsave:()=>removeOffline(e), dl:()=>downloadToPhone(e) })[b.dataset.a]();
 });
@@ -4096,11 +4341,128 @@ const layerStack = []; let layerSkip = 0;
     else { const i = layerStack.lastIndexOf(sel); if(i < 0) return; layerStack.splice(i, 1); layerSkip++; history.back(); }
   }).observe(el, { attributes:true, attributeFilter:['class'] });
 });
-addEventListener('popstate', () => {
-  if(layerSkip){ layerSkip--; return; }
-  const sel = layerStack.pop(); if(!sel) return;
-  if(sel === '#np') closeNP(); else if(sel === '#tribute') closeTribute(); else closeSheet();
+addEventListener('popstate', ev => {
+  if(layerSkip){ layerSkip--; nav.sync(); return; }
+  const sel = layerStack.pop();
+  if(sel){ if(sel === '#np') closeNP(); else if(sel === '#tribute') closeTribute(); else closeSheet(); return; }
+  nav.restore(ev.state);
 });
+
+/* Back steps through what you browsed — a year, a guest, a programme, the catalogue, a search, a tab —
+   and lands exactly where you were scrolled, with the same number of shows loaded */
+const nav = (() => {
+  let restoring = false, timer = 0, tapY = scrollY, liveShown = shown, replaceNext = false;
+  addEventListener('pointerdown', () => { tapY = scrollY; }, true);
+  addEventListener('keydown', () => { tapY = scrollY; }, true);
+  const snap = () => ({ tab, show: showFilter, year: yearFilter, guest: guestFilter, all: allOpen, list: listFilter, q: $('#q').value.trim() });
+  const key = s => [s.tab, s.show, s.year, s.guest, s.all ? 1 : 0, s.list, s.q ? 'Q' : ''].join('|');
+  const cur = () => (history.state && history.state.abrView) ? history.state : null;
+  function sync(){
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if(restoring) return;
+      if(layerSkip){ sync(); return; }
+      if(layerStack.length) return;
+      const s = snap(), c = cur();
+      try{
+        if(!c){ history.replaceState({ abrView: s, y: scrollY, shown, d: 0 }, ''); liveShown = shown; return; }
+        if(key(s) === key(c.abrView)){ liveShown = shown; if(s.q !== c.abrView.q) history.replaceState({ ...c, abrView: s }, ''); return; }
+        if(replaceNext){ replaceNext = false; history.replaceState({ ...c, abrView: s, y: 0, shown }, ''); liveShown = shown; return; }
+        history.replaceState({ ...c, y: tapY, shown: liveShown }, '');
+        history.pushState({ abrView: s, y: 0, shown, d: (c.d || 0) + 1 }, '');
+        liveShown = shown;
+      }catch(x){}
+    }, 60);
+  }
+  function restore(st){
+    const s = st && st.abrView; if(!s) return;
+    restoring = true; clearTimeout(timer);
+    tab = s.tab; showFilter = s.show; yearFilter = s.year; guestFilter = s.guest; allOpen = s.all; listFilter = s.list;
+    $('#q').value = s.q; $('#clear').classList.toggle('show', !!s.q); try{ hideSuggest(); }catch(x){}
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === tab));
+    document.querySelectorAll('#chips .chip').forEach(c => c.classList.toggle('on', c.dataset.show === showFilter));
+    try{ dialLock = true; dial.querySelectorAll('.yr').forEach(x => x.classList.toggle('on', x.dataset.y === yearFilter)); setTimeout(() => dialLock = false, 400); }catch(x){}
+    const y = st.y || 0;
+    viewMorph(() => { applyFilters(); if((st.shown || PAGE) > shown){ shown = st.shown; render(); } scrollTo({ top: y, behavior: 'instant' }); });
+    requestAnimationFrame(() => requestAnimationFrame(() => { scrollTo({ top: y, behavior: 'instant' }); liveShown = shown; restoring = false; }));
+  }
+  // in-app back buttons: go back if there's somewhere to go back to, otherwise do the fallback
+  function back(fallback){ const c = cur(); if(c && c.d > 0 && !layerStack.length) history.back(); else fallback(); }
+  return { sync, restore, back, stepNext(){ replaceNext = true; }, depth: () => (cur() && cur().d) || 0 };
+})();
+{ const _render = render; render = function(){ const r = _render.apply(this, arguments); nav.sync(); return r; }; }
+// Installed on iPhone there's no browser back gesture, so a swipe in from the left edge does the same job
+if(matchMedia('(display-mode: standalone)').matches || navigator.standalone === true){
+  let sx = null, sy = 0;
+  addEventListener('touchstart', ev => { const t = ev.touches[0]; sx = (t.clientX < 24 && !layerStack.length && nav.depth() > 0) ? t.clientX : null; sy = t.clientY; }, { passive:true });
+  addEventListener('touchend', ev => { if(sx == null) return; const t = ev.changedTouches[0]; if(t.clientX - sx > 70 && Math.abs(t.clientY - sy) < 60) history.back(); sx = null; }, { passive:true });
+}
+
+/* Pinned heading: deep in a long list, a slim bar says where you are (tap it to go back to the top) */
+(function(){
+  const bar = document.createElement('button'); bar.type = 'button'; bar.className = 'pinbar'; bar.id = 'pinbar'; bar.setAttribute('aria-hidden', 'true'); bar.tabIndex = -1;
+  document.body.appendChild(bar);
+  bar.onclick = () => scrollTo({ top:0, behavior:smooth() });
+  let raf = 0, last = '';
+  function label(){
+    const n = view.length.toLocaleString('en-GB'), q = $('#q').value.trim();
+    if(tab !== 'all' && tab !== 'fav') return '';
+    if(guestFilter) return [guestFilter, n + ' show' + (view.length === 1 ? '' : 's')];
+    if(yearFilter) return [yearFilter + (showFilter ? ' · ' + showFilter : ''), n + ' shows'];
+    if(q) return ['“' + q + '”', n + ' result' + (view.length === 1 ? '' : 's')];
+    if(showFilter) return [showFilter, n + ' shows'];
+    if(allOpen){ // which year you're in, from the year markers above the top of the screen
+      let y = ''; for(const h of document.querySelectorAll('#list .yhead')){ if(h.getBoundingClientRect().top < 90) y = h.textContent; else break; }
+      return ['All shows' + (y ? ' · ' + y : ''), n + ' shows'];
+    }
+    return '';
+  }
+  function update(){
+    raf = 0;
+    const anchor = $('#secTitle'), lab = label();
+    const past = anchor && anchor.getBoundingClientRect().bottom < 0 && !document.body.classList.contains('np-open');
+    const on = !!(lab && past);
+    if(on){ const k = lab.join('|'); if(k !== last){ last = k; bar.innerHTML = `<span class="pb-t">${esc(lab[0])}</span><span class="pb-n">${esc(lab[1])}</span><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M6 14.5l6-6 6 6"/></svg>`; } }
+    const st = document.querySelector('.sticky'), bs = document.body.classList.contains('bsearch');
+    bar.style.top = bs || !st ? '' : Math.round(st.getBoundingClientRect().bottom - 8) + 'px';
+    bar.classList.toggle('show', on);
+  }
+  addEventListener('scroll', () => { if(!raf) raf = requestAnimationFrame(update); }, { passive:true });
+  addEventListener('resize', update);
+  { const _r = render; render = function(){ const r = _r.apply(this, arguments); last = ''; requestAnimationFrame(update); return r; }; }
+})();
+
+/* Offline: say so plainly, fade the shows that can't play, keep saved ones bright */
+(function(){
+  const sync = () => { const off = !navigator.onLine; const was = document.body.classList.contains('offline'); document.body.classList.toggle('offline', off); if(was && !off) toast('Back online'); };
+  addEventListener('online', sync); addEventListener('offline', sync); sync();
+})();
+// loading shapes go once the shows arrive
+{ const _r = render; render = function(){ const r = _r.apply(this, arguments); if(episodes.length){ const k = $('#skel'); if(k){ k.classList.add('gone'); setTimeout(() => k.remove(), 300); } } return r; }; }
+
+/* Bottom search on phones: keeps its place above the tab bar, beside the mini player, or above the keyboard */
+(function(){
+  const mq = matchMedia('(max-width:959px)'), st = $('.sticky'), q = $('#q'), mini = $('#mini'), root = document.documentElement, vv = window.visualViewport;
+  function layout(){
+    const on = mq.matches; document.body.classList.toggle('bsearch', on);
+    if(!on){ document.body.classList.remove('hasmini', 'searching', 'typing'); return; }
+    const tabs = $('#tabs') || document.querySelector('.tabs');
+    if(tabs && getComputedStyle(tabs).display !== 'none') root.style.setProperty('--tabsH', tabs.getBoundingClientRect().height + 'px');
+    const hasMini = mini.classList.contains('show') && !document.body.classList.contains('np-open');
+    document.body.classList.toggle('hasmini', hasMini);
+    if(hasMini && getComputedStyle(mini).display !== 'none'){ const r = mini.getBoundingClientRect(); if(r.height){ root.style.setProperty('--miniH', Math.round(r.height) + 'px'); root.style.setProperty('--miniB', Math.round(innerHeight - r.bottom) + 'px'); } }
+    const focused = document.activeElement === q, open = focused || !!q.value;
+    st.classList.toggle('open', open); document.body.classList.toggle('searching', open && hasMini);
+    document.body.classList.toggle('typing', focused && matchMedia('(pointer:coarse)').matches);
+    const kb = vv ? Math.max(0, innerHeight - vv.height - vv.offsetTop) : 0; root.style.setProperty('--kb', kb + 'px');
+  }
+  ['focus', 'blur', 'input'].forEach(t => q.addEventListener(t, () => requestAnimationFrame(layout)));
+  new MutationObserver(() => requestAnimationFrame(layout)).observe(mini, { attributes:true, attributeFilter:['class'] });
+  new MutationObserver(() => requestAnimationFrame(layout)).observe(document.body, { attributes:true, attributeFilter:['class'], attributeOldValue:false });
+  addEventListener('resize', layout); if(vv){ vv.addEventListener('resize', layout); vv.addEventListener('scroll', layout); }
+  mq.addEventListener ? mq.addEventListener('change', layout) : mq.addListener(layout);
+  layout();
+})();
 
 /* ================= Install (banner, header button, Settings) ================= */
 const installer = (() => {
@@ -4112,7 +4474,7 @@ const installer = (() => {
   const can = () => !standalone && (ios || android || !!deferred);
   const syncBtn = () => {};
   const steps = k => k === 'ios'
-    ? `<li>Tap the <b>Share</b> button <svg viewBox="0 0 24 24"><path d="M12 3 7.5 7.5l1.4 1.4L11 6.8V15h2V6.8l2.1 2.1 1.4-1.4zM5 11v9h14v-9h-3v2h1v5H7v-5h1v-2z"/></svg> in Safari (on newer iPhones it’s inside the <b>⋯</b> menu)</li><li>Choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li>`
+    ? `<li>Tap the <b>Share</b> button <svg viewBox="0 0 24 24" class="ln"><path d="M12 3.5v11M8 7.5l4-4 4 4M6 11.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-7.5"/></svg> in Safari (on newer iPhones it’s inside the <b>⋯</b> menu)</li><li>Choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li>`
     : `<li>Tap the <b>⋮</b> menu in your browser</li><li>Choose <b>Install app</b> or <b>Add to Home screen</b></li><li>Tap <b>Install</b></li>`;
   const open = (k, withSteps) => {
     kind = k; $('#ibSteps').innerHTML = steps(k === 'ios' ? 'ios' : 'menu');
@@ -4150,7 +4512,7 @@ addEventListener('keydown', ev => {
 
 /* ================= Backup and restore ================= */
 async function backupState(){
-  const keep = ['favs','lists','autoNext','autoSaveQ','npView','listView','toured','textStyle','textSize','simple','noSwipe','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
+  const keep = ['recentQ','favs','lists','autoNext','autoSaveQ','npView','listView','toured','textStyle','textSize','simple','noSwipe','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
   const data = { app:'art-bell-archive', version:1, saved:new Date().toISOString(), state:Object.fromEntries(keep.map(k => [k, state[k]])) };
   const name = `art-bell-tapes-backup-${new Date().toISOString().slice(0,10)}.json`;
   const file = new File([JSON.stringify(data)], name, { type:'application/json' });
