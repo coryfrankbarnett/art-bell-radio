@@ -1297,12 +1297,6 @@ body.calm .cs-reel{animation:none!important}
   body.np-open .mini{display:none}
 }
 
-.yr-big{display:flex;flex-direction:column;gap:6px;margin:10px 0 18px}
-.yr-big b{font:400 84px/.9 var(--serif);font-weight:400}
-.yr-big span{font:italic 400 20px/1.2 var(--serif);color:var(--accent)}
-.yr-facts{margin-bottom:12px}
-.yr-long{color:var(--muted);font-size:14px;line-height:1.5;margin:4px 0 12px}
-.yr-long b{color:var(--text);font-weight:500}
 </style>
 </head>
 <body>
@@ -2102,47 +2096,6 @@ $('#tabs').addEventListener('click', ev => {
 
 
 
-/* ================= Your year with Art ================= */
-function yearData(){
-  const Y = String(new Date().getFullYear()), st = state.stats || { secs:0, days:{}, plays:{} };
-  const secs = Object.entries(st.days || {}).filter(([k]) => k.startsWith(Y)).reduce((a, [, v]) => a + v, 0);
-  const playsArr = Object.entries(st.plays || {}).map(([id, v]) => [byId(id), v]).filter(([e]) => e);
-  const g = {}, t = {}, yrs = {};
-  playsArr.forEach(([e, v]) => { (e.guests || []).forEach(n => g[n] = (g[n] || 0) + v); (e.tags || []).slice(0, 6).forEach(x => { if(!/^[A-Z][a-z]+ [A-Z]/.test(x)) t[x] = (t[x] || 0) + v; }); if(e.year) yrs[e.year] = (yrs[e.year] || 0) + v; });
-  const top = o => Object.entries(o).sort((a, b) => b[1] - a[1]);
-  const longest = playsArr.sort((a, b) => b[1] - a[1])[0];
-  const finished = Object.entries(state.pos).filter(([id, p]) => isPlayed(id) && (!p.at || new Date(p.at).getFullYear() === +Y)).length;
-  return { Y, hrs: secs / 3600, finished, guests: top(g).slice(0, 3).map(x => x[0]), topics: top(t).slice(0, 3).map(x => x[0]), era: top(yrs)[0] ? top(yrs)[0][0] : '', longest: longest ? longest[0] : null };
-}
-function openYear(){
-  const y = yearData();
-  const body = y.hrs < .5 ? `<p class="lp-empty">Listen to a few shows and your year will fill in here.</p>` : `
-    <div class="yr-big"><b>${y.hrs >= 10 ? Math.round(y.hrs) : y.hrs.toFixed(1)}</b><span>hours with Art in ${y.Y}</span></div>
-    <dl class="nt-facts yr-facts">
-      <div><dt>Shows finished</dt><dd>${y.finished}</dd></div>
-      ${y.era ? `<div><dt>Favourite era</dt><dd>${y.era}</dd></div>` : ''}
-      ${y.guests.length ? `<div><dt>Top guests</dt><dd>${y.guests.map(esc).join('<br>')}</dd></div>` : ''}
-      ${y.topics.length ? `<div><dt>Top subjects</dt><dd>${y.topics.map(esc).join('<br>')}</dd></div>` : ''}
-    </dl>
-    ${y.longest ? `<p class="yr-long">Most played: <b>${esc(topicOf(y.longest) || y.longest.title)}</b>, ${niceDate(y.longest.date)}</p>` : ''}
-    <button class="act" data-yr="share">${I.share} Share your year<small>Image</small></button>`;
-  $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Your year with Art</div><div class="m">From the high desert, ${y.Y}</div></div></div>${body}`;
-  $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
-}
-async function shareYear(){
-  const y = yearData(), W = 1080, H = 1350, cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d');
-  try{ await Promise.all([document.fonts.load('400 120px "Instrument Serif"'), document.fonts.load('italic 400 120px "Instrument Serif"'), document.fonts.load('500 30px "Inter"')]); }catch(x){}
-  g.fillStyle = '#0e0d0c'; g.fillRect(0, 0, W, H);
-  g.fillStyle = '#8e877b'; g.font = '500 30px Inter, sans-serif'; g.fillText(('MY YEAR WITH ART · ' + y.Y).split('').join(String.fromCharCode(8202)), 90, 150);
-  g.fillStyle = '#ece6da'; g.font = '400 300px "Instrument Serif", Georgia, serif'; g.fillText(y.hrs >= 10 ? Math.round(y.hrs) : y.hrs.toFixed(1), 80, 470);
-  g.font = 'italic 400 70px "Instrument Serif", Georgia, serif'; g.fillStyle = '#d4b483'; g.fillText('hours from the high desert', 90, 560);
-  let yy = 720; const row = (k, v) => { g.fillStyle = '#8e877b'; g.font = '500 26px Inter, sans-serif'; g.fillText(k.toUpperCase(), 90, yy); g.fillStyle = '#ece6da'; g.font = '400 58px "Instrument Serif", Georgia, serif'; g.fillText(v, 90, yy + 66); yy += 150; };
-  if(y.guests.length) row('Top guest', y.guests[0]); if(y.topics.length) row('Top subject', y.topics[0]); row('Shows finished', String(y.finished));
-  g.fillStyle = '#ece6da'; g.font = '400 54px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', 90, H - 90); const w = g.measureText('Art Bell ').width; g.font = 'italic 400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#d4b483'; g.fillText('Tapes', 90 + w, H - 90);
-  const blob = await new Promise(r => cv.toBlob(r, 'image/png')), file = new File([blob], `art-bell-year-${y.Y}.png`, { type:'image/png' });
-  try{ if(navigator.canShare && navigator.canShare({ files:[file] })) await navigator.share({ files:[file], title:'My year with Art' }); else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 20000); toast('Image saved'); } }catch(x){}
-}
-$('#sheet').addEventListener('click', ev => { if(ev.target.closest('[data-yr="share"]')) shareYear(); });
 
 /* ================= Commute: keep the next few in Up next saved offline ================= */
 let autoSaving = false;
@@ -3650,7 +3603,6 @@ $('#gear').onclick = () => {
     <div class="sh-lbl">Theme</div><div class="swatches four">${[['Classic','Colour','#0e0d0c','#a8452b','#211f1c'],['Dark','Night','#0b0b0a','#86acd4','#1e1e1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2'],['Auto','Day & night','linear-gradient(135deg,#f2ede3 0 50%,#0b0b0a 50% 100%)','#d4b483','rgba(128,128,128,.45)']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <div class="sh-lbl">Your listening</div>${statsHTML()}
-    <button class="act" data-s="year">Your year with Art<small>${new Date().getFullYear()}</small></button>
     <div class="sh-lbl">Your data</div>
     <button class="act" data-s="backup">Back up favourites &amp; progress<small>Save a file</small></button>
     <button class="act" data-s="restore">Restore from a backup<small>Choose file</small></button>
@@ -3670,7 +3622,6 @@ $('#sheet').addEventListener('click', ev => {
   if(b.dataset.s === 'refresh'){ closeSheet(); loadLibrary(true); }
   if(b.dataset.s === 'tribute'){ closeSheet(); openTribute(); }
   if(b.dataset.s === 'sync'){ openSync(); return; }
-  if(b.dataset.s === 'year'){ openYear(); return; }
   if(b.dataset.s === 'sources'){ closeSheet(); toast('Shows: Internet Archive (' + SOURCES.length + ' Art Bell collections). Topic tags: facts drawn from The Art Bell Archive podcast’s show notes.', 5000); }
 });
 
