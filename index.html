@@ -940,6 +940,74 @@ html.cine .np .subt{margin-top:8px}
 .tb-lines dd{margin-top:8px;line-height:1.6}
 .tb-row{gap:10px;margin-top:12px}
 .tb-end{padding:48px 0 20px}
+
+/* ================= Install banner ================= */
+.install{position:fixed;left:10px;right:10px;top:calc(10px + var(--st));z-index:90;display:grid;grid-template-columns:44px 1fr auto auto;align-items:center;gap:12px;padding:12px 10px 12px 12px;background:var(--surface);border:1px solid var(--line);border-radius:4px;box-shadow:0 18px 40px rgba(0,0,0,.35);transform:translateY(calc(-100% - 30px));transition:transform .45s cubic-bezier(.2,.8,.2,1);max-width:520px;margin:0 auto}
+.install.show{transform:none}
+.install img{width:44px;height:44px;border-radius:10px;display:block}
+.ib-tx b{display:block;font:400 18px/1.15 var(--serif);color:var(--text)}
+.ib-tx span{display:block;font:400 12.5px/1.4 var(--font);color:var(--muted);margin-top:3px}
+.ib-go{height:36px;padding:0 14px;background:var(--text);color:var(--bg);border-radius:2px;font:600 10.5px var(--font);letter-spacing:.14em;text-transform:uppercase}
+.ib-x{width:36px;height:36px;display:grid;place-items:center}.ib-x svg{width:18px;height:18px;fill:var(--muted)}
+.ib-steps{grid-column:1/-1;margin:4px 0 2px;padding:12px 0 0 22px;border-top:1px solid var(--line);font:400 14px/1.8 var(--font);color:var(--text);display:none}
+.ib-steps svg{display:inline-block!important;width:16px;height:16px;fill:var(--accent);vertical-align:-3px;margin:0 2px}
+.install.steps .ib-steps{display:block}
+body.calm .install{transition:none}
+
+/* ================= Desktop ================= */
+.side-brand{display:none}
+@media (min-width:960px){
+  body{padding-left:248px}
+  .app{max-width:1180px;padding:0 40px}
+  .tabs{left:0!important;right:auto!important;top:0;bottom:0!important;width:248px;flex-direction:column;justify-content:flex-start;border:0!important;border-right:1px solid var(--line)!important;border-radius:0!important;background:var(--bg)!important;padding:calc(34px + var(--st)) 18px 24px!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .tabs::before{display:none}
+  .side-brand{display:block;font:400 34px/.95 var(--serif);color:var(--text);padding:0 12px 34px}
+  .side-brand span{display:block;font-style:italic;font-size:18px;margin-bottom:2px}
+  .side-brand em{display:block;color:var(--accent)}
+  .tabs .inner{flex-direction:column;gap:4px;max-width:none}
+  .tab{flex:none;height:46px!important;flex-direction:row;justify-content:flex-start;gap:14px;padding:0 12px;font:500 11px var(--font)!important;letter-spacing:.16em;border-radius:2px!important}
+  .tab svg{width:20px;height:20px}
+  .tab.on{box-shadow:inset 2px 0 0 var(--accent)!important;background:var(--surface)!important}
+  .tab:hover{background:var(--surface)}
+  .top{padding-top:calc(34px + var(--st))}
+  .top h1{font-size:68px}
+  .sticky{top:0}
+  /* On this night: two cards side by side */
+  .otn-rail .tile.tonight{flex-basis:calc(50% - 5px)!important}
+  .quick{grid-template-columns:repeat(3,minmax(0,220px))}
+  /* Programmes: one row of colour blocks */
+  .progs{grid-template-columns:repeat(4,1fr)!important;padding:0 20px 30px}
+  .progs .prog:first-child{grid-column:span 2}
+  /* Shelves become grids, no sideways scrolling */
+  .rail{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));overflow:visible!important}
+  .card,.esscard{width:auto!important}
+  .card .art,.esscard .art{width:100%!important;height:auto!important;aspect-ratio:1}
+  .card,.row,.tile,.prog,.tribcard,.browseall{transition:transform .2s ease,background .2s ease}
+  .card:hover .art{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.35)}
+  .card .art{transition:transform .2s ease,box-shadow .2s ease}
+  .prog:hover,.tribcard:hover,.browseall:hover{transform:translateY(-2px)}
+  /* Show list in two columns */
+  .list{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;padding-bottom:140px!important}
+  .list > .loadmore,.list > .browseall,.list > .empty{grid-column:1/-1}
+  .row:hover{background:color-mix(in srgb,var(--surface) 70%,transparent)}
+  .guests{padding-bottom:140px}
+  /* Mini player: a bar along the bottom of the content */
+  .mini{left:calc(248px + 40px)!important;right:40px;width:auto!important;max-width:none!important;transform:none!important;bottom:18px!important}
+  /* Player: a panel on the right */
+  .np{left:auto!important;width:440px;border-left:1px solid var(--line);box-shadow:-30px 0 60px rgba(0,0,0,.35);transform:translateX(100%)}
+  .np.open{transform:none}
+  /* Menus: centred dialogs */
+  .sheet{top:50%;bottom:auto!important;max-width:520px;max-height:82vh;border-radius:6px!important;transform:translate(-50%,-46%)!important;opacity:0;pointer-events:none;transition:transform .25s ease,opacity .2s ease!important}
+  .sheet.show{transform:translate(-50%,-50%)!important;opacity:1;pointer-events:auto}
+  .sheet .grab{display:none}
+  /* Tribute: a centred reading column */
+  .tribute{left:248px}
+  .tb-body{padding-left:max(26px,calc((100% - 720px)/2));padding-right:max(26px,calc((100% - 720px)/2))}
+  .tb-head{padding-left:28px;padding-right:28px}
+  .install{left:auto;right:24px;top:24px;margin:0;width:420px}
+  .toast{left:calc(50% + 124px)!important}
+}
+@media (min-width:1400px){ .list{grid-template-columns:1fr 1fr 1fr} }
 </style>
 </head>
 <body>
@@ -1060,6 +1128,13 @@ html.cine .np .subt{margin-top:8px}
   <div class="tb-head"><button id="tbClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button><span>In memory</span><span></span></div>
   <div class="tb-body" id="tbBody"></div>
 </div>
+<div class="install" id="install" role="dialog" aria-label="Install the app" aria-hidden="true">
+  <img src="apple-touch-icon.png" alt="" width="44" height="44">
+  <div class="ib-tx"><b>Install The Art Bell Archive</b><span id="ibSub">Open it from your home screen, full screen, like any other app.</span></div>
+  <button class="ib-go" id="ibGo">Install</button>
+  <button class="ib-x" id="ibX" aria-label="Not now"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button>
+  <ol class="ib-steps" id="ibSteps"><li>Tap the <b>Share</b> button <svg viewBox="0 0 24 24"><path d="M12 3 7.5 7.5l1.4 1.4L11 6.8V15h2V6.8l2.1 2.1 1.4-1.4zM5 11v9h14v-9h-3v2h1v5H7v-5h1v-2z"/></svg> in Safari’s toolbar</li><li>Scroll down and choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li></ol>
+</div>
 <!-- Mini player -->
 <div class="mini" id="mini">
   <div class="art" id="miniArt"></div>
@@ -1069,7 +1144,7 @@ html.cine .np .subt{margin-top:8px}
 </div>
 
 <!-- Tab bar -->
-<nav class="tabs"><div class="inner" id="tabs">
+<nav class="tabs"><div class="side-brand" aria-hidden="true"><span>The</span>Art Bell<em>Archive</em></div><div class="inner" id="tabs">
   <button class="tab on" data-tab="all"><svg viewBox="0 0 24 24"><path d="M4 5h3v14H4zm5 0h3v14H9zm5.2.6 2.9-.8 3.7 13.5-2.9.8z"/></svg>Library</button>
   <button class="tab" data-tab="guests"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5zM19 8V6h-2V4h-2v2h-2v2h2v2h2V8z" transform="translate(0 0)"/></svg>Guests</button>
   <button class="tab" data-tab="fav"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg>Favourites</button>
@@ -2479,6 +2554,41 @@ addEventListener('popstate', () => {
   if(layerSkip){ layerSkip--; return; }
   const sel = layerStack.pop(); if(!sel) return;
   if(sel === '#np') closeNP(); else if(sel === '#tribute') closeTribute(); else closeSheet();
+});
+
+/* ================= Install banner ================= */
+(() => {
+  const el = $('#install'), standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const ua = navigator.userAgent, ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  let deferred = null, kind = '';
+  const snoozed = () => { try{ return Date.now() < +(localStorage.getItem('abr.installSnooze') || 0); }catch(_){ return false; } };
+  const show = k => {
+    if(standalone || snoozed() || el.classList.contains('show')) return; kind = k;
+    $('#ibGo').textContent = k === 'ios' ? 'How' : 'Install';
+    $('#ibSub').textContent = k === 'ios' ? 'Add it to your home screen and it opens full screen, like any other app.' : innerWidth >= 960 ? 'Get it in its own window, with a shortcut on your desktop.' : 'Open it from your home screen, full screen, like any other app.';
+    const go = () => { el.classList.add('show'); el.setAttribute('aria-hidden', 'false'); };
+    document.getElementById('intro') ? setTimeout(go, 3500) : setTimeout(go, 1200);
+  };
+  const hide = snooze => { el.classList.remove('show', 'steps'); el.setAttribute('aria-hidden', 'true'); if(snooze) try{ localStorage.setItem('abr.installSnooze', Date.now() + 14*864e5); }catch(_){} };
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; show('prompt'); });
+  addEventListener('appinstalled', () => { hide(true); toast('Installed — you’ll find it with your apps'); });
+  if(ios && !standalone) show('ios');
+  $('#ibX').onclick = () => hide(true);
+  $('#ibGo').onclick = async () => {
+    if(kind === 'ios'){ el.classList.toggle('steps'); $('#ibGo').textContent = el.classList.contains('steps') ? 'Got it' : 'How'; if(!el.classList.contains('steps')) hide(true); return; }
+    if(!deferred) return hide(false);
+    deferred.prompt(); const r = await deferred.userChoice.catch(() => ({})); deferred = null; hide(r.outcome !== 'accepted');
+  };
+})();
+
+/* ================= Keyboard (desktop) ================= */
+addEventListener('keydown', ev => {
+  const tag = (ev.target.tagName || '').toLowerCase(); if(tag === 'input' || tag === 'textarea' || tag === 'select' || ev.metaKey || ev.ctrlKey || ev.altKey) return;
+  if(ev.key === ' ' && audio.dataset.id){ ev.preventDefault(); audio.paused ? audio.play().catch(() => {}) : audio.pause(); }
+  else if(ev.key === 'ArrowRight' && audio.dataset.id){ ev.preventDefault(); audio.currentTime = Math.min((audio.duration || 0) - 1, audio.currentTime + 30); }
+  else if(ev.key === 'ArrowLeft' && audio.dataset.id){ ev.preventDefault(); audio.currentTime = Math.max(0, audio.currentTime - 15); }
+  else if(ev.key === '/'){ ev.preventDefault(); scrollTo({ top:0, behavior:smooth() }); $('#q').focus(); }
+  else if(ev.key === 'Escape' && layerStack.length) history.back();
 });
 
 /* ================= Backup and restore ================= */
