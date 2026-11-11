@@ -704,16 +704,18 @@ h1 em{display:inline}
 @font-face{font-family:'Instrument Serif';src:url(fonts/instrument-serif-italic.woff2) format('woff2');font-weight:400;font-style:italic;font-display:block}
 #intro{position:fixed;inset:0;z-index:9999;background:#141210;display:flex;align-items:center;justify-content:center;transition:opacity .7s ease;overflow:hidden}
 #intro .in-card{position:relative;transition:transform .8s cubic-bezier(.4,0,.2,1),filter .7s ease}
-#intro .in-ttl{color:#ece6da;font-family:'Instrument Serif',Georgia,serif;line-height:.9}
+#intro .in-ttl{color:#ece6da;font-family:'Instrument Serif',Georgia,serif;line-height:1}
 #intro .in-ttl span{display:block}
 #intro .in-ttl i{display:block;font-style:normal;opacity:0;filter:blur(10px);transform:translateY(14px)}
 #intro .the{font-size:clamp(28px,9.5vw,42px);margin-bottom:-.04em}#intro .the i{font-style:italic}
 #intro .ab{font-size:clamp(58px,20vw,88px)}
-#intro .ar{font-size:clamp(58px,20vw,88px)}#intro .ar i{font-style:italic;color:#d4b483}
+#intro .ar{font-size:clamp(58px,20vw,88px);margin-top:.04em}#intro .ar i{font-style:italic;color:#d4b483}
 #intro.go .the i{animation:inSoft 1.1s .1s cubic-bezier(.25,.6,.3,1) forwards}
 #intro.go .ab i{animation:inSoft 1.2s .3s cubic-bezier(.25,.6,.3,1) forwards}
 #intro.go .ar i{animation:inSoft 1.3s .55s cubic-bezier(.25,.6,.3,1) forwards}
 #intro.out{opacity:0;pointer-events:none}
+#intro.quick .in-ttl i,#intro.quick .in-ded{animation:none!important;opacity:1!important;filter:none!important;transform:none!important}
+#intro.quick{transition:opacity .35s ease}
 #intro.out .in-card{transform:scale(1.03);filter:blur(6px)}
 @keyframes inSoft{to{opacity:1;filter:blur(0);transform:none}}
 @media (prefers-reduced-motion:reduce){#intro *{animation:none!important;transition:none!important}#intro .in-ttl i{transform:none;opacity:1;filter:none}}
@@ -1116,10 +1118,12 @@ html.light .sec h2,html.light .tb-sec h3{background-image:url("data:image/svg+xm
 /* Opening animation: shown once per launch; leaves as soon as the library is ready (min ~1.3s, max 2.6s) */
 (function(){
   const el = document.getElementById('intro'); if(!el) return;
-  let seen = false; try{ seen = sessionStorage.getItem('abr.intro') === '1'; sessionStorage.setItem('abr.intro','1'); }catch(_){}
+  let seen = false, quick = false; const today = new Date().toDateString();
+  try{ seen = sessionStorage.getItem('abr.intro') === '1'; sessionStorage.setItem('abr.intro','1'); quick = localStorage.getItem('abr.introDay') === today; localStorage.setItem('abr.introDay', today); }catch(_){}
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || (()=>{ try{ return JSON.parse(localStorage.getItem('abr.state.v2')||'{}').calm }catch(_){ return false } })();
   if(seen){ el.remove(); return; }
-  const t0 = performance.now(), min = reduce ? 350 : 1900;
+  const t0 = performance.now(), min = reduce ? 350 : quick ? 450 : 1900;
+  if(quick) el.classList.add('quick');
   if(reduce){ el.querySelectorAll('.in-ttl i').forEach(x => { x.style.transform = 'none'; x.style.opacity = 1; x.style.filter = 'none'; }); }
   const start = () => el.classList.add('go');
   Promise.race([Promise.all([document.fonts.load('400 20px "Instrument Serif"'), document.fonts.load('italic 400 60px "Instrument Serif"')]), new Promise(r => setTimeout(r, 350))]).then(start, start);
@@ -1462,19 +1466,58 @@ const sceneSVG = n => PROG_SCENE[n] ? `<svg class="skscene" viewBox="0 0 120 72"
 const PERSON_RE = /^((Father|Fr\.?|Dr\.?|Prof\.?|Major|Maj\.?|Rev\.?|Col\.?|Sir|Gen\.?|Lt\.?)\s)?[A-Z][a-z’'.-]+(\s(de|van|von|St\.?))?(\s[A-Z][\w’'.-]*){1,3}$/;
 const NOT_PERSON_RE = /^(Open Lines|Time Travel|Area 51|Ghost to Ghost|Remote Viewing|Earth Changes|Art’s|Art's|Past Life|Near Death|Cancer|Crop Circles|Comet|Ancient|Alien|UFO|The )/i;
 const cleanPart = x => x.replace(/\([^)]*\)/g, '').replace(/\bfirst appear\w*\b/i, '').replace(/,\s*(M\.?D\.?|Ph\.?D\.?|Jr\.?)$/i, '').split(/(?<!\b(?:[A-Z][a-z]{0,2}|Prof))\.\s+(?=[A-Z][a-z])/)[0].trim();
-function headOf(e){
-  const parts = e.title.split(/\s+[–-]\s+/).map(cleanPart).filter(Boolean);
-  const person = parts.find(x => PERSON_RE.test(x) && !NOT_PERSON_RE.test(x));
-  if(person) return person;
-  const g = (e.guests || []).find(x => !NOT_PERSON_RE.test(x) && !/discovered|bases|update|lines|hour/i.test(x));
-  return g || parts[0] || e.title;
+const nameCache = new Map();
+let knownGuests = null;
+function guestIndex(){
+  if(knownGuests && knownGuests.n === episodes.length) return knownGuests.list;
+  const c = new Map(); episodes.forEach(e => (e.guests || []).forEach(g => c.set(g, (c.get(g) || 0) + 1)));
+  knownGuests = { n: episodes.length, list: [...c.keys()].filter(g => g.split(' ').length >= 2).sort((a, b) => b.length - a.length) };
+  return knownGuests.list;
 }
-function topicOf(e){
-  const h = headOf(e).toLowerCase();
-  const parts = e.title.split(/\s+[–-]\s+/).map(cleanPart)
-    .filter(x => x && !x.toLowerCase().includes(h) && !h.includes(x.toLowerCase()) && !(PERSON_RE.test(x) && !NOT_PERSON_RE.test(x)) && !/^first show$/i.test(x));
-  return parts[0] || '';
+/* Works out the cover headline (a person, where there is one) and the topic for any show title */
+function nameParts(e){
+  if(nameCache.has(e.id)) return nameCache.get(e.id);
+  let t = e.title.replace(/^(\d{2,4}[-x\d]*\s*[–-]\s*)+/i, '').replace(/^(AB\s+)?(Dreamland|Coast to Coast AM)( with Art Bell)?\s*[–-]\s*/i, '').replace(/^\d{4}-\d{2}-\d{2}\s*-\s*/, '').trim();
+  t = t.replace(/\s*\((redo|partial|repeat|replay[^)]*|missing[^)]*)\)\s*$/i, '').trim();
+  let part = '';
+  const pm = t.match(/\s(\d)-(\d)$/) || t.match(/\s\(?(?:Part|Pt\.?)\s*(\d+)\)?(?:\s*of\s*(\d+))?$/i) || t.match(/\s\(?hours?\s*(\d)(?:\s*[-–]\s*(\d))?\)?$/i);
+  if(pm){ part = pm[2] && /\d-\d$/.test(pm[0]) ? `Part ${pm[1]} of ${pm[2]}` : /hour/i.test(pm[0]) ? pm[0].trim().replace(/[()]/g, '') : `Part ${pm[1]}`; t = t.slice(0, pm.index).trim(); }
+  let head = '', topic = '';
+  const yr = t.match(/^(\d{4})(\s+(.*))?$/);
+  if(yr){
+    const m = e.date ? +e.date.slice(5, 7) : 0, rest = (yr[3] || '').replace(/\([^)]*\)/g, '').trim();
+    if(/ghost/i.test(t) || m === 10 || m === 11){ head = 'Ghost to Ghost'; topic = `Halloween ${yr[1]}` + (/partial/i.test(e.title) ? ' (partial)' : ''); }
+    else if(/predict/i.test(t) || m === 12 || m === 1){ head = 'Predictions'; topic = `For ${+yr[1] + (m === 12 ? 1 : 0)}` + (rest.replace(/predictions/i, '').trim() ? ' · ' + rest.replace(/predictions/i, '').trim() : ''); }
+    else { head = 'Open Lines'; topic = yr[1] + (rest ? ' · ' + rest : ''); }
+  } else {
+    const parts = t.split(/\s+[–-]\s+/).map(cleanPart).filter(Boolean);
+    if(parts.length > 1 || /\s[–-]\s/.test(t)){
+      head = parts.find(x => PERSON_RE.test(x) && !NOT_PERSON_RE.test(x)) || (e.guests || []).find(x => !NOT_PERSON_RE.test(x)) || parts[0] || t;
+      const h = head.toLowerCase();
+      topic = parts.filter(x => x && !x.toLowerCase().includes(h) && !h.includes(x.toLowerCase()) && !(PERSON_RE.test(x) && !NOT_PERSON_RE.test(x)) && !/^first show$/i.test(x))[0] || '';
+    } else {
+      const one = cleanPart(t) || t;
+      const ol = one.match(/^Open Lines\b[\s:,-]*(.*)$/i);
+      const known = guestIndex().find(g => one.toLowerCase().startsWith(g.toLowerCase() + ' ') || one.toLowerCase().startsWith(('dr ' + g).toLowerCase() + ' ') || one.toLowerCase().startsWith(('dr. ' + g).toLowerCase() + ' '));
+      if(ol){ head = 'Open Lines'; topic = ol[1].replace(/\.$/, ''); }
+      else if(known){ const cut = one.toLowerCase().indexOf(known.toLowerCase()) + known.length; head = one.slice(0, cut).trim(); topic = one.slice(cut).replace(/^[\s,:&-]+/, '').trim(); }
+      else {
+        const w = one.match(/^(.*?)\s+with\s+((?:Dr\.?\s|Prof\.?\s)?[A-Z][\w.'’-]+(?:\s[A-Z][\w.'’-]+){1,2})$/);
+        const nm = one.match(/^((?:Dr\.?|Prof\.?|Major)\s)?((?:[A-Z]\.\s?)?[A-Z][a-z'’-]+\s(?!The\b|Of\b|And\b)[A-Z][a-z'’-]+)\s(.+)$/);
+        if(w){ head = w[2]; topic = w[1]; }
+        else if(nm && nm[3].split(' ').length >= 2 && !NOT_PERSON_RE.test(nm[2])){ head = ((nm[1] || '') + nm[2]).trim(); topic = nm[3]; }
+        else head = one;
+      }
+    }
+  }
+  const gk = x => x.toLowerCase().replace(/\b(dr|prof|major|maj|rev|col|father|fr|sir)\b\.?/g, '').replace(/[^a-z]/g, '');
+  const canon = (e.guests || []).find(g => gk(g) === gk(head)); if(canon && !/^(Dr|Father|Fr|Major|Prof)\b/.test(head)) head = canon;
+  if(part) topic = topic ? `${topic} · ${part}` : part;
+  const out = { head, topic };
+  nameCache.set(e.id, out); return out;
 }
+function headOf(e){ return nameParts(e).head; }
+function topicOf(e){ return nameParts(e).topic; }
 /* Sleeve art: the subject picks the motif where it can (UFOs get a saucer, Earth changes a horizon...) */
 const MOTIF_KEYS = [
   [/ufo|alien|abduct|saucer|roswell|reptil|contact|extraterr|\bet\b|greys?\b|hybrid/i, 'saucer'],
@@ -1580,15 +1623,15 @@ function parseFile(item, f, itemTitle){
 }
 const NOT_GUEST = /^(global warming|ab\b|ab dreamland|reverse speech|climate change|theoretical physics|open lines|area 51|coast to coast|ghost to ghost|dark matter|dreamland|midnight in the desert|somewhere in time|predictions|annual|y2k|best of|halloween|launch night|callers|part \d|hour \d|the |art bell|art’s|art's)/i;
 const TOPIC_WORDS = /\b(project|viewing|cosmology|hole|lines|experiment|changes|lives|forecasts?|warning|extinctions?|disclosure|abductions?|ufos?|ghosts?|aliens?|time|travel|prophecy|prophecies|predictions?|earth|area|remote|psychic|conspiracy|government|science|show|night|special|update|news|report|bigfoot|sasquatch|crop|circles|end|world|dreams?|angels?|demons?|energy|health|planet|nibiru|mars|moon|sun|space|war|secrets?|hidden|ancient|lost|myster(y|ies)|hour|part|interview|music|callers?|weather|history|stories|story|theory|technology|mind|control|cosmic|universe|healing|spirits?|paranormal|phenomena|cattle|mutilations?|disasters?|economy|collapse|survival|vortex|portal|pyramids?|atlantis|egypt|bible|religion|church|vampires?|werewolves|monsters?|creatures?|cryptids?|reptilians?|greys?|contact|encounters?|sightings?|roswell|military|nasa|cia|fbi|chemtrails|weather|y2k|millennium|apocalypse|armageddon|rapture|consciousness|medicine|cancer|vaccines?|food|water|oil|money|gold|markets?|crash|tribute|memorial|best|classic|special|replay|rebroadcast|first|last|final|day|week|year)\b/i;
-const GUEST_ALIASES = { 'linda howe':'Linda Moulton Howe', 'richard hoagland':'Richard C. Hoagland', 'richard c hoagland':'Richard C. Hoagland', 'david oates':'David John Oates' };
+const GUEST_ALIASES = { 'john zajack':'John Zajack', 'gordon-michael scallion':'Gordon Michael Scallion', 'robert morning sky':'Robert Morningsky', "brian o' leary":"Brian O'Leary", 'linda howe':'Linda Moulton Howe', 'richard hoagland':'Richard C. Hoagland', 'richard c hoagland':'Richard C. Hoagland', 'david oates':'David John Oates' };
 function normGuest(g){
-  g = g.replace(/^(Major|Maj\.?|Dr\.?|Doctor|Prof\.?|Professor|Rev\.?|Col\.?|Sgt\.?|Mr\.?|Mrs\.?|Ms\.?)\s+/i, '').replace(/\b([A-Z])\s/g, '$1. ').replace(/\.\./g,'.').trim();
+  g = g.replace(/^(Major|Maj\.?|Dr\.?|Doctor|Prof\.?|Professor|Rev\.?|Col\.?|Sgt\.?|Mr\.?|Mrs\.?|Ms\.?|Father|Fr\.?)\s+/i, '').replace(/\b([A-Z])\s/g, '$1. ').replace(/\.\./g,'.').trim();
   return GUEST_ALIASES[g.toLowerCase().replace(/\./g,'')] || g;
 }
 function guestsOf(title){
   const parts = title.split(/\s+[–-]\s+|,\s*|\s+&\s+|\s+and\s+|\s+with\s+/).map(x => x.trim());
   const names = parts.filter(x =>
-    /^(Dr\.?|Prof\.?|Rev\.?|Col\.?|Maj\.?|Major|Sgt\.?)?\s?[A-Z][\w'’.-]+(\s(de|van|von|del|la|St\.?))?(\s[A-Z][\w'’.-]*){1,2}$/.test(x) && !NOT_GUEST.test(x) && !TOPIC_WORDS.test(x)).map(normGuest);
+    /^(Dr\.?|Prof\.?|Rev\.?|Col\.?|Maj\.?|Major|Sgt\.?)?\s?[A-Z][\w'’.-]+(\s(de|van|von|del|la|St\.?))?(\s[A-Z][\w'’.-]*){1,2}$/.test(x) && !NOT_GUEST.test(x) && !TOPIC_WORDS.test(x) && !/\b(future|crisis|discovered|bases|death|life|disease|trends|extension|regression|hereafter|visions|threats|debate|hoax|night|stories)\b/i.test(x)).map(normGuest);
   return [...new Set(names)];
 }
 const addHay = e => (e.guests = guestsOf(e.title), e.hay = (e.date+' '+niceDate(e.date)+' '+e.show+' '+e.title).toLowerCase(), e.nd = niceDate(e.date), e);
@@ -1654,7 +1697,15 @@ async function loadLibrary(force){
   if(failed) toast(`${failed} collection${failed>1?'s':''} didn’t load — try refreshing later`);
   afterLoad();
 }
+function mergeGuestSpellings(){
+  const key = g => g.toLowerCase().replace(/\b(dr|prof|major|maj|rev|col|father|fr|sir)\b\.?/g, '').replace(/[^a-z]/g, '');
+  const count = new Map(); episodes.forEach(e => (e.guests || []).forEach(g => count.set(g, (count.get(g) || 0) + 1)));
+  const best = new Map(); [...count.entries()].sort((a, b) => b[1] - a[1]).forEach(([g]) => { const k = key(g); if(!best.has(k)) best.set(k, g); });
+  episodes.forEach(e => { if(e.guests) e.guests = [...new Set(e.guests.map(g => best.get(key(g)) || g))]; });
+  nameCache.clear(); knownGuests = null;
+}
 function afterLoad(quiet){
+  mergeGuestSpellings();
   [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach((e, i) => { e.no = i + 1; });
   idMap = new Map(episodes.map(e => [e.id, e]));
   $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015`;
@@ -2463,10 +2514,45 @@ function shareUrl(e, t){
   u.searchParams.set('ep', e.id); if(t > 5) u.searchParams.set('t', Math.floor(t));
   return u.toString();
 }
+/* Share card: a 1080×1350 picture of the show to send with the link */
+async function shareCard(e, t){
+  const W = 1080, H = 1350, [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d');
+  g.fillStyle = '#141210'; g.fillRect(0, 0, W, H);
+  g.fillStyle = fill; g.fillRect(0, 0, W, 14);
+  try{
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="900" height="810"><defs><filter id="w" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs><g filter="url(#w)" fill="none" stroke="${line}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${LINE_MOTIF[kind] || LINE_MOTIF.rings}</g></svg>`;
+    const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); await img.decode();
+    g.drawImage(img, 250, 70, 580, 522);
+  }catch(x){}
+  try{ await Promise.all([document.fonts.load('400 100px "Instrument Serif"'), document.fonts.load('italic 400 50px "Instrument Serif"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
+  const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n-1] = out[n-1].replace(/\s*\S*$/, '') + '…'; } return out; };
+  let y = 690; const X = 90, M = W - 180;
+  g.font = '600 28px "Inter", sans-serif'; g.fillStyle = line; g.fillText((e.show + (e.no ? '   ·   No. ' + e.no : '')).toUpperCase().split('').join(String.fromCharCode(8202)), X, y);
+  y += 110; g.fillStyle = '#ece6da'; g.font = '400 112px "Instrument Serif", Georgia, serif';
+  wrap(headOf(e), M, 2).forEach(l => { g.fillText(l, X, y); y += 112; });
+  const tp = topicOf(e); if(tp){ g.font = 'italic 400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#b3aa9c'; wrap(tp, M, 2).forEach(l => { g.fillText(l, X, y); y += 62; }); }
+  y += 18; g.font = '600 30px "Inter", sans-serif'; g.fillStyle = '#8e877b';
+  g.fillText(((e.date ? niceDate(e.date) : '') + (t > 5 ? '   ·   from ' + fmt(t) : '')).toUpperCase(), X, y);
+  g.fillStyle = 'rgba(236,230,218,.16)'; g.fillRect(X, H - 170, M, 2);
+  g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#ece6da'; g.fillText('The', X, H - 100);
+  const w1 = g.measureText('The ').width; g.font = '400 40px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', X + w1, H - 100);
+  const w2 = g.measureText('Art Bell ').width; g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#d4b483'; g.fillText('Archive', X + w1 + w2, H - 100);
+  g.font = '500 24px "Inter", sans-serif'; g.fillStyle = '#8e877b'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
+  return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-${e.no || 'show'}.png`, { type:'image/png' }) : null), 'image/png'));
+}
 async function shareMoment(e){
   const t = audio.dataset.id === e.id ? curTime(e) : 0, url = shareUrl(e, t);
   const text = `${e.title} (${e.show}, ${niceDate(e.date)})${t > 5 ? ' from ' + fmt(t) : ''}`;
-  try{ if(navigator.share){ await navigator.share({ title:'Art Bell Archive', text, url }); return; } }catch(x){ if(x && x.name === 'AbortError') return; }
+  if(navigator.share){
+    toast('Making a share card…', 4000);
+    let file = null; try{ file = await shareCard(e, t); }catch(x){}
+    try{
+      if(file && navigator.canShare && navigator.canShare({ files:[file] })) await navigator.share({ files:[file], title:'The Art Bell Archive', text: text + '\n' + url });
+      else await navigator.share({ title:'The Art Bell Archive', text, url });
+      toast('Shared'); return;
+    }catch(x){ if(x && x.name === 'AbortError'){ toast('Cancelled'); return; } }
+  }
   try{ await navigator.clipboard.writeText(text + '\n' + url); toast('Link copied'); }catch(x){ toast('Couldn’t share from here — works once the app is hosted'); }
 }
 function handleDeepLink(){
