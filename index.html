@@ -1247,8 +1247,6 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
 :root{--sc0:#e2805a;--sc1:#86acd4;--sc2:#c8a97f;--sc3:#a29ce6;--sc4:#d48cbf;--sc5:#93c7a0;--sc6:#e6c46a;--sc7:#7fc4c4}
 html.light{--sc0:#b9532e;--sc1:#3f6f9e;--sc2:#8a6a3c;--sc3:#5f56b8;--sc4:#a24a86;--sc5:#3f7f50;--sc6:#94701a;--sc7:#2f7d7d}
 .sd{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mc);flex:none;margin-right:7px;vertical-align:1px}
-::view-transition-group(hero){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
-::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
 .np-now{display:flex;align-items:center;gap:8px;min-height:18px;margin-top:14px;font:500 12px/1.2 var(--font);color:var(--muted);letter-spacing:.01em}
 .np-now b{font-weight:600;color:var(--text)}
 .np-now i{width:7px;height:7px;border-radius:50%;background:var(--mc,var(--muted));flex:none}
@@ -2543,13 +2541,7 @@ setInterval(addRailArrows, 2500); window.addEventListener('resize', () => setTim
 
 
 
-/* Page changes inside the library: the tapped thing (year, guest) carries over into the new page's heading */
-function viewMorph(update, fromEl){
-  if(!document.startViewTransition || calm() || matchMedia('(prefers-reduced-motion: reduce)').matches){ update(); return; }
-  if(fromEl) fromEl.style.viewTransitionName = 'hero';
-  const vt = document.startViewTransition(() => { if(fromEl) fromEl.style.viewTransitionName = ''; update(); const h = document.querySelector('#yearHead .yh-y, #pill .gp-n'); if(h && fromEl) h.style.viewTransitionName = 'hero'; });
-  vt.finished.finally(() => document.querySelectorAll('#yearHead .yh-y, #pill .gp-n').forEach(h => h.style.viewTransitionName = '')).catch(() => {});
-}
+function viewMorph(update){ update(); }
 
 /* ================= Years as their own libraries ================= */
 function setYear(y){
