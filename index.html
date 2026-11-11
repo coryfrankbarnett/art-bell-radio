@@ -1435,6 +1435,54 @@ html.cine.easy .searchbox input::placeholder{font-style:normal}
 .yh-y{font:400 clamp(64px,20vw,96px)/.9 var(--serif);margin:14px 0 10px}
 .yh-progs{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .yh-progs .chip small{margin-left:8px;opacity:.6;font-size:10px}
+
+/* ---- 2. small print: nothing tiny, less tracking ---- */
+html.cine .row .m, html.cine .cno, html.cine .nt-h, html.cine .sh-lbl, html.cine .nt-k, html.cine .gp-k, html.cine .tour-k, html.cine .seeall, html.cine .sec .meta, html.cine .sec select,
+html.cine .ycard .n, html.cine .otn2 .k, html.cine .otn2 .s, html.cine .prog .yrs, html.cine .prog .ct, html.cine .times, html.cine .np .lbl, html.cine .eyebrow, html.cine .top .sub, html.cine .tabs .tab,
+html.cine .jl, html.cine .nm-l, html.cine .bt-s, html.cine .act small, html.cine .chip, html.cine .nt-facts dt, html.cine .gp-yrs, html.cine .ab-s, html.cine .esscard .enum, html.cine .nt-rel .nr small, html.cine .np-topics .nt-k, html.cine .rd-station span
+{font-size:max(11.5px, 1em * .0 + 11.5px)!important;letter-spacing:.07em!important}
+html.cine .row .m{font-size:12px!important}
+html.cine .tabs .tab{font-size:10.5px!important}
+/* ---- 1. text size ---- */
+html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
+html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
+html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
+html.ts-l .np .title{font-size:clamp(30px,8.4vw,36px)!important}html.ts-l .np .subt,html.ts-l .mini .m{font-size:14px!important}html.ts-l .mini .t{font-size:17px!important}
+html.ts-l .searchbox input{font-size:19px!important}html.ts-l .nt-facts dd{font-size:18px!important}
+html.ts-xl .row .t{font-size:21px!important;-webkit-line-clamp:3!important}html.ts-xl .row .m{font-size:15px!important}
+html.ts-xl .card .t,html.ts-xl .esscard .t,html.ts-xl .rcard .t{font-size:19px!important}html.ts-xl .note,html.ts-xl .ess-intro,html.ts-xl .ab-p,html.ts-xl .tour-p,html.ts-xl .tt-tx,html.ts-xl .notes p{font-size:19px!important}
+html.ts-xl .act{font-size:19px!important}html.ts-xl .act small,html.ts-xl .chip,html.ts-xl .nt-h,html.ts-xl .sh-lbl,html.ts-xl .seeall,html.ts-xl .times{font-size:14.5px!important}
+html.ts-xl .np .title{font-size:clamp(32px,9vw,40px)!important}html.ts-xl .np .subt,html.ts-xl .mini .m{font-size:15.5px!important}html.ts-xl .mini .t{font-size:19px!important}
+html.ts-xl .searchbox input{font-size:21px!important}html.ts-xl .nt-facts dd{font-size:20px!important}html.ts-xl .tabs .tab{font-size:12px!important}
+.sh-sub{font:500 12px/1 var(--font);color:var(--muted);margin:10px 2px 8px}
+.sizepick{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.sz-o{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px 9px;border:1.5px solid var(--line);border-radius:3px;background:var(--surface);color:var(--text)}
+.sz-o.on{border-color:var(--accent)}.sz-o b{font:500 16px/1 var(--font);height:26px;display:flex;align-items:flex-end}.sz-o b.sz-l{font-size:20px}.sz-o b.sz-xl{font-size:25px}.sz-o b.sz-auto{font-size:18px}
+.sz-o span{font:500 12px/1.2 var(--font)}.sz-o small{font:400 10px/1.2 var(--font);color:var(--muted);text-align:center}
+.act-sub{display:block;margin:3px 0 0!important;color:var(--muted);font-size:12px!important;letter-spacing:0!important;text-transform:none!important}
+/* ---- 3. easier progress bar ---- */
+.scrub{height:56px!important;margin-top:10px}
+html.cine .scrub{height:56px!important}
+@media (pointer:coarse){ .scrub{height:64px!important} }
+/* ---- 4. Wild Card hint ---- */
+.q-hint{display:block;font:500 10.5px/1.2 var(--font);letter-spacing:.06em;color:var(--muted);margin-top:2px}
+/* ---- 6. simple player ---- */
+html.simple .np-topics,html.simple .np-marks,html.simple #markBtn,html.simple #queueBtn,html.simple #bedBtn,html.simple #castBtn,html.simple #boostBtn,html.simple #speed,html.simple #prev,html.simple #next{display:none!important}
+html.simple .cassette,html.simple .radio{display:none!important}html.simple .np .bigart{display:flex!important}
+html.simple .np .ctl{gap:28px;justify-content:center}html.simple .np .ctl .big{width:96px!important;height:96px!important}html.simple .np .ctl .skip{width:64px!important;height:64px!important}
+html.simple .np .ctl .skip svg{width:40px!important;height:40px!important}
+html.simple .np .title{font-size:clamp(28px,8vw,36px)!important}
+html.simple .extras{justify-content:center}html.simple #sleep{min-width:120px;height:52px;font-size:15px}
+/* ---- 8. Continue ---- */
+.continuebig{display:flex;align-items:center;gap:14px;width:calc(100% - 40px);margin:0 20px 12px;padding:12px;border-radius:4px;border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));background:var(--surface);color:var(--text);text-align:left}
+.continuebig .art{width:64px;height:64px;flex:none}
+.cb-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.cb-k{font:500 11px/1 var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.cb-t{font:600 17px/1.25 var(--font);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cb-m{font:400 13px/1.2 var(--font);color:var(--muted)}
+.cb-go{width:52px;height:52px;flex:none;border-radius:50%;background:var(--text);display:flex;align-items:center;justify-content:center}
+.cb-go svg{width:22px;height:22px;fill:var(--bg);margin-left:3px}
+html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 </style>
 </head>
 <body>
@@ -1524,6 +1572,7 @@ html.cine.easy .searchbox input::placeholder{font-style:normal}
   <div class="progress" id="progress"><i></i></div>
 
 
+  <button class="continuebig" id="contBig" type="button" style="display:none"></button>
   <button class="browsetop" id="browseTop" type="button"><span class="bt-t">Browse all shows</span><span class="bt-s" id="browseTopN"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <section id="progWrap" style="display:none">
     <div class="sec"><h2>Programmes</h2><button class="seeall" id="progAll">All shows</button></div>
@@ -1642,11 +1691,11 @@ html.cine.easy .searchbox input::placeholder{font-style:normal}
   <div class="extras">
     <button id="speed"><b id="speedVal">1×</b>Speed</button>
     <button id="sleep"><svg viewBox="0 0 24 24"><path d="M12.3 2a10 10 0 1 0 9.7 12.4A8 8 0 0 1 12.3 2z"/></svg><span id="sleepVal">Sleep</span></button>
-    <button id="markBtn"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span id="markVal">Mark</span></button>
+    <button id="markBtn"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span id="markVal">Bookmark</span></button>
     <button id="queueBtn"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-1V9l5 3z"/></svg><span id="queueVal">Up next</span></button>
     <button id="bedBtn"><svg viewBox="0 0 24 24"><path d="M3 18v-6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v6h-2v-2H5v2zm2-4h14v-2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1zM7 8V6h4v2z"/></svg><span>Bedside</span></button>
     <button id="castBtn"><svg viewBox="0 0 24 24"><path d="M2 16v2a3 3 0 0 1 3 3h2a5 5 0 0 0-5-5zm0-4v2a7 7 0 0 1 7 7h2a9 9 0 0 0-9-9zm0-4v2a11 11 0 0 1 11 11h2A13 13 0 0 0 2 8zm19-5H3a2 2 0 0 0-2 2v2h2V5h18v14h-5v2h5a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg><span>Speaker</span></button>
-    <button id="boostBtn"><svg viewBox="0 0 24 24"><path d="M3 10v4h3l5 4V6L6 10zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg><span>Boost</span></button>
+    <button id="boostBtn"><svg viewBox="0 0 24 24"><path d="M3 10v4h3l5 4V6L6 10zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg><span>Voice boost</span></button>
   </div>
 </div>
 
@@ -2446,6 +2495,28 @@ $('#yearHead').addEventListener('click', ev => {
   const ps = ev.target.closest('[data-yshow]'); if(ps){ const y = yearFilter; setShow(ps.dataset.yshow); yearFilter = y; applyFilters(); }
 });
 
+
+/* ================= Accessibility: text size, simple player, swipes, Continue ================= */
+// text size: Auto follows the phone's own text size where the browser tells us (iPhone), otherwise Normal
+function systemTextScale(){
+  try{ const t = document.createElement('span'); t.style.cssText = 'font:-apple-system-body;position:absolute;visibility:hidden'; t.textContent = 'x'; document.body.appendChild(t); const px = parseFloat(getComputedStyle(t).fontSize); t.remove(); return px > 22 ? 'xl' : px > 18.5 ? 'l' : 'n'; }catch(x){ return 'n'; }
+}
+function applyA11y(){
+  const ts = !state.textSize || state.textSize === 'auto' ? systemTextScale() : state.textSize, h = document.documentElement;
+  h.classList.toggle('ts-l', ts === 'l'); h.classList.toggle('ts-xl', ts === 'xl');
+  h.classList.toggle('simple', !!state.simple);
+  if(state.simple && state.npView && state.npView !== 'cover'){ try{ setNPView('cover'); }catch(x){} }
+}
+applyA11y();
+function syncContinue(){
+  const b = $('#contBig'); const home = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value;
+  const e = state.last && byId(state.last), p = e && state.pos[e.id];
+  if(!home || !e || !p || p.t < 30 || !p.d || p.t > p.d - 60 || audio.dataset.id === e.id && !audio.paused){ b.style.display = 'none'; return; }
+  b.style.display = '';
+  b.innerHTML = `${artHTML(e, 'sm')}<span class="cb-tx"><span class="cb-k">Continue listening</span><span class="cb-t">${esc(topicOf(e) || e.title)}</span><span class="cb-m">${esc(e.show)} · ${fmt(p.d - p.t)} left</span></span><span class="cb-go">${I.play2}</span>`;
+  b.onclick = () => playFrom(e, b.querySelector('.art'));
+}
+
 /* ================= Getting to the full list ================= */
 function openFullList(){ allOpen = true; shown = PAGE; if(tab !== 'all') document.querySelector('.tab[data-tab="all"]').click(); render(); requestAnimationFrame(() => $('#secTitle').scrollIntoView({ block:'start', behavior:smooth() })); }
 $('#browseTop').onclick = openFullList; $('#progAll').onclick = openFullList;
@@ -2837,7 +2908,7 @@ function render(){
   } else ph.classList.remove('show');
   const curList = tab === 'fav' && listFilter && state.lists.find(l => l.id === listFilter);
   $('#secTitle').textContent = curList ? curList.name : (showFilter || yearFilter) && tab === 'all' ? 'Episodes' : { all:'All shows', fav:'Favourites', recent:'Recently played', saved:'Saved offline', guests:'Guests' }[tab];
-  renderListBar(); syncBrowseTop(); renderYears(showProgs); renderYearHead();
+  renderListBar(); syncBrowseTop(); renderYears(showProgs); renderYearHead(); syncContinue();
   const pill = $('#pill');
   if(guestFilter){ pill.innerHTML = guestPage(guestFilter); pill.classList.add('show', 'gpage'); }
   else pill.classList.remove('show', 'gpage');
@@ -2896,7 +2967,7 @@ $('#list').addEventListener('click', ev => {
 (function(){
   const list = $('#list'); let sw = null, row = null, x0 = 0, y0 = 0, dx = 0, dir = null, armed = false, justSwiped = false;
   const TH = 84;
-  list.addEventListener('touchstart', ev => { const s = ev.target.closest('.swipe'); if(!s || ev.target.closest('.more')) return; sw = s; row = s.querySelector('.row'); x0 = ev.touches[0].clientX; y0 = ev.touches[0].clientY; dx = 0; dir = null; armed = false; }, {passive:true});
+  list.addEventListener('touchstart', ev => { if(state.noSwipe) return; const s = ev.target.closest('.swipe'); if(!s || ev.target.closest('.more')) return; sw = s; row = s.querySelector('.row'); x0 = ev.touches[0].clientX; y0 = ev.touches[0].clientY; dx = 0; dir = null; armed = false; }, {passive:true});
   list.addEventListener('touchmove', ev => {
     if(!sw) return; const x = ev.touches[0].clientX - x0, y = ev.touches[0].clientY - y0;
     if(!dir){ if(Math.abs(x) > 10 && Math.abs(x) > Math.abs(y)*1.4) dir = 'h'; else if(Math.abs(y) > 10){ sw = null; return; } else return; }
@@ -3131,7 +3202,7 @@ function renderBento(){
     <div class="otn-rail${list.length > 1 ? '' : ' solo'}">${cards}</div>${chips}
     <div class="quick">
       <button class="tile q radio${state.radio ? ' on' : ''}" data-t="radio"><svg viewBox="0 0 24 24"><path d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-4.2-2.8 1.4 1.4a4 4 0 0 0 0 5.7l-1.4 1.4a6 6 0 0 1 0-8.5zm8.4 0a6 6 0 0 1 0 8.5l-1.4-1.4a4 4 0 0 0 0-5.7zM5 4.4l1.4 1.4a8.5 8.5 0 0 0 0 12.4L5 19.6a10.5 10.5 0 0 1 0-15.2zm14 0a10.5 10.5 0 0 1 0 15.2l-1.4-1.4a8.5 8.5 0 0 0 0-12.4z"/></svg><span class="v">${state.radio ? 'On air' : 'Overnight'}</span></button>
-      <button class="tile q" data-t="spin"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-2.05-4.95L14 10h7V3l-2.64 2.64A8.96 8.96 0 0 0 12 3z"/></svg><span class="v">Wild Card</span></button>
+      <button class="tile q" data-t="spin"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-2.05-4.95L14 10h7V3l-2.64 2.64A8.96 8.96 0 0 0 12 3z"/></svg><span class="v">Wild Card<small class="q-hint">Random show</small></span></button>
       <button class="tile q" data-t="saved"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span class="v">${offN} offline</span></button>
     </div>`;
   const rail = b.querySelector('.otn-rail');
@@ -3690,7 +3761,7 @@ $('#sheet').addEventListener('click', ev => {
 
 /* ================= Bookmarks ================= */
 const curTime = e => (audio.dataset.id === e.id && audio.duration) ? audio.currentTime : ((state.pos[e.id] && state.pos[e.id].t) || 0);
-function updateMarkBadge(){ const e = current(), n = e && state.marks[e.id] ? state.marks[e.id].length : 0; $('#markVal').textContent = n ? `Marks (${n})` : 'Mark'; $('#markBtn').classList.toggle('on', n > 0); }
+function updateMarkBadge(){ const e = current(), n = e && state.marks[e.id] ? state.marks[e.id].length : 0; $('#markVal').textContent = n ? `Bookmarks (${n})` : 'Bookmark'; $('#markBtn').classList.toggle('on', n > 0); }
 function openMarks(){
   const e = current(); if(!e) return; const t = Math.floor(curTime(e)), marks = (state.marks[e.id] || []).slice().sort((a,b) => a.t - b.t);
   $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Bookmarks</div><div class="m">${esc(e.title)}</div></div></div>
@@ -4036,7 +4107,7 @@ addEventListener('keydown', ev => {
 
 /* ================= Backup and restore ================= */
 async function backupState(){
-  const keep = ['favs','lists','autoNext','autoSaveQ','npView','listView','toured','textStyle','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
+  const keep = ['favs','lists','autoNext','autoSaveQ','npView','listView','toured','textStyle','textSize','simple','noSwipe','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
   const data = { app:'art-bell-archive', version:1, saved:new Date().toISOString(), state:Object.fromEntries(keep.map(k => [k, state[k]])) };
   const name = `art-bell-tapes-backup-${new Date().toISOString().slice(0,10)}.json`;
   const file = new File([JSON.stringify(data)], name, { type:'application/json' });
@@ -4097,6 +4168,10 @@ $('#gear').onclick = () => {
     <div class="hd"><div><div class="t">Settings</div><div class="m">${episodes.length.toLocaleString('en-GB')} shows in your library${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB') : ''}</div></div></div>
     <div class="sh-lbl">Appearance</div><div class="swatches four">${[['Classic','Colour','#0e0d0c','#a8452b','#211f1c'],['Dark','Night','#0b0b0a','#86acd4','#1e1e1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2'],['Auto','Day & night','linear-gradient(135deg,#f2ede3 0 50%,#0b0b0a 50% 100%)','#d4b483','rgba(128,128,128,.45)']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
     <div class="txtpick" role="radiogroup" aria-label="Text style"><button class="tp-o${state.textStyle !== 'classic' ? ' on' : ''}" data-txt="easy" role="radio" aria-checked="${state.textStyle !== 'classic'}"><b class="sans">Aa</b><span>Easy reading<small>Clear sans for lists and notes</small></span></button><button class="tp-o${state.textStyle === 'classic' ? ' on' : ''}" data-txt="classic" role="radio" aria-checked="${state.textStyle === 'classic'}"><b class="serif">Aa</b><span>Classic<small>Serif everywhere</small></span></button></div>
+    <div class="sh-sub">Text size</div>
+    <div class="sizepick" role="radiogroup" aria-label="Text size">${[['auto','Auto','Follows your phone'],['n','Normal',''],['l','Large',''],['xl','Extra large','']].map(([k, l, sub]) => `<button class="sz-o${(state.textSize || 'auto') === k ? ' on' : ''}" data-ts="${k}" role="radio" aria-checked="${(state.textSize || 'auto') === k}"><b class="sz-${k}">Aa</b><span>${l}</span>${sub ? `<small>${sub}</small>` : ''}</button>`).join('')}</div>
+    <button class="act" data-s="simple"><span>Simple player<small class="act-sub">Big buttons and just the essentials</small></span><span class="toggle${state.simple ? ' on' : ''}"></span></button>
+    <button class="act" data-s="swipe"><span>Swipe rows to favourite or save<small class="act-sub">Turn off if it happens by accident</small></span><span class="toggle${state.noSwipe ? '' : ' on'}"></span></button>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <div class="sh-lbl">Your listening</div>${statsHTML()}
     <div class="sh-lbl">Your data</div>
@@ -4110,6 +4185,7 @@ $('#gear').onclick = () => {
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 };
 $('#sheet').addEventListener('click', ev => {
+  const tsb = ev.target.closest('[data-ts]'); if(tsb){ state.textSize = tsb.dataset.ts; saveState(); applyA11y(); document.querySelectorAll('.sz-o').forEach(x => { const on = x === tsb; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); }); return; }
   const tx = ev.target.closest('[data-txt]'); if(tx){ state.textStyle = tx.dataset.txt; saveState(); applyTextStyle(); document.querySelectorAll('.tp-o').forEach(x => { const on = x === tx; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); }); return; }
   const th = ev.target.closest('[data-theme]');
   if(th){ state.theme = th.dataset.theme; saveState(); applyTheme(state.theme); document.querySelectorAll('.sw').forEach(x => x.classList.toggle('on', x === th)); if(navigator.vibrate && !calm()) navigator.vibrate(8); return; }
@@ -4119,6 +4195,8 @@ $('#sheet').addEventListener('click', ev => {
   if(b.dataset.s === 'refresh'){ closeSheet(); loadLibrary(true); }
   if(b.dataset.s === 'tribute'){ closeSheet(); openTribute(); }
   if(b.dataset.s === 'sync'){ openSync(); return; }
+  if(b.dataset.s === 'simple'){ state.simple = !state.simple; saveState(); applyA11y(); b.querySelector('.toggle').classList.toggle('on', state.simple); return; }
+  if(b.dataset.s === 'swipe'){ state.noSwipe = !state.noSwipe; saveState(); b.querySelector('.toggle').classList.toggle('on', !state.noSwipe); return; }
   if(b.dataset.s === 'about'){ openAbout(); return; }
   if(b.dataset.s === 'back'){ $('.gear').click(); return; }
   if(b.dataset.s === 'sources'){ closeSheet(); toast('Shows: Internet Archive (' + SOURCES.length + ' Art Bell collections). Topic tags: facts drawn from The Art Bell Archive podcast’s show notes.', 5000); }
