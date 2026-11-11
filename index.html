@@ -1065,6 +1065,38 @@ html.cine.light .prog.cvp{background:var(--pc)!important;box-shadow:none!importa
 html.cine.light .prog.cvp .em{color:#f3ebdd!important;opacity:.75}
 html.cine.light .prog.cvp .yrs,html.cine.light .prog.cvp .ct{color:rgba(243,235,221,.78)!important}
 html.cine.light .prog.cvp .nm{color:#f3ebdd!important}
+
+/* ================= Default look: dark, with the programme colours ================= */
+/* programme cards + On this night use flat programme colours in both themes */
+html.cine .prog.cvp{background:var(--pc)!important;box-shadow:none!important;color:#f3ebdd}
+html.cine .prog.cvp .yrs,html.cine .prog.cvp .ct{color:rgba(243,235,221,.8)!important}
+html.cine .prog.cvp .nm{color:#f3ebdd!important}
+html.cine .prog.cvp .em{color:#f3ebdd!important;opacity:1!important;width:46px!important;height:46px!important;right:14px!important;top:12px!important;filter:none!important}
+html.cine .progs .prog.cvp:first-child .em{width:58px!important;height:58px!important}
+html.cine .prog.cvp .em *{stroke-width:2.4}
+/* the little programme animations: keep them, a touch livelier */
+@keyframes abrBeat{0%,100%{transform:scale(1);opacity:1}45%{transform:scale(1.14);opacity:.75}}
+@keyframes abrDrift{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(-4deg)}}
+html.cine .prog.cvp .a-coast{animation:abrBeat 2.2s ease-in-out infinite!important;transform-origin:50% 60%}
+html.cine .prog.cvp .a-midnight{animation:abrDrift 3.6s ease-in-out infinite!important}
+body.calm .prog.cvp .em{animation:none!important}
+/* On this night, laid out so nothing overlaps */
+html.cine .tile.tonight.otn2{display:flex!important;flex-direction:column;gap:6px;padding:18px 18px 18px 20px;min-height:0;background:var(--pc)!important;border:0!important;color:#f3ebdd}
+html.cine .tile.tonight.otn2 > span{position:static!important}
+html.cine .otn2 .o-top{display:flex;justify-content:space-between;align-items:baseline}
+html.cine .otn2 .k{color:rgba(243,235,221,.8)!important;margin:0}
+html.cine .otn2 .yr{position:static!important;font:italic 400 28px/1 var(--serif)!important;color:#f3ebdd!important;opacity:.9}
+html.cine .otn2 .o-mid{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 6px}
+html.cine .otn2 .big{margin:0!important;color:#f3ebdd!important;font-size:clamp(58px,17vw,84px)!important;white-space:nowrap}
+html.cine .tile.tonight.cv.otn2 .big em{color:#f3ebdd!important;opacity:.75}
+html.cine .otn2 .hero-art{position:static!important;flex:none;width:clamp(84px,26vw,120px);aspect-ratio:10/9;display:block;background:none!important;inset:auto!important}
+html.cine .otn2 .hero-art .mot{position:static!important;width:100%!important;height:100%!important;stroke:#f3ebdd!important;stroke-width:2.2!important;opacity:.85;fill:none}
+html.cine .otn2 .o-bot{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding-top:12px;border-top:1px solid rgba(243,235,221,.25)}
+html.cine .otn2 .o-tx{min-width:0;display:block}
+html.cine .otn2 .ep{display:block!important;font:400 24px/1.1 var(--serif)!important;color:#f3ebdd!important;padding:0!important;margin:0!important;-webkit-line-clamp:2}
+html.cine .otn2 .s{display:block;font:500 10.5px/1.4 var(--font)!important;letter-spacing:.12em;text-transform:uppercase;color:rgba(243,235,221,.78)!important;margin-top:6px!important;opacity:1!important}
+html.cine .otn2 .go{position:static!important;flex:none;width:50px!important;height:50px!important;background:#f3ebdd!important}
+html.cine .otn2 .go svg{fill:#17140f!important}
 </style>
 </head>
 <body>
@@ -1983,12 +2015,10 @@ function renderBento(){
   const dayBig = `<span class="big">${now.getDate()} <em>${MONTHS[now.getMonth()]}</em></span>`;
   const cards = list.length ? list.map((e, i) => {
     const c = coverStyle(e.id, e.show, e.title), [fill, line] = progCol(e.show);
-    return `<button class="tile tonight cv" data-t="tonight" data-i="${i}" data-id="${esc(e.id)}" style="--pc:${fill};--pl:${line}">
-      <span class="hero-art">${motifSVG(c.kind)}</span>
-      <span class="k">${tn.exact ? 'On this night' : 'Closest to tonight'}</span>
-      ${e.year ? `<span class="yr">${esc(e.year)}</span>` : ''}
-      ${dayBig}
-      <span class="ep">${esc(headOf(e))}</span><span class="s">${esc(topicOf(e) || e.show)} · ${esc(e.show)}</span><span class="go">${I.play2}</span>
+    return `<button class="tile tonight cv otn2" data-t="tonight" data-i="${i}" data-id="${esc(e.id)}" style="--pc:${fill};--pl:${line}">
+      <span class="o-top"><span class="k">${tn.exact ? 'On this night' : 'Closest to tonight'}</span>${e.year ? `<span class="yr">${esc(e.year)}</span>` : ''}</span>
+      <span class="o-mid">${dayBig}<span class="hero-art">${motifSVG(c.kind)}</span></span>
+      <span class="o-bot"><span class="o-tx"><span class="ep">${esc(headOf(e))}</span><span class="s">${esc(topicOf(e) || '')}${topicOf(e) ? ' · ' : ''}${esc(SHOW_SHORT[e.show] || e.show)}</span></span><span class="go">${I.play2}</span></span>
     </button>`;
   }).join('') : (() => { const c = coverStyle('tonight', 'Coast to Coast AM');
     return `<div class="tile tonight" style="--cv:${c.layers};--ink:${c.ink};--cbg:${c.bg}"><span class="hero-art"></span><span class="k">On this night</span>${dayBig}<span class="s">No dated shows yet</span></div>`; })();
