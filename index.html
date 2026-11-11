@@ -1483,6 +1483,13 @@ html.simple .extras{justify-content:center}html.simple #sleep{min-width:120px;he
 .cb-go{width:52px;height:52px;flex:none;border-radius:50%;background:var(--text);display:flex;align-items:center;justify-content:center}
 .cb-go svg{width:22px;height:22px;fill:var(--bg);margin-left:3px}
 html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
+
+#list.preyears{padding-bottom:8px!important}
+#yearWrap{margin-top:14px;padding-bottom:calc(190px + var(--sb))}
+#yearWrap .ycard .n{white-space:nowrap;letter-spacing:.02em!important;font-size:9.5px!important}
+#yearWrap .years{grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:6px;padding-bottom:16px}
+#yearWrap .ycard{padding:9px 10px 11px}
+#yearWrap .ycard .y{font-size:22px}
 </style>
 </head>
 <body>
@@ -1579,11 +1586,6 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
     <div class="progs" id="progs"></div>
   </section>
 
-  <section id="yearWrap" style="display:none">
-    <div class="sec"><h2>Years</h2></div>
-    <div class="years" id="years"></div>
-  </section>
-
   <section id="otnWrap">
     <div class="sec"><h2 id="otnTitle">On this night</h2></div>
     <div class="bento" id="bento" style="display:none"></div>
@@ -1612,6 +1614,10 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   </div>
   <div class="scopebar" id="scopebar"></div>
   <div class="list" id="list"></div>
+  <section id="yearWrap" style="display:none">
+    <div class="sec"><h2>Jump to a year</h2></div>
+    <div class="years" id="years"></div>
+  </section>
   <div class="guests" id="guests"></div>
 </div>
 
@@ -2470,7 +2476,7 @@ function setYear(y){
   applyFilters(); scrollTo({ top:0, behavior:smooth() });
 }
 function renderYears(show){
-  const w = $('#yearWrap'); w.style.display = show ? '' : 'none'; if(!show) return;
+  const w = $('#yearWrap'); w.style.display = show ? '' : 'none'; $('#list').classList.toggle('preyears', !!show); if(!show) return;
   const c = {}; episodes.forEach(e => { if(e.no && e.year) c[e.year] = (c[e.year] || 0) + 1; });
   const ys = Object.keys(c).sort(), max = Math.max(...Object.values(c));
   $('#years').innerHTML = ys.map(y => `<button class="ycard" data-year="${y}"><span class="y">${y}</span><span class="n">${c[y]} show${c[y] === 1 ? '' : 's'}</span><i style="width:${Math.max(6, c[y] / max * 100)}%"></i></button>`).join('');
@@ -2908,7 +2914,7 @@ function render(){
   } else ph.classList.remove('show');
   const curList = tab === 'fav' && listFilter && state.lists.find(l => l.id === listFilter);
   $('#secTitle').textContent = curList ? curList.name : (showFilter || yearFilter) && tab === 'all' ? 'Episodes' : { all:'All shows', fav:'Favourites', recent:'Recently played', saved:'Saved offline', guests:'Guests' }[tab];
-  renderListBar(); syncBrowseTop(); renderYears(showProgs); renderYearHead(); syncContinue();
+  renderListBar(); syncBrowseTop(); renderYears(allOpen && tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value); renderYearHead(); syncContinue();
   const pill = $('#pill');
   if(guestFilter){ pill.innerHTML = guestPage(guestFilter); pill.classList.add('show', 'gpage'); }
   else pill.classList.remove('show', 'gpage');
