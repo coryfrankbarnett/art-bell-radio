@@ -75,7 +75,7 @@ TX_PER_RUN = 1800
 TX_DELAY = 0.25
 
 
-def transcript_subjects(text):
+def _unused_transcript_subjects(text):
     low = text.lower()
     found = []
     for rx, label in SUBJECT_RES:
@@ -156,6 +156,82 @@ def tags_for(title, notes):
     return clean[:MAX_TAGS]
 
 
+TIME_RX = re.compile(r"(?:(\d{1,2}):)?(\d{1,2}):(\d{2})(?:[.,](\d{1,3}))?")
+
+
+def to_secs(m):
+    h, mi, se = int(m.group(1) or 0), int(m.group(2)), int(m.group(3))
+    return h * 3600 + mi * 60 + se
+
+
+def cues(raw):
+    """Split a transcript into (start seconds, text) pieces. Handles WebVTT, SRT, JSON and timestamped text."""
+    raw = raw.lstrip("﻿")
+    try:
+        j = json.loads(raw)
+        segs = j.get("segments") if isinstance(j, dict) else j
+        out = []
+        for sg in segs or []:
+            t = sg.get("startTime", sg.get("start"))
+            if t is None:
+                continue
+            out.append((float(t), str(sg.get("body", sg.get("text", "")))))
+        if out:
+            return out
+    except Exception:
+        pass
+    out = []
+    if "-->" in raw:
+        for block in re.split(r"\n\s*\n", raw.replace("\r", "")):
+            lines = block.strip().split("\n")
+            for i, ln in enumerate(lines):
+                if "-->" in ln:
+                    m = TIME_RX.search(ln)
+                    if m:
+                        out.append((to_secs(m), " ".join(lines[i + 1:])))
+                    break
+        if out:
+            return out
+    parts = re.split(r"[\[(]?((?:\d{1,2}:)?\d{1,2}:\d{2})[\])]?", raw)
+    if len(parts) > 3:
+        for i in range(1, len(parts) - 1, 2):
+            m = TIME_RX.fullmatch(parts[i])
+            if m:
+                out.append((to_secs(m), parts[i + 1]))
+    return out or [(0, raw)]
+
+
+def scan_transcript(raw):
+    """Subject words that come up, and the times they come up. Nothing of the wording is kept."""
+    pieces = [(t, re.sub(r"<[^>]+>", " ", txt).lower()) for t, txt in cues(raw)]
+    timed = len(pieces) > 1
+    subjects, moments = [], {}
+    for rx, label in SUBJECT_RES:
+        if label in SKIP_IN_TRANSCRIPT:
+            continue
+        hits = [t for t, txt in pieces for _ in rx.findall(txt)]
+        if len(hits) < (1 if label in RARE else 3):
+            continue
+        if label not in subjects:
+            subjects.append(label)
+        if timed:
+            times = moments.setdefault(label, [])
+            for t in sorted(set(int(h) for h in hits)):
+                if not times or t - times[-1] > 90:
+                    times.append(t)
+            moments[label] = times[:12]
+    return {"s": subjects, "m": moments}
+
+
+def dur_secs(s):
+    if not s:
+        return 0
+    if s.isdigit():
+        return int(s)
+    p = [int(x) for x in s.split(":") if x.isdigit()]
+    return sum(v * 60 ** i for i, v in enumerate(reversed(p)))
+
+
 def main():
     url = feed_url()
     print("feed:", url)
@@ -164,14 +240,11 @@ def main():
     try:   # the builder's own record of transcripts already scanned (not loaded by the app)
         tx_done = json.load(open("topics-cache.json"))
     except Exception:
-        try:
-            tx_done = json.load(open("topics.json")).get("transcripts", {})
-        except Exception:
-            tx_done = {}   # air date -> subject words already pulled from that night's transcript
-    by_date, fetched, failed = {}, 0, 0
+        tx_done = {}
+    about, mentioned, moments, fetched, failed, kinds = {}, {}, {}, 0, 0, {}
 
-    def add(d, tags):
-        merged = by_date.setdefault(d, [])
+    def add(store, d, tags):
+        merged = store.setdefault(d, [])
         have = {x.lower() for x in merged}
         for t in tags:
             if t.lower() not in have:
@@ -183,32 +256,39 @@ def main():
         if not d:
             continue
         notes = max((plain(it.findtext(p, namespaces=ns)) for p in ("content:encoded", "description", "itunes:summary")), key=len)
-        add(d, tags_for(title, notes))
-        add(d, [plain(p.text) for p in it.findall(f"{{{PODCAST_NS}}}person") if plain(p.text) and plain(p.text).lower() != "art bell"])
+        add(about, d, tags_for(title, notes))
+        add(about, d, [plain(p.text) for p in it.findall(f"{{{PODCAST_NS}}}person") if plain(p.text) and plain(p.text).lower() != "art bell"])
         key = d + "|" + title
-        if key not in tx_done and fetched < TX_PER_RUN:
+        done = tx_done.get(key)
+        if not isinstance(done, dict) and fetched < TX_PER_RUN:
             tx = it.find(f"{{{PODCAST_NS}}}transcript")
             if tx is not None and tx.get("url"):
                 try:
-                    text = get(tx.get("url")).decode("utf-8", "replace")
-                    text = re.sub(r"\d{1,2}:\d{2}(:\d{2})?[.,]\d{3}\s*-->\s*\S+|<[^>]+>|\"(start|end|speaker)\":[^,}]*", " ", text)
-                    tx_done[key] = transcript_subjects(text)
+                    raw = get(tx.get("url")).decode("utf-8", "replace")
+                    kinds[tx.get("type", "?")] = kinds.get(tx.get("type", "?"), 0) + 1
+                    done = tx_done[key] = scan_transcript(raw)
                     fetched += 1
                     time.sleep(TX_DELAY)
                 except Exception as e:
                     failed += 1
-        if key in tx_done:
-            add(d, tx_done[key])
-    for d in by_date:
-        by_date[d] = by_date[d][:MAX_TAGS + 12]
-    if len(by_date) < 200:
-        raise SystemExit(f"Only {len(by_date)} dated episodes found; keeping the previous topics.json")
+        if isinstance(done, dict):
+            have = {x.lower() for x in about.get(d, [])}
+            add(mentioned, d, [x for x in done["s"] if x.lower() not in have])
+            if done.get("m"):
+                moments.setdefault(d, []).append({"len": dur_secs((it.findtext("itunes:duration", namespaces=ns) or "").strip()), "m": done["m"]})
+    for d in about:
+        about[d] = about[d][:MAX_TAGS + 6]
+    if len(about) < 200:
+        raise SystemExit(f"Only {len(about)} dated episodes found; keeping the previous topics.json")
     with open("topics.json", "w") as fh:
         json.dump({"built": int(time.time() * 1000), "source": "The Art Bell Archive podcast (facts only: subjects, people, places)",
-                   "dates": by_date}, fh, separators=(",", ":"), ensure_ascii=False)
+                   "dates": about, "mentioned": mentioned}, fh, separators=(",", ":"), ensure_ascii=False)
+    with open("moments.json", "w") as fh:
+        json.dump({"built": int(time.time() * 1000), "dates": moments}, fh, separators=(",", ":"), ensure_ascii=False)
     with open("topics-cache.json", "w") as fh:
         json.dump(tx_done, fh, separators=(",", ":"), ensure_ascii=False)
-    print("wrote topics.json for", len(by_date), "dates;", fetched, "transcripts scanned this run,", len(tx_done), "in total,", failed, "failed")
+    print("transcript types:", kinds)
+    print("wrote topics.json for", len(about), "dates;", len(moments), "with moments;", fetched, "transcripts scanned this run,", failed, "failed")
 
 
 if __name__ == "__main__":
