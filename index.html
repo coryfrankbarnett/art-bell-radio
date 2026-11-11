@@ -718,6 +718,41 @@ h1 em{display:inline}
 @keyframes inSoft{to{opacity:1;filter:blur(0);transform:none}}
 @media (prefers-reduced-motion:reduce){#intro *{animation:none!important;transition:none!important}#intro .in-ttl i{transform:none;opacity:1;filter:none}}
 
+/* ---- Essentials, notes, stats, radio ---- */
+.ess-intro{margin:-4px 20px 12px;color:var(--muted);font:400 14px/1.4 var(--font)}
+html.cine .ess-intro{font:italic 400 17px/1.3 var(--serif)}
+.esscard{width:172px}.esscard .art{width:172px;height:172px}
+.esscard .enum{font:500 10px var(--font);letter-spacing:.2em;color:var(--accent);margin-top:10px}
+.esscard .t{margin-top:4px}
+.esscard .note{color:var(--muted);font:400 12.5px/1.35 var(--font);margin-top:4px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tile.q.radio.on{border-color:var(--accent)}.tile.q.radio.on .v{color:var(--accent)}
+.tile.q.radio.on svg{animation:onair 1.6s ease-in-out infinite}
+@keyframes onair{50%{opacity:.35}}
+body.calm .tile.q.radio.on svg{animation:none}
+.saveall{background:transparent!important;color:var(--text)!important;border:1px solid var(--line);margin-left:6px}
+.sec{flex-wrap:wrap;row-gap:10px}
+.sec .meta{flex-wrap:wrap;row-gap:8px}
+.playall{white-space:nowrap;flex:none}
+html.cine .playall{border-radius:2px;height:32px;padding:0 12px;font:600 10.5px var(--font);letter-spacing:.14em;text-transform:uppercase;background:var(--text);color:var(--bg)}
+html.cine .saveall{margin-left:0}
+.notes{padding:14px 0 6px}
+.notes p{margin:0 0 12px;color:var(--muted);font:400 14px/1.5 var(--font)}
+.notes p b{color:var(--text);font-weight:600}
+.notes a{color:var(--accent)}
+.nt-ess{border-left:2px solid var(--accent);padding:2px 0 2px 12px;margin-bottom:14px;font:italic 400 19px/1.3 var(--serif)}
+.nt-ess b{display:block;font:600 10px var(--font);letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;font-style:normal}
+.nt-facts{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin:0 0 16px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.nt-facts dt{font:600 10px var(--font);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.nt-facts dd{margin:3px 0 0;font:400 18px/1.2 var(--serif)}
+.nt-h{font:600 10px var(--font);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:4px 0 8px}
+.nt-guests{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.np .title{cursor:pointer}
+.stats{border:1px solid var(--line);padding:14px;margin-bottom:16px;border-radius:3px}
+.stats.empty{color:var(--muted);font:italic 400 17px/1.3 var(--serif)}
+.st-big b{font:400 54px/1 var(--serif);color:var(--accent)}.st-big span{font:600 10px var(--font);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-left:8px}
+.st-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.st-row b{display:block;font:400 26px/1 var(--serif)}.st-row span{font:600 9.5px var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.st-line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font:400 14px var(--font)}.st-line span{color:var(--muted)}.st-line b{font-weight:500;text-align:right}
 /* ---- Sleeves: framed art panel, type on the border so it always reads ---- */
 html.cine .art.sleeve{background:var(--cbg)!important;color:var(--ink);padding:0;container-type:size}
 html.cine .art.sleeve .win{position:absolute;left:8%;right:8%;top:8%;bottom:27%;display:block;z-index:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
@@ -924,7 +959,7 @@ html.cine .sw{border-radius:3px}.cine .sw i{border-radius:2px}
   <div class="filterpill" id="pill"></div>
   <div class="sec">
     <h2 id="secTitle">All shows</h2>
-    <div class="meta"><button class="playall" id="playAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play all</button><span id="secCount"></span>
+    <div class="meta"><button class="playall" id="playAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play all</button><button class="playall saveall" id="saveAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span>Save all</span></button><span id="secCount"></span>
       <select id="sort" aria-label="Sort">
         <option value="old">Oldest</option><option value="new">Newest</option><option value="az">A–Z</option><option value="rand">Shuffle</option>
       </select>
@@ -934,6 +969,7 @@ html.cine .sw{border-radius:3px}.cine .sw i{border-radius:2px}
   <div class="guests" id="guests"></div>
 </div>
 
+<input type="file" id="restoreFile" accept="application/json,.json" hidden>
 <!-- Mini player -->
 <div class="mini" id="mini">
   <div class="art" id="miniArt"></div>
@@ -1450,6 +1486,8 @@ function render(){
   $('.sec #secTitle').parentElement.style.display = isGuests ? 'none' : '';
   if(isGuests){ $('#bento').style.display = 'none'; $('#progWrap').style.display = 'none'; $('#contWrap').style.display = 'none'; }
   $('#playAll').style.display = (!isGuests && view.length > 1 && (showFilter || yearFilter || guestFilter || $('#q').value || tab === 'fav' || tab === 'saved')) ? '' : 'none';
+  $('#saveAll').style.display = (!isGuests && view.length > 1 && tab !== 'saved' && (showFilter || yearFilter || guestFilter || tab === 'fav')) || batch.on ? '' : 'none';
+  if(!batch.on){ batch.armed = false; $('#saveAll span').textContent = 'Save all'; }
   $('#secCount').textContent = view.length ? view.length.toLocaleString('en-GB') + (view.length===1?' show':' shows') : '';
   $('#sort').style.display = tab === 'recent' ? 'none' : '';
   const el = $('#list');
@@ -1609,17 +1647,50 @@ function dailyPick(list, n){
   const r = () => (x = (x*1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
   return list.slice().sort(() => r() - .5).slice(0, n);
 }
+/* ================= The Essentials: the famous nights, hand-picked ================= */
+const ESSENTIALS = [
+  ['1992-12-12', /lazar/i,          'Where the Area 51 story begins on Art’s show: John Lear and Bob Lazar.'],
+  ['1996-10-18', /malachi/i,        'Father Malachi Martin’s first night on exorcism and possession.'],
+  ['1996-12-06', /hale/i,           'Chuck Shramek’s photo of a “companion” trailing Comet Hale-Bopp.'],
+  ['1997-02-21', /mel/i,            'Mel Waters calls about a bottomless hole on his land in Washington.'],
+  ['1997-05-23', /victor/i,         '“Victor” and the alien interview tape.'],
+  ['1997-09-11', /area 51/i,        'The frantic former Area 51 employee, then the satellite feed drops.'],
+  ['1998-07-30', /single seven/i,   'A time-travel night fans still argue about.'],
+  ['1998-10-30', /ghost/i,         'Halloween open lines for listeners’ own ghost stories (partial recording).'],
+  ['1998-10-23', /resign/i,         'Art’s sudden on-air resignation statement.'],
+  ['1999-02-26', /trumbull/i,       'The Trumbull County UFO sightings, often voted the best show of all.'],
+  ['2002-01-24', /keel/i,           'John Keel on The Mothman Prophecies.'],
+  ['2002-10-30', /evp/i,            'An EVP night unsettling enough that Art ends the show early.'],
+  ['2002-12-31', /farewell/i,       'Art’s farewell to Coast to Coast, with listener predictions.']
+];
+let essCache = null;
+function essentials(){
+  if(essCache && essCache.n === episodes.length) return essCache.list;
+  const out = [];
+  for(const [d, re, note] of ESSENTIALS){
+    const pool = episodes.filter(e => re.test(e.title) && (!d || e.date === d)).sort((a, b) => (a.date || '9').localeCompare(b.date || '9'));
+    const e = pool[0]; if(e && !out.some(x => x.e.id === e.id)) out.push({ e, note });
+  }
+  out.sort((a, b) => (a.e.date || '9').localeCompare(b.e.date || '9'));
+  essCache = { n: episodes.length, list: out }; return out;
+}
+const essNote = e => { const x = essentials().find(x => x.e.id === e.id); return x ? x.note : ''; };
 function renderShelves(show){
   const el = $('#shelves'); if(!show){ el.innerHTML = ''; return; }
   const byShow = {}; episodes.forEach(e => (byShow[e.show] = byShow[e.show] || []).push(e));
   const rows = PROGRAMMES.filter(p => (byShow[p[0]] || []).length >= 2).slice(0, 5);
-  el.innerHTML = rows.map(([n], idx) => {
+  const ess = essentials();
+  const essHTML = ess.length ? `<section class="shelf ess"><div class="sec"><h2>The Essentials</h2><button class="seeall" data-ess="1">Play all</button></div>
+      <p class="ess-intro">${ess.length} nights every listener should hear, in the order they aired.</p>
+      <div class="rail">${ess.map(({e, note}, i) => `<button class="card esscard" data-id="${esc(e.id)}">${artHTML(e)}<div class="enum">${String(i+1).padStart(2,'0')}</div><div class="t">${esc(e.title)}</div><div class="note">${esc(note)}</div></button>`).join('')}</div></section>` : '';
+  el.innerHTML = essHTML + rows.map(([n], idx) => {
     const picks = dailyPick(byShow[n], 10);
     return `<section class="shelf"><div class="sec"><h2>${emblem(n,'hem')}${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
       <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(e.title)}</div><div class="m">${niceDate(e.date)}</div></button>`).join('')}</div></section>`;
   }).join('');
 }
 $('#shelves').addEventListener('click', ev => {
+  if(ev.target.closest('[data-ess]')){ const list = essentials().map(x => x.e); if(!list.length) return; state.radio = false; state.queue = list.slice(1).map(e => e.id); saveState(); loadEpisode(list[0], true); toast(`Playing The Essentials · ${list.length} shows`); renderBento(); return; }
   const s = ev.target.closest('.seeall'); if(s){ setShow(s.dataset.show); scrollTo({top:0, behavior:smooth()}); return; }
   const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(e) playFrom(e, c.querySelector('.art'));
 });
@@ -1667,8 +1738,8 @@ function renderBento(){
   b.innerHTML = `
     <div class="otn-rail${list.length > 1 ? '' : ' solo'}">${cards}</div>${chips}
     <div class="quick">
+      <button class="tile q radio${state.radio ? ' on' : ''}" data-t="radio"><svg viewBox="0 0 24 24"><path d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-4.2-2.8 1.4 1.4a4 4 0 0 0 0 5.7l-1.4 1.4a6 6 0 0 1 0-8.5zm8.4 0a6 6 0 0 1 0 8.5l-1.4-1.4a4 4 0 0 0 0-5.7zM5 4.4l1.4 1.4a8.5 8.5 0 0 0 0 12.4L5 19.6a10.5 10.5 0 0 1 0-15.2zm14 0a10.5 10.5 0 0 1 0 15.2l-1.4-1.4a8.5 8.5 0 0 0 0-12.4z"/></svg><span class="v">${state.radio ? 'On air' : 'Overnight'}</span></button>
       <button class="tile q" data-t="spin"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-2.05-4.95L14 10h7V3l-2.64 2.64A8.96 8.96 0 0 0 12 3z"/></svg><span class="v">Wild Card</span></button>
-      <button class="tile q" data-t="fav"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg><span class="v">${favN} saved</span></button>
       <button class="tile q" data-t="saved"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span class="v">${offN} offline</span></button>
     </div>`;
   const rail = b.querySelector('.otn-rail');
@@ -1696,6 +1767,7 @@ $('#bento').addEventListener('click', ev => {
       const e = list[Math.floor(Math.random()*list.length)]; t.classList.remove('spinning'); v.textContent = 'Wild Card';
       if(e){ toast(`☎️ You're on the air: ${e.title}`); loadEpisode(e, true); } } }, 70);
   }
+  if(k === 'radio') toggleRadio();
   if(k === 'fav' || k === 'saved'){ document.querySelector(`.tab[data-tab="${k}"]`).click(); }
 });
 
@@ -1721,7 +1793,7 @@ async function loadEpisode(e, autoplay){
   $('#npArt').outerHTML = artHTML(e, 'bigart').replace('class="art ', 'id="npArt" class="art ').replace('</div>', `<span class="freq">${e.show.toUpperCase()} · ${niceDate(e.date).toUpperCase()}</span></div>`);
   $('#npGlow').style.setProperty('--c2', c2); $('#np').style.setProperty('--npc', c2); $('#mini').style.setProperty('--mc', c2);
   $('#npShow').textContent = e.show;
-  $('#npTitle').textContent = e.title; $('#npSub').textContent = niceDate(e.date);
+  $('#npTitle').textContent = e.title; $('#npTitle').onclick = () => openNotes(e); $('#npSub').textContent = niceDate(e.date);
   syncNPButtons(e);
   loadWave(e); updateMarkBadge();
   state.queue = state.queue.filter(x => x !== e.id); updateQueueBadge();
@@ -1745,7 +1817,7 @@ function updatePP(){ const ic = audio.paused ? I.play2 : I.pause; $('#pp').inner
 function setSeek(v){ $('#seek').value = v; wave.progress = v/1000; drawWave(); }
 audio.addEventListener('play', () => { updatePP(); markPlaying(); });
 let pausedAt = 0;
-audio.addEventListener('pause', () => { updatePP(); markPlaying(); persistPos(); pausedAt = Date.now(); });
+audio.addEventListener('pause', () => { updatePP(); markPlaying(); persistPos(); pausedAt = Date.now(); statT = 0; });
 audio.addEventListener('play', () => { if(pausedAt && Date.now() - pausedAt > 300000 && audio.currentTime > 15){ audio.currentTime -= 10; } pausedAt = 0; });
 audio.addEventListener('ended', () => { persistPos(); if(sleepEnd){ sleepEnd = false; sleepIdx = -1; $('#sleepVal').textContent = 'Sleep'; $('#sleep').classList.remove('on'); toast('Sleep timer — goodnight'); return; } playNextUp(); });
 audio.addEventListener('error', () => {
@@ -1758,6 +1830,7 @@ audio.addEventListener('error', () => {
 });
 let lastP = 0, lastPS = 0, seeking = false;
 audio.addEventListener('timeupdate', () => {
+  tickStats();
   const d = audio.duration, t = audio.currentTime;
   if(wave.preview == null && d) setSeek(t/d*1000);
   if(wave.preview == null){ $('#tCur').textContent = fmt(t); $('#tLeft').textContent = '-' + fmt((d||0) - t); }
@@ -1768,6 +1841,7 @@ audio.addEventListener('timeupdate', () => {
 });
 function persistPos(){ const id = audio.dataset.id; if(!id || !audio.duration) return; state.pos[id] = { t:Math.floor(audio.currentTime), d:Math.floor(audio.duration) }; saveState(); }
 function playNextUp(){
+  if(state.radio && state.queue.length < 3){ state.queue.push(...radioPicks(10, state.queue.concat(audio.dataset.id)).map(e => e.id)); saveState(); }
   while(state.queue.length){ const e = byId(state.queue.shift()); saveState(); if(e){ loadEpisode(e, true); return; } }
   if(state.autoplay) step(1);
 }
@@ -1785,6 +1859,8 @@ function openQueue(){
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
 $('#sheet').addEventListener('click', ev => {
+  const gch = ev.target.closest('.nt-guests [data-g]'); if(gch){ closeSheet(); closeNP(); guestFilter = gch.dataset.g; $('#q').value = ''; document.querySelector('.tab[data-tab="all"]').click(); return; }
+  const sb = ev.target.closest('[data-s]'); if(sb && ['backup','restore'].includes(sb.dataset.s)){ sb.dataset.s === 'backup' ? backupState() : $('#restoreFile').click(); return; }
   const q = ev.target.closest('[data-q]'); if(q){ state.queue.splice(+q.dataset.q, 1); saveState(); updateQueueBadge(); openQueue(); return; }
   const a = ev.target.closest('[data-qa]'); if(!a) return;
   if(a.dataset.qa === 'auto'){ state.autoplay = !state.autoplay; saveState(); a.querySelector('.toggle').classList.toggle('on', state.autoplay); }
@@ -1903,6 +1979,22 @@ function morph(update, fromEl, toSel){
 }
 function openNP(fromEl){ if($('#np').classList.contains('open')) return; morph(openNPNow, fromEl || $('#miniArt'), '#npArt'); }
 function closeNP(){ if(!$('#np').classList.contains('open')) return; morph(closeNPNow, $('#npArt'), '#miniArt'); }
+/* Overnight radio: plays back to back like a live station, tonight's date first */
+function radioPicks(n, skip){
+  const seen = new Set(skip || []), pool = episodes.filter(e => !seen.has(e.id) && !isPlayed(e.id) && e.length !== 0 && e.show !== 'Ghost to Ghost' || false);
+  for(let i = pool.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+  return pool.slice(0, n);
+}
+function toggleRadio(){
+  if(state.radio){ state.radio = false; state.queue = []; saveState(); renderBento(); toast('Overnight radio off'); return; }
+  const tn = tonightShows().list.filter(e => !isPlayed(e.id));
+  const first = tn.length ? tn : [];
+  const rest = radioPicks(30, first.map(e => e.id));
+  const list = [...first, ...rest]; if(!list.length) return toast('Nothing left to play');
+  state.radio = true; state.autoplay = true; state.queue = list.slice(1).map(e => e.id); saveState();
+  loadEpisode(list[0], true); renderBento();
+  toast(first.length ? `On air: ${first.length} from tonight’s date, then the archive` : 'On air: back to back from the archive', 3500);
+}
 async function playFrom(e, el){
   if(audio.dataset.id !== e.id) await loadEpisode(e, true);
   else if(audio.paused && !e.demo) audio.play().catch(() => {});
@@ -1936,6 +2028,28 @@ async function saveOffline(e){
     toast('Saved — plays without signal'); syncNPButtons(e); render();
   }catch(x){ syncNPButtons(e); toast('Couldn’t save offline — storage full or connection dropped'); }
 }
+/* Save a whole programme, year or favourites list for offline listening */
+const batch = { on:false, armed:false, stop:false };
+const mbText = b => b > 1073741824 ? (b/1073741824).toFixed(1) + ' GB' : Math.round(b/1048576) + ' MB';
+$('#saveAll').onclick = async () => {
+  const lbl = $('#saveAll span');
+  if(batch.on){ batch.stop = true; lbl.textContent = 'Stopping…'; return; }
+  const todo = view.filter(e => !savedKeys.has(e.id) && !e.demo);
+  if(!todo.length) return toast('All of these are already saved offline');
+  const bytes = todo.reduce((a, e) => a + (+e.size || 0), 0);
+  if(!batch.armed){ batch.armed = true; lbl.textContent = `Save ${todo.length} · ${mbText(bytes)}?`; toast(`Tap again to save ${todo.length} shows (${mbText(bytes)}) for offline`, 4000); return; }
+  batch.on = true; batch.armed = false; batch.stop = false; let done = 0, failed = 0;
+  try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(x){}
+  for(const e of todo){
+    if(batch.stop) break;
+    lbl.textContent = `Stop · ${done}/${todo.length}`;
+    try{ const b = await fetchBlob(e, p => toast(`Saving ${done + 1} of ${todo.length} · ${Math.round(p*100)}%`, 600000)); await db.put(e.id, b); savedKeys.add(e.id); done++; }
+    catch(x){ failed++; if(failed >= 3 && done === 0) break; }
+  }
+  batch.on = false; lbl.textContent = 'Save all'; render();
+  if(navigator.storage && navigator.storage.estimate) navigator.storage.estimate().then(x => { storageText = x.usage ? mbText(x.usage) + ' used' : ''; }).catch(()=>{});
+  toast(batch.stop ? `Stopped · ${done} saved` : failed ? `Saved ${done} · ${failed} couldn’t be saved` : `Saved ${done} shows for offline`, 4000);
+};
 async function removeOffline(e){ closeSheet(); try{ await db.del(e.id); }catch(x){} savedKeys.delete(e.id); syncNPButtons(e); toast('Removed offline copy'); applyFilters(); }
 async function downloadToPhone(e){
   closeSheet(); if(e.demo) return toast('Preview mode — downloads work once hosted');
@@ -1954,6 +2068,7 @@ function openSheet(e){
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd">${artHTML(e,'sm')}<div><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div></div>
     <button class="act" data-a="play">${I.play2} Play now</button>
+    <button class="act" data-a="notes"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zm8 1.5V8h4.5zM8 12h10v1.6H8zm0 3.5h10v1.6H8zm0 3.5h7v1.6H8z"/></svg> Show notes</button>
     ${(!state.hideResume[e.id] && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60) ? `<button class="act" data-a="unresume"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg> Remove from Pick up where you left off</button>` : ''}
     <button class="act" data-a="played"><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> ${isPlayed(e.id) ? 'Mark as not played' : 'Mark as played'}</button>
     <button class="act" data-a="next"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-1V9l5 3z"/></svg> Play next</button>
@@ -1967,6 +2082,37 @@ function openSheet(e){
   $('#sheet').dataset.id = e.id;
   $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
+const notesCache = new Map();
+async function itemNotes(item){
+  if(notesCache.has(item)) return notesCache.get(item);
+  const p = fetch(`${API}/metadata/${encodeURIComponent(item)}/metadata`).then(r => r.json()).then(j => {
+    const m = j && j.result || {}, d = Array.isArray(m.description) ? m.description.join(' ') : (m.description || '');
+    const tmp = document.createElement('div'); tmp.innerHTML = d.replace(/<br\s*\/?>/gi, '\n');
+    return { title: Array.isArray(m.title) ? m.title[0] : (m.title || ''), text: (tmp.textContent || '').replace(/\n{3,}/g, '\n\n').trim().slice(0, 700) };
+  }).catch(() => null);
+  notesCache.set(item, p); return p;
+}
+function openNotes(e){
+  const prog = PROGRAMMES.find(p => p[0] === e.show), note = essNote(e), p = state.pos[e.id], len = e.length || (p && p.d) || 0;
+  $('#sheet').innerHTML = `<div class="grab"></div>
+    <div class="hd">${artHTML(e,'sm')}<div><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div></div>
+    <div class="notes">
+      ${note ? `<div class="nt-ess"><b>The Essentials</b>${esc(note)}</div>` : ''}
+      <dl class="nt-facts">
+        ${e.no ? `<div><dt>Catalogue</dt><dd>No. ${e.no}</dd></div>` : ''}
+        <div><dt>Aired</dt><dd>${e.date ? niceDate(e.date) : 'Date unknown'}</dd></div>
+        ${len ? `<div><dt>Length</dt><dd>${fmt(len)}</dd></div>` : ''}
+        ${e.size ? `<div><dt>File</dt><dd>${Math.round(e.size/1048576)} MB MP3</dd></div>` : ''}
+        ${isPlayed(e.id) ? `<div><dt>Status</dt><dd>Played</dd></div>` : p && p.t > 30 ? `<div><dt>Status</dt><dd>${fmt(p.d - p.t)} left</dd></div>` : ''}
+      </dl>
+      ${e.guests && e.guests.length ? `<div class="nt-h">Guests</div><div class="nt-guests">${e.guests.map(g => `<button class="chip" data-g="${esc(g)}">${esc(g)}</button>`).join('')}</div>` : ''}
+      ${prog ? `<div class="nt-h">${esc(prog[0])}</div><p>${esc(prog[2])}</p>` : ''}
+      ${e.demo ? '' : `<div class="nt-h">From the collection</div><p class="nt-src" id="ntSrc">Loading notes from archive.org…</p>`}
+    </div>`;
+  $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
+  if(!e.demo) itemNotes(e.item).then(n => { const el = $('#ntSrc'); if(!el) return;
+    el.innerHTML = n ? `<b>${esc(n.title)}</b>${n.text ? '<br>' + esc(n.text).replace(/\n/g, '<br>') : ''}<br><a href="${API}/details/${encodeURIComponent(e.item)}" target="_blank" rel="noopener">View on archive.org</a>` : 'Couldn’t load notes right now.'; });
+}
 function closeSheet(){ $('#sheet').classList.remove('show'); $('#scrim').classList.remove('show'); }
 $('#scrim').onclick = closeSheet;
 $('#sheet').addEventListener('click', ev => {
@@ -1974,6 +2120,7 @@ $('#sheet').addEventListener('click', ev => {
   ({ next:()=>{ closeSheet(); addToQueue(e, true); }, queue:()=>{ closeSheet(); addToQueue(e, false); },
      share:()=>{ closeSheet(); shareMoment(e); },
      unresume:()=>{ closeSheet(); hideFromResume(e); },
+     notes:()=>openNotes(e),
      played:()=>{ closeSheet(); const was = isPlayed(e.id), d = durOf(e) || e.length || 1; if(was) delete state.pos[e.id]; else state.pos[e.id] = { t:Math.floor(d), d:Math.floor(d) }; saveState(); render(); toast(was ? 'Marked as not played' : 'Marked as played'); },
      guest:()=>{ closeSheet(); closeNP(); guestFilter = b.dataset.g; $('#q').value=''; document.querySelector('.tab[data-tab="all"]').click(); },
      play:()=>{ closeSheet(); loadEpisode(e, true); }, fav:()=>{ closeSheet(); toggleFav(e); }, save:()=>saveOffline(e), unsave:()=>removeOffline(e), dl:()=>downloadToPhone(e) })[b.dataset.a]();
@@ -2084,6 +2231,60 @@ function applyTheme(name){
 }
 applyTheme(state.theme);
 
+/* ================= Backup and restore ================= */
+async function backupState(){
+  const keep = ['favs','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
+  const data = { app:'art-bell-archive', version:1, saved:new Date().toISOString(), state:Object.fromEntries(keep.map(k => [k, state[k]])) };
+  const name = `art-bell-archive-backup-${new Date().toISOString().slice(0,10)}.json`;
+  const file = new File([JSON.stringify(data)], name, { type:'application/json' });
+  try{
+    if(navigator.canShare && navigator.canShare({ files:[file] })){ await navigator.share({ files:[file], title:'Art Bell Archive backup' }); toast('Backup ready — keep it in Files'); }
+    else { const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 30000); toast('Backup saved to Downloads'); }
+  }catch(x){ if(!x || x.name !== 'AbortError') toast('Couldn’t make the backup'); }
+}
+async function restoreState(f){
+  try{
+    const d = JSON.parse(await f.text()); if(!d || d.app !== 'art-bell-archive' || !d.state) throw 0;
+    const b = d.state;
+    Object.assign(state.favs, b.favs || {}); Object.assign(state.hideResume, b.hideResume || {});
+    for(const [id, p] of Object.entries(b.pos || {})) if(!state.pos[id] || (p && p.t > state.pos[id].t)) state.pos[id] = p;
+    for(const [id, m] of Object.entries(b.marks || {})){ const cur = state.marks[id] || []; state.marks[id] = cur.concat((m || []).filter(x => !cur.some(y => Math.abs(y.t - x.t) < 2))); }
+    state.recent = [...new Set([...(state.recent || []), ...(b.recent || [])])].slice(0, 200);
+    if(b.stats){ const s0 = state.stats || { secs:0, days:{}, plays:{} }; s0.secs = Math.max(s0.secs || 0, b.stats.secs || 0);
+      for(const [k, v] of Object.entries(b.stats.days || {})) s0.days[k] = Math.max(s0.days[k] || 0, v);
+      for(const [k, v] of Object.entries(b.stats.plays || {})) s0.plays[k] = Math.max(s0.plays[k] || 0, v); state.stats = s0; }
+    saveState(); closeSheet(); render(); toast(`Restored ${Object.keys(b.favs || {}).length} favourites and ${Object.keys(b.pos || {}).length} shows’ progress`, 3500);
+  }catch(x){ toast('That file isn’t an Art Bell Archive backup'); }
+}
+
+/* ================= Listening stats ================= */
+let statT = 0;
+function tickStats(){
+  const now = Date.now(), dt = statT ? Math.min(5, (now - statT) / 1000) : 0; statT = now;
+  if(audio.paused || !audio.dataset.id || dt <= 0) return;
+  const st = state.stats = state.stats || { secs:0, days:{}, plays:{} }, day = new Date().toISOString().slice(0,10);
+  st.secs += dt; st.days[day] = (st.days[day] || 0) + dt; st.plays[audio.dataset.id] = (st.plays[audio.dataset.id] || 0) + dt;
+}
+function statsHTML(){
+  const st = state.stats || { secs:0, days:{}, plays:{} };
+  if(st.secs < 60) return `<div class="stats empty">Your listening stats will appear here once you’ve had a show on.</div>`;
+  const hrs = st.secs / 3600, done = Object.keys(state.pos).filter(isPlayed).length;
+  let streak = 0; const d = new Date(); if(!(st.days[d.toISOString().slice(0,10)] > 60)) d.setDate(d.getDate() - 1);
+  while(st.days[d.toISOString().slice(0,10)] > 60){ streak++; d.setDate(d.getDate() - 1); }
+  const wk = Object.entries(st.days).filter(([k]) => (Date.now() - new Date(k)) / 864e5 < 7).reduce((a, [, v]) => a + v, 0) / 3600;
+  const g = {}; for(const [id, secs] of Object.entries(st.plays)){ const e = byId(id); if(e && e.guests) e.guests.forEach(n => g[n] = (g[n] || 0) + secs); }
+  const top = Object.entries(g).sort((a, b) => b[1] - a[1]).slice(0, 3);
+  const progs = {}; for(const [id, secs] of Object.entries(st.plays)){ const e = byId(id); if(e) progs[e.show] = (progs[e.show] || 0) + secs; }
+  const fav = Object.entries(progs).sort((a, b) => b[1] - a[1])[0];
+  return `<div class="stats">
+    <div class="st-big"><b>${hrs < 10 ? hrs.toFixed(1) : Math.round(hrs)}</b><span>hours listened</span></div>
+    <div class="st-row"><div><b>${wk.toFixed(1)}</b><span>hrs this week</span></div><div><b>${done}</b><span>shows finished</span></div><div><b>${streak}</b><span>night streak</span></div></div>
+    ${fav ? `<div class="st-line"><span>Most played</span><b>${esc(fav[0])}</b></div>` : ''}
+    ${top.length ? `<div class="st-line"><span>Top guests</span><b>${top.map(([n]) => esc(n)).join(', ')}</b></div>` : ''}
+  </div>`;
+}
+
+$('#restoreFile').addEventListener('change', ev => { const f = ev.target.files && ev.target.files[0]; if(f) restoreState(f); ev.target.value = ''; });
 /* ================= Settings ================= */
 if(state.calm) document.body.classList.add('calm');
 $('#gear').onclick = () => {
@@ -2092,6 +2293,11 @@ $('#gear').onclick = () => {
     <div class="hd"><div><div class="t">Settings</div><div class="m">${episodes.length.toLocaleString('en-GB')} shows in your library${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB') : ''}</div></div></div>
     <div class="sh-lbl">Theme</div><div class="swatches two">${[['Collection','Night','#0e0d0c','#d4b483','#211f1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Collection')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
+    <div class="sh-lbl">Your listening</div>${statsHTML()}
+    <div class="sh-lbl">Your data</div>
+    <button class="act" data-s="backup">Back up favourites &amp; progress<small>Save a file</small></button>
+    <button class="act" data-s="restore">Restore from a backup<small>Choose file</small></button>
+    <div class="sh-lbl">Library</div>
     <button class="act" data-s="refresh">Refresh library from archive.org</button>
     <button class="act" data-s="sources">Sources<small>${SOURCES.length} collections</small></button>`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
