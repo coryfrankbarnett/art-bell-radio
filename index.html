@@ -1391,6 +1391,35 @@ button:focus:not(:focus-visible){outline:none}
 .chip,.np-topics .tp,.jump,.viewtog,#sort{min-height:32px}
 @media (pointer:coarse){ .chip,.np-topics .tp,.jump{min-height:36px} .tb-listen{min-height:44px} }
 @media (prefers-contrast: more){ :root{--muted:var(--text)!important;--line:color-mix(in srgb,var(--text) 40%,transparent)!important} }
+
+/* browse all */
+.browsetop{display:flex;align-items:center;gap:12px;width:calc(100% - 40px);margin:0 20px 18px;padding:14px 16px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--text);text-align:left}
+.browsetop .bt-t{font:500 15px/1.2 var(--font)}
+.browsetop .bt-s{flex:1;font:500 10px/1.2 var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.browsetop svg{width:18px;height:18px;flex:none;color:var(--muted)}
+@media (hover:hover){ .browsetop:hover{border-color:var(--muted)} }
+/* text style picker */
+.txtpick{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:2px 0 8px}
+.tp-o{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1.5px solid var(--line);border-radius:3px;background:var(--surface);color:var(--text);text-align:left}
+.tp-o.on{border-color:var(--accent)}
+.tp-o b{flex:none;width:40px;font-size:26px;line-height:1;font-weight:400;text-align:center}
+.tp-o b.sans{font-family:var(--font);font-weight:500;font-size:22px}.tp-o b.serif{font-family:var(--serif)}
+.tp-o span{font:500 13px/1.25 var(--font)}.tp-o small{display:block;font:400 11px/1.3 var(--font);color:var(--muted);margin-top:2px}
+/* Easy reading: the sans for anything you read through; the serif stays for headings, cards and the logo */
+html.cine.easy .row .t{font:500 15.5px/1.35 var(--font)!important;letter-spacing:-.005em}
+html.cine.easy .card .t,html.cine.easy .rcard .t,html.cine.easy .esscard .t{font:500 14.5px/1.3 var(--font)!important;letter-spacing:-.005em}
+html.cine.easy .mini .t{font:500 14.5px/1.25 var(--font)!important}
+html.cine.easy .sheet .hd .t{font:600 17px/1.3 var(--font)!important;letter-spacing:-.01em}
+html.cine.easy .nt-rel .nr b,html.cine.easy .suggest .sg{font:500 15px/1.3 var(--font)!important}
+html.cine.easy .nt-facts dd{font:500 15.5px/1.3 var(--font)}
+html.cine.easy .nt-ess{font:italic 400 15.5px/1.45 var(--font)}
+html.cine.easy .grow .n{font-family:var(--font);font-weight:500}
+html.cine.easy .np .title{font:600 clamp(20px,5.4vw,24px)/1.25 var(--font)!important;letter-spacing:-.015em}
+html.cine.easy .spine .sp-t{font:500 12.5px/1.05 var(--font)}
+html.cine.easy .tt-tx,html.cine.easy .note,html.cine.easy .ess-intro{font-family:var(--font)}
+html.cine.easy .ess-intro{font-style:normal;font-size:14px}
+html.cine.easy .lp-new input,html.cine.easy .searchbox input{font:400 17px var(--font)}
+html.cine.easy .searchbox input::placeholder{font-style:normal}
 </style>
 </head>
 <body>
@@ -1480,8 +1509,9 @@ button:focus:not(:focus-visible){outline:none}
   <div class="progress" id="progress"><i></i></div>
 
 
+  <button class="browsetop" id="browseTop" type="button"><span class="bt-t">Browse all shows</span><span class="bt-s" id="browseTopN"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <section id="progWrap" style="display:none">
-    <div class="sec"><h2>Programmes</h2></div>
+    <div class="sec"><h2>Programmes</h2><button class="seeall" id="progAll">All shows</button></div>
     <div class="progs" id="progs"></div>
   </section>
 
@@ -2371,6 +2401,16 @@ function addRailArrows(){
 }
 setInterval(addRailArrows, 2500); window.addEventListener('resize', () => setTimeout(addRailArrows, 300));
 
+
+/* ================= Getting to the full list ================= */
+function openFullList(){ allOpen = true; shown = PAGE; if(tab !== 'all') document.querySelector('.tab[data-tab="all"]').click(); render(); requestAnimationFrame(() => $('#secTitle').scrollIntoView({ block:'start', behavior:smooth() })); }
+$('#browseTop').onclick = openFullList; $('#progAll').onclick = openFullList;
+function syncBrowseTop(){ const home = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value; $('#browseTop').style.display = home ? '' : 'none'; $('#browseTopN').textContent = episodes.length ? episodes.length.toLocaleString('en-GB') + ' shows' : ''; }
+
+/* ================= Text style: Easy reading (sans) or Classic (serif) ================= */
+const applyTextStyle = () => document.documentElement.classList.toggle('easy', state.textStyle !== 'classic');
+applyTextStyle();
+
 /* ================= Commute: keep the next few in Up next saved offline ================= */
 let autoSaving = false;
 async function autoSaveQueue(){
@@ -2750,7 +2790,7 @@ function render(){
   } else ph.classList.remove('show');
   const curList = tab === 'fav' && listFilter && state.lists.find(l => l.id === listFilter);
   $('#secTitle').textContent = curList ? curList.name : showFilter && tab === 'all' ? 'Episodes' : { all:'All shows', fav:'Favourites', recent:'Recently played', saved:'Saved offline', guests:'Guests' }[tab];
-  renderListBar();
+  renderListBar(); syncBrowseTop();
   const pill = $('#pill');
   if(guestFilter){ pill.innerHTML = guestPage(guestFilter); pill.classList.add('show', 'gpage'); }
   else pill.classList.remove('show', 'gpage');
@@ -3962,7 +4002,7 @@ addEventListener('keydown', ev => {
 
 /* ================= Backup and restore ================= */
 async function backupState(){
-  const keep = ['favs','lists','autoNext','autoSaveQ','npView','listView','toured','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
+  const keep = ['favs','lists','autoNext','autoSaveQ','npView','listView','toured','textStyle','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
   const data = { app:'art-bell-archive', version:1, saved:new Date().toISOString(), state:Object.fromEntries(keep.map(k => [k, state[k]])) };
   const name = `art-bell-tapes-backup-${new Date().toISOString().slice(0,10)}.json`;
   const file = new File([JSON.stringify(data)], name, { type:'application/json' });
@@ -4022,6 +4062,7 @@ $('#gear').onclick = () => {
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd"><div><div class="t">Settings</div><div class="m">${episodes.length.toLocaleString('en-GB')} shows in your library${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB') : ''}</div></div></div>
     <div class="sh-lbl">Appearance</div><div class="swatches four">${[['Classic','Colour','#0e0d0c','#a8452b','#211f1c'],['Dark','Night','#0b0b0a','#86acd4','#1e1e1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2'],['Auto','Day & night','linear-gradient(135deg,#f2ede3 0 50%,#0b0b0a 50% 100%)','#d4b483','rgba(128,128,128,.45)']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
+    <div class="txtpick" role="radiogroup" aria-label="Text style"><button class="tp-o${state.textStyle !== 'classic' ? ' on' : ''}" data-txt="easy" role="radio" aria-checked="${state.textStyle !== 'classic'}"><b class="sans">Aa</b><span>Easy reading<small>Clear sans for lists and notes</small></span></button><button class="tp-o${state.textStyle === 'classic' ? ' on' : ''}" data-txt="classic" role="radio" aria-checked="${state.textStyle === 'classic'}"><b class="serif">Aa</b><span>Classic<small>Serif everywhere</small></span></button></div>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <div class="sh-lbl">Your listening</div>${statsHTML()}
     <div class="sh-lbl">Your data</div>
@@ -4035,6 +4076,7 @@ $('#gear').onclick = () => {
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 };
 $('#sheet').addEventListener('click', ev => {
+  const tx = ev.target.closest('[data-txt]'); if(tx){ state.textStyle = tx.dataset.txt; saveState(); applyTextStyle(); document.querySelectorAll('.tp-o').forEach(x => { const on = x === tx; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); }); return; }
   const th = ev.target.closest('[data-theme]');
   if(th){ state.theme = th.dataset.theme; saveState(); applyTheme(state.theme); document.querySelectorAll('.sw').forEach(x => x.classList.toggle('on', x === th)); if(navigator.vibrate && !calm()) navigator.vibrate(8); return; }
   const b = ev.target.closest('[data-s]'); if(!b) return;
