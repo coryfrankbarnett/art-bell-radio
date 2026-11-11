@@ -1174,6 +1174,44 @@ html.cine.mono .side-brand em{color:#d4b483}
 .side-brand,.side-brand em,.side-brand span,h1,h1 a,h1 em{font-weight:400!important}
 .side-brand em{font-style:italic}
 html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opacity:1}
+
+/* search suggestions */
+.searchbox{position:relative}
+.suggest{position:absolute;left:-1px;right:-1px;top:calc(100% + 6px);z-index:40;display:none;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:3px;box-shadow:0 16px 40px rgba(0,0,0,.35);overflow:hidden}
+.suggest.show{display:flex}
+.suggest .sg{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:12px 16px;text-align:left;border-top:1px solid var(--line);font:400 18px/1.15 var(--serif);color:var(--text);background:none}
+.suggest .sg:first-child{border-top:0}
+.suggest .sg b{font-weight:400;color:var(--accent)}
+.suggest .sg small{flex:none;font:500 9.5px/1 var(--font);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.suggest .sg.sel,.suggest .sg:hover{background:var(--surface-2)}
+/* about / mentioned + list bars */
+.scopebar,.listbar{display:flex;flex-wrap:wrap;gap:8px;margin:0 20px 12px}
+.scopebar:empty,.listbar:empty{display:none}
+.scopebar .chip small,.listbar .chip small{margin-left:8px;opacity:.6;font-size:10px}
+.listbar .chip.ghost{border-style:dashed;color:var(--muted)}
+/* jump buttons */
+.row .jumps{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
+.jumps .jl,.nm-row .nm-l{font:500 9.5px/1 var(--font);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+.jump{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px 0 4px;border:1px solid var(--line);border-radius:999px;font:500 11px/1 var(--font);letter-spacing:.06em;color:var(--text);background:transparent;font-variant-numeric:tabular-nums}
+.jump svg{width:18px;height:18px;padding:5px 4px 5px 6px;border-radius:50%;background:var(--text);fill:var(--bg);box-sizing:border-box}
+@media (hover:hover){ .jump:hover{border-color:var(--muted)} }
+.nt-moments{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.nm-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.nm-row .nm-l{min-width:100%;margin-bottom:2px}
+/* list picker */
+.act.lp .tick{width:22px;height:22px;flex:none;border:1px solid var(--line);border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;color:var(--bg)}
+.act.lp .tick.on{background:var(--text);border-color:var(--text)}
+.lp-empty{color:var(--muted);margin:6px 4px 12px;font-size:14px}
+.lp-new{display:flex;gap:8px;margin:14px 0 6px}
+.lp-new input{flex:1;min-width:0;height:44px;padding:0 14px;border:1px solid var(--line);border-radius:3px;background:transparent;color:var(--text);font:400 18px var(--serif)}
+.lp-new button{flex:none;height:44px;padding:0 16px;border-radius:3px;background:var(--text);color:var(--bg);font:500 10.5px var(--font);letter-spacing:.14em;text-transform:uppercase}
+.act.danger{color:#d0644a}
+/* theme picker: four */
+.swatches.four{grid-template-columns:repeat(4,1fr);gap:8px}
+.swatches.four .sw{padding:6px 6px 9px}
+.swatches.four .sw i{height:50px}
+.swatches.four .sw span{font:400 18px/1 var(--serif);white-space:normal}
+.swatches.four .sw small{display:block;font:500 8.5px/1.2 var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:5px}
 </style>
 </head>
 <body>
@@ -1251,6 +1289,7 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
       <svg viewBox="0 0 24 24"><path d="M10 4a6 6 0 1 0 3.7 10.7l4.8 4.8 1.4-1.4-4.8-4.8A6 6 0 0 0 10 4zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg>
       <input id="q" type="search" placeholder="Guest, topic, date…" autocomplete="off" enterkeyhint="search">
       <button class="clear" id="clear" type="button">Clear</button>
+      <span class="suggest" id="suggest" role="listbox"></span>
       <button class="fbtn" id="filterBtn" type="button" aria-label="Filter by year or programme"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm4 5h10v2H7zm3 5h4v2h-4z"/></svg></button>
     </label>
   </div>
@@ -1278,6 +1317,7 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
 
   <div class="art proghead" id="progHead"></div>
 
+  <div class="listbar" id="listbar"></div>
   <div class="filterpill" id="pill"></div>
   <div class="sec">
     <h2 id="secTitle">All shows</h2>
@@ -1287,6 +1327,7 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
       </select>
     </div>
   </div>
+  <div class="scopebar" id="scopebar"></div>
   <div class="list" id="list"></div>
   <div class="guests" id="guests"></div>
 </div>
@@ -1633,7 +1674,8 @@ function artHTML(e, cls=''){
 let fuse = null;
 let episodes = [], view = [], shown = PAGE, tab = 'all', showFilter = '', yearFilter = '', demoMode = false;
 const state = Object.assign({ favs:{}, pos:{}, recent:[], hideResume:{}, speed:1, last:null, sort:'old', queue:[], marks:{}, autoplay:true, boost:false }, store.get(STATE_KEY, {}));
-let guestFilter = '', allOpen = false;
+let guestFilter = '', allOpen = false, listFilter = '';
+if(!Array.isArray(state.lists)) state.lists = [];
 const saveState = () => store.set(STATE_KEY, state);
 const isPlayed = id => { const p = state.pos[id]; return !!(p && p.d && p.t >= p.d - 120); };
 $('#sort').value = state.sort;
@@ -1723,7 +1765,7 @@ function ingest(items){
   }
   return Array.from(seen.values()).filter(e => !HIDDEN_SHOWS.has(e.show)).map(addHay);
 }
-const saveIndex = at => store.set(INDEX_KEY, { at, hosts, episodes: episodes.map(({hay,hay0,tags,guests,nd,...e}) => e) });
+const saveIndex = at => store.set(INDEX_KEY, { at, hosts, episodes: episodes.map(({hay,hay0,about,tags,ment,guests,nd,...e}) => e) });
 // Prebuilt list (library.json) is made by a GitHub Action on the same site: one small, fast, cacheable request
 async function getPrebuilt(){
   try{ const r = await fetch('library.json', { cache:'no-cache' }); if(!r.ok) return null; const j = await r.json(); return j && j.items && j.items.length ? j : null; }catch(x){ return null; }
@@ -1769,19 +1811,49 @@ function mergeGuestSpellings(){
   nameCache.clear(); knownGuests = null;
 }
 // Topic tags per air date (facts only), built weekly from podcast show notes by build_topics.py
-let TOPICS = null;
-const topicsReady = fetch('topics.json', { cache:'no-cache' }).then(r => r.ok ? r.json() : null).then(j => { TOPICS = j && j.dates || null; return TOPICS; }).catch(() => null);
+let TOPICS = null, MENTIONED = {};
+const topicsReady = fetch('topics.json', { cache:'no-cache' }).then(r => r.ok ? r.json() : null).then(j => { TOPICS = j && j.dates || null; MENTIONED = j && j.mentioned || {}; return TOPICS; }).catch(() => null);
 function applyTopics(){
   if(!TOPICS) return;
   episodes.forEach(e => {
-    const t = (e.date && TOPICS[e.date]) || [];
-    e.tags = t; if(e.hay0 === undefined) e.hay0 = e.hay;
-    e.hay = t.length ? e.hay0 + ' | ' + t.join(' ').toLowerCase() : e.hay0;
+    const t = (e.date && TOPICS[e.date]) || [], m = (e.date && MENTIONED[e.date]) || [];
+    e.tags = t; e.ment = m; if(e.hay0 === undefined) e.hay0 = e.hay;
+    e.about = (e.hay0 + ' | ' + t.join(' | ')).toLowerCase();
+    e.hay = e.about + (m.length ? ' | ' + m.join(' | ').toLowerCase() : '');
   });
+}
+// Moments: the times a subject comes up in each night (times only), loaded when first needed
+let MOMENTS = null, momentsLoading = null;
+const loadMoments = () => momentsLoading || (momentsLoading = fetch('moments.json', { cache:'no-cache' }).then(r => r.ok ? r.json() : null).then(j => (MOMENTS = j && j.dates || {})).catch(() => (MOMENTS = {})));
+function momentsFor(e){
+  if(!MOMENTS || !e || !e.date) return null;
+  const opts = MOMENTS[e.date]; if(!opts || !opts.length) return null;
+  const len = e.length || (state.pos[e.id] && state.pos[e.id].d) || 0;
+  // only trust the times if this file is the same length as the one they came from
+  const fit = opts.find(o => o.len && len && Math.abs(o.len - len) / o.len < 0.04);
+  return fit ? fit.m : null;
+}
+function momentLabelFor(e, terms){
+  const m = momentsFor(e); if(!m || !terms.length) return null;
+  const q = terms.join(' ');
+  for(const label of Object.keys(m)){
+    const g = TOPIC_ALIASES.find(g => g.includes(q) || g[0] === q);
+    const l = label.toLowerCase();
+    if(l.includes(q) || q.includes(l) || (g && g.some(a => l.includes(a) || a.includes(l)))) return label;
+  }
+  return null;
+}
+async function playAt(e, t, el){
+  const go = () => { audio.currentTime = Math.max(0, t - 10); persistPos && persistPos(); };
+  if(audio.dataset.id !== e.id){ await loadEpisode(e, true); audio.addEventListener('loadedmetadata', go, { once:true }); }
+  else go();
+  if(audio.paused && !e.demo) audio.play().catch(() => {});
+  openNP(el);
+  toast('Jumping to ' + fmt(Math.max(0, t - 10)));
 }
 function afterLoad(quiet){
   mergeGuestSpellings();
-  applyTopics();
+  applyTopics(); sugIndex = null;
   [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach((e, i) => { e.no = i + 1; });
   idMap = new Map(episodes.map(e => [e.id, e]));
   $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015`;
@@ -1840,7 +1912,7 @@ dial.addEventListener('click', ev => {
 
 /* Search */
 let qT;
-$('#q').addEventListener('input', () => { $('#clear').classList.toggle('show', !!$('#q').value); clearTimeout(qT); qT = setTimeout(applyFilters, 140); });
+$('#q').addEventListener('input', () => { searchScope = 'all'; suggest(); $('#clear').classList.toggle('show', !!$('#q').value); clearTimeout(qT); qT = setTimeout(applyFilters, 140); });
 $('#filterBtn').onclick = ev => { ev.preventDefault(); state.filtersOpen = !state.filtersOpen; saveState(); syncFilters(); };
 $('#q').addEventListener('focus', syncFilters);
 $('#q').addEventListener('blur', () => setTimeout(syncFilters, 250));
@@ -1854,6 +1926,106 @@ $('#tabs').addEventListener('click', ev => {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t === b));
   applyFilters(); scrollTo({ top:0, behavior:smooth() });
 });
+
+
+
+/* ================= Your own lists ================= */
+const newListId = () => 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+function renderListBar(){
+  const b = $('#listbar'); if(!b) return;
+  if(tab !== 'fav'){ b.style.display = 'none'; b.innerHTML = ''; return; }
+  b.style.display = '';
+  const favN = episodes.filter(e => state.favs[e.id]).length;
+  b.innerHTML = `<button class="chip${!listFilter?' on':''}" data-list="">Favourites<small>${favN}</small></button>` +
+    state.lists.map(l => `<button class="chip${listFilter===l.id?' on':''}" data-list="${l.id}">${esc(l.name)}<small>${l.ids.length}</small></button>`).join('') +
+    `<button class="chip ghost" data-list-new="1">+ New list</button>` +
+    (listFilter ? `<button class="chip ghost" data-list-edit="1">Rename or delete</button>` : '');
+}
+$('#listbar').addEventListener('click', ev => {
+  const c = ev.target.closest('[data-list]'); if(c){ listFilter = c.dataset.list; applyFilters(); return; }
+  if(ev.target.closest('[data-list-new]')) return openListEditor(null);
+  if(ev.target.closest('[data-list-edit]')) return openListEditor(state.lists.find(l => l.id === listFilter));
+});
+function openListPicker(e){
+  $('#sheet').innerHTML = `<div class="grab"></div>
+    <div class="hd"><div style="flex:1"><div class="t">Add to a list</div><div class="m">${esc(e.title)}</div></div></div>
+    ${state.lists.length ? state.lists.map(l => { const on = l.ids.includes(e.id); return `<button class="act lp" data-lp="${l.id}"><span class="tick${on?' on':''}">${on?'✓':''}</span>${esc(l.name)}<small>${l.ids.length} show${l.ids.length===1?'':'s'}</small></button>`; }).join('') : '<p class="lp-empty">No lists yet. Make one below.</p>'}
+    <form class="lp-new" id="lpNew"><input id="lpName" maxlength="40" placeholder="New list name" autocomplete="off"><button type="submit">Create and add</button></form>`;
+  $('#sheet').dataset.id = ''; $('#sheet').dataset.lpid = e.id; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
+}
+function openListEditor(L){
+  $('#sheet').innerHTML = `<div class="grab"></div>
+    <div class="hd"><div style="flex:1"><div class="t">${L ? 'Edit list' : 'New list'}</div><div class="m">${L ? L.ids.length + ' shows' : 'Name it, then add shows from any episode’s menu'}</div></div></div>
+    <form class="lp-new" id="leForm"><input id="leName" maxlength="40" value="${L ? esc(L.name) : ''}" placeholder="List name" autocomplete="off"><button type="submit">${L ? 'Rename' : 'Create'}</button></form>
+    ${L ? `<button class="act danger" data-le-del="${L.id}">${I.trash} Delete “${esc(L.name)}”<small>Shows stay in the library</small></button>` : ''}`;
+  $('#sheet').dataset.id = ''; $('#sheet').dataset.leid = L ? L.id : ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
+  setTimeout(() => { const i = $('#leName'); if(i && !L) i.focus(); }, 250);
+}
+$('#sheet').addEventListener('click', ev => {
+  const lp = ev.target.closest('[data-lp]'); if(lp){
+    const L = state.lists.find(l => l.id === lp.dataset.lp), id = $('#sheet').dataset.lpid; if(!L || !id) return;
+    const i = L.ids.indexOf(id); if(i >= 0) L.ids.splice(i, 1); else L.ids.push(id);
+    saveState(); openListPicker(byId(id)); toast(i >= 0 ? `Removed from ${L.name}` : `Added to ${L.name}`); if(tab === 'fav') applyFilters(); return;
+  }
+  const del = ev.target.closest('[data-le-del]'); if(del){
+    if(del.dataset.armed !== '1'){ del.dataset.armed = '1'; del.firstChild && (del.querySelector('small').textContent = 'Tap again to delete'); return; }
+    const L = state.lists.find(l => l.id === del.dataset.leDel); state.lists = state.lists.filter(l => l.id !== del.dataset.leDel); listFilter = ''; saveState(); closeSheet(); applyFilters(); toast(`Deleted ${L ? L.name : 'list'}`); return;
+  }
+});
+$('#sheet').addEventListener('submit', ev => {
+  ev.preventDefault();
+  if(ev.target.id === 'lpNew'){
+    const name = $('#lpName').value.trim(); const id = $('#sheet').dataset.lpid; if(!name || !id) return;
+    const L = { id:newListId(), name, ids:[id] }; state.lists.push(L); saveState(); openListPicker(byId(id)); toast(`Added to ${name}`); if(tab === 'fav') applyFilters(); return;
+  }
+  if(ev.target.id === 'leForm'){
+    const name = $('#leName').value.trim(); if(!name) return; const lid = $('#sheet').dataset.leid;
+    if(lid){ const L = state.lists.find(l => l.id === lid); if(L) L.name = name; toast('Renamed'); }
+    else { const L = { id:newListId(), name, ids:[] }; state.lists.push(L); listFilter = L.id; toast(`Made ${name}. Add shows from any episode’s ••• menu`, 3500); }
+    saveState(); closeSheet(); applyFilters();
+  }
+});
+
+/* ================= Suggestions as you type ================= */
+let sugIndex = null, sugSel = -1;
+function buildSugIndex(){
+  const m = new Map(); const add = (label, kind, w) => { const k = kind + '|' + label.toLowerCase(); const x = m.get(k); if(x) x.n += w; else m.set(k, { label, kind, n:w }); };
+  episodes.forEach(e => { (e.guests || []).forEach(g => add(g, 'Guest', 3)); (e.tags || []).forEach(t => add(t, 'Topic', 2)); (e.ment || []).forEach(t => add(t, 'Topic', 1)); });
+  PROGRAMMES.forEach(p => add(p[0], 'Programme', 50));
+  // a name that is also a guest shows once, as a guest
+  const guests = new Set([...m.values()].filter(x => x.kind === 'Guest').map(x => x.label.toLowerCase()));
+  sugIndex = [...m.values()].filter(x => !(x.kind === 'Topic' && guests.has(x.label.toLowerCase())));
+}
+function suggest(){
+  const box = $('#suggest'), q = $('#q').value.trim().toLowerCase();
+  if(q.length < 2 || !episodes.length){ box.classList.remove('show'); box.innerHTML = ''; sugSel = -1; return; }
+  if(!sugIndex) buildSugIndex();
+  const starts = x => { const l = x.label.toLowerCase(); return l.startsWith(q) ? 2 : l.split(/[\s\-–.']+/).some(w => w.startsWith(q)) ? 1 : 0; };
+  const hits = sugIndex.map(x => [x, starts(x)]).filter(([, s]) => s).sort((a, b) => b[1] - a[1] || b[0].n - a[0].n).slice(0, 7).map(([x]) => x);
+  sugSel = -1;
+  if(!hits.length){ box.classList.remove('show'); box.innerHTML = ''; return; }
+  const hl = l => { const i = l.toLowerCase().indexOf(q); return i < 0 ? esc(l) : esc(l.slice(0, i)) + '<b>' + esc(l.slice(i, i + q.length)) + '</b>' + esc(l.slice(i + q.length)); };
+  box.innerHTML = hits.map((x, i) => `<button type="button" class="sg" data-i="${i}" data-kind="${x.kind}" data-label="${esc(x.label)}"><span>${hl(x.label)}</span><small>${x.kind}</small></button>`).join('');
+  box.classList.add('show');
+}
+function pickSuggestion(b){
+  const label = b.dataset.label, kind = b.dataset.kind, box = $('#suggest');
+  box.classList.remove('show'); box.innerHTML = '';
+  if(kind === 'Guest'){ guestFilter = label; $('#q').value = ''; $('#clear').classList.remove('show'); applyFilters(); }
+  else if(kind === 'Programme'){ $('#q').value = ''; $('#clear').classList.remove('show'); setShow(label); }
+  else { $('#q').value = label; $('#clear').classList.add('show'); searchScope = 'all'; applyFilters(); }
+  $('#q').blur();
+}
+$('#suggest').addEventListener('mousedown', ev => ev.preventDefault());
+$('#suggest').addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); const b = ev.target.closest('.sg'); if(b) pickSuggestion(b); });
+$('#q').addEventListener('keydown', ev => {
+  const items = [...document.querySelectorAll('#suggest .sg')]; if(!items.length) return;
+  if(ev.key === 'ArrowDown' || ev.key === 'ArrowUp'){ ev.preventDefault(); sugSel = (sugSel + (ev.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length; items.forEach((x, i) => x.classList.toggle('sel', i === sugSel)); }
+  else if(ev.key === 'Enter' && sugSel >= 0){ ev.preventDefault(); pickSuggestion(items[sugSel]); }
+  else if(ev.key === 'Escape'){ $('#suggest').classList.remove('show'); }
+});
+$('#q').addEventListener('blur', () => setTimeout(() => $('#suggest').classList.remove('show'), 150));
+$('#q').addEventListener('focus', () => { if($('#q').value.trim().length >= 2) suggest(); });
 
 /* Logo: back to the start, like a fresh open */
 function goHome(){
@@ -1870,6 +2042,7 @@ $('#homeLogo').addEventListener('click', ev => { if(ev.metaKey || ev.ctrlKey || 
 
 /* Filtering */
 let shuffleSeed = Math.random();
+let searchScope = 'all', scopeCounts = null;
 // Topics the show titles name in different ways: searching one also finds the others,
 // plus shows with guests known for that subject whose titles don't name it.
 const TOPIC_ALIASES = [
@@ -1883,7 +2056,7 @@ const termHit = (hay, t) => { const g = TOPIC_ALIASES.find(g => g[0] === t || (t
 function applyFilters(){
   const terms = $('#q').value.trim().toLowerCase().split(/\s+/).filter(Boolean);
   let list = episodes;
-  if(tab === 'fav') list = list.filter(e => state.favs[e.id]);
+  if(tab === 'fav'){ const L = listFilter && state.lists.find(l => l.id === listFilter); if(!L) listFilter = ''; list = L ? L.ids.map(byId).filter(Boolean) : list.filter(e => state.favs[e.id]); }
   if(tab === 'saved') list = list.filter(e => savedKeys.has(e.id));
   if(tab === 'recent') list = state.recent.map(byId).filter(Boolean);
   if(showFilter) list = list.filter(e => e.show === showFilter);
@@ -1907,15 +2080,26 @@ function applyFilters(){
     if(s==='az') list.sort((a,b)=>a.title.localeCompare(b.title));
     if(s==='rand'){ const h = id => { let x=0; for(const c of id) x=(x*31+c.charCodeAt(0))|0; return Math.sin(x+shuffleSeed); }; list.sort((a,b)=>h(a.id)-h(b.id)); }
   }
-  // Searching: shows named for the subject come first, then nights where it came up
+  // Searching: shows about the subject come first, then nights where it only came up
+  scopeCounts = null;
   if(terms.length && tab !== 'recent'){
-    const base = e => (e.hay0 !== undefined ? e.hay0 : e.hay);
-    const named = [], rest = [];
-    list.forEach(e => (terms.every(t => termHit(base(e), t)) ? named : rest).push(e));
-    list = named.concat(rest);
+    const base = e => (e.about !== undefined ? e.about : e.hay);
+    const about = [], ment = [];
+    list.forEach(e => (terms.every(t => termHit(base(e), t)) ? about : ment).push(e));
+    if(ment.length && about.length) scopeCounts = { all: list.length, about: about.length, ment: ment.length };
+    else searchScope = 'all';
+    list = searchScope === 'about' ? about : searchScope === 'ment' ? ment : about.concat(ment);
+    if(!MOMENTS) loadMoments().then(() => { if(view === list) render(); });
   }
-  view = list; shown = PAGE; render();
+  view = list; shown = PAGE; render(); renderScope();
 }
+function renderScope(){
+  const b = $('#scopebar'); if(!b) return;
+  if(!scopeCounts){ b.innerHTML = ''; b.style.display = 'none'; return; }
+  b.style.display = '';
+  b.innerHTML = [['all','All'],['about','About it'],['ment','Mentioned']].map(([k, l]) => `<button class="chip${searchScope===k?' on':''}" data-scope="${k}">${l}<small>${(scopeCounts[k]||0).toLocaleString('en-GB')}</small></button>`).join('');
+}
+$('#scopebar').addEventListener('click', ev => { const b = ev.target.closest('[data-scope]'); if(!b) return; searchScope = b.dataset.scope; applyFilters(); });
 
 function markPlaying(){
   const cur = audio.dataset.id, paused = audio.paused;
@@ -1956,7 +2140,9 @@ function render(){
     ph.innerHTML = `${PROG_SCENE[showFilter] ? sceneSVG(showFilter) : emblem(showFilter)}<div class="ph-in"><button class="back" id="progBack"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>All programmes</button><div class="yrs">${esc(info[1])}</div><div class="nm">${esc(info[0])}</div><p>${esc(info[2])}</p><span class="ct">${(counts[showFilter]||0).toLocaleString('en-GB')} ${counts[showFilter]===1?'show':'shows'}</span></div>`;
     ph.classList.add('show');
   } else ph.classList.remove('show');
-  $('#secTitle').textContent = showFilter && tab === 'all' ? 'Episodes' : { all:'All shows', fav:'Favourites', recent:'Recently played', saved:'Saved offline', guests:'Guests' }[tab];
+  const curList = tab === 'fav' && listFilter && state.lists.find(l => l.id === listFilter);
+  $('#secTitle').textContent = curList ? curList.name : showFilter && tab === 'all' ? 'Episodes' : { all:'All shows', fav:'Favourites', recent:'Recently played', saved:'Saved offline', guests:'Guests' }[tab];
+  renderListBar();
   const pill = $('#pill');
   if(guestFilter){ pill.innerHTML = `Guest: <b>${esc(guestFilter)}</b><button id="pillX">Clear</button>`; pill.classList.add('show'); }
   else pill.classList.remove('show');
@@ -1983,7 +2169,9 @@ function render(){
     return;
   }
   const cur = audio.dataset.id, paused = audio.paused;
+  const qTerms = $('#q').value.trim().toLowerCase().split(/\s+/).filter(Boolean);
   el.innerHTML = view.slice(0, shown).map(e => {
+    const ml = qTerms.length ? momentLabelFor(e, qTerms) : null, mt = ml ? momentsFor(e)[ml] : null;
     const p = state.pos[e.id], done = isPlayed(e.id), pct = !done && p && p.d ? Math.min(100, p.t/p.d*100) : 0, isCur = cur === e.id;
     const len = e.length || (p && p.d) || 0;
     return `<div class="swipe"><div class="bg l">★ ${state.favs[e.id]?'Unfavourite':'Favourite'}</div><div class="bg r">${savedKeys.has(e.id)?'Remove offline':'Save offline'} ↓</div><div class="row${isCur?' cur':''}${isCur&&paused?' paused':''}" data-id="${esc(e.id)}">
@@ -1991,6 +2179,7 @@ function render(){
       <div class="info">
         <div class="t">${esc(e.title)}</div>
         <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${fmt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?'<span class="played">✓ Played</span>':''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span>`:''}</div>
+        ${mt && mt.length ? `<div class="jumps"><span class="jl">${esc(ml)}</span>${mt.slice(0,4).map(t => `<button class="jump" data-t="${t}">${I.play2}${fmt(Math.max(0,t-10))}</button>`).join('')}${mt.length > 4 ? `<span class="jl">+${mt.length-4}</span>` : ''}</div>` : ''}
       </div>
       <button class="more" data-act="more" aria-label="More options">${I.more}</button>
     </div></div>`;
@@ -2002,6 +2191,7 @@ $('#list').addEventListener('click', ev => {
   const row = ev.target.closest('.row'); if(!row) return;
   const e = byId(row.dataset.id); if(!e) return;
   if(ev.target.closest('[data-act="more"]')) return openSheet(e);
+  const jb = ev.target.closest('.jump'); if(jb) return playAt(e, +jb.dataset.t, row.querySelector('.art'));
   playFrom(e, row.querySelector('.art'));
 });
 // Swipe right = favourite, swipe left = save offline (with haptic tick at the threshold)
@@ -2332,6 +2522,7 @@ function openQueue(){
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
 $('#sheet').addEventListener('click', ev => {
+  const jm = ev.target.closest('.nt-moments .jump'); if(jm){ const e = byId($('#sheet').dataset.nid); if(e){ closeSheet(); playAt(e, +jm.dataset.t); } return; }
   const tch = ev.target.closest('.nt-topics [data-topic]'); if(tch){ closeSheet(); closeNP(); guestFilter = ''; showFilter = ''; yearFilter = ''; document.querySelectorAll('#chips .chip').forEach(c => c.classList.toggle('on', c.dataset.show === '')); $('#q').value = tch.dataset.topic; $('#clear').classList.add('show'); document.querySelector('.tab[data-tab="all"]').click(); return; }
   const gch = ev.target.closest('.nt-guests [data-g]'); if(gch){ closeSheet(); closeNP(); guestFilter = gch.dataset.g; $('#q').value = ''; document.querySelector('.tab[data-tab="all"]').click(); return; }
   const sb = ev.target.closest('[data-s]'); if(sb && ['backup','restore'].includes(sb.dataset.s)){ sb.dataset.s === 'backup' ? backupState() : $('#restoreFile').click(); return; }
@@ -2548,6 +2739,7 @@ function openSheet(e){
     <button class="act" data-a="next"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-1V9l5 3z"/></svg> Play next</button>
     <button class="act" data-a="queue"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm16-3v-3h-2v3h-3v2h3v3h2v-3h3v-2z"/></svg> Add to Up next</button>
     <button class="act" data-a="fav">${I.star} ${fav?'Remove from favourites':'Add to favourites'}</button>
+    <button class="act" data-a="lists"><svg viewBox="0 0 24 24"><path d="M4 6h11v2H4zm0 5h11v2H4zm0 5h7v2H4zm13-2v-3h2v3h3v2h-3v3h-2v-3h-3v-2z"/></svg> Add to a list${(() => { const n = state.lists.filter(l => l.ids.includes(e.id)).length; return n ? `<small>In ${n} list${n>1?'s':''}</small>` : ''; })()}</button>
     ${sv ? `<button class="act" data-a="unsave">${I.trash} Remove offline copy</button>` : `<button class="act" data-a="save">${I.dl} Save offline<small>${mb}</small></button>`}
     <button class="act" data-a="dl">${I.share} Download MP3 to phone<small>${mb}</small></button>
     <button class="act" data-a="share">${I.link} ${audio.dataset.id === e.id ? 'Share this moment<small>' + fmt(curTime(e)) + '</small>' : 'Share link to this show'}</button>
@@ -2581,11 +2773,15 @@ function openNotes(e){
         ${isPlayed(e.id) ? `<div><dt>Status</dt><dd>Played</dd></div>` : p && p.t > 30 ? `<div><dt>Status</dt><dd>${fmt(p.d - p.t)} left</dd></div>` : ''}
       </dl>
       ${e.guests && e.guests.length ? `<div class="nt-h">Guests</div><div class="nt-guests">${e.guests.map(g => `<button class="chip" data-g="${esc(g)}">${esc(g)}</button>`).join('')}</div>` : ''}
+      <div id="ntMoments"></div>
+      ${(e.ment || []).length ? `<div class="nt-h">Also comes up</div><div class="nt-topics">${e.ment.map(t => `<button class="chip" data-topic="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
       ${topicTags(e).length ? `<div class="nt-h">Topics</div><div class="nt-topics">${topicTags(e).map(t => `<button class="chip" data-topic="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
       ${prog ? `<div class="nt-h">${esc(prog[0])}</div><p>${esc(prog[2])}</p>` : ''}
       ${e.demo ? '' : `<div class="nt-h">From the collection</div><p class="nt-src" id="ntSrc">Loading notes from archive.org…</p>`}
     </div>`;
-  $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
+  $('#sheet').dataset.id = ''; $('#sheet').dataset.nid = e.id; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
+  loadMoments().then(() => { const box = $('#ntMoments'), m = momentsFor(e); if(!box || !m || !Object.keys(m).length) return;
+    box.innerHTML = `<div class="nt-h">Jump to the moment</div><div class="nt-moments">${Object.entries(m).slice(0, 10).map(([l, ts]) => `<div class="nm-row"><span class="nm-l">${esc(l)}</span>${ts.slice(0, 6).map(t => `<button class="jump" data-t="${t}">${I.play2}${fmt(Math.max(0, t - 10))}</button>`).join('')}</div>`).join('')}</div>`; });
   if(!e.demo) itemNotes(e.item).then(n => { const el = $('#ntSrc'); if(!el) return;
     el.innerHTML = n ? `<b>${esc(n.title)}</b>${n.text ? '<br>' + esc(n.text).replace(/\n/g, '<br>') : ''}<br><a href="${API}/details/${encodeURIComponent(e.item)}" target="_blank" rel="noopener">View on archive.org</a>` : 'Couldn’t load notes right now.'; });
 }
@@ -2599,7 +2795,7 @@ $('#sheet').addEventListener('click', ev => {
      notes:()=>openNotes(e),
      played:()=>{ closeSheet(); const was = isPlayed(e.id), d = durOf(e) || e.length || 1; if(was) delete state.pos[e.id]; else state.pos[e.id] = { t:Math.floor(d), d:Math.floor(d) }; saveState(); render(); toast(was ? 'Marked as not played' : 'Marked as played'); },
      guest:()=>{ closeSheet(); closeNP(); guestFilter = b.dataset.g; $('#q').value=''; document.querySelector('.tab[data-tab="all"]').click(); },
-     play:()=>{ closeSheet(); loadEpisode(e, true); }, fav:()=>{ closeSheet(); toggleFav(e); }, save:()=>saveOffline(e), unsave:()=>removeOffline(e), dl:()=>downloadToPhone(e) })[b.dataset.a]();
+     play:()=>{ closeSheet(); loadEpisode(e, true); }, fav:()=>{ closeSheet(); toggleFav(e); }, lists:()=>openListPicker(e), save:()=>saveOffline(e), unsave:()=>removeOffline(e), dl:()=>downloadToPhone(e) })[b.dataset.a]();
 });
 
 /* ================= Bookmarks ================= */
@@ -2731,9 +2927,12 @@ const THEMES = {
 };
 const THEME_RENAMES = { 'Amber':'Desert', 'Area 51':'Dreamland', 'Dopamine':'Neon' };
 if(state.theme === 'Collection'){ state.theme = 'Classic'; saveState(); }
-if(!['Classic','Dark','Paper'].includes(state.theme)){ state.theme = 'Classic'; saveState(); }
+if(!['Classic','Dark','Paper','Auto'].includes(state.theme)){ state.theme = 'Classic'; saveState(); }
+// Auto: Paper in daylight hours, Dark at night
+const autoTheme = () => { const h = new Date().getHours(); return h >= 7 && h < 19 ? 'Paper' : 'Dark'; };
 const prefersLight = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : { matches:false };
 function applyTheme(name){
+  if(name === 'Auto') name = autoTheme();
   name = THEMES.hasOwnProperty(name) ? name : 'Classic';
   const t = THEMES[name];
   document.documentElement.classList.add('cine');
@@ -2744,6 +2943,8 @@ function applyTheme(name){
   drawWave();
 }
 applyTheme(state.theme);
+setInterval(() => { if(state.theme === 'Auto') applyTheme('Auto'); }, 5 * 60 * 1000);
+document.addEventListener('visibilitychange', () => { if(!document.hidden && state.theme === 'Auto') applyTheme('Auto'); });
 
 /* ================= Tribute: In memory of Art Bell ================= */
 const STUDIO_SVG = `<svg viewBox="0 0 320 230" class="tb-ill" role="img" aria-label="Line drawing of a home radio studio at night: microphone, ham radio, headphones, coffee and glasses on a desk, with the desert and moon through the window">
@@ -2940,7 +3141,7 @@ addEventListener('keydown', ev => {
 
 /* ================= Backup and restore ================= */
 async function backupState(){
-  const keep = ['favs','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
+  const keep = ['favs','lists','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
   const data = { app:'art-bell-archive', version:1, saved:new Date().toISOString(), state:Object.fromEntries(keep.map(k => [k, state[k]])) };
   const name = `art-bell-tapes-backup-${new Date().toISOString().slice(0,10)}.json`;
   const file = new File([JSON.stringify(data)], name, { type:'application/json' });
@@ -2954,6 +3155,7 @@ async function restoreState(f){
     const d = JSON.parse(await f.text()); if(!d || d.app !== 'art-bell-archive' || !d.state) throw 0;
     const b = d.state;
     Object.assign(state.favs, b.favs || {}); Object.assign(state.hideResume, b.hideResume || {});
+    for(const L of (Array.isArray(b.lists) ? b.lists : [])){ const mine = state.lists.find(x => x.id === L.id || x.name.toLowerCase() === String(L.name).toLowerCase()); if(mine) mine.ids = [...new Set(mine.ids.concat(L.ids || []))]; else state.lists.push({ id:L.id || newListId(), name:String(L.name || 'List'), ids:[...(L.ids || [])] }); }
     for(const [id, p] of Object.entries(b.pos || {})) if(!state.pos[id] || (p && p.t > state.pos[id].t)) state.pos[id] = p;
     for(const [id, m] of Object.entries(b.marks || {})){ const cur = state.marks[id] || []; state.marks[id] = cur.concat((m || []).filter(x => !cur.some(y => Math.abs(y.t - x.t) < 2))); }
     state.recent = [...new Set([...(state.recent || []), ...(b.recent || [])])].slice(0, 200);
@@ -2998,7 +3200,7 @@ $('#gear').onclick = () => {
   const cached = store.get(INDEX_KEY, null);
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd"><div><div class="t">Settings</div><div class="m">${episodes.length.toLocaleString('en-GB')} shows in your library${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB') : ''}</div></div></div>
-    <div class="sh-lbl">Theme</div><div class="swatches three">${[['Classic','Colour','#0e0d0c','#a8452b','#211f1c'],['Dark','Night','#0b0b0a','#86acd4','#1e1e1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
+    <div class="sh-lbl">Theme</div><div class="swatches four">${[['Classic','Colour','#0e0d0c','#a8452b','#211f1c'],['Dark','Night','#0b0b0a','#86acd4','#1e1e1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2'],['Auto','Day & night','linear-gradient(135deg,#f2ede3 0 50%,#0b0b0a 50% 100%)','#d4b483','rgba(128,128,128,.45)']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <div class="sh-lbl">Your listening</div>${statsHTML()}
     <div class="sh-lbl">Your data</div>
