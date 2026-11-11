@@ -1212,6 +1212,35 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
 .swatches.four .sw i{height:50px}
 .swatches.four .sw span{font:400 18px/1 var(--serif);white-space:normal}
 .swatches.four .sw small{display:block;font:500 8.5px/1.2 var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+.ess-jump{margin-top:10px;height:28px;font-size:10.5px;white-space:nowrap;max-width:100%;overflow:hidden}
+
+/* guest page */
+.filterpill.gpage{display:block!important;margin:0 20px 16px;padding:18px 20px 16px;border:1px solid var(--line);border-radius:2px;background:var(--surface)}
+.gp-top{display:flex;justify-content:space-between;align-items:center}
+.gp-k{font:500 10px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.gp-x{font:500 10px/1 var(--font)!important;letter-spacing:.16em;text-transform:uppercase;color:var(--text)!important;border:1px solid var(--line)!important;border-radius:2px!important;padding:8px 10px!important;background:none!important}
+.gp-n{font:400 clamp(34px,10vw,46px)/1 var(--serif);margin:14px 0 12px;color:var(--text)}
+.gp-facts{display:flex;flex-wrap:wrap;gap:6px 16px;font:400 13px/1.4 var(--font);color:var(--muted)}
+.gp-facts b{font-weight:500;color:var(--text)}
+.gp-time{display:flex;align-items:flex-end;gap:2px;height:34px;margin:18px 0 4px}
+.gp-time i{flex:1;background:var(--line);border-radius:1px}
+.gp-time i.on{background:var(--accent)}
+.gp-yrs{display:flex;justify-content:space-between;font:500 9.5px/1 var(--font);letter-spacing:.14em;color:var(--muted);margin-bottom:12px}
+.gp-sub .gp-k{display:block;margin:12px 0 8px}
+.gtop{list-style:none;margin:0 0 18px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0 18px}
+.gtop .gr{font:italic 400 20px/1 var(--serif);color:var(--muted);width:34px;flex:none}
+
+.nt-rel{display:flex;flex-direction:column;gap:2px;margin-bottom:16px}
+.nt-rel .nr{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line);text-align:left;background:none;color:var(--text)}
+.nt-rel .nr:first-child{border-top:0}
+.nt-rel .nr .art{width:46px;height:46px;flex:none}
+.nt-rel .nr b{display:block;font:400 17px/1.15 var(--serif)}
+.nt-rel .nr small{display:block;font:500 9.5px/1.4 var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+
+.sy-steps{margin:6px 0 4px;padding-left:20px;color:var(--text);font:400 14px/1.5 var(--font)}
+.sy-steps li{margin-bottom:8px}
+.sy-steps b{font-weight:500}
+.sy-note{color:var(--muted);font-size:12.5px;line-height:1.5;margin:8px 2px 4px}
 </style>
 </head>
 <body>
@@ -1556,7 +1585,25 @@ const LINE_MOTIF = {
   halftone: '<circle cx="50" cy="44" r="20"/><path d="M38 36h.1M50 32h.1M62 36h.1M36 48h.1M50 46h.1M64 48h.1M44 58h.1M56 58h.1" stroke-width="4"/>',
   stripes: '<path d="M28 24l44 44M38 20l40 40M22 34l40 40"/>',
   quarters: '<path d="M50 44V18a26 26 0 0 1 26 26z"/><circle cx="50" cy="44" r="26"/>',
-  split: '<path d="M20 72L80 18"/><circle cx="58" cy="50" r="10"/>'
+  split: '<path d="M20 72L80 18"/><circle cx="58" cy="50" r="10"/>',
+  footprint: '<path d="M44 76c-9 0-12-8-11-17 1-10 3-19 9-24 6-5 15-3 17 5 2 9-1 17-1 25 0 7-5 11-14 11z"/><circle cx="40" cy="22" r="3.6"/><circle cx="48" cy="18" r="3.2"/><circle cx="56" cy="19" r="2.8"/><circle cx="62" cy="23" r="2.5"/><circle cx="66" cy="29" r="2.2"/>',
+  crop: '<circle cx="50" cy="44" r="20"/><circle cx="50" cy="44" r="9"/><circle cx="50" cy="14" r="5"/><circle cx="76" cy="59" r="5"/><circle cx="24" cy="59" r="5"/><path d="M50 19v5M72 56l-4-2M28 56l4-2"/><path d="M10 80h80M16 86h68" stroke-dasharray="2 4"/>',
+  ghost: '<path d="M30 76V40a20 20 0 0 1 40 0v36l-6-6-7 6-7-6-7 6-7-6z"/><circle cx="43" cy="42" r="2.6"/><circle cx="57" cy="42" r="2.6"/><path d="M45 54a5 4 0 0 0 10 0"/>',
+  pyramid: '<path d="M14 74L46 26l32 48z"/><path d="M46 26l10 48M30 50h32"/><circle cx="78" cy="22" r="7"/><path d="M8 80h84"/>',
+  moon: '<path d="M60 16a26 26 0 1 0 22 40 22 22 0 0 1-22-40z"/><path d="M20 22h.1M28 74h.1M84 20h.1M14 50h.1" stroke-width="3"/><circle cx="58" cy="52" r="3"/><circle cx="48" cy="36" r="2"/>',
+  eye: '<path d="M14 44c10-16 24-22 36-22s26 6 36 22c-10 16-24 22-36 22S24 60 14 44z"/><circle cx="50" cy="44" r="11"/><circle cx="50" cy="44" r="4"/><path d="M50 12v-6M30 16l-4-5M70 16l4-5"/>',
+  tower: '<path d="M50 30v48M42 78l8-48 8 48M44 62h12M46 48h8"/><path d="M38 24a16 16 0 0 1 24 0M32 17a24 24 0 0 1 36 0M26 10a32 32 0 0 1 48 0"/><path d="M14 80h72"/>',
+  hole: '<ellipse cx="50" cy="40" rx="30" ry="9"/><ellipse cx="50" cy="40" rx="18" ry="5"/><path d="M32 47l8 30M68 47l-8 30M44 50l2 26M56 50l-2 26" stroke-dasharray="3 3"/>',
+  skull: '<path d="M30 46a20 21 0 1 1 40 0c0 8-4 12-8 14v10H38V60c-4-2-8-6-8-14z"/><circle cx="42" cy="44" r="5"/><circle cx="58" cy="44" r="5"/><path d="M50 50l-3 6h6zM44 70v-6M50 70v-6M56 70v-6"/>',
+  triangle: '<path d="M14 30h72L50 66z"/><circle cx="24" cy="34" r="3.5"/><circle cx="76" cy="34" r="3.5"/><circle cx="50" cy="58" r="3.5"/><path d="M50 66l-10 18M50 66l10 18" stroke-dasharray="2 3"/>',
+  wings: '<path d="M50 34c-8-16-30-20-38-10 8 4 12 14 16 24 6-2 14-6 22-14zM50 34c8-16 30-20 38-10-8 4-12 14-16 24-6-2-14-6-22-14z"/><path d="M50 30v40"/><circle cx="46" cy="30" r="2" stroke-width="3"/><circle cx="54" cy="30" r="2" stroke-width="3"/>',
+  candle: '<path d="M42 40h16v38H42z"/><path d="M50 40v-6"/><path d="M50 18c6 6 6 12 0 16-6-4-6-10 0-16z"/><path d="M28 78h44"/><path d="M24 26l-6-4M76 26l6-4M50 8V4"/>',
+  quake: '<path d="M8 48h14l5-14 6 30 6-44 6 52 6-36 5 20 5-8h31"/><path d="M8 78h84"/>',
+  helix: '<path d="M36 10c0 20 28 20 28 40s-28 20-28 40M64 10c0 20-28 20-28 40s28 20 28 40"/><path d="M40 20h20M38 36h24M40 60h20M38 76h24"/>',
+  clock: '<circle cx="50" cy="44" r="27"/><path d="M50 44V26M50 44l13 9"/><path d="M50 13v4M50 71v4M19 44h4M77 44h4"/><path d="M80 16l6-6M84 22l6-2" />',
+  atom: '<ellipse cx="50" cy="44" rx="32" ry="11"/><ellipse cx="50" cy="44" rx="32" ry="11" transform="rotate(60 50 44)"/><ellipse cx="50" cy="44" rx="32" ry="11" transform="rotate(-60 50 44)"/><circle cx="50" cy="44" r="4"/>',
+  comet: '<circle cx="66" cy="30" r="9"/><path d="M60 37L18 72M58 32L14 58M63 39L32 80"/><path d="M84 66h.1M80 12h.1M24 20h.1" stroke-width="3"/>',
+  storm: '<path d="M28 46a12 12 0 0 1 4-23 16 16 0 0 1 30-4 12 12 0 0 1 12 27z"/><path d="M50 50l-8 14h10l-8 16"/><path d="M30 56l-4 8M66 56l-4 8M74 52l-4 8"/>'
 };
 const PROG_SCENE = {
   'Coast to Coast AM': '<path d="M4 66h112"/><path d="M10 66l10-14h22l8 14"/><path d="M78 66V26M70 66l8-40 8 40M73 46h10M75 36h6"/><path d="M68 20a14 14 0 0 1 20 0M64 14a20 20 0 0 1 28 0" /><circle cx="26" cy="22" r="7"/><path d="M96 60h12v6H96zM98 60v-6h8v6"/>',
@@ -1566,7 +1613,17 @@ const PROG_SCENE = {
   'Midnight in the Desert': '<path d="M4 66h112"/><path d="M40 66V30a6 6 0 0 1 12 0v36M40 48h-8v-12M52 44h8V32"/><circle cx="92" cy="20" r="9"/><path d="M70 66l8-10h16l8 10"/><path d="M14 30h.1M24 16h.1M108 40h.1" stroke-width="3"/>',
   'Ghost to Ghost': '<path d="M4 66h112"/><path d="M48 66V36a12 12 0 0 1 24 0v30l-4-4-4 4-4-4-4 4-4-4z"/><circle cx="56" cy="38" r="1.5"/><circle cx="64" cy="38" r="1.5"/>'
 };
-const motifSVG = (kind, cls = 'mot') => `<svg class="${cls}" viewBox="0 0 100 90" aria-hidden="true"><g filter="url(#skw)">${LINE_MOTIF[kind] || LINE_MOTIF.rings}</g></svg>`;
+const motifSVG = (kind, cls = 'mot', seed) => {
+  let extra = '', tf = '';
+  if(seed !== undefined){
+    const h = seed >>> 0, rot = ((h % 13) - 6), sc = 0.9 + ((h >>> 4) % 12) / 100, dx = ((h >>> 8) % 9) - 4;
+    tf = ` transform="translate(${50 + dx} 45) rotate(${rot}) scale(${sc}) translate(-50 -45)"`;
+    const n = 2 + ((h >>> 12) % 3);
+    for(let i = 0; i < n; i++){ const x = 6 + ((h >>> (i * 5 + 3)) % 88), y = 4 + ((h >>> (i * 7 + 2)) % 18); extra += `M${x} ${y}h.1`; }
+    extra = `<path d="${extra}" stroke-width="2.6" opacity=".7"/>`;
+  }
+  return `<svg class="${cls}" viewBox="0 0 100 90" aria-hidden="true"><g filter="url(#skw)"><g${tf}>${LINE_MOTIF[kind] || LINE_MOTIF.rings}</g>${extra}</g></svg>`;
+};
 const sceneSVG = n => PROG_SCENE[n] ? `<svg class="skscene" viewBox="0 0 120 72" aria-hidden="true"><g filter="url(#skw)" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${PROG_SCENE[n]}</g></svg>` : '';
 const PERSON_RE = /^((Father|Fr\.?|Dr\.?|Prof\.?|Major|Maj\.?|Rev\.?|Col\.?|Sir|Gen\.?|Lt\.?)\s)?[A-Z][a-z’'.-]+(\s(de|van|von|St\.?))?(\s[A-Z][\w’'.-]*){1,3}$/;
 const NOT_PERSON_RE = /^(Open Lines|Time Travel|Area 51|Ghost to Ghost|Remote Viewing|Earth Changes|Art’s|Art's|Past Life|Near Death|Cancer|Crop Circles|Comet|Ancient|Alien|UFO|The )/i;
@@ -1635,7 +1692,35 @@ const MOTIF_KEYS = [
   [/open lines|caller|phone/i, 'halftone']
 ];
 const MOTIFS = ['saucer','peaks','arches','grid','stars','horizon','rings','halftone','stripes','quarters','split'];
-function motifOf(key, title){ if(title) for(const [re, m] of MOTIF_KEYS) if(re.test(title)) return m; return MOTIFS[hashStr(key + 'm') % MOTIFS.length]; }
+const TOPIC_MOTIF = [
+  [/^(bigfoot|yeti|skunk ape|cryptozoology|dogman)$/i, ['footprint']], [/^(mothman|thunderbird)$/i, ['wings']], [/^(chupacabra|skinwalkers|werewolves|vampires)$/i, ['wings','peaks']],
+  [/mel's hole|hollow earth|underground bases|dulce/i, ['hole']], [/crop circles/i, ['crop']], [/black triangles|phoenix lights/i, ['triangle']],
+  [/starchild skull|crystal skulls/i, ['skull']], [/^(ghosts|hauntings|poltergeists|evp|shadow people|ghost to ghost)$/i, ['ghost','arches']],
+  [/^(demons|possession|exorcism|occult|witchcraft|satanism|angels|miracles|stigmata|vatican|fatima)$/i, ['candle']],
+  [/remote viewing|psychics|telepathy|mediums|astral projection/i, ['eye']], [/time travel|time slips|parallel universes|prophecy|nostradamus|predictions|y2k/i, ['clock','rings']],
+  [/pyramids|sphinx|egypt|atlantis|lemuria|maya|anunnaki|sumer|ancient astronauts|stonehenge|giants/i, ['pyramid']],
+  [/^(mars|the moon|apollo|nasa|seti|space)$/i, ['moon','stars']], [/comets|asteroids|hale-bopp|planet x/i, ['comet']],
+  [/earthquakes|volcanoes|tsunamis|earth changes|pole shift/i, ['quake','horizon']], [/hurricanes|weather|superstorm|climate|solar activity/i, ['storm']],
+  [/genetics|cloning|viruses|vaccines|pandemics|hybrids/i, ['helix']], [/free energy|zero-point|anti-gravity|tesla|cold fusion|nuclear|nanotechnology/i, ['atom']],
+  [/abductions|greys|ufos|roswell|disclosure|contactees|implants|reptilians|men in black/i, ['saucer','triangle']],
+  [/area 51|mj-12|conspiracies|mind control|mk-ultra|chemtrails|haarp|surveillance|new world order|illuminati/i, ['grid']],
+  [/open lines|ham radio|shortwave|numbers stations|pirate radio|wild card/i, ['tower','halftone']]
+];
+function motifFromTopics(e){
+  const h = hashStr(e.id + 'v');
+  for(const tags of [(e.tags || []).slice(0, 8), (e.ment || []).slice(0, 4)]){
+    if(!tags.length) continue;
+    for(const [re, opts] of TOPIC_MOTIF) if(tags.some(t => re.test(t))) return opts[h % opts.length];
+  }
+  return null;
+}
+const TITLE_MOTIF = [[/mel'?s hole/i,'hole'],[/bigfoot|sasquatch|yeti/i,'footprint'],[/mothman/i,'wings'],[/crop circle/i,'crop'],[/triangle/i,'triangle'],[/skull/i,'skull'],[/pyramid|egypt|atlantis/i,'pyramid'],[/remote view|psychic/i,'eye'],[/time travel|time machine/i,'clock'],[/exorcis|possess|demon/i,'candle'],[/ghost/i,'ghost'],[/comet|hale.?bopp|asteroid/i,'comet'],[/earthquake|quake/i,'quake'],[/weather|storm|hurricane/i,'storm'],[/clon|genetic|virus/i,'helix'],[/open lines/i,'tower']];
+function motifOf(key, title){
+  if(title) for(const [re, m] of TITLE_MOTIF) if(re.test(title)) return m;
+  const e = typeof byId === 'function' ? byId(key) : null; const t = e && motifFromTopics(e); if(t) return t;
+  if(title) for(const [re, m] of MOTIF_KEYS) if(re.test(title)) return m;
+  return MOTIFS[hashStr(key + 'm') % MOTIFS.length];
+}
 function motifCSS(kind, A, B, h){
   const x = 30 + (h >>> 7) % 41, y = 25 + (h >>> 11) % 41, a = (h >>> 15) % 180, sz = 9 + (h >>> 19) % 8, d = (h >>> 5) % 10;
   const soft = c => `color-mix(in srgb, ${c} 38%, transparent)`;
@@ -1667,7 +1752,7 @@ function coverStyle(key, show, title){
 function artHTML(e, cls=''){
   const [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
   const yy = e.year ? "’" + e.year.slice(2) : '—';
-  return `<div class="art gen sleeve cv ${cls}" style="--pc:${fill};--pl:${line}">${motifSVG(kind)}${emblem(e.show, 'mk')}<span class="no">${e.no ? 'No. ' + e.no : ''}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
+  return `<div class="art gen sleeve cv ${cls}" style="--pc:${fill};--pl:${line}">${motifSVG(kind, 'mot', hashStr(e.id + 'c'))}${emblem(e.show, 'mk')}<span class="no">${e.no ? 'No. ' + e.no : ''}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
 }
 
 /* ================= State ================= */
@@ -1676,7 +1761,15 @@ let episodes = [], view = [], shown = PAGE, tab = 'all', showFilter = '', yearFi
 const state = Object.assign({ favs:{}, pos:{}, recent:[], hideResume:{}, speed:1, last:null, sort:'old', queue:[], marks:{}, autoplay:true, boost:false }, store.get(STATE_KEY, {}));
 let guestFilter = '', allOpen = false, listFilter = '';
 if(!Array.isArray(state.lists)) state.lists = [];
-const saveState = () => store.set(STATE_KEY, state);
+let _favSig = '', _listSig = '';
+const saveState = () => {
+  const fs = JSON.stringify(state.favs || {}), ls = JSON.stringify(state.lists || []);
+  if(_favSig && fs !== _favSig) state.favsAt = Date.now();
+  if(_listSig && ls !== _listSig) state.listsAt = Date.now();
+  _favSig = fs; _listSig = ls;
+  store.set(STATE_KEY, state);
+  if(typeof syncSoon === 'function') syncSoon();
+};
 const isPlayed = id => { const p = state.pos[id]; return !!(p && p.d && p.t >= p.d - 120); };
 $('#sort').value = state.sort;
 
@@ -1853,9 +1946,9 @@ async function playAt(e, t, el){
 }
 function afterLoad(quiet){
   mergeGuestSpellings();
-  applyTopics(); sugIndex = null;
-  [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach((e, i) => { e.no = i + 1; });
   idMap = new Map(episodes.map(e => [e.id, e]));
+  applyTopics(); sugIndex = null; coverCache.clear();
+  [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach((e, i) => { e.no = i + 1; });
   $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015`;
   fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}, {name:'tags', weight:.35}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
   buildDial(); buildChips(); buildGuests(); applyFilters(); if(window.__introReady){ window.__introReady(); window.__introReady = null; }
@@ -1928,6 +2021,125 @@ $('#tabs').addEventListener('click', ev => {
 });
 
 
+
+
+
+
+/* ================= Commute: keep the next few in Up next saved offline ================= */
+let autoSaving = false;
+async function autoSaveQueue(){
+  if(!state.autoSaveQ || autoSaving || !navigator.onLine) return;
+  autoSaving = true;
+  try{
+    if(!state.autoSaved) state.autoSaved = {};
+    // tidy: drop copies this feature made once they've been played, unless you've kept them on purpose
+    for(const id of Object.keys(state.autoSaved)){
+      const inList = (state.lists || []).some(l => l.ids.includes(id));
+      if(isPlayed(id) && !state.favs[id] && !inList && !state.queue.includes(id)){ try{ await db.del(id); }catch(x){} savedKeys.delete(id); delete state.autoSaved[id]; }
+    }
+    const want = state.queue.slice(0, 3).map(byId).filter(e => e && !e.demo && !savedKeys.has(e.id));
+    for(const e of want){
+      try{ const b = await fetchBlob(e, () => {}); await db.put(e.id, b); savedKeys.add(e.id); state.autoSaved[e.id] = Date.now(); }catch(x){ break; }
+    }
+    saveState(); if(want.length) render();
+  } finally { autoSaving = false; }
+}
+window.addEventListener('online', () => autoSaveQueue());
+setTimeout(autoSaveQueue, 6000);
+
+/* ================= Sync between devices (a private GitHub gist on the user's own account) ================= */
+const SYNC_KEY = 'abr-sync', SYNC_FILE = 'art-bell-tapes-sync.json';
+const syncCfg = () => store.get(SYNC_KEY, {});
+const setSyncCfg = c => store.set(SYNC_KEY, Object.assign(syncCfg(), c));
+let syncT = null, syncBusy = false;
+async function gh(path, opts = {}){
+  const r = await fetch('https://api.github.com' + path, Object.assign({}, opts, { headers: Object.assign({ 'Authorization': 'Bearer ' + syncCfg().token, 'Accept': 'application/vnd.github+json' }, opts.headers || {}) }));
+  if(!r.ok) throw new Error(r.status === 401 ? 'That token wasn’t accepted' : r.status === 404 ? 'Not found (does the token have the Gists permission?)' : 'GitHub said ' + r.status);
+  return r.json();
+}
+const syncPayload = () => ({ app:'art-bell-tapes', v:1, at:Date.now(), favs:state.favs, favsAt:state.favsAt || 0, lists:state.lists, listsAt:state.listsAt || 0, pos:state.pos, marks:state.marks, recent:state.recent.slice(0, 60), hideResume:state.hideResume });
+function mergeRemote(r){
+  if(!r || r.app !== 'art-bell-tapes') return false;
+  let changed = false;
+  if((r.favsAt || 0) > (state.favsAt || 0)){ state.favs = r.favs || {}; state.favsAt = r.favsAt; changed = true; }
+  if((r.listsAt || 0) > (state.listsAt || 0)){ state.lists = r.lists || []; state.listsAt = r.listsAt; changed = true; }
+  for(const [id, p] of Object.entries(r.pos || {})){ const mine = state.pos[id]; if(p && (!mine || (p.at || 0) > (mine.at || 0))){ state.pos[id] = p; changed = true; } }
+  for(const [id, m] of Object.entries(r.marks || {})){ const cur = state.marks[id] || []; const add = (m || []).filter(x => !cur.some(y => Math.abs(y.t - x.t) < 2)); if(add.length){ state.marks[id] = cur.concat(add); changed = true; } }
+  Object.assign(state.hideResume, r.hideResume || {});
+  const rec = [...new Set((r.recent || []).concat(state.recent))].slice(0, 200); if(rec.join() !== state.recent.join()){ state.recent = rec; changed = true; }
+  return changed;
+}
+async function syncNow(quiet){
+  const c = syncCfg(); if(!c.token || syncBusy) return; syncBusy = true;
+  try{
+    let gid = c.gist;
+    if(!gid){
+      const list = await gh('/gists?per_page=100'); const hit = list.find(g => g.files && g.files[SYNC_FILE]);
+      gid = hit ? hit.id : (await gh('/gists', { method:'POST', body: JSON.stringify({ description:'The Art Bell Tapes: favourites, lists and progress (private)', public:false, files:{ [SYNC_FILE]:{ content: JSON.stringify(syncPayload()) } } }) })).id;
+      setSyncCfg({ gist:gid });
+    }
+    const g = await gh('/gists/' + gid); const f = g.files && g.files[SYNC_FILE];
+    let remote = null; if(f){ try{ remote = JSON.parse(f.truncated ? await (await fetch(f.raw_url)).text() : f.content); }catch(x){} }
+    const changed = mergeRemote(remote);
+    if(changed){ store.set(STATE_KEY, state); _favSig = JSON.stringify(state.favs); _listSig = JSON.stringify(state.lists); if(episodes.length) applyFilters(); }
+    await gh('/gists/' + gid, { method:'PATCH', body: JSON.stringify({ files:{ [SYNC_FILE]:{ content: JSON.stringify(syncPayload()) } } }) });
+    setSyncCfg({ last:Date.now(), err:'' });
+    if(!quiet) toast(changed ? 'Synced: brought in changes from your other device' : 'Synced');
+  }catch(x){ setSyncCfg({ err:String(x.message || x) }); if(!quiet) toast('Sync didn’t work: ' + (x.message || x), 4500); }
+  finally{ syncBusy = false; }
+}
+function syncSoon(){ if(!syncCfg().token) return; clearTimeout(syncT); syncT = setTimeout(() => syncNow(true), 15000); }
+document.addEventListener('visibilitychange', () => { if(!syncCfg().token) return; if(document.hidden){ clearTimeout(syncT); syncNow(true); } else syncNow(true); });
+setTimeout(() => syncNow(true), 2500);
+function openSync(){
+  const c = syncCfg();
+  $('#sheet').innerHTML = `<div class="grab"></div>
+    <div class="hd"><div style="flex:1"><div class="t">Sync phone and computer</div><div class="m">${c.token ? (c.err ? 'Problem: ' + esc(c.err) : c.last ? 'Last synced ' + new Date(c.last).toLocaleString('en-GB') : 'Connected') : 'Keeps favourites, lists and where you left off the same everywhere'}</div></div></div>
+    ${c.token ? `<button class="act" data-sy="now">Sync now</button><button class="act danger" data-sy="off">Turn off sync on this device<small>Your saved copy stays on GitHub</small></button>` : `
+    <ol class="sy-steps">
+      <li>On GitHub, open <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens</b> and make a new token.</li>
+      <li>Under <b>Account permissions</b>, set <b>Gists</b> to <b>Read and write</b>. Nothing else is needed.</li>
+      <li>Paste the token below. Do the same on your other device with the same token.</li>
+    </ol>
+    <form class="lp-new" id="syForm"><input id="syTok" type="password" placeholder="github_pat_…" autocomplete="off"><button type="submit">Connect</button></form>
+    <p class="sy-note">Your data goes into one private gist on your own GitHub account. The token stays on this device and is never part of backups.</p>`}`;
+  $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
+}
+$('#sheet').addEventListener('submit', async ev => {
+  if(ev.target.id !== 'syForm') return; ev.preventDefault();
+  const t = $('#syTok').value.trim(); if(!t) return;
+  setSyncCfg({ token:t, gist:'', err:'' });
+  try{ await gh('/user'); }catch(x){ store.set(SYNC_KEY, {}); toast(x.message || 'That token didn’t work', 4500); return; }
+  closeSheet(); await syncNow(false);
+});
+$('#sheet').addEventListener('click', ev => {
+  const b = ev.target.closest('[data-sy]'); if(!b) return;
+  if(b.dataset.sy === 'now'){ syncNow(false).then(openSync); }
+  if(b.dataset.sy === 'off'){ store.set(SYNC_KEY, {}); closeSheet(); toast('Sync turned off on this device'); }
+});
+
+/* ================= Guest pages ================= */
+function guestPage(g){
+  const eps = episodes.filter(e => (e.guests || []).includes(g) && e.date).sort((a, b) => a.date.localeCompare(b.date));
+  if(!eps.length) return `<div class="gp-top"><span class="gp-k">Guest</span><button id="pillX" class="gp-x">All shows</button></div><div class="gp-n">${esc(g)}</div>`;
+  const first = eps[0], last = eps[eps.length - 1];
+  const years = {}; eps.forEach(e => years[e.year] = (years[e.year] || 0) + 1);
+  const y0 = +first.year, y1 = +last.year, span = [];
+  for(let y = Math.min(y0, 1988); y <= Math.max(y1, 2015); y++) span.push(y);
+  const max = Math.max(...Object.values(years));
+  const subj = {}; const gl = g.toLowerCase();
+  const gparts = gl.split(/\s+/).filter(w => w.length > 2);
+  eps.forEach(e => [].concat(e.tags || []).forEach(t => { const tl = t.toLowerCase(); if(tl !== gl && !gparts.some(w => tl.includes(w)) && !/^[A-Z][a-z]+ [A-Z]/.test(t)) subj[t] = (subj[t] || 0) + 1; }));
+  const top = Object.entries(subj).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const shows = [...new Set(eps.map(e => e.show))];
+  return `<div class="gp-top"><span class="gp-k">Guest</span><button id="pillX" class="gp-x">All shows</button></div>
+    <div class="gp-n">${esc(g)}</div>
+    <div class="gp-facts"><span><b>${eps.length}</b> appearance${eps.length > 1 ? 's' : ''}</span><span>First <b>${niceDate(first.date)}</b></span>${eps.length > 1 ? `<span>Last <b>${niceDate(last.date)}</b></span>` : ''}<span>${shows.map(esc).join(' · ')}</span></div>
+    <div class="gp-time" aria-label="Appearances by year">${span.map(y => `<i title="${y}: ${years[y] || 0}" style="height:${years[y] ? 6 + 26 * years[y] / max : 2}px"${years[y] ? ' class="on"' : ''}></i>`).join('')}</div>
+    <div class="gp-yrs"><span>${span[0]}</span><span>${span[span.length - 1]}</span></div>
+    ${top.length ? `<div class="gp-sub"><span class="gp-k">Talked about</span><div class="nt-topics">${top.map(([t]) => `<button class="chip" data-gtopic="${esc(t)}">${esc(t)}</button>`).join('')}</div></div>` : ''}`;
+}
+$('#pill').addEventListener('click', ev => { const t = ev.target.closest('[data-gtopic]'); if(!t) return; const g = guestFilter; $('#q').value = t.dataset.gtopic; $('#clear').classList.add('show'); guestFilter = g; applyFilters(); });
 
 /* ================= Your own lists ================= */
 const newListId = () => 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
@@ -2144,8 +2356,8 @@ function render(){
   $('#secTitle').textContent = curList ? curList.name : showFilter && tab === 'all' ? 'Episodes' : { all:'All shows', fav:'Favourites', recent:'Recently played', saved:'Saved offline', guests:'Guests' }[tab];
   renderListBar();
   const pill = $('#pill');
-  if(guestFilter){ pill.innerHTML = `Guest: <b>${esc(guestFilter)}</b><button id="pillX">Clear</button>`; pill.classList.add('show'); }
-  else pill.classList.remove('show');
+  if(guestFilter){ pill.innerHTML = guestPage(guestFilter); pill.classList.add('show', 'gpage'); }
+  else pill.classList.remove('show', 'gpage');
   const isGuests = tab === 'guests';
   $('#guests').classList.toggle('show', isGuests); document.querySelector('.filtersblock').style.display = isGuests ? 'none' : ''; $('#list').style.display = isGuests ? 'none' : '';
   $('.sec #secTitle').parentElement.style.display = isGuests ? 'none' : '';
@@ -2234,7 +2446,12 @@ function renderGuests(){
   const q = $('#q').value.trim().toLowerCase();
   const list = guestCounts.filter(([g]) => !q || g.toLowerCase().includes(q));
   if(!list.length){ $('#guests').innerHTML = `<div class="empty">${guestCounts.length ? 'No guests match that.' : 'No guest names found yet.'}</div>`; return; }
-  let html = `<div class="sec" style="padding-left:8px"><h2>Guests</h2><div class="meta">${list.length.toLocaleString('en-GB')} people</div></div>`, last = '';
+  let html = '', last = '';
+  if(!q){
+    const top = guestCounts.slice().sort((a, b) => b[1] - a[1]).slice(0, 12);
+    html += `<div class="sec" style="padding-left:8px"><h2>Most frequent guests</h2></div><ol class="gtop">${top.map(([g, c], i) => `<li><button class="grow" data-g="${esc(g)}"><span class="gr">${String(i + 1).padStart(2, '0')}</span><span class="n">${esc(g)}</span><span class="c">${c} shows</span></button></li>`).join('')}</ol>`;
+  }
+  html += `<div class="sec" style="padding-left:8px"><h2>All guests</h2><div class="meta">${list.length.toLocaleString('en-GB')} people</div></div>`;
   for(const [g, c] of list){
     const sur = g.replace(/^(Dr\.?|Prof\.?|Rev\.?)\s/, '').split(' ').pop(), L = sur[0].toUpperCase();
     if(L !== last){ html += `<div class="gletter">${L}</div>`; last = L; }
@@ -2324,6 +2541,15 @@ const ESSENTIALS = [
   ['2002-10-30', /evp/i,            'An EVP night unsettling enough that Art ends the show early.'],
   ['2002-12-31', /farewell/i,       'Art’s farewell to Coast to Coast, with listener predictions.']
 ];
+// the subject each essential is remembered for, to jump straight to it
+const ESS_SUBJECT = { '1992-12-12':['Area 51'], '1996-10-18':['Exorcism','Possession','Demons'], '1996-12-06':['Hale-Bopp','Comets'], '1997-02-21':["Mel's Hole"],
+  '1997-05-23':['Greys','UFOs'], '1997-09-11':['Area 51'], '1998-07-30':['Time travel'], '1998-10-30':['Ghosts'], '1999-02-26':['Black triangles','UFOs'],
+  '2002-01-24':['Mothman'], '2002-10-30':['EVP'], '2002-12-31':['Predictions','Prophecy'] };
+function essMoment(e){
+  const m = momentsFor(e), want = ESS_SUBJECT[e.date]; if(!m || !want) return null;
+  for(const l of want) if(m[l] && m[l].length) return { label:l, t:m[l][0] };
+  return null;
+}
 let essCache = null;
 function essentials(){
   if(essCache && essCache.n === episodes.length) return essCache.list;
@@ -2338,14 +2564,27 @@ function essentials(){
 const essNote = e => { const x = essentials().find(x => x.e.id === e.id); return x ? x.note : ''; };
 function renderShelves(show){
   const el = $('#shelves'); if(!show){ el.innerHTML = ''; return; }
+  if(!MOMENTS){ loadMoments().then(() => { if(MOMENTS && Object.keys(MOMENTS).length) renderShelves(show); }); }
   const byShow = {}; episodes.forEach(e => (byShow[e.show] = byShow[e.show] || []).push(e));
   const rows = PROGRAMMES.filter(p => (byShow[p[0]] || []).length >= 2).slice(0, 5);
   const ess = essentials();
   const essHTML = ess.length ? `<section class="shelf ess"><div class="sec"><h2>The Essentials</h2><button class="seeall" data-ess="1">Play all</button></div>
       <p class="ess-intro">${ess.length} nights every listener should hear, in the order they aired.</p>
-      <div class="rail">${ess.map(({e, note}, i) => `<button class="card esscard" data-id="${esc(e.id)}">${artHTML(e)}<div class="enum">${String(i+1).padStart(2,'0')}</div><div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(note)}</div></button>`).join('')}</div></section>` : '';
+      <div class="rail">${ess.map(({e, note}, i) => { const em = essMoment(e); return `<button class="card esscard" data-id="${esc(e.id)}">${artHTML(e)}<div class="enum">${String(i+1).padStart(2,'0')}</div><div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(note)}</div>${em ? `<span class="jump ess-jump" role="button" data-t="${em.t}">${I.play2}${esc(em.label)} · ${fmt(Math.max(0, em.t - 10))}</span>` : ''}</button>`; }).join('')}</div></section>` : '';
   const tribHTML = `<button class="tribcard" id="tribCard"><span class="k">In memory</span><span class="n">Art Bell</span><span class="d">1945 — 2018</span><span class="s">The man, the lines and a life on the air</span></button>`;
-  el.innerHTML = essHTML + tribHTML + rows.map(([n], idx) => {
+  // This week in Art Bell history, and seasonal shelves
+  const now = new Date(), doy = d => Math.round((Date.UTC(2001, +d.slice(5, 7) - 1, +d.slice(8, 10)) - Date.UTC(2001, 0, 1)) / 864e5);
+  const today = doy('2001-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0'));
+  const near = d => { const x = Math.abs(doy(d) - today); return Math.min(x, 365 - x) <= 3; };
+  const week = episodes.filter(e => e.date && e.date.length === 10 && near(e.date)).sort((a, b) => a.date.localeCompare(b.date));
+  const shelf = (title, sub, list, key) => list.length ? `<section class="shelf"><div class="sec"><h2>${title}</h2>${key ? `<button class="seeall" data-q="${esc(key)}">See all</button>` : ''}</div>${sub ? `<p class="ess-intro">${sub}</p>` : ''}
+      <div class="rail">${list.slice(0, 14).map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(niceDate(e.date))}</div></button>`).join('')}</div></section>` : '';
+  const m = now.getMonth() + 1, d = now.getDate();
+  let seasonal = '';
+  if((m === 10 && d >= 15) || (m === 11 && d <= 3)) seasonal = shelf('Ghost to Ghost season', 'Art’s Halloween nights of listeners’ own ghost stories, every year on record.', episodes.filter(e => /ghost to ghost|halloween/i.test(e.title) || (e.date && /-10-3[01]$/.test(e.date) && /ghost/i.test(e.hay))).sort((a, b) => a.date.localeCompare(b.date)), 'Ghost to Ghost');
+  else if((m === 12 && d >= 18) || (m === 1 && d <= 7)) seasonal = shelf('Predictions for the new year', 'Every year Art opened the lines for listeners’ predictions. See how they did.', episodes.filter(e => /prediction/i.test(e.title) && e.date && /-(12-(2\d|3[01])|01-0\d)$/.test(e.date)).sort((a, b) => a.date.localeCompare(b.date)), 'Predictions');
+  const weekHTML = shelf('This week in Art Bell history', `${week.length} show${week.length === 1 ? '' : 's'} that aired within a few days of today, across the years.`, week);
+  el.innerHTML = seasonal + essHTML + weekHTML + tribHTML + rows.map(([n], idx) => {
     const picks = dailyPick(byShow[n], 10);
     return `<section class="shelf"><div class="sec"><h2>${emblem(n,'hem')}${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
       <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(topicOf(e) || e.title)}</div></button>`).join('')}</div></section>`;
@@ -2354,8 +2593,11 @@ function renderShelves(show){
 $('#shelves').addEventListener('click', ev => {
   if(ev.target.closest('#tribCard')){ openTribute(); return; }
   if(ev.target.closest('[data-ess]')){ const list = essentials().map(x => x.e); if(!list.length) return; state.radio = false; state.queue = list.slice(1).map(e => e.id); saveState(); loadEpisode(list[0], true); toast(`Playing The Essentials · ${list.length} shows`); renderBento(); return; }
-  const s = ev.target.closest('.seeall'); if(s){ setShow(s.dataset.show); scrollTo({top:0, behavior:smooth()}); return; }
-  const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(e) playFrom(e, c.querySelector('.art'));
+  const s = ev.target.closest('.seeall'); if(s && s.dataset.q){ $('#q').value = s.dataset.q; $('#clear').classList.add('show'); applyFilters(); scrollTo({top:0, behavior:smooth()}); return; }
+  if(s){ setShow(s.dataset.show); scrollTo({top:0, behavior:smooth()}); return; }
+  const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(!e) return;
+  const j = ev.target.closest('.ess-jump'); if(j) return playAt(e, +j.dataset.t, c.querySelector('.art'));
+  playFrom(e, c.querySelector('.art'));
 });
 
 /* ================= Bento: Tonight ================= */
@@ -2502,26 +2744,46 @@ audio.addEventListener('timeupdate', () => {
   if(sleepAt && Date.now() >= sleepAt){ audio.pause(); sleepAt = 0; sleepIdx = -1; $('#sleepVal').textContent = 'Sleep'; $('#sleep').classList.remove('on'); toast('Sleep timer — goodnight'); }
   if(d && 'mediaSession' in navigator && navigator.mediaSession.setPositionState && Date.now() - lastPS > 4000){ lastPS = Date.now(); try{ navigator.mediaSession.setPositionState({ duration:d, position:Math.min(t, d), playbackRate:audio.playbackRate || 1 }); }catch(_){} }
 });
-function persistPos(){ const id = audio.dataset.id; if(!id || !audio.duration) return; state.pos[id] = { t:Math.floor(audio.currentTime), d:Math.floor(audio.duration) }; saveState(); }
+function persistPos(){ const id = audio.dataset.id; if(!id || !audio.duration) return; state.pos[id] = { t:Math.floor(audio.currentTime), d:Math.floor(audio.duration), at:Date.now() }; saveState(); }
+// Shows that share guests or subjects with this one
+function related(e, n = 6){
+  if(!e) return [];
+  const g = new Set(e.guests || []), a = new Set((e.tags || []).map(x => x.toLowerCase())), m = new Set((e.ment || []).map(x => x.toLowerCase()));
+  if(!g.size && !a.size && !m.size) return [];
+  const recent = new Set(state.recent.slice(0, 30));
+  return episodes.filter(x => x.id !== e.id && x.date !== e.date).map(x => {
+    let sc = 0;
+    (x.guests || []).forEach(y => { if(g.has(y)) sc += 3; });
+    (x.tags || []).forEach(y => { const l = y.toLowerCase(); if(a.has(l)) sc += 2; else if(m.has(l)) sc += .7; });
+    (x.ment || []).forEach(y => { const l = y.toLowerCase(); if(a.has(l)) sc += .7; });
+    if(x.show === e.show) sc += .3;
+    if(isPlayed(x.id) || recent.has(x.id)) sc *= .4;
+    return [x, sc];
+  }).filter(([, sc]) => sc >= 2).sort((p, q) => q[1] - p[1] || (p[0].date || '').localeCompare(q[0].date || '')).slice(0, n).map(([x]) => x);
+}
 function playNextUp(){
   if(state.radio && state.queue.length < 3){ state.queue.push(...radioPicks(10, state.queue.concat(audio.dataset.id)).map(e => e.id)); saveState(); }
-  while(state.queue.length){ const e = byId(state.queue.shift()); saveState(); if(e){ loadEpisode(e, true); return; } }
+  while(state.queue.length){ const e = byId(state.queue.shift()); saveState(); if(e){ loadEpisode(e, true); autoSaveQueue(); return; } }
+  if(state.autoplay && state.autoNext === 'related'){ const r = related(byId(audio.dataset.id), 1)[0]; if(r){ loadEpisode(r, true); toast('Up next: ' + (topicOf(r) || r.title)); return; } }
   if(state.autoplay) step(1);
 }
 function addToQueue(e, next){
-  state.queue = state.queue.filter(x => x !== e.id); next ? state.queue.unshift(e.id) : state.queue.push(e.id); saveState(); updateQueueBadge();
+  state.queue = state.queue.filter(x => x !== e.id); next ? state.queue.unshift(e.id) : state.queue.push(e.id); saveState(); updateQueueBadge(); autoSaveQueue();
   toast(next ? 'Playing next' : `Added to Up next · ${state.queue.length} queued`);
 }
 function updateQueueBadge(){ const n = state.queue.length; $('#queueVal').textContent = n ? `Up next (${n})` : 'Up next'; $('#queueBtn').classList.toggle('on', n > 0); }
 function openQueue(){
   const items = state.queue.map(byId).filter(Boolean);
-  $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Up next</div><div class="m">${items.length} queued · then ${state.autoplay ? 'keeps playing the list' : 'stops'}</div></div></div>
+  $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Up next</div><div class="m">${items.length} queued · then ${!state.autoplay ? 'stops' : state.autoNext === 'related' ? 'plays something related' : 'keeps playing the list'}</div></div></div>
     ${items.length ? items.map((e,i) => `<div class="li"><span class="tm">${i+1}</span><div class="tx"><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div><button class="x" data-q="${i}" aria-label="Remove">${I.trash}</button></div>`).join('') : '<div class="empty">Nothing queued. Use ⋯ → Play next, or Play all on any list.</div>'}
     <button class="act" data-qa="auto">Autoplay next show<span class="toggle${state.autoplay ? ' on' : ''}"></span></button>
+    <button class="act" data-qa="asq">Keep the next 3 saved offline<small>${state.autoSaveQ ? 'For the commute · removed after you play them' : 'Off'}</small><span class="toggle${state.autoSaveQ ? ' on' : ''}"></span></button>
+    <button class="act" data-qa="rel">Pick something related<small>${state.autoNext === 'related' ? 'Shares guests or subjects' : 'Off · goes in list order'}</small><span class="toggle${state.autoNext === 'related' ? ' on' : ''}"></span></button>
     ${items.length ? '<button class="act" data-qa="clear">Clear queue</button>' : ''}`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
 $('#sheet').addEventListener('click', ev => {
+  const rel = ev.target.closest('[data-rel]'); if(rel){ const x = byId(rel.dataset.rel); if(x){ openNotes(x); $('#sheet').scrollTop = 0; } return; }
   const jm = ev.target.closest('.nt-moments .jump'); if(jm){ const e = byId($('#sheet').dataset.nid); if(e){ closeSheet(); playAt(e, +jm.dataset.t); } return; }
   const tch = ev.target.closest('.nt-topics [data-topic]'); if(tch){ closeSheet(); closeNP(); guestFilter = ''; showFilter = ''; yearFilter = ''; document.querySelectorAll('#chips .chip').forEach(c => c.classList.toggle('on', c.dataset.show === '')); $('#q').value = tch.dataset.topic; $('#clear').classList.add('show'); document.querySelector('.tab[data-tab="all"]').click(); return; }
   const gch = ev.target.closest('.nt-guests [data-g]'); if(gch){ closeSheet(); closeNP(); guestFilter = gch.dataset.g; $('#q').value = ''; document.querySelector('.tab[data-tab="all"]').click(); return; }
@@ -2529,6 +2791,8 @@ $('#sheet').addEventListener('click', ev => {
   const q = ev.target.closest('[data-q]'); if(q){ state.queue.splice(+q.dataset.q, 1); saveState(); updateQueueBadge(); openQueue(); return; }
   const a = ev.target.closest('[data-qa]'); if(!a) return;
   if(a.dataset.qa === 'auto'){ state.autoplay = !state.autoplay; saveState(); a.querySelector('.toggle').classList.toggle('on', state.autoplay); }
+  if(a.dataset.qa === 'asq'){ state.autoSaveQ = !state.autoSaveQ; saveState(); openQueue(); if(state.autoSaveQ){ toast('Saving the next 3 in the background'); autoSaveQueue(); } }
+  if(a.dataset.qa === 'rel'){ state.autoNext = state.autoNext === 'related' ? '' : 'related'; if(state.autoNext) state.autoplay = true; saveState(); openQueue(); }
   if(a.dataset.qa === 'clear'){ state.queue = []; saveState(); updateQueueBadge(); openQueue(); }
 });
 $('#queueBtn').onclick = openQueue;
@@ -2776,6 +3040,7 @@ function openNotes(e){
       <div id="ntMoments"></div>
       ${(e.ment || []).length ? `<div class="nt-h">Also comes up</div><div class="nt-topics">${e.ment.map(t => `<button class="chip" data-topic="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
       ${topicTags(e).length ? `<div class="nt-h">Topics</div><div class="nt-topics">${topicTags(e).map(t => `<button class="chip" data-topic="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
+      ${(() => { const r = related(e, 6); return r.length ? `<div class="nt-h">More like this</div><div class="nt-rel">${r.map(x => `<button class="nr" data-rel="${esc(x.id)}">${artHTML(x,'sm')}<span><b>${esc(topicOf(x) || x.title)}</b><small>${esc(x.show)} · ${niceDate(x.date)}</small></span></button>`).join('')}</div>` : ''; })()}
       ${prog ? `<div class="nt-h">${esc(prog[0])}</div><p>${esc(prog[2])}</p>` : ''}
       ${e.demo ? '' : `<div class="nt-h">From the collection</div><p class="nt-src" id="ntSrc">Loading notes from archive.org…</p>`}
     </div>`;
@@ -3141,7 +3406,7 @@ addEventListener('keydown', ev => {
 
 /* ================= Backup and restore ================= */
 async function backupState(){
-  const keep = ['favs','lists','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
+  const keep = ['favs','lists','autoNext','autoSaveQ','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
   const data = { app:'art-bell-archive', version:1, saved:new Date().toISOString(), state:Object.fromEntries(keep.map(k => [k, state[k]])) };
   const name = `art-bell-tapes-backup-${new Date().toISOString().slice(0,10)}.json`;
   const file = new File([JSON.stringify(data)], name, { type:'application/json' });
@@ -3206,6 +3471,7 @@ $('#gear').onclick = () => {
     <div class="sh-lbl">Your data</div>
     <button class="act" data-s="backup">Back up favourites &amp; progress<small>Save a file</small></button>
     <button class="act" data-s="restore">Restore from a backup<small>Choose file</small></button>
+    <button class="act" data-s="sync">Sync phone and computer<small>${syncCfg().token ? 'On · ' + (syncCfg().last ? 'synced ' + new Date(syncCfg().last).toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' }) : 'connected') : 'Off'}</small></button>
     <div class="sh-lbl">Library</div>
     <button class="act" data-s="tribute">In memory of Art Bell<small>1945–2018</small></button>
     <button class="act" data-s="refresh">Refresh library from archive.org</button>
@@ -3220,6 +3486,7 @@ $('#sheet').addEventListener('click', ev => {
     toast(state.calm ? 'Motion reduced: no animations, sliding or vibration' : 'Motion back on'); }
   if(b.dataset.s === 'refresh'){ closeSheet(); loadLibrary(true); }
   if(b.dataset.s === 'tribute'){ closeSheet(); openTribute(); }
+  if(b.dataset.s === 'sync'){ openSync(); return; }
   if(b.dataset.s === 'sources'){ closeSheet(); toast('Shows: Internet Archive (' + SOURCES.length + ' Art Bell collections). Topic tags: facts drawn from The Art Bell Archive podcast’s show notes.', 5000); }
 });
 
