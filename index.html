@@ -891,6 +891,46 @@ html.cine .np .bgglow{opacity:.18}
 html.cine .sheet{border-radius:4px 4px 0 0}
 html.cine .sheet .hd .t{font:400 22px/1.1 var(--serif)!important;letter-spacing:0}
 html.cine .sw{border-radius:3px}.cine .sw i{border-radius:2px}
+
+/* ---- Studio illustration ---- */
+.tb-fig{margin:6px auto 34px;max-width:360px;color:var(--text)}
+.tb-ill{display:block;width:100%;height:auto}
+.tb-ill .tg{stroke:var(--accent)}.tb-ill .tga{fill:var(--accent)}
+.tb-fig figcaption{margin-top:12px;font:italic 400 16px var(--serif);color:var(--muted)}
+/* ---- Breathing room (Collection look) ---- */
+html.cine .sec{padding:26px 0 16px}
+html.cine .rail{gap:16px;padding-bottom:26px}
+html.cine .card .t{margin-top:12px;line-height:1.2}
+html.cine .card .m{margin-top:6px}
+html.cine .esscard .enum{margin-top:14px}
+html.cine .esscard .note{line-height:1.5;margin-top:6px}
+html.cine .ess-intro{margin:-6px 20px 18px;line-height:1.4}
+html.cine .row{padding:18px 0;gap:18px}
+html.cine .row .m{margin-top:7px;row-gap:6px}
+html.cine .bento{padding-bottom:28px}
+html.cine .quick{gap:10px;margin-top:14px}
+html.cine .otn-chips{margin-top:14px}
+html.cine .progs{gap:14px;padding-bottom:28px}
+html.cine .tribcard{margin:14px 20px 34px;padding:36px 20px 32px;gap:6px}
+html.cine .sheet .act{height:58px}
+html.cine .sheet .hd{padding-bottom:18px}
+html.cine .sh-lbl{margin:22px 0 12px}
+html.cine .notes p{line-height:1.65;margin-bottom:16px}
+html.cine .nt-facts{gap:16px 20px;padding:18px 0;margin-bottom:22px}
+html.cine .np .tx{margin-top:6px}
+html.cine .np .subt{margin-top:8px}
+.tb-body{padding:0 26px calc(80px + var(--sb))}
+.tb-hero{padding:36px 0 44px}
+.tb-sec{padding:44px 0}
+.tb-sec h3{margin:0 0 22px}
+.tb-sec p{line-height:1.75;margin:0 0 20px}
+.tb-time li{grid-template-columns:96px 1fr;gap:20px;padding:22px 0}
+.tb-time .tt{line-height:1.65}
+.tb-time .tk{margin-bottom:8px}
+.tb-lines div{padding:18px 0}
+.tb-lines dd{margin-top:8px;line-height:1.6}
+.tb-row{gap:10px;margin-top:12px}
+.tb-end{padding:48px 0 20px}
 </style>
 </head>
 <body>
@@ -2277,6 +2317,52 @@ function applyTheme(name){
 applyTheme(state.theme);
 
 /* ================= Tribute: In memory of Art Bell ================= */
+const STUDIO_SVG = `<svg viewBox="0 0 320 230" class="tb-ill" role="img" aria-label="Line drawing of a home radio studio at night: microphone, ham radio, headphones, coffee and glasses on a desk, with the desert and moon through the window">
+  <defs>
+    <filter id="tbwob" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+  </defs>
+  <g filter="url(#tbwob)" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- window -->
+    <rect x="34" y="18" width="118" height="92" rx="2"/>
+    <path d="M93 18v92M34 64h118"/>
+    <path d="M34 98 l18 -10 h16 l8 -8 h20 l10 10 l14 -4 l18 8 l14 -2" />
+    <circle cx="126" cy="38" r="9" class="tg"/>
+    <path d="M52 32h.5M70 44h.5M60 52h.5M110 56h.5M80 28h.5M140 80h.5" stroke-width="2.4"/>
+    <!-- ON AIR lamp -->
+    <rect x="206" y="16" width="58" height="20" rx="3" class="tg"/>
+    <text x="235" y="30" text-anchor="middle" class="tga" font-size="10" letter-spacing="3" font-family="Inter, sans-serif" font-weight="700" stroke="none">ON AIR</text>
+    <path d="M220 16v-8M250 16v-8"/>
+    <!-- boom arm + mic -->
+    <path d="M304 40 L262 66 L228 74"/>
+    <circle cx="304" cy="40" r="3"/><circle cx="262" cy="66" r="3"/>
+    <rect x="200" y="62" width="30" height="46" rx="14" transform="rotate(-14 215 85)"/>
+    <path d="M206 74 l20 -5 M207 82 l20 -5 M209 90 l20 -5" stroke-width="1"/>
+    <path d="M222 108 q4 14 -2 26"/>
+    <!-- desk -->
+    <path d="M10 176 H312"/>
+    <path d="M22 176 v40 M298 176 v40"/>
+    <!-- ham radio rig -->
+    <rect x="30" y="124" width="122" height="52" rx="3"/>
+    <rect x="40" y="132" width="42" height="22" rx="2"/>
+    <path d="M44 150 q17 -16 34 0" stroke-width="1"/>
+    <path d="M61 150 l9 -12" class="tg"/>
+    <circle cx="104" cy="148" r="11"/><path d="M104 148 l6 -6"/>
+    <circle cx="134" cy="142" r="6"/><circle cx="134" cy="162" r="6"/>
+    <path d="M42 166h34" stroke-width="1"/>
+    <!-- headphones -->
+    <path d="M166 168 q20 -34 44 0"/>
+    <rect x="160" y="162" width="12" height="14" rx="4"/><rect x="204" y="162" width="12" height="14" rx="4"/>
+    <!-- coffee mug -->
+    <path d="M236 146 h24 v26 q0 4 -4 4 h-16 q-4 0 -4 -4 z"/>
+    <path d="M260 152 q10 0 10 8 q0 8 -10 8"/>
+    <path d="M244 140 q-4 -6 0 -12 q4 -6 0 -12 M252 138 q-4 -6 0 -12" stroke-width="1"/>
+    <!-- glasses -->
+    <rect x="272" y="160" width="15" height="11" rx="4"/><rect x="292" y="160" width="15" height="11" rx="4"/>
+    <path d="M287 164 q2.5 -3 5 0 M272 163 l-6 -3 M307 163 l5 -4"/>
+    <!-- cable -->
+    <path d="M222 134 q-6 30 -30 34" stroke-width="1" stroke-dasharray="2 3"/>
+  </g>
+</svg>`;
 const TIMELINE = [
   ['1945', '17 June', 'Born Arthur William Bell III in Jacksonville, North Carolina.'],
   ['1958', 'Age 13', 'Gets his amateur radio licence. Ham radio stays with him for life; his best-known call sign is W6OBB.'],
@@ -2308,6 +2394,7 @@ function openTribute(){
   const first = episodes.slice().sort((a, b) => (a.date || '9').localeCompare(b.date || '9'))[0];
   $('#tbBody').innerHTML = `
     <section class="tb-hero">
+      <figure class="tb-fig">${STUDIO_SVG}<figcaption>The studio, Pahrump · after midnight</figcaption></figure>
       <div class="tb-k">In memory of</div>
       <h2 class="tb-name">Art Bell</h2>
       <div class="tb-dates">17 June 1945 — 13 April 2018</div>
