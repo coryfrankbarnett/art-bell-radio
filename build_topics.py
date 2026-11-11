@@ -63,6 +63,30 @@ SUBJECTS = {
 SUBJECT_RES = [(re.compile(r"(?<![a-z])" + re.escape(k) + r"(?:s|es|ed|ing|ings|ers?|y|ies|ist|ists|ism|ical)?(?![a-z])"), v)
                for k, v in sorted(SUBJECTS.items(), key=lambda kv: -len(kv[0]))]
 
+# In transcripts, these count after one mention; everything else needs a few, so passing remarks don't tag a night
+RARE = {"Bigfoot", "Yeti", "Skunk Ape", "Cryptozoology", "Chupacabra", "Mothman", "Loch Ness", "Dogman", "Thunderbird",
+        "Mel's Hole", "Skinwalkers", "Kecksburg", "Rendlesham", "Dulce", "Philadelphia Experiment", "Montauk", "Starchild skull",
+        "Crystal skulls", "Shadow people", "Phoenix Lights", "Hale-Bopp", "Black triangles", "Men in Black", "Spontaneous combustion",
+        "Ball lightning", "Numbers stations", "Bermuda Triangle", "MJ-12", "Planet X", "Hollow Earth", "Atlantis", "Lemuria"}
+SKIP_IN_TRANSCRIPT = {"Open Lines", "Ghost to Ghost", "Wild Card line", "Weather", "Internet", "Economy", "Nuclear", "The Moon",
+                      "Predictions", "Survival", "Virus", "Robots", "Jesus", "The Bible"}
+PODCAST_NS = "https://podcastindex.org/namespace/1.0"
+TX_PER_RUN = 1800
+TX_DELAY = 0.25
+
+
+def transcript_subjects(text):
+    low = text.lower()
+    found = []
+    for rx, label in SUBJECT_RES:
+        if label in SKIP_IN_TRANSCRIPT or label in found:
+            continue
+        n = len(rx.findall(low))
+        if n >= (1 if label in RARE else 3):
+            found.append(label)
+    return found
+
+
 # Words that start sentences or aren't names; dropped from the front/back of a capitalised run
 EDGE = set("""the a an in on at of and or but for to from with without by as after before during while when where
 he she they it his her their its this that these those then there here also however meanwhile tonight later next finally first now soon eventually earlier both another other according callers caller art bell art's
@@ -137,29 +161,50 @@ def main():
     print("feed:", url)
     root = ET.fromstring(get(url))
     ns = {"content": "http://purl.org/rss/1.0/modules/content/", "itunes": "http://www.itunes.com/dtds/podcast-1.0.dtd"}
-    by_date = {}
-    lens = []
-    for i, it in enumerate(root.iter("item")):
-        if i < 2:
-            print("fields:", {c.tag.split("}")[-1]: len(plain(c.text or "")) for c in it})
-        lens.append(max(len(plain(it.findtext(p, namespaces=ns) or "")) for p in ("content:encoded", "description", "itunes:summary")))
+    try:
+        old = json.load(open("topics.json"))
+    except Exception:
+        old = {}
+    tx_done = old.get("transcripts", {})   # air date -> subject words already pulled from that night's transcript
+    by_date, fetched, failed = {}, 0, 0
+
+    def add(d, tags):
+        merged = by_date.setdefault(d, [])
+        have = {x.lower() for x in merged}
+        for t in tags:
+            if t.lower() not in have:
+                merged.append(t); have.add(t.lower())
+
+    for it in root.iter("item"):
         title = (it.findtext("title") or "").strip()
         d = air_date(title)
         if not d:
             continue
         notes = max((plain(it.findtext(p, namespaces=ns)) for p in ("content:encoded", "description", "itunes:summary")), key=len)
-        merged = by_date.setdefault(d, [])
-        for t in tags_for(title, notes):
-            if t.lower() not in {x.lower() for x in merged}:
-                merged.append(t)
-    if lens:
-        lens.sort(); print("notes length: median", lens[len(lens)//2], "max", lens[-1])
+        add(d, tags_for(title, notes))
+        add(d, [plain(p.text) for p in it.findall(f"{{{PODCAST_NS}}}person") if plain(p.text) and plain(p.text).lower() != "art bell"])
+        key = d + "|" + title
+        if key not in tx_done and fetched < TX_PER_RUN:
+            tx = it.find(f"{{{PODCAST_NS}}}transcript")
+            if tx is not None and tx.get("url"):
+                try:
+                    text = get(tx.get("url")).decode("utf-8", "replace")
+                    text = re.sub(r"\d{1,2}:\d{2}(:\d{2})?[.,]\d{3}\s*-->\s*\S+|<[^>]+>|\"(start|end|speaker)\":[^,}]*", " ", text)
+                    tx_done[key] = transcript_subjects(text)
+                    fetched += 1
+                    time.sleep(TX_DELAY)
+                except Exception as e:
+                    failed += 1
+        if key in tx_done:
+            add(d, tx_done[key])
+    for d in by_date:
+        by_date[d] = by_date[d][:MAX_TAGS + 12]
     if len(by_date) < 200:
         raise SystemExit(f"Only {len(by_date)} dated episodes found; keeping the previous topics.json")
     with open("topics.json", "w") as fh:
-        json.dump({"built": int(time.time() * 1000), "source": "The Art Bell Archive podcast (facts only)", "dates": by_date},
-                  fh, separators=(",", ":"), ensure_ascii=False)
-    print("wrote topics.json for", len(by_date), "dates")
+        json.dump({"built": int(time.time() * 1000), "source": "The Art Bell Archive podcast (facts only: subjects, people, places)",
+                   "dates": by_date, "transcripts": tx_done}, fh, separators=(",", ":"), ensure_ascii=False)
+    print("wrote topics.json for", len(by_date), "dates;", fetched, "transcripts scanned this run,", len(tx_done), "in total,", failed, "failed")
 
 
 if __name__ == "__main__":
