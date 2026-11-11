@@ -1566,6 +1566,64 @@ body.offline .row.saved .badge{color:var(--accent)}
 .ab-cols .ab-few{font:inherit!important;letter-spacing:0!important;color:var(--text)!important}
 .ab-cols li span{font:500 var(--fs-label)/1.4 var(--font);letter-spacing:.07em;color:var(--muted)}
 .ab-ded{margin:26px 0 20px;text-align:center;font:italic 400 21px/1.35 var(--serif);color:var(--text)}
+
+/* line icons: one stroke weight, matching the hand-drawn covers; play/pause stay solid as the main action */
+svg.ln{fill:none!important;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+svg.ln *{fill:none!important}
+svg.ln text{fill:currentColor!important;stroke:none!important;font-family:var(--font)!important;font-weight:600!important}
+.searchbox svg.ln{stroke:var(--muted)}
+.tile svg.ln{stroke:var(--accent)}
+.tile.tonight .go svg.ln{stroke:#140c02}
+.gear svg.ln{stroke:var(--muted)}
+.mini .pp svg.ln{stroke:var(--text)}
+.np .head svg.ln{stroke:var(--text)}
+.np .fav svg.ln{stroke:var(--muted)}
+.np .fav.on svg.ln{stroke:var(--accent)}
+.ctl svg.ln{stroke:var(--text)}
+.ctl .big svg.ln{stroke:#1b1104}
+.sheet .act svg.ln{stroke:var(--muted)}
+.ctl .big svg.ln{stroke:var(--bg)}
+.mini .pp svg.ln{stroke:var(--bg)}
+.cmore svg.ln{stroke:#fff}
+.tile.tonight .go svg.ln{stroke:var(--cv-bg,#000)}
+.tab.on svg.ln{stroke:var(--accent)}
+html.light .np .head svg.ln{stroke:var(--text)}
+.tile.tonight .go svg.ln{stroke:var(--cbg)}
+.tb-head svg.ln{stroke:var(--text)}
+.tb-listen svg.ln{stroke:var(--accent)}
+.tile.memo .mp svg.ln{stroke:var(--accent)}
+html.cine.light .tile.tonight .go svg.ln{stroke:#17140f}
+html.cine .tile.tonight .go svg.ln{stroke:var(--bg)}
+html.cine .tile.q svg.ln{stroke:var(--accent)}
+.ib-x svg.ln{stroke:var(--muted)}
+.ib-steps svg.ln{stroke:var(--accent)}
+html.cine .otn2 .go svg.ln{stroke:#17140f}
+.tb-listen svg.ln{stroke:var(--bg)}
+.jump svg.ln{stroke:var(--bg)}
+.pinbar svg.ln{stroke:var(--muted)}
+.offnote svg.ln{stroke:var(--accent)}
+.cb-go svg.ln{stroke:var(--bg)}
+.sheet .act-g{margin:14px 0 2px;padding:12px 2px 6px;border-top:1px solid var(--line);font:500 var(--fs-label)/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+
+/* One motion style: surfaces slide on one curve at one speed, small things fade quicker on the same curve */
+html{--ease:cubic-bezier(.2,.8,.2,1);--t-move:.34s;--t-quick:.2s}
+.np,.sheet,.tribute{transition-duration:var(--t-move)!important;transition-timing-function:var(--ease)!important}
+.scrim,.toast,.pinbar,.bubble,.np-now,.skel,.row.held{transition-duration:var(--t-quick)!important;transition-timing-function:var(--ease)!important}
+
+/* The gold accent means one thing: what's playing or selected (plus the logo). Everything else is neutral. */
+html.cine .row .m .cno{color:var(--text)!important;opacity:.78}
+.row .m .badge{color:var(--muted)!important}
+.sec select,html.cine .sec select{color:var(--muted)!important}
+.gletter,.esscard .enum,.nt-ess b{color:var(--muted)!important}
+.nt-ess{border-left-color:var(--line)!important}
+.li .tm{color:var(--text)!important}
+.tile svg,html.cine .tile.q svg{fill:var(--text)!important}
+.tile svg.ln,html.cine .tile.q svg.ln{stroke:var(--text)!important}
+.notes a{color:var(--text)!important;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.ycard i{background:color-mix(in srgb,var(--text) 35%,transparent)!important;opacity:1!important}
+.offnote svg.ln{stroke:var(--text)!important}
+.sec h2,.tb-sec h3{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 2 80 7 120 4 S180 3 198 5' fill='none' stroke='%238e877b' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")!important}
+html.light .sec h2,html.light .tb-sec h3{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 2 80 7 120 4 S180 3 198 5' fill='none' stroke='%23a39a8b' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")!important}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -1680,18 +1738,18 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
       <h1><a href="./" id="homeLogo" class="home-logo" aria-label="The Art Bell Tapes, back to the start">Art Bell <em>Tapes</em></a></h1>
       <div class="sub" id="count">Loading the archive…</div>
     </div>
-    <button class="gear" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7 7 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7 7 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7 7 0 0 0 1.7 1l.4 2.7h4l.4-2.7a7 7 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></button>
+    <button class="gear" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24" class="ln"><path d="M4 7.5h9M17 7.5h3M4 16.5h3M11 16.5h9"/><circle cx="15" cy="7.5" r="2"/><circle cx="9" cy="16.5" r="2"/></svg></button>
   </div>
-  <div class="offnote" id="offNote" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span>Offline · your saved shows still play</span></div>
+  <div class="offnote" id="offNote" role="status"><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg><span>Offline · your saved shows still play</span></div>
   <div class="demo" id="demo">Preview mode: showing sample shows. When the app is hosted, the full library loads live from archive.org.</div>
 
   <div class="sticky">
     <label class="searchbox">
-      <svg viewBox="0 0 24 24"><path d="M10 4a6 6 0 1 0 3.7 10.7l4.8 4.8 1.4-1.4-4.8-4.8A6 6 0 0 0 10 4zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg>
+      <svg viewBox="0 0 24 24" class="ln"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>
       <input id="q" type="search" placeholder="Guest, topic, date…" autocomplete="off" enterkeyhint="search">
       <button class="clear" id="clear" type="button">Clear</button>
       <span class="suggest" id="suggest" role="listbox"></span>
-      <button class="fbtn" id="filterBtn" type="button" aria-label="Filter by year or programme"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm4 5h10v2H7zm3 5h4v2h-4z"/></svg></button>
+      <button class="fbtn" id="filterBtn" type="button" aria-label="Filter by year or programme"><svg viewBox="0 0 24 24" class="ln"><path d="M4 7h16M7 12h10M10 17h4"/></svg></button>
     </label>
   </div>
   <div class="filtersblock">
@@ -1703,7 +1761,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 
 
   <button class="continuebig" id="contBig" type="button" style="display:none"></button>
-  <button class="browsetop" id="browseTop" type="button"><span class="bt-t">Browse all shows</span><span class="bt-s" id="browseTopN"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="browsetop" id="browseTop" type="button"><span class="bt-t">Browse all shows</span><span class="bt-s" id="browseTopN"></span><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <div class="skel" id="skel" aria-hidden="true">
     <div class="sk-h"></div>
     <div class="sk-big"></div>
@@ -1734,7 +1792,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   <div class="filterpill" id="pill"></div>
   <div class="sec">
     <h2 id="secTitle">All shows</h2>
-    <div class="meta"><button class="playall" id="playAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play all</button><button class="playall saveall" id="saveAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span>Save all</span></button><button class="seeall" id="closeAll" style="display:none">Close</button><span id="secCount"></span>
+    <div class="meta"><button class="playall" id="playAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play all</button><button class="playall saveall" id="saveAll" style="display:none"><svg viewBox="0 0 24 24" class="ln"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg><span>Save all</span></button><button class="seeall" id="closeAll" style="display:none">Close</button><span id="secCount"></span>
       <select id="sort" aria-label="Sort">
         <option value="old">Oldest</option><option value="new">Newest</option><option value="az">A–Z</option><option value="rand">Shuffle</option>
       </select>
@@ -1752,15 +1810,15 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 <input type="file" id="restoreFile" accept="application/json,.json" hidden>
 <svg class="skdefs" aria-hidden="true" style="position:absolute;width:0;height:0"><defs><filter id="skw" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs></svg>
 <div class="tribute" id="tribute" aria-hidden="true">
-  <div class="tb-head"><button id="tbClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button><span>In memory</span><span></span></div>
+  <div class="tb-head"><button id="tbClose" aria-label="Close"><svg viewBox="0 0 24 24" class="ln"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button><span>In memory</span><span></span></div>
   <div class="tb-body" id="tbBody"></div>
 </div>
 <div class="install" id="install" role="dialog" aria-label="Install the app" aria-hidden="true">
   <img src="apple-touch-icon.png" alt="" width="44" height="44">
   <div class="ib-tx"><b>Install The Art Bell Tapes</b><span id="ibSub">Open it from your home screen, full screen, like any other app.</span></div>
   <button class="ib-go" id="ibGo">Install</button>
-  <button class="ib-x" id="ibX" aria-label="Not now"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button>
-  <ol class="ib-steps" id="ibSteps"><li>Tap the <b>Share</b> button <svg viewBox="0 0 24 24"><path d="M12 3 7.5 7.5l1.4 1.4L11 6.8V15h2V6.8l2.1 2.1 1.4-1.4zM5 11v9h14v-9h-3v2h1v5H7v-5h1v-2z"/></svg> in Safari’s toolbar</li><li>Scroll down and choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li></ol>
+  <button class="ib-x" id="ibX" aria-label="Not now"><svg viewBox="0 0 24 24" class="ln"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button>
+  <ol class="ib-steps" id="ibSteps"><li>Tap the <b>Share</b> button <svg viewBox="0 0 24 24" class="ln"><path d="M12 3.5v11M8 7.5l4-4 4 4M6 11.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-7.5"/></svg> in Safari’s toolbar</li><li>Scroll down and choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li></ol>
 </div>
 <!-- Mini player -->
 <div class="mini" id="mini">
@@ -1772,18 +1830,18 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 
 <!-- Tab bar -->
 <nav class="tabs"><div class="side-brand" aria-hidden="true"><span>The</span>Art Bell<em>Tapes</em></div><div class="inner" id="tabs">
-  <button class="tab on" data-tab="all"><svg viewBox="0 0 24 24"><path d="M4 5h3v14H4zm5 0h3v14H9zm5.2.6 2.9-.8 3.7 13.5-2.9.8z"/></svg>Library</button>
-  <button class="tab" data-tab="guests"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5zM19 8V6h-2V4h-2v2h-2v2h2v2h2V8z" transform="translate(0 0)"/></svg>Guests</button>
-  <button class="tab" data-tab="fav"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg>Favourites</button>
-  <button class="tab" data-tab="recent"><svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 2.1 5l-1.4 1.4A9 9 0 1 0 13 3zm-1 5v5l4.3 2.5.7-1.2-3.5-2.1V8z"/></svg>Recent</button>
-  <button class="tab" data-tab="saved"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg>Offline</button>
+  <button class="tab on" data-tab="all"><svg viewBox="0 0 24 24" class="ln"><path d="M5.5 4.5v15M10 4.5v15M14 5.5l4.5 14"/></svg>Library</button>
+  <button class="tab" data-tab="guests"><svg viewBox="0 0 24 24" class="ln"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg>Guests</button>
+  <button class="tab" data-tab="fav"><svg viewBox="0 0 24 24" class="ln"><path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/></svg>Favourites</button>
+  <button class="tab" data-tab="recent"><svg viewBox="0 0 24 24" class="ln"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.7h3.7M12 8v4.3l3 1.8"/></svg>Recent</button>
+  <button class="tab" data-tab="saved"><svg viewBox="0 0 24 24" class="ln"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg>Offline</button>
 </div></nav>
 
 <!-- Now playing -->
 <div class="np" id="np">
   <div class="bgglow" id="npGlow"></div>
   <div class="head">
-    <button id="npClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M7.4 8.6 12 13.2l4.6-4.6L18 10l-6 6-6-6z"/></svg></button>
+    <button id="npClose" aria-label="Close"><svg viewBox="0 0 24 24" class="ln"><path d="M6 9.5l6 6 6-6"/></svg></button>
     <div class="lbl">Now playing<br><span id="npShow" style="color:var(--text);letter-spacing:.08em"></span></div>
     <button id="npMore" aria-label="More"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
   </div>
@@ -1810,27 +1868,27 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   </button>
   <div class="meta">
     <div class="tx"><div class="title" id="npTitle"></div><div class="subt" id="npSub"></div></div>
-    <button class="fav" id="npFav" aria-label="Favourite"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg></button>
+    <button class="fav" id="npFav" aria-label="Favourite"><svg viewBox="0 0 24 24" class="ln"><path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/></svg></button>
   </div>
   <div class="np-now" id="npNow" aria-live="polite"></div>
   <div class="scrub" id="scrub"><canvas id="wave"></canvas><div class="np-marks" id="npMarks"></div><div class="bubble" id="bubble"></div><input class="sr" id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek"></div>
   <div class="times"><span id="tCur">0:00</span><span class="scrubmode" id="scrubMode"></span><span id="tLeft">-0:00</span></div>
   <div class="np-topics" id="npTopics"></div>
   <div class="ctl">
-    <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
-    <button class="skip" id="back" aria-label="Back 30 seconds"><svg viewBox="0 0 24 24"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/><text x="12" y="15.2" font-size="5.4" font-weight="700" text-anchor="middle" font-family="sans-serif">30</text></svg></button>
+    <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24" class="ln"><path d="M7 6v12M18 6.5v11l-8-5.5z"/></svg></button>
+    <button class="skip" id="back" aria-label="Back 30 seconds"><svg viewBox="0 0 24 24" class="ln"><path d="M6.2 8.2A7.2 7.2 0 1 1 4.8 12.5"/><path d="M5.8 3.8v4.6h4.6"/><text x="12" y="15.2" font-size="5.4" font-weight="700" text-anchor="middle" font-family="sans-serif">30</text></svg></button>
     <button class="big" id="pp" aria-label="Play or pause"></button>
-    <button class="skip" id="fwd" aria-label="Forward 30 seconds"><svg viewBox="0 0 24 24"><path d="M12 5V2l5 4-5 4V7a5 5 0 1 0 5 5h2a7 7 0 1 1-7-7z"/><text x="12" y="15.2" font-size="5.4" font-weight="700" text-anchor="middle" font-family="sans-serif">30</text></svg></button>
-    <button id="next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+    <button class="skip" id="fwd" aria-label="Forward 30 seconds"><svg viewBox="0 0 24 24" class="ln"><path d="M17.8 8.2A7.2 7.2 0 1 0 19.2 12.5"/><path d="M18.2 3.8v4.6h-4.6"/><text x="12" y="15.2" font-size="5.4" font-weight="700" text-anchor="middle" font-family="sans-serif">30</text></svg></button>
+    <button id="next" aria-label="Next"><svg viewBox="0 0 24 24" class="ln"><path d="M17 6v12M6 6.5v11l8-5.5z"/></svg></button>
   </div>
   <div class="extras">
     <button id="speed"><b id="speedVal">1×</b>Speed</button>
-    <button id="sleep"><svg viewBox="0 0 24 24"><path d="M12.3 2a10 10 0 1 0 9.7 12.4A8 8 0 0 1 12.3 2z"/></svg><span id="sleepVal">Sleep</span></button>
-    <button id="markBtn"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span id="markVal">Bookmark</span></button>
-    <button id="queueBtn"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-1V9l5 3z"/></svg><span id="queueVal">Up next</span></button>
-    <button id="bedBtn"><svg viewBox="0 0 24 24"><path d="M3 18v-6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v6h-2v-2H5v2zm2-4h14v-2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1zM7 8V6h4v2z"/></svg><span>Bedside</span></button>
-    <button id="castBtn"><svg viewBox="0 0 24 24"><path d="M2 16v2a3 3 0 0 1 3 3h2a5 5 0 0 0-5-5zm0-4v2a7 7 0 0 1 7 7h2a9 9 0 0 0-9-9zm0-4v2a11 11 0 0 1 11 11h2A13 13 0 0 0 2 8zm19-5H3a2 2 0 0 0-2 2v2h2V5h18v14h-5v2h5a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg><span>Speaker</span></button>
-    <button id="boostBtn"><svg viewBox="0 0 24 24"><path d="M3 10v4h3l5 4V6L6 10zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg><span>Voice boost</span></button>
+    <button id="sleep"><svg viewBox="0 0 24 24" class="ln"><path d="M19.5 14.5A7.8 7.8 0 1 1 9.5 4.5a6.2 6.2 0 0 0 10 10z"/></svg><span id="sleepVal">Sleep</span></button>
+    <button id="markBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M7 3.5h10v17l-5-3.6-5 3.6z"/></svg><span id="markVal">Bookmark</span></button>
+    <button id="queueBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M16 14v6l4.5-3z"/></svg><span id="queueVal">Up next</span></button>
+    <button id="bedBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M3 18.5v-6.5a2.5 2.5 0 0 1 2.5-2.5h13a2.5 2.5 0 0 1 2.5 2.5v6.5M3 15.5h18M6.5 9.5V7h4v2.5"/></svg><span>Bedside</span></button>
+    <button id="castBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M3.5 17.5a3 3 0 0 1 3 3M3.5 13.5a7 7 0 0 1 7 7M3.5 9.5V6A1.5 1.5 0 0 1 5 4.5h14A1.5 1.5 0 0 1 20.5 6v12a1.5 1.5 0 0 1-1.5 1.5h-5"/></svg><span>Speaker</span></button>
+    <button id="boostBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>Voice boost</span></button>
   </div>
 </div>
 
@@ -1962,11 +2020,11 @@ const I = {
   play:'<svg viewBox="0 0 24 24"><path d="M8 5.1v13.8a1 1 0 0 0 1.5.9l10.6-6.9a1 1 0 0 0 0-1.7L9.5 4.2A1 1 0 0 0 8 5.1z"/></svg>',
   pause:'<svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg>',
   more:'<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>',
-  star:'<svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg>',
-  dl:'<svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg>',
-  share:'<svg viewBox="0 0 24 24"><path d="M12 3 7 8l1.4 1.4L11 6.8V15h2V6.8l2.6 2.6L17 8zM5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6h-2v6H7v-6z"/></svg>',
-  trash:'<svg viewBox="0 0 24 24"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"/></svg>',
-  link:'<svg viewBox="0 0 24 24"><path d="M14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3zM5 5v14h14v-6h-2v4H7V7h4V5z"/></svg>',
+  star:'<svg viewBox="0 0 24 24" class="ln"><path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/></svg>',
+  dl:'<svg viewBox="0 0 24 24" class="ln"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg>',
+  share:'<svg viewBox="0 0 24 24" class="ln"><path d="M12 3.5v11M8 7.5l4-4 4 4M6 11.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-7.5"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" class="ln"><path d="M4.5 6.5h15M9.5 6.5V4h5v2.5M6.5 6.5l.8 13a1.5 1.5 0 0 0 1.5 1.5h6.4a1.5 1.5 0 0 0 1.5-1.5l.8-13"/></svg>',
+  link:'<svg viewBox="0 0 24 24" class="ln"><path d="M13.5 4h6.5v6.5M20 4l-9 9M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></svg>',
   play2:'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'
 };
 /* Generated cover art: every show gets its own bold, flat cover from its id */
@@ -2594,7 +2652,7 @@ function addRailArrows(){
     if(r.scrollWidth <= r.clientWidth + 8) return;
     host.classList.add('has-arrows');
     ['l','r'].forEach(d => { const b = document.createElement('button'); b.className = 'rarrow ' + d; b.type = 'button'; b.setAttribute('aria-label', d === 'l' ? 'Scroll left' : 'Scroll right');
-      b.innerHTML = `<svg viewBox="0 0 24 24"><path d="${d === 'l' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      b.innerHTML = `<svg viewBox="0 0 24 24" class="ln"><path d="${d === 'l' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
       b.onclick = () => r.scrollBy({ left:(d === 'l' ? -1 : 1) * r.clientWidth * .8, behavior:'smooth' }); host.appendChild(b); });
     const upd = () => { host.querySelector(':scope > .rarrow.l').toggleAttribute('hidden', r.scrollLeft < 8); host.querySelector(':scope > .rarrow.r').toggleAttribute('hidden', r.scrollLeft + r.clientWidth >= r.scrollWidth - 8); };
     r.addEventListener('scroll', upd, { passive:true }); upd();
@@ -2920,7 +2978,7 @@ function showRecent(){
   const box = $('#suggest'), r = state.recentQ || []; sugSel = -1;
   if(!r.length){ box.classList.remove('show'); box.innerHTML = ''; return; }
   box.innerHTML = `<div class="sg-h"><span>Recent searches</span><button type="button" class="sg-clr" id="sgClr">Clear</button></div>` +
-    r.map((x, i) => `<button type="button" class="sg sg-r" data-i="${i}" data-kind="${esc(x.kind)}" data-label="${esc(x.label)}"><span><svg class="sg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 2.1 5l-1.4 1.4A9 9 0 1 0 13 3zm-1 5v5l4.3 2.5.7-1.2-3.5-2.1V8z"/></svg>${x.kind === 'Topic' ? sdot(x.label) : ''}${esc(x.label)}</span><small>${x.kind === 'Search' ? '' : esc(x.kind)}</small></button>`).join('');
+    r.map((x, i) => `<button type="button" class="sg sg-r" data-i="${i}" data-kind="${esc(x.kind)}" data-label="${esc(x.label)}"><span><svg class="ln sg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.7h3.7M12 8v4.3l3 1.8"/></svg>${x.kind === 'Topic' ? sdot(x.label) : ''}${esc(x.label)}</span><small>${x.kind === 'Search' ? '' : esc(x.kind)}</small></button>`).join('');
   box.classList.add('show');
 }
 function lenTxt(sec){ const m = Math.round(sec / 60), h = Math.floor(m / 60), r = m % 60; return h ? h + ' hr' + (r ? ' ' + r + ' min' : '') : m + ' min'; }
@@ -3081,7 +3139,7 @@ function render(){
     ph.style.setProperty('--c1', c1); ph.style.setProperty('--c2', c2);
     const [hfill, hline] = progCol(showFilter);
     ph.style.setProperty('--pc', hfill); ph.style.setProperty('--pl', hline);
-    ph.innerHTML = `${PROG_SCENE[showFilter] ? sceneSVG(showFilter) : emblem(showFilter)}<div class="ph-in"><button class="back" id="progBack"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>All programmes</button><div class="yrs">${esc(info[1])}</div><div class="nm">${esc(info[0])}</div><p>${esc(info[2])}</p><span class="ct">${(counts[showFilter]||0).toLocaleString('en-GB')} ${counts[showFilter]===1?'show':'shows'}</span></div>`;
+    ph.innerHTML = `${PROG_SCENE[showFilter] ? sceneSVG(showFilter) : emblem(showFilter)}<div class="ph-in"><button class="back" id="progBack"><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>All programmes</button><div class="yrs">${esc(info[1])}</div><div class="nm">${esc(info[0])}</div><p>${esc(info[2])}</p><span class="ct">${(counts[showFilter]||0).toLocaleString('en-GB')} ${counts[showFilter]===1?'show':'shows'}</span></div>`;
     ph.classList.add('show');
   } else ph.classList.remove('show');
   const curList = tab === 'fav' && listFilter && state.lists.find(l => l.id === listFilter);
@@ -3397,9 +3455,9 @@ function renderBento(){
     ${(() => { const sd = specialDay(); return sd ? `<button class="tile memo" data-t="memo" ${sd.pick ? `data-id="${esc(sd.pick.id)}"` : ''}><span class="k">${sd.kind === 'birthday' ? '17 June' : '13 April'}</span><span class="mt">${esc(sd.title)}</span><span class="ms">${esc(sd.sub)}</span>${sd.pick ? `<span class="mp">${I.play2}${esc(sd.pick.title)}</span>` : ''}</button>` : ''; })()}
     <div class="otn-rail${list.length > 1 ? '' : ' solo'}">${cards}</div>${chips}
     <div class="quick">
-      <button class="tile q radio${state.radio ? ' on' : ''}" data-t="radio"><svg viewBox="0 0 24 24"><path d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-4.2-2.8 1.4 1.4a4 4 0 0 0 0 5.7l-1.4 1.4a6 6 0 0 1 0-8.5zm8.4 0a6 6 0 0 1 0 8.5l-1.4-1.4a4 4 0 0 0 0-5.7zM5 4.4l1.4 1.4a8.5 8.5 0 0 0 0 12.4L5 19.6a10.5 10.5 0 0 1 0-15.2zm14 0a10.5 10.5 0 0 1 0 15.2l-1.4-1.4a8.5 8.5 0 0 0 0-12.4z"/></svg><span class="v">${state.radio ? 'On air' : 'Overnight'}</span></button>
-      <button class="tile q" data-t="spin"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-2.05-4.95L14 10h7V3l-2.64 2.64A8.96 8.96 0 0 0 12 3z"/></svg><span class="v">Wild Card<small class="q-hint">Random show</small></span></button>
-      <button class="tile q" data-t="saved"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span class="v">${offN} offline</span></button>
+      <button class="tile q radio${state.radio ? ' on' : ''}" data-t="radio"><svg viewBox="0 0 24 24" class="ln"><circle cx="12" cy="12" r="1.8"/><path d="M8.6 8.6a4.8 4.8 0 0 0 0 6.8M15.4 8.6a4.8 4.8 0 0 1 0 6.8M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg><span class="v">${state.radio ? 'On air' : 'Overnight'}</span></button>
+      <button class="tile q" data-t="spin"><svg viewBox="0 0 24 24" class="ln"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v3.7h-3.7"/></svg><span class="v">Wild Card<small class="q-hint">Random show</small></span></button>
+      <button class="tile q" data-t="saved"><svg viewBox="0 0 24 24" class="ln"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg><span class="v">${offN} offline</span></button>
     </div>`;
   const rail = b.querySelector('.otn-rail');
   if(rail && list.length > 1){
@@ -3921,17 +3979,19 @@ function openSheet(e){
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd">${artHTML(e,'sm')}<div><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div></div>
     <button class="act" data-a="play">${I.play2} ${(() => { const p = state.pos[e.id]; return p && p.t > 30 && p.t < p.d - 60 ? `Resume <small>from ${fmt(p.t)} · ${leftTxt(p.d - p.t)}</small>` : isPlayed(e.id) ? 'Play again' : 'Play now'; })()}</button>
-    <button class="act" data-a="notes"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zm8 1.5V8h4.5zM8 12h10v1.6H8zm0 3.5h10v1.6H8zm0 3.5h7v1.6H8z"/></svg> Show notes</button>
-    ${(!state.hideResume[e.id] && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60) ? `<button class="act" data-a="unresume"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg> Remove from Pick up where you left off</button>` : ''}
-    <button class="act" data-a="played"><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> ${isPlayed(e.id) ? 'Mark as not played' : 'Mark as played'}</button>
-    <button class="act" data-a="next"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-1V9l5 3z"/></svg> Play next</button>
-    <button class="act" data-a="queue"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm16-3v-3h-2v3h-3v2h3v3h2v-3h3v-2z"/></svg> Add to Up next</button>
+    <button class="act" data-a="next"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M16 14v6l4.5-3z"/></svg> Play next</button>
+    <button class="act" data-a="queue"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M18 13v7M14.5 16.5h7"/></svg> Add to Up next</button>
+    <button class="act" data-a="notes"><svg viewBox="0 0 24 24" class="ln"><path d="M6.5 3.5h8l4 4v13h-12zM14 3.5V8h4.5M9 12.5h7M9 16h7"/></svg> Show notes</button>
+    <div class="act-g">Keep</div>
     <button class="act" data-a="fav">${I.star} ${fav?'Remove from favourites':'Add to favourites'}</button>
-    <button class="act" data-a="lists"><svg viewBox="0 0 24 24"><path d="M4 6h11v2H4zm0 5h11v2H4zm0 5h7v2H4zm13-2v-3h2v3h3v2h-3v3h-2v-3h-3v-2z"/></svg> Add to a list${(() => { const n = state.lists.filter(l => l.ids.includes(e.id)).length; return n ? `<small>In ${n} list${n>1?'s':''}</small>` : ''; })()}</button>
+    <button class="act" data-a="lists"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M18 13v7M14.5 16.5h7"/></svg> Add to a list${(() => { const n = state.lists.filter(l => l.ids.includes(e.id)).length; return n ? `<small>In ${n} list${n>1?'s':''}</small>` : ''; })()}</button>
     ${sv ? `<button class="act" data-a="unsave">${I.trash} Remove offline copy</button>` : `<button class="act" data-a="save">${I.dl} Save offline<small>${mb}</small></button>`}
-    <button class="act" data-a="dl">${I.share} Download MP3 to phone<small>${mb}</small></button>
+    <button class="act" data-a="played"><svg viewBox="0 0 24 24" class="ln"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> ${isPlayed(e.id) ? 'Mark as not played' : 'Mark as played'}</button>
+    <div class="act-g">More</div>
     <button class="act" data-a="share">${I.link} ${audio.dataset.id === e.id ? 'Share this moment<small>' + fmt(curTime(e)) + '</small>' : 'Share link to this show'}</button>
-    ${e.guests && e.guests.length ? e.guests.map(g => `<button class="act" data-a="guest" data-g="${esc(g)}"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5z"/></svg> More with ${esc(g)}</button>`).join('') : ''}
+    <button class="act" data-a="dl">${I.share} Download MP3 to phone<small>${mb}</small></button>
+    ${e.guests && e.guests.length ? e.guests.map(g => `<button class="act" data-a="guest" data-g="${esc(g)}"><svg viewBox="0 0 24 24" class="ln"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg> More with ${esc(g)}</button>`).join('') : ''}
+    ${(!state.hideResume[e.id] && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60) ? `<button class="act" data-a="unresume"><svg viewBox="0 0 24 24" class="ln"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg> Remove from Pick up where you left off</button>` : ''}
     ${e.demo ? '' : `<a class="act" href="${API}/details/${encodeURIComponent(e.item)}" target="_blank" rel="noopener">${I.link} View on archive.org</a>`}`;
   $('#sheet').dataset.id = e.id;
   $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
@@ -4362,7 +4422,7 @@ if(matchMedia('(display-mode: standalone)').matches || navigator.standalone === 
     const anchor = $('#secTitle'), lab = label();
     const past = anchor && anchor.getBoundingClientRect().bottom < 0 && !document.body.classList.contains('np-open');
     const on = !!(lab && past);
-    if(on){ const k = lab.join('|'); if(k !== last){ last = k; bar.innerHTML = `<span class="pb-t">${esc(lab[0])}</span><span class="pb-n">${esc(lab[1])}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8l-6 6 1.4 1.4L12 10.8l4.6 4.6L18 14z"/></svg>`; } }
+    if(on){ const k = lab.join('|'); if(k !== last){ last = k; bar.innerHTML = `<span class="pb-t">${esc(lab[0])}</span><span class="pb-n">${esc(lab[1])}</span><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M6 14.5l6-6 6 6"/></svg>`; } }
     const st = document.querySelector('.sticky'), bs = document.body.classList.contains('bsearch');
     bar.style.top = bs || !st ? '' : Math.round(st.getBoundingClientRect().bottom - 8) + 'px';
     bar.classList.toggle('show', on);
@@ -4414,7 +4474,7 @@ const installer = (() => {
   const can = () => !standalone && (ios || android || !!deferred);
   const syncBtn = () => {};
   const steps = k => k === 'ios'
-    ? `<li>Tap the <b>Share</b> button <svg viewBox="0 0 24 24"><path d="M12 3 7.5 7.5l1.4 1.4L11 6.8V15h2V6.8l2.1 2.1 1.4-1.4zM5 11v9h14v-9h-3v2h1v5H7v-5h1v-2z"/></svg> in Safari (on newer iPhones it’s inside the <b>⋯</b> menu)</li><li>Choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li>`
+    ? `<li>Tap the <b>Share</b> button <svg viewBox="0 0 24 24" class="ln"><path d="M12 3.5v11M8 7.5l4-4 4 4M6 11.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-7.5"/></svg> in Safari (on newer iPhones it’s inside the <b>⋯</b> menu)</li><li>Choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li>`
     : `<li>Tap the <b>⋮</b> menu in your browser</li><li>Choose <b>Install app</b> or <b>Add to Home screen</b></li><li>Tap <b>Install</b></li>`;
   const open = (k, withSteps) => {
     kind = k; $('#ibSteps').innerHTML = steps(k === 'ios' ? 'ios' : 'menu');
