@@ -699,29 +699,35 @@ h1 em{display:inline}
 .otn-chips::-webkit-scrollbar{display:none}
 .otn-chip{flex:none;height:30px;padding:0 12px;border-radius:99px;font:600 13px/30px var(--font);color:var(--muted);background:var(--surface);border:1px solid var(--line);transition:background .2s,color .2s}
 .otn-chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
-/* ---- Opening animation: text-only title card (plays once per launch, tap to skip) ---- */
+/* ---- Opening animation: the app icon comes alive (plays once per launch, tap to skip) ---- */
 @font-face{font-family:'Instrument Serif';src:url(fonts/instrument-serif.woff2) format('woff2');font-weight:400;font-style:normal;font-display:block}
 @font-face{font-family:'Instrument Serif';src:url(fonts/instrument-serif-italic.woff2) format('woff2');font-weight:400;font-style:italic;font-display:block}
-#intro{position:fixed;inset:0;z-index:9999;background:radial-gradient(120% 80% at 50% 45%,#16130f 0,#0c0b0a 60%,#060505 100%);color:#efe9df;display:flex;align-items:center;justify-content:center;transition:opacity .55s ease}
-#intro .in-card{display:flex;flex-direction:column;align-items:center;transition:transform .7s cubic-bezier(.4,0,.2,1),filter .6s ease}
-#intro .in-top{display:flex;align-items:center;gap:14px}
-#intro .in-top span{font:400 clamp(18px,5.6vw,24px)/1 'Instrument Serif',Georgia,serif;letter-spacing:.38em;margin-right:-.38em;opacity:0}
-#intro .in-top i{display:block;width:clamp(26px,9vw,40px);height:1px;background:currentColor;opacity:.55;transform:scaleX(0)}
-#intro .in-top i:first-child{transform-origin:right}#intro .in-top i:last-child{transform-origin:left}
-#intro .in-word{overflow:hidden;padding:0 .12em .08em;margin-top:6px}
-#intro .in-word span{display:block;font:italic 400 clamp(56px,18vw,80px)/1.05 'Instrument Serif',Georgia,serif;color:#e7b48a;transform:translateY(105%)}
-#intro .in-sub{font:500 9.5px/1 'Inter',system-ui,sans-serif;letter-spacing:.32em;text-transform:uppercase;margin-top:22px;opacity:0;color:#a59c8f;text-align:center}
-#intro.go .in-top span{animation:inTrack 1.1s cubic-bezier(.2,.7,.2,1) forwards}
-#intro.go .in-top i{animation:inRule .7s .35s cubic-bezier(.6,0,.2,1) forwards}
-#intro.go .in-word span{animation:inRise .8s .45s cubic-bezier(.2,.8,.2,1) forwards}
-#intro.go .in-sub{animation:inFade .6s .85s ease forwards}
+#intro{position:fixed;inset:0;z-index:9999;background:#141210;display:flex;align-items:center;justify-content:center;transition:opacity .55s ease;overflow:hidden}
+#intro .in-card{position:relative;width:min(84vw,380px);aspect-ratio:1;transition:transform .7s cubic-bezier(.4,0,.2,1),filter .6s ease}
+#intro .in-rings{position:absolute;width:80%;right:-24%;top:-26%;overflow:visible}
+#intro .r{fill:none;stroke:#b0472a;stroke-width:5;transform-box:fill-box;transform-origin:center;transform:scale(0);opacity:0}
+#intro .dot{fill:#b0472a;transform-box:fill-box;transform-origin:center;transform:scale(0)}
+#intro .ping{fill:none;stroke:#b0472a;stroke-width:3;opacity:0;transform-box:fill-box;transform-origin:center}
+#intro .in-ttl{position:absolute;left:9%;bottom:9%;color:#ece6da;font-family:'Instrument Serif',Georgia,serif;line-height:.88}
+#intro .in-ttl span{display:block;overflow:hidden;padding-bottom:.06em}
+#intro .in-ttl i{display:block;font-style:normal;transform:translateY(110%)}
+#intro .the{font-size:clamp(28px,9.5vw,42px);margin-bottom:-.06em}#intro .the i{font-style:italic}
+#intro .ab{font-size:clamp(56px,19.5vw,86px)}
+#intro .ar{font-size:clamp(56px,19.5vw,86px)}#intro .ar i{font-style:italic;color:#d4b483}
+#intro.go .dot{animation:inPop .45s cubic-bezier(.3,1.6,.5,1) forwards}
+#intro.go .r{animation:inRing .6s cubic-bezier(.2,.8,.2,1) forwards}
+#intro.go .r1{animation-delay:.08s}#intro.go .r2{animation-delay:.16s}#intro.go .r3{animation-delay:.24s}#intro.go .r4{animation-delay:.32s}#intro.go .r5{animation-delay:.4s}
+#intro.go .ping{animation:inPing 1.4s .75s ease-out infinite}
+#intro.go .the i{animation:inUp .6s .35s cubic-bezier(.2,.8,.2,1) forwards}
+#intro.go .ab i{animation:inUp .7s .45s cubic-bezier(.2,.8,.2,1) forwards}
+#intro.go .ar i{animation:inUp .7s .6s cubic-bezier(.2,.8,.2,1) forwards}
 #intro.out{opacity:0;pointer-events:none}
-#intro.out .in-card{transform:scale(1.04);filter:blur(4px)}
-@keyframes inTrack{from{opacity:0;letter-spacing:.9em;margin-right:-.9em}to{opacity:1;letter-spacing:.38em;margin-right:-.38em}}
-@keyframes inRule{to{transform:scaleX(1)}}
-@keyframes inRise{to{transform:none}}
-@keyframes inFade{to{opacity:.85}}
-@media (prefers-reduced-motion:reduce){#intro *{animation:none!important;transition:none!important}#intro .in-top span,#intro .in-sub{opacity:1}#intro .in-top i,#intro .in-word span{transform:none}}
+#intro.out .in-card{transform:scale(1.05);filter:blur(5px)}
+@keyframes inPop{to{transform:scale(1)}}
+@keyframes inRing{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes inPing{0%{transform:scale(1);opacity:.9}100%{transform:scale(5.2);opacity:0}}
+@keyframes inUp{to{transform:none}}
+@media (prefers-reduced-motion:reduce){#intro *{animation:none!important;transition:none!important}#intro .r,#intro .dot,#intro .in-ttl i{transform:none;opacity:1}}
 
 /* ---- Sleeves: framed art panel, type on the border so it always reads ---- */
 html.cine .art.sleeve{background:var(--cbg)!important;color:var(--ink);padding:0;container-type:size}
@@ -827,7 +833,7 @@ html.cine .sw{border-radius:3px}.cine .sw i{border-radius:2px}
 </style>
 </head>
 <body>
-<div id="intro" aria-label="Art Bell Archive"><div class="in-card"><div class="in-top"><i></i><span>ART BELL</span><i></i></div><div class="in-word"><span>Archive</span></div><div class="in-sub">1988 — 2015</div></div></div>
+<div id="intro" aria-label="The Art Bell Archive"><div class="in-card"><svg class="in-rings" viewBox="-100 -100 200 200" aria-hidden="true"><circle class="r r1" r="14"/><circle class="r r2" r="30"/><circle class="r r3" r="46"/><circle class="r r4" r="62"/><circle class="r r5" r="78"/><circle class="dot" r="6"/><circle class="ping" r="20"/></svg><div class="in-ttl"><span class="the"><i>The</i></span><span class="ab"><i>Art Bell</i></span><span class="ar"><i>Archive</i></span></div></div></div>
 <script>
 /* Opening animation: shown once per launch; leaves as soon as the library is ready (min ~1.3s, max 2.6s) */
 (function(){
@@ -835,8 +841,8 @@ html.cine .sw{border-radius:3px}.cine .sw i{border-radius:2px}
   let seen = false; try{ seen = sessionStorage.getItem('abr.intro') === '1'; sessionStorage.setItem('abr.intro','1'); }catch(_){}
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || (()=>{ try{ return JSON.parse(localStorage.getItem('abr.state.v2')||'{}').calm }catch(_){ return false } })();
   if(seen){ el.remove(); return; }
-  const t0 = performance.now(), min = reduce ? 350 : 1650;
-  if(reduce){ el.querySelectorAll('.in-top span,.in-sub').forEach(x => x.style.opacity = 1); el.querySelectorAll('.in-top i,.in-word span').forEach(x => x.style.transform = 'none'); }
+  const t0 = performance.now(), min = reduce ? 350 : 1700;
+  if(reduce){ el.querySelectorAll('.r,.dot,.in-ttl i').forEach(x => { x.style.transform = 'none'; x.style.opacity = 1; }); }
   const start = () => el.classList.add('go');
   Promise.race([Promise.all([document.fonts.load('400 20px "Instrument Serif"'), document.fonts.load('italic 400 60px "Instrument Serif"')]), new Promise(r => setTimeout(r, 350))]).then(start, start);
   let done = false;
