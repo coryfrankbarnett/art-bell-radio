@@ -138,7 +138,11 @@ def main():
     root = ET.fromstring(get(url))
     ns = {"content": "http://purl.org/rss/1.0/modules/content/", "itunes": "http://www.itunes.com/dtds/podcast-1.0.dtd"}
     by_date = {}
-    for it in root.iter("item"):
+    lens = []
+    for i, it in enumerate(root.iter("item")):
+        if i < 2:
+            print("fields:", {c.tag.split("}")[-1]: len(plain(c.text or "")) for c in it})
+        lens.append(max(len(plain(it.findtext(p, namespaces=ns) or "")) for p in ("content:encoded", "description", "itunes:summary")))
         title = (it.findtext("title") or "").strip()
         d = air_date(title)
         if not d:
@@ -148,6 +152,8 @@ def main():
         for t in tags_for(title, notes):
             if t.lower() not in {x.lower() for x in merged}:
                 merged.append(t)
+    if lens:
+        lens.sort(); print("notes length: median", lens[len(lens)//2], "max", lens[-1])
     if len(by_date) < 200:
         raise SystemExit(f"Only {len(by_date)} dated episodes found; keeping the previous topics.json")
     with open("topics.json", "w") as fh:
