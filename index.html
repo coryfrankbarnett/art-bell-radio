@@ -718,6 +718,43 @@ h1 em{display:inline}
 @keyframes inSoft{to{opacity:1;filter:blur(0);transform:none}}
 @media (prefers-reduced-motion:reduce){#intro *{animation:none!important;transition:none!important}#intro .in-ttl i{transform:none;opacity:1;filter:none}}
 
+/* ---- Tribute ---- */
+#intro .in-ded{position:fixed;left:0;right:0;bottom:calc(36px + env(safe-area-inset-bottom,0px));text-align:center;font:500 10px 'Inter',system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#8e877b;opacity:0}
+#intro.go .in-ded{animation:inSoft 1.2s .9s ease forwards}
+.tribute{position:fixed;inset:0;z-index:45;background:var(--bg);transform:translateY(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.tribute.open{transform:none}
+.tb-head{display:flex;justify-content:space-between;align-items:center;padding:calc(10px + var(--st)) 12px 6px;font:600 10px var(--font);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.tb-head button{width:44px;height:44px;display:grid;place-items:center}.tb-head svg{width:22px;height:22px;fill:var(--text)}.tb-head span:last-child{width:44px}
+.tb-body{flex:1;overflow-y:auto;padding:0 24px calc(60px + var(--sb));-webkit-overflow-scrolling:touch}
+.tb-hero{padding:30px 0 34px;border-bottom:1px solid var(--line);text-align:center}
+.tb-k{font:600 10px var(--font);letter-spacing:.26em;text-transform:uppercase;color:var(--accent)}
+.tb-name{font:400 clamp(72px,24vw,110px)/.9 var(--serif);margin:14px 0 10px;letter-spacing:-.01em}
+.tb-dates{font:italic 400 20px var(--serif);color:var(--muted)}
+.tb-lede{font:italic 400 21px/1.35 var(--serif);margin:24px auto 0;max-width:34ch}
+.tb-sec{padding:28px 0;border-bottom:1px solid var(--line)}
+.tb-sec h3{font:400 32px/1 var(--serif);margin:0 0 16px}
+.tb-sec p{font:400 15.5px/1.6 var(--font);color:color-mix(in srgb,var(--text) 82%,transparent);margin:0 0 14px;max-width:62ch}
+.tb-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.tb-listen{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border:1px solid var(--line);border-radius:2px;font:600 10.5px var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin-top:8px}
+.tb-listen svg{width:12px;height:12px;fill:var(--accent)}.tb-listen small{color:var(--accent);font-size:10px;letter-spacing:.12em}
+.tb-link{display:inline-flex;align-items:center;height:34px;padding:0 12px;border:1px solid var(--line);border-radius:2px;font:600 10.5px var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--text);text-decoration:none}
+.tb-time{list-style:none;margin:0;padding:0}
+.tb-time li{display:grid;grid-template-columns:76px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.tb-time li:first-child{border-top:0}
+.tb-time .ty{font:italic 400 26px/1 var(--serif);color:var(--accent)}
+.tb-time .tt{font:400 15px/1.5 var(--font)}
+.tb-time .tk{display:block;font:600 10px var(--font);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.tb-lines{margin:6px 0 0}.tb-lines div{padding:12px 0;border-top:1px solid var(--line)}
+.tb-lines dt{font:400 22px/1.1 var(--serif)}.tb-lines dd{margin:4px 0 0;font:400 14.5px/1.5 var(--font);color:var(--muted)}
+.tb-end{padding:34px 0 10px;text-align:center}.tb-end p{font:400 13px/1.55 var(--font);color:var(--muted);max-width:40ch;margin:10px auto 0}
+.tribcard{display:grid;justify-items:center;gap:2px;width:calc(100% - 40px);margin:6px 20px 22px;padding:28px 16px 24px;border:1px solid var(--line);border-radius:3px;text-align:center;background:var(--surface)}
+.tribcard .k{font:600 10px var(--font);letter-spacing:.26em;text-transform:uppercase;color:var(--accent)}
+.tribcard .n{font:400 54px/1 var(--serif);margin-top:8px}.tribcard .d{font:italic 400 18px var(--serif);color:var(--muted)}
+.tribcard .s{font:500 12.5px var(--font);color:var(--muted);margin-top:10px}
+.tile.memo{display:flex;flex-direction:column;gap:6px;width:100%;margin-bottom:10px;padding:18px;border:1px solid var(--accent);background:var(--accent-soft);min-height:0}
+.tile.memo .k{color:var(--accent)!important}
+.tile.memo .mt{font:400 30px/1.05 var(--serif)}.tile.memo .ms{font:400 14px/1.45 var(--font);color:var(--muted)}
+.tile.memo .mp{display:flex;align-items:center;gap:8px;font:400 17px/1.2 var(--serif);margin-top:6px}.tile.memo .mp svg{width:14px;height:14px;fill:var(--accent);flex:none}
 /* ---- Essentials, notes, stats, radio ---- */
 .ess-intro{margin:-4px 20px 12px;color:var(--muted);font:400 14px/1.4 var(--font)}
 html.cine .ess-intro{font:italic 400 17px/1.3 var(--serif)}
@@ -857,7 +894,7 @@ html.cine .sw{border-radius:3px}.cine .sw i{border-radius:2px}
 </style>
 </head>
 <body>
-<div id="intro" aria-label="The Art Bell Archive"><div class="in-card"><div class="in-ttl"><span class="the"><i>The</i></span><span class="ab"><i>Art Bell</i></span><span class="ar"><i>Archive</i></span></div></div></div>
+<div id="intro" aria-label="The Art Bell Archive"><div class="in-card"><div class="in-ttl"><span class="the"><i>The</i></span><span class="ab"><i>Art Bell</i></span><span class="ar"><i>Archive</i></span></div><div class="in-ded">In memory of Art Bell · 1945–2018</div></div></div>
 <script>
 /* Opening animation: shown once per launch; leaves as soon as the library is ready (min ~1.3s, max 2.6s) */
 (function(){
@@ -970,6 +1007,10 @@ html.cine .sw{border-radius:3px}.cine .sw i{border-radius:2px}
 </div>
 
 <input type="file" id="restoreFile" accept="application/json,.json" hidden>
+<div class="tribute" id="tribute" aria-hidden="true">
+  <div class="tb-head"><button id="tbClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button><span>In memory</span><span></span></div>
+  <div class="tb-body" id="tbBody"></div>
+</div>
 <!-- Mini player -->
 <div class="mini" id="mini">
   <div class="art" id="miniArt"></div>
@@ -1683,13 +1724,15 @@ function renderShelves(show){
   const essHTML = ess.length ? `<section class="shelf ess"><div class="sec"><h2>The Essentials</h2><button class="seeall" data-ess="1">Play all</button></div>
       <p class="ess-intro">${ess.length} nights every listener should hear, in the order they aired.</p>
       <div class="rail">${ess.map(({e, note}, i) => `<button class="card esscard" data-id="${esc(e.id)}">${artHTML(e)}<div class="enum">${String(i+1).padStart(2,'0')}</div><div class="t">${esc(e.title)}</div><div class="note">${esc(note)}</div></button>`).join('')}</div></section>` : '';
-  el.innerHTML = essHTML + rows.map(([n], idx) => {
+  const tribHTML = `<button class="tribcard" id="tribCard"><span class="k">In memory</span><span class="n">Art Bell</span><span class="d">1945 — 2018</span><span class="s">The man, the lines and a life on the air</span></button>`;
+  el.innerHTML = essHTML + tribHTML + rows.map(([n], idx) => {
     const picks = dailyPick(byShow[n], 10);
     return `<section class="shelf"><div class="sec"><h2>${emblem(n,'hem')}${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
       <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(e.title)}</div><div class="m">${niceDate(e.date)}</div></button>`).join('')}</div></section>`;
   }).join('');
 }
 $('#shelves').addEventListener('click', ev => {
+  if(ev.target.closest('#tribCard')){ openTribute(); return; }
   if(ev.target.closest('[data-ess]')){ const list = essentials().map(x => x.e); if(!list.length) return; state.radio = false; state.queue = list.slice(1).map(e => e.id); saveState(); loadEpisode(list[0], true); toast(`Playing The Essentials · ${list.length} shows`); renderBento(); return; }
   const s = ev.target.closest('.seeall'); if(s){ setShow(s.dataset.show); scrollTo({top:0, behavior:smooth()}); return; }
   const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(e) playFrom(e, c.querySelector('.art'));
@@ -1736,6 +1779,7 @@ function renderBento(){
   const chips = list.length > 1 ? `<div class="otn-chips" role="tablist" aria-label="Pick a year">${list.map((e, i) =>
     `<button class="otn-chip${i === tonightIdx ? ' on' : ''}" data-i="${i}" role="tab" aria-selected="${i === tonightIdx}">${esc(e.year || '?')}</button>`).join('')}</div>` : '';
   b.innerHTML = `
+    ${(() => { const sd = specialDay(); return sd ? `<button class="tile memo" data-t="memo" ${sd.pick ? `data-id="${esc(sd.pick.id)}"` : ''}><span class="k">${sd.kind === 'birthday' ? '17 June' : '13 April'}</span><span class="mt">${esc(sd.title)}</span><span class="ms">${esc(sd.sub)}</span>${sd.pick ? `<span class="mp">${I.play2}${esc(sd.pick.title)}</span>` : ''}</button>` : ''; })()}
     <div class="otn-rail${list.length > 1 ? '' : ' solo'}">${cards}</div>${chips}
     <div class="quick">
       <button class="tile q radio${state.radio ? ' on' : ''}" data-t="radio"><svg viewBox="0 0 24 24"><path d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-4.2-2.8 1.4 1.4a4 4 0 0 0 0 5.7l-1.4 1.4a6 6 0 0 1 0-8.5zm8.4 0a6 6 0 0 1 0 8.5l-1.4-1.4a4 4 0 0 0 0-5.7zM5 4.4l1.4 1.4a8.5 8.5 0 0 0 0 12.4L5 19.6a10.5 10.5 0 0 1 0-15.2zm14 0a10.5 10.5 0 0 1 0 15.2l-1.4-1.4a8.5 8.5 0 0 0 0-12.4z"/></svg><span class="v">${state.radio ? 'On air' : 'Overnight'}</span></button>
@@ -1768,6 +1812,7 @@ $('#bento').addEventListener('click', ev => {
       if(e){ toast(`☎️ You're on the air: ${e.title}`); loadEpisode(e, true); } } }, 70);
   }
   if(k === 'radio') toggleRadio();
+  if(k === 'memo'){ const e = byId(t.dataset.id); if(e) playFrom(e); else openTribute(); }
   if(k === 'fav' || k === 'saved'){ document.querySelector(`.tab[data-tab="${k}"]`).click(); }
 });
 
@@ -2231,6 +2276,89 @@ function applyTheme(name){
 }
 applyTheme(state.theme);
 
+/* ================= Tribute: In memory of Art Bell ================= */
+const TIMELINE = [
+  ['1945', '17 June', 'Born Arthur William Bell III in Jacksonville, North Carolina.'],
+  ['1958', 'Age 13', 'Gets his amateur radio licence. Ham radio stays with him for life; his best-known call sign is W6OBB.'],
+  ['1960s', 'Air Force', 'Serves four years as a US Air Force medic. At Amarillo Air Force Base he runs a pirate station with friends — the start of his radio career.'],
+  ['Japan', 'Okinawa · KSBK', 'Spends six years as a disc jockey, and sets a claimed record of more than 115 hours on air without sleep.'],
+  ['1978', 'KDWN', 'Launches West Coast AM, a late-night political call-in show on KDWN in Las Vegas.'],
+  ['1988', 'Pahrump', 'The show becomes Coast to Coast AM and moves into Art’s home in Pahrump, Nevada — the Kingdom of Nye.'],
+  ['1993', 'Syndication', 'Coast to Coast AM goes national. At its peak it runs on more than 500 stations, with a claimed 15 million listeners a night.'],
+  ['1998', 'October', 'Announces a sudden retirement, then returns two weeks later.', '1998-10-23'],
+  ['2000', 'April', 'Signs off again with a farewell show; he is back behind the microphone by February 2001.', '2000-04-26'],
+  ['2002', '31 Dec', 'Steps away from weeknights. George Noory takes over on New Year’s Day 2003, and Art hosts weekends.', '2002-12-31'],
+  ['2007', 'July', 'Retires from Coast to Coast AM.'],
+  ['2008', 'Hall of Fame', 'Inducted into the National Radio Hall of Fame.'],
+  ['2013', 'SiriusXM', 'Returns with Art Bell’s Dark Matter, which runs for six weeks.', '2013-09-16'],
+  ['2015', '20 July', 'Launches Midnight in the Desert online, and steps down that December.', '2015-07-20'],
+  ['2018', '13 April', 'Dies at his home in Pahrump, aged 72.']
+];
+const LINES = [
+  ['East of the Rockies', 'One of the regular open lines, split by which side of the mountains you were calling from.'],
+  ['West of the Rockies', 'Its twin. Between them, the whole country could get through.'],
+  ['First-time callers', 'Kept clear for people who had never been on the air before.'],
+  ['International', 'For listeners calling from outside North America.'],
+  ['Wildcard', 'Anything goes. Art never knew who would be on the other end.'],
+  ['Special lines', 'On some nights he opened lines for very particular callers — former Area 51 workers, or time travellers.', [['1997-09-11', 'The Area 51 line'], ['1998-07-29', 'The time traveller line']]]
+];
+const epOn = d => d && episodes.find(e => e.date === d);
+function listenBtn(d, label){ const e = epOn(d); return e ? `<button class="tb-listen" data-id="${esc(e.id)}">${I.play2}<span>${esc(label || 'Listen')}</span><small>No. ${e.no}</small></button>` : ''; }
+function openTribute(){
+  const first = episodes.slice().sort((a, b) => (a.date || '9').localeCompare(b.date || '9'))[0];
+  $('#tbBody').innerHTML = `
+    <section class="tb-hero">
+      <div class="tb-k">In memory of</div>
+      <h2 class="tb-name">Art Bell</h2>
+      <div class="tb-dates">17 June 1945 — 13 April 2018</div>
+      <p class="tb-lede">For years, millions of people stayed up into the small hours with one voice from a desert town in Nevada. He took every caller seriously, let the strangest stories breathe, and made the night feel a little less lonely.</p>
+    </section>
+    <section class="tb-sec">
+      <h3>The man</h3>
+      <p>Art Bell came to talk radio the long way round: a ham radio operator from the age of 13, an Air Force medic, then two decades as a rock DJ and engineer at stations across the world, from Okinawa to Anchorage.</p>
+      <p>In 1978 he began a late-night political call-in show on KDWN in Las Vegas. Ten years later he renamed it Coast to Coast AM and moved it into his own home in Pahrump, where the voice-over introduced each night as coming from the Kingdom of Nye.</p>
+      <p>Over time the politics gave way to the unexplained: UFOs, ghosts, prophecy, remote viewing, time travel. Art’s gift was to open the phone lines and listen — curious, funny, sceptical when he needed to be, and never cruel. He retired and returned several times, and kept coming back to the microphone until 2015.</p>
+      <p>The Radio Hall of Fame inducted him in 2008. He died at home in Pahrump on 13 April 2018, aged 72.</p>
+      ${first ? `<div class="tb-row">${listenBtn(first.date, 'The oldest show in the archive')}</div>` : ''}
+    </section>
+    <section class="tb-sec">
+      <h3>A life on the air</h3>
+      <ol class="tb-time">${TIMELINE.map(([y, k, t, d]) => `<li><div class="ty">${esc(y)}</div><div class="tt"><span class="tk">${esc(k)}</span>${esc(t)}${d ? listenBtn(d) : ''}</div></li>`).join('')}</ol>
+    </section>
+    <section class="tb-sec">
+      <h3>The lines are open</h3>
+      <p>Coast to Coast ran on its callers. Art split them across separate lines so the night always had a mix of voices:</p>
+      <dl class="tb-lines">${LINES.map(([n, t, eps]) => `<div><dt>${esc(n)}</dt><dd>${esc(t)}${eps ? `<span class="tb-row">${eps.map(([d, l]) => listenBtn(d, l)).join('')}</span>` : ''}</dd></div>`).join('')}</dl>
+    </section>
+    <section class="tb-sec">
+      <h3>The sound of the night</h3>
+      <p>Each show opened with “Chase”, Giorgio Moroder’s theme from Midnight Express, and the breaks were filled with Art’s famous bumper music, hand-picked and as much a part of the show as the guests. Midnight in the Desert had a theme song of its own by Crystal Gayle.</p>
+      <div class="tb-row"><a class="tb-link" href="https://open.spotify.com/search/Chase%20Giorgio%20Moroder%20Midnight%20Express" target="_blank" rel="noopener">“Chase” on Spotify ↗</a><a class="tb-link" href="https://open.spotify.com/search/Art%20Bell%20bumper%20music/playlists" target="_blank" rel="noopener">Bumper music playlists ↗</a></div>
+    </section>
+    <section class="tb-sec">
+      <h3>On the air at home</h3>
+      <p>The studio was in his house, and his life came through on the show. Listeners heard about his wife Ramona, about the black triangle the two of them saw in the night sky, and about the ham radio he loved all his life.</p>
+      <div class="tb-row">${listenBtn('1993-09-03', 'Art and Ramona’s triangle sighting')}</div>
+    </section>
+    <section class="tb-end">
+      <div class="tb-k">Good night, Art</div>
+      <p>This app is a fan-made tribute. All recordings are streamed from the Internet Archive, kept there by listeners who wanted the shows to survive.</p>
+    </section>`;
+  $('#tribute').classList.add('open'); $('#tribute').setAttribute('aria-hidden', 'false'); $('#tbBody').scrollTop = 0;
+}
+function closeTribute(){ $('#tribute').classList.remove('open'); $('#tribute').setAttribute('aria-hidden', 'true'); }
+$('#tbClose').onclick = closeTribute;
+$('#tbBody').addEventListener('click', ev => { const b = ev.target.closest('.tb-listen'); if(!b) return; const e = byId(b.dataset.id); if(e){ closeTribute(); playFrom(e); } });
+
+/* Special dates: his birthday (17 June) and the anniversary of his death (13 April) */
+function specialDay(){
+  const q = new URLSearchParams(location.search).get('day'), d = new Date();
+  const md = q || (String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0')), yr = d.getFullYear();
+  if(md === '06-17') return { kind:'birthday', title:`Art would have been ${yr - 1945} today`, sub:'Happy birthday, Art. Tonight’s pick: where it all begins in the archive.', pick: episodes.slice().sort((a, b) => (a.date || '9').localeCompare(b.date || '9'))[0] };
+  if(md === '04-13') return { kind:'memorial', title:`Remembering Art Bell`, sub:`${yr - 2018} years ago today. Tonight’s pick: his farewell to Coast to Coast.`, pick: epOn('2002-12-31') };
+  return null;
+}
+
 /* ================= Backup and restore ================= */
 async function backupState(){
   const keep = ['favs','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
@@ -2298,6 +2426,7 @@ $('#gear').onclick = () => {
     <button class="act" data-s="backup">Back up favourites &amp; progress<small>Save a file</small></button>
     <button class="act" data-s="restore">Restore from a backup<small>Choose file</small></button>
     <div class="sh-lbl">Library</div>
+    <button class="act" data-s="tribute">In memory of Art Bell<small>1945–2018</small></button>
     <button class="act" data-s="refresh">Refresh library from archive.org</button>
     <button class="act" data-s="sources">Sources<small>${SOURCES.length} collections</small></button>`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
@@ -2309,6 +2438,7 @@ $('#sheet').addEventListener('click', ev => {
   if(b.dataset.s === 'calm'){ state.calm = !state.calm; saveState(); document.body.classList.toggle('calm', state.calm); b.querySelector('.toggle').classList.toggle('on', state.calm);
     toast(state.calm ? 'Motion reduced: no animations, sliding or vibration' : 'Motion back on'); }
   if(b.dataset.s === 'refresh'){ closeSheet(); loadLibrary(true); }
+  if(b.dataset.s === 'tribute'){ closeSheet(); openTribute(); }
   if(b.dataset.s === 'sources'){ closeSheet(); toast('Internet Archive: ' + SOURCES.length + ' Art Bell collections + search', 3500); }
 });
 
