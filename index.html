@@ -13,8 +13,7 @@
 <link rel="preload" href="fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="logo.svg" type="image/svg+xml">
-<link rel="icon" href="icon-192.png" sizes="192x192">
+<link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 /* Fonts bundled with the app (SIL Open Font License): Space Grotesk (headings), Inter (text), Geist Mono (times) */
@@ -580,6 +579,92 @@ body.calm .ctl .big.loading::after,body.calm .mini .pp.loading::after{animation:
 .rcard{position:relative;cursor:pointer}
 .cmore{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:3}
 .cmore svg{width:18px;height:18px;fill:#fff}
+
+/* ================= Trendy pass: generated covers, glass, morph, calm home, paper mode ================= */
+/* generated covers */
+.art.gen{background:var(--cv);color:var(--ink)}
+.art.gen::before,.art.gen::after{display:none}
+.art.gen .em{width:24%;height:24%;right:8%;top:8%;bottom:auto;left:auto;transform:none;color:var(--ink);opacity:.95;filter:none;animation:none}
+.art.gen .yy{color:var(--ink);text-shadow:none;font-weight:700;letter-spacing:-.055em}
+.art.gen .sh{display:none}
+.art.gen.sm .em{display:none}
+.art.gen.sm .yy{font-size:17px}
+.card .art.gen .yy,.shelf .card .art.gen .yy{font-size:44px}
+.np .bigart.gen .em{width:18%;height:18%;right:7%;top:7%}
+.np .bigart.gen .yy{color:var(--ink)}
+.np .bigart.gen .freq{color:var(--ink);opacity:.8}
+.mini .art.gen .yy{font-size:15px}
+.mini .art.gen .em{display:none}
+
+/* calm home: hero first */
+.bento{display:block;padding:4px 20px 18px}
+.tile.tonight{display:flex;flex-direction:column;justify-content:flex-end;min-height:300px;padding:22px;border-radius:30px;border:0;background:var(--cv);color:var(--ink);overflow:hidden;position:relative;width:100%}
+.tile.tonight .k{color:var(--ink);opacity:.8;font-weight:600;position:absolute;top:22px;left:22px}
+.tile.tonight .big{color:var(--ink);font-size:clamp(70px,22vw,104px);margin:0}
+.tile.tonight .big em{color:var(--ink);opacity:.65}
+.tile.tonight .ep{color:var(--ink);font-size:18px;font-weight:650;margin-top:10px;padding-right:64px}
+.tile.tonight .s{color:var(--ink);opacity:.75;margin-top:4px}
+.tile.tonight .go{background:var(--ink);box-shadow:none;width:52px;height:52px;right:20px;bottom:20px}
+.tile.tonight .go svg{fill:var(--cv-bg,#000);fill:color-mix(in srgb,var(--ink) 0%,#000)}
+.tile.tonight .hero-art{position:absolute;inset:0;pointer-events:none}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.tile.q{min-height:0;height:52px;flex-direction:row;align-items:center;justify-content:center;gap:8px;padding:0 10px;border-radius:18px}
+.tile.q svg{width:18px;height:18px;flex:none}
+.tile.q .v{font:600 13.5px var(--font);letter-spacing:-.01em;margin:0;white-space:nowrap}
+.tile.q.spinning{animation:none}
+/* programmes: big colour blocks in a grid */
+.progs{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px 22px;overflow:visible}
+.prog{width:auto;height:auto;aspect-ratio:1/1.12;border-radius:26px;padding:16px;justify-content:flex-end}
+.prog .em{width:30%;height:30%;right:12px;top:12px}
+.prog .yrs{position:static;background:none;padding:0;backdrop-filter:none;-webkit-backdrop-filter:none;color:var(--ink);opacity:.75;font-size:12px;margin-bottom:auto}
+.prog .nm{color:var(--ink);font-size:clamp(19px,5.4vw,24px);text-shadow:none;max-width:100%}
+.prog .ct{background:var(--ink);color:color-mix(in srgb,var(--ink) 0%,var(--bg));transform:none;margin-top:10px}
+/* filters hidden until you search or tap the filter button */
+.filtersblock{display:none}
+body.filters-on .filtersblock{display:block}
+.fbtn{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:var(--muted);flex:none}
+.fbtn svg{width:19px;height:19px;fill:currentColor}
+.fbtn.on{background:var(--accent-soft);color:var(--accent)}
+.searchbox{padding-right:8px}
+
+/* liquid glass: tab bar + mini player */
+.tabs{background:color-mix(in srgb,var(--surface) 52%,transparent);backdrop-filter:blur(30px) saturate(1.9);-webkit-backdrop-filter:blur(30px) saturate(1.9);border:1px solid color-mix(in srgb,var(--text) 12%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.08),0 16px 40px rgba(0,0,0,.28);padding:6px;overflow:hidden}
+.tabs::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.16),transparent 50%);pointer-events:none}
+.tab{border-radius:20px;height:54px;color:var(--muted)}
+.tab.on{background:color-mix(in srgb,var(--text) 10%,transparent);color:var(--text)}
+.tab.on svg{fill:var(--accent)}
+.mini{background:linear-gradient(90deg,color-mix(in srgb,var(--mc,#ff9a2e) 32%,transparent) 0%,transparent 70%),color-mix(in srgb,var(--surface) 55%,transparent);backdrop-filter:blur(30px) saturate(1.9);-webkit-backdrop-filter:blur(30px) saturate(1.9);border:1px solid color-mix(in srgb,var(--text) 12%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 14px 34px rgba(0,0,0,.3)}
+.mini .t{color:var(--text)}
+.mini .line{background:color-mix(in srgb,var(--text) 12%,transparent)}
+
+/* cover morph */
+::view-transition-group(cover){animation-duration:.46s;animation-timing-function:cubic-bezier(.2,.85,.2,1)}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.3s}
+::view-transition-old(cover),::view-transition-new(cover){height:100%;object-fit:cover}
+.np.vt{transition:none}
+
+/* paper (light) mode */
+html.light body::before{opacity:.5}
+html.light .row:active,html.light .grow:active{background:var(--surface-2)}
+html.light .np .head svg{fill:var(--text)}
+html.light .tabs,html.light .mini{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 14px 34px rgba(60,40,10,.14)}
+html.light .tabs::before{background:linear-gradient(180deg,rgba(255,255,255,.6),transparent 55%)}
+html.light .tile{border-color:var(--line)}
+html.light .skel .a,html.light .skel .l i{background:linear-gradient(90deg,var(--surface-2) 0%,var(--surface) 50%,var(--surface-2) 100%);background-size:200% 100%}
+html.light .np{background:linear-gradient(180deg,color-mix(in srgb,var(--npc,#ff9a2e) 30%,var(--bg)) 0%,color-mix(in srgb,var(--npc,#ff9a2e) 10%,var(--bg)) 45%,var(--bg) 78%)}
+html.light .np .bigart{box-shadow:0 30px 60px rgba(60,40,10,.22)}
+html.light .scrim{background:rgba(30,20,5,.35)}
+html.light .demo{color:#a8420a}
+html.light .swipe .row{background:var(--bg)}
+
+.prog .ct{color:var(--cbg)}
+.tile.tonight .go svg{fill:var(--cbg)}
+.prog .yrs{opacity:.9;font-weight:600}
+.progs .prog:first-child{grid-column:span 2;aspect-ratio:2.1/1}
+.progs .prog:first-child .em{width:16%;height:auto;aspect-ratio:1}
+
+.tabs{background:color-mix(in srgb,var(--surface) 72%,transparent);backdrop-filter:blur(36px) saturate(2);-webkit-backdrop-filter:blur(36px) saturate(2)}
+.mini{background:linear-gradient(90deg,color-mix(in srgb,var(--mc,#ff9a2e) 30%,transparent) 0%,transparent 70%),color-mix(in srgb,var(--surface) 74%,transparent);backdrop-filter:blur(36px) saturate(2);-webkit-backdrop-filter:blur(36px) saturate(2)}
 </style>
 </head>
 <body>
@@ -636,6 +721,7 @@ body.calm .ctl .big.loading::after,body.calm .mini .pp.loading::after{animation:
       <svg viewBox="0 0 24 24"><path d="M10 4a6 6 0 1 0 3.7 10.7l4.8 4.8 1.4-1.4-4.8-4.8A6 6 0 0 0 10 4zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg>
       <input id="q" type="search" placeholder="Guest, topic, date…" autocomplete="off" enterkeyhint="search">
       <button class="clear" id="clear" type="button">Clear</button>
+      <button class="fbtn" id="filterBtn" type="button" aria-label="Filter by year or programme"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm4 5h10v2H7zm3 5h4v2h-4z"/></svg></button>
     </label>
   </div>
   <div class="filtersblock">
@@ -645,8 +731,10 @@ body.calm .ctl .big.loading::after,body.calm .mini .pp.loading::after{animation:
 
   <div class="progress" id="progress"><i></i></div>
 
+  <div class="bento" id="bento" style="display:none"></div>
+
   <section id="progWrap" style="display:none">
-    <div class="sec"><h2>Programmes</h2><div class="meta">Swipe →</div></div>
+    <div class="sec"><h2>Programmes</h2></div>
     <div class="progs" id="progs"></div>
   </section>
 
@@ -657,7 +745,7 @@ body.calm .ctl .big.loading::after,body.calm .mini .pp.loading::after{animation:
 
   <div id="shelves"></div>
 
-  <div class="bento" id="bento" style="display:none"></div>
+
   <div class="art proghead" id="progHead"></div>
 
   <div class="filterpill" id="pill"></div>
@@ -843,10 +931,38 @@ const I = {
   link:'<svg viewBox="0 0 24 24"><path d="M14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3zM5 5v14h14v-6h-2v4H7V7h4V5z"/></svg>',
   play2:'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'
 };
+/* Generated cover art: every show gets its own bold, flat cover from its id */
+const PALETTES = {
+  'Coast to Coast AM':      [['#ff7a1a','#2a1204','#ffd27a'], ['#1d0e04','#ff8a2a','#ffe2b0'], ['#ffd9a8','#5a2306','#ff6a12']],
+  'Dreamland':              [['#6b4dff','#160b3a','#d9ccff'], ['#140a33','#8f7bff','#ffd0f0'], ['#e3dbff','#2d1d73','#7a5cff']],
+  'Somewhere in Time':      [['#2f6bff','#06143a','#b9d0ff'], ['#06143a','#4a8dff','#ffe08a'], ['#d3e1ff','#0c2a7a','#2f6bff']],
+  'Dark Matter':            [['#14c2b3','#032320','#c8fff8'], ['#031f1c','#2fd3c4','#eafffa'], ['#b5f3ea','#05433d','#10b3a4']],
+  'Midnight in the Desert': [['#ff4a3d','#2c0806','#ffd0b8'], ['#2a0806','#ff6a4a','#ffd9a8'], ['#ffd6c4','#7a140c','#ff4a3d']],
+  'Ghost to Ghost':         [['#b06bff','#1e0f2e','#f2dcff'], ['#1c0f2a','#c48bff','#fff0a8'], ['#ecdcff','#4b1f7a','#a35cff']]
+};
+function hashStr(str){ let h = 2166136261; for(let i = 0; i < str.length; i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function lum(hex){ const n = parseInt(hex.slice(1), 16), c = [n >> 16, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v/12.92 : Math.pow((v+.055)/1.055, 2.4); }); return .2126*c[0] + .7152*c[1] + .0722*c[2]; }
+const coverCache = new Map();
+function coverStyle(key, show){
+  const ck = key + '|' + show; if(coverCache.has(ck)) return coverCache.get(ck);
+  const h = hashStr(key), pals = PALETTES[show] || PALETTES['Coast to Coast AM'], [bg, fg, ac] = pals[h % pals.length];
+  const v = (h >>> 3) % 6, x = 45 + (h >>> 7) % 55, y = (h >>> 11) % 55, a = (h >>> 15) % 180, sz = 9 + (h >>> 19) % 9;
+  const pats = [
+    `radial-gradient(${fg} 27%, transparent 29%) 0 0/${sz}px ${sz}px`,                                         // halftone
+    `radial-gradient(circle at ${x}% ${y}%, ${ac} 0 36%, transparent 36.5%)`,                                    // big disc
+    `repeating-linear-gradient(${a}deg, ${fg} 0 ${sz/2}px, transparent ${sz/2}px ${sz}px)`,                      // stripes
+    `radial-gradient(circle at ${x}% -8%, ${ac} 0 26%, ${fg} 26% 40%, ${ac} 40% 54%, transparent 54.5%)`,        // arches
+    `conic-gradient(from ${a}deg at ${x}% ${y}%, ${fg} 0 25%, ${ac} 0 50%, transparent 0)`,                      // quarters
+    `repeating-radial-gradient(circle at ${x}% ${y}%, ${fg} 0 2.5px, transparent 3px ${sz + 5}px)`               // rings
+  ];
+  const ink = lum(bg) > .35 ? '#14110d' : '#fffaf2';
+  const out = { bg, fg, ac, ink, layers: `linear-gradient(to top, ${bg} 0 24%, transparent 50%), ${pats[v]}, ${bg}` };
+  coverCache.set(ck, out); return out;
+}
 function artHTML(e, cls=''){
-  const [c1, c2] = SHOW_COLOURS[e.show] || SHOW_COLOURS['Art Bell'];
+  const c = coverStyle(e.id, e.show);
   const yy = e.year ? "’" + e.year.slice(2) : '—';
-  return `<div class="art ${cls}" style="--c1:${c1};--c2:${c2}">${emblem(e.show)}<span class="sh">${esc(SHOW_SHORT[e.show]||e.show)}</span><span class="yy">${yy}</span></div>`;
+  return `<div class="art gen ${cls}" style="--cv:${c.layers};--ink:${c.ink};--c2:${c.ac}">${emblem(e.show)}<span class="sh">${esc(SHOW_SHORT[e.show]||e.show)}</span><span class="yy">${yy}</span></div>`;
 }
 
 /* ================= State ================= */
@@ -1037,6 +1153,9 @@ dial.addEventListener('click', ev => {
 /* Search */
 let qT;
 $('#q').addEventListener('input', () => { $('#clear').classList.toggle('show', !!$('#q').value); clearTimeout(qT); qT = setTimeout(applyFilters, 140); });
+$('#filterBtn').onclick = ev => { ev.preventDefault(); state.filtersOpen = !state.filtersOpen; saveState(); syncFilters(); };
+$('#q').addEventListener('focus', syncFilters);
+$('#q').addEventListener('blur', () => setTimeout(syncFilters, 250));
 $('#clear').onclick = () => { $('#q').value=''; $('#clear').classList.remove('show'); applyFilters(); };
 $('#sort').addEventListener('change', () => { state.sort = $('#sort').value; saveState(); shuffleSeed = Math.random(); applyFilters(); });
 
@@ -1087,7 +1206,12 @@ function markPlaying(){
     if(on && !eq && m) m.insertAdjacentHTML('afterbegin', '<span class="eq"><i></i><i></i><i></i></span>'); else if(!on && eq) eq.remove();
   });
 }
+function filtersVisible(){
+  return !!(state.filtersOpen || $('#q').value || yearFilter || showFilter || guestFilter || document.activeElement === $('#q'));
+}
+function syncFilters(){ document.body.classList.toggle('filters-on', filtersVisible()); $('#filterBtn').classList.toggle('on', !!state.filtersOpen); }
 function render(){
+  syncFilters();
   renderBento();
   if(tab === 'guests') renderGuests();
   // Continue listening rail
@@ -1101,8 +1225,8 @@ function render(){
   renderShelves(showProgs);
   $('#progWrap').style.display = showProgs ? '' : 'none';
   if(showProgs) $('#progs').innerHTML = PROGRAMMES.filter(p => counts[p[0]]).map(([n, y]) => {
-    const [c1, c2] = SHOW_COLOURS[n] || SHOW_COLOURS['Art Bell'];
-    return `<button class="art prog" data-show="${esc(n)}" style="--c1:${c1};--c2:${c2}">${emblem(n)}<span class="yrs">${esc(y)}</span><span class="nm">${esc(n)}</span><span class="ct">${counts[n].toLocaleString('en-GB')} ${counts[n]===1?'show':'shows'}</span></button>`;
+    const pc = coverStyle('prog:' + n, n);
+    return `<button class="art gen prog" data-show="${esc(n)}" style="--cv:${pc.layers};--ink:${pc.ink};--c2:${pc.ac};--cbg:${pc.bg}">${emblem(n)}<span class="yrs">${esc(y)}</span><span class="nm">${esc(n)}</span><span class="ct">${counts[n].toLocaleString('en-GB')} ${counts[n]===1?'show':'shows'}</span></button>`;
   }).join('');
   const ph = $('#progHead'), info = PROGRAMMES.find(p => p[0] === showFilter);
   if(showFilter && info){
@@ -1147,7 +1271,7 @@ $('#list').addEventListener('click', ev => {
   const row = ev.target.closest('.row'); if(!row) return;
   const e = byId(row.dataset.id); if(!e) return;
   if(ev.target.closest('[data-act="more"]')) return openSheet(e);
-  if(audio.dataset.id === e.id) openNP(); else loadEpisode(e, true);
+  playFrom(e, row.querySelector('.art'));
 });
 // Swipe right = favourite, swipe left = save offline (with haptic tick at the threshold)
 (function(){
@@ -1173,7 +1297,7 @@ $('#list').addEventListener('click', ev => {
   });
   list.addEventListener('click', ev => { if(justSwiped){ ev.stopImmediatePropagation(); ev.preventDefault(); } }, true);
 })();
-$('#rail').addEventListener('click', ev => { const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(!e) return; if(ev.target.closest('[data-act="more"]')) return openSheet(e); loadEpisode(e, true); });
+$('#rail').addEventListener('click', ev => { const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(!e) return; if(ev.target.closest('[data-act="more"]')) return openSheet(e); playFrom(e, c.querySelector('.art')); });
 function hideFromResume(e){ state.hideResume[e.id] = 1; saveState(); render(); toast('Removed from Pick up where you left off'); }
 $('#resumeClear').onclick = () => { state.recent.forEach(id => { const p = state.pos[id]; if(p && p.t > 30) state.hideResume[id] = 1; }); saveState(); render(); toast('Cleared'); };
 
@@ -1229,7 +1353,7 @@ function renderShelves(show){
 }
 $('#shelves').addEventListener('click', ev => {
   const s = ev.target.closest('.seeall'); if(s){ setShow(s.dataset.show); scrollTo({top:0, behavior:smooth()}); return; }
-  const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(e) loadEpisode(e, true);
+  const c = ev.target.closest('.card'); if(!c) return; const e = byId(c.dataset.id); if(e) playFrom(e, c.querySelector('.art'));
 });
 
 /* ================= Bento: Tonight ================= */
@@ -1251,20 +1375,24 @@ function renderBento(){
   const now = new Date(), tn = tonightShows(), first = tn.list[0];
   const years = [...new Set(tn.list.map(e => e.year))];
   const favN = Object.keys(state.favs).length, offN = savedKeys.size;
+  const hc = first ? coverStyle(first.id, first.show) : coverStyle('tonight', 'Coast to Coast AM');
   b.innerHTML = `
-    <button class="tile tonight" data-t="tonight" ${first ? `data-id="${esc(first.id)}"` : ''}>
+    <button class="tile tonight" data-t="tonight" ${first ? `data-id="${esc(first.id)}"` : ''} style="--cv:${hc.layers};--ink:${hc.ink};--cbg:${hc.bg}">
+      <span class="hero-art"></span>
       <span class="k">${tn.exact ? 'On this night' : 'Closest to tonight'}</span>
       <span class="big">${now.getDate()} <em>${MONTHS[now.getMonth()]}</em></span>
-      ${first ? `<span class="s">${tn.exact ? `${tn.list.length} broadcast${tn.list.length>1?'s':''} · ${years.join(', ')}` : niceDate(first.date) + ' · ' + esc(first.show)}</span><span class="ep">${esc(first.title)}</span><span class="go">${I.play2}</span>` : '<span class="s">No dated shows yet</span>'}
+      ${first ? `<span class="ep">${esc(first.title)}</span><span class="s">${esc(first.show)} · ${tn.exact ? years.join(', ') : niceDate(first.date)}</span><span class="go">${I.play2}</span>` : '<span class="s">No dated shows yet</span>'}
     </button>
-    <button class="tile" data-t="spin"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-2.05-4.95L14 10h7V3l-2.64 2.64A8.96 8.96 0 0 0 12 3z"/></svg><span class="v">Wild Card</span><span class="s">Random caller · tap to dial</span></button>
-    <button class="tile" data-t="fav"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg><span class="v">${favN}</span><span class="s">Favourite${favN===1?'':'s'}</span></button>
-    <button class="tile wide" data-t="saved"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span><span class="v">${offN} offline</span><span class="s" style="display:block">${storageText || 'Save shows for no-signal listening'}</span></span></button>`;
+    <div class="quick">
+      <button class="tile q" data-t="spin"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-2.05-4.95L14 10h7V3l-2.64 2.64A8.96 8.96 0 0 0 12 3z"/></svg><span class="v">Wild Card</span></button>
+      <button class="tile q" data-t="fav"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg><span class="v">${favN} saved</span></button>
+      <button class="tile q" data-t="saved"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span class="v">${offN} offline</span></button>
+    </div>`;
 }
 $('#bento').addEventListener('click', ev => {
   const t = ev.target.closest('.tile'); if(!t) return; if(navigator.vibrate && !calm()) navigator.vibrate(8);
   const k = t.dataset.t;
-  if(k === 'tonight'){ const e = byId(t.dataset.id); if(e) loadEpisode(e, true); }
+  if(k === 'tonight'){ const e = byId(t.dataset.id); if(e) playFrom(e, t.querySelector('.hero-art') || t); }
   if(k === 'spin'){
     const pool = episodes.filter(e => !state.pos[e.id]); const list = pool.length ? pool : episodes;
     t.classList.add('spinning'); const v = t.querySelector('.v'); let n = 0;
@@ -1290,7 +1418,7 @@ async function loadEpisode(e, autoplay){
     audio.addEventListener('loadedmetadata', function once(){ audio.removeEventListener('loadedmetadata', once); if(p && p.t && p.t < audio.duration-10) audio.currentTime = p.t; audio.playbackRate = state.speed; });
   }
   // Mini + now playing
-  const [c1, c2] = SHOW_COLOURS[e.show] || SHOW_COLOURS['Art Bell'];
+  const c2 = coverStyle(e.id, e.show).ac;
   $('#miniArt').outerHTML = artHTML(e).replace('class="art ', 'id="miniArt" class="art ');
   $('#miniT').textContent = e.title; $('#miniM').textContent = `${e.show} · ${niceDate(e.date)}`;
   $('#mini').classList.add('show');
@@ -1303,8 +1431,8 @@ async function loadEpisode(e, autoplay){
   state.queue = state.queue.filter(x => x !== e.id); updateQueueBadge();
   if(autoplay && state.hideResume[e.id]) delete state.hideResume[e.id];
   state.last = e.id; state.recent = [e.id].concat(state.recent.filter(x => x !== e.id)).slice(0, 60); saveState();
-  if('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title:e.title, artist:'Art Bell', album:`${e.show} · ${niceDate(e.date)}`, artwork:[{src:'artwork-1024.png',sizes:'1024x1024',type:'image/png'},{src:'icon-512.png',sizes:'512x512',type:'image/png'}] });
-  if(e.demo){ fakeTime(e); if(autoplay){ toast('Preview mode — audio plays once the app is hosted'); openNP(); } }
+  if('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title:e.title, artist:'Art Bell', album:`${e.show} · ${niceDate(e.date)}` });
+  if(e.demo){ fakeTime(e); if(autoplay){ toast('Preview mode — audio plays once the app is hosted'); } }
   else if(autoplay){ setBuffering(true); audio.play().catch(() => { setBuffering(false); toast('Tap play to start'); }); }
   updatePP(); markPlaying();
 }
@@ -1403,14 +1531,14 @@ function drawWave(){
   const c = $('#wave'); if(!c) return; const dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight; if(!w) return;
   if(c.width !== w*dpr || c.height !== h*dpr){ c.width = w*dpr; c.height = h*dpr; }
   const g = c.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,w,h);
-  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#ffa53d';
+  const cs = getComputedStyle(document.documentElement), accent = cs.getPropertyValue('--accent').trim() || '#ffa53d', txt = cs.getPropertyValue('--text').trim() || '#fff', mut = cs.getPropertyValue('--muted').trim() || '#888';
   const prog = wave.preview != null ? wave.preview : wave.progress, y = h*.42, th = wave.preview != null ? 8 : 6;
   const bar = (x0, x1, col) => { g.fillStyle = col; g.beginPath(); g.roundRect(x0, y - th/2, Math.max(0, x1 - x0), th, th/2); g.fill(); };
-  bar(0, w, 'rgba(255,255,255,.14)');
-  bar(0, Math.max(th, prog*w), wave.preview != null ? '#fff' : accent);
+  g.globalAlpha = .16; bar(0, w, txt); g.globalAlpha = 1;
+  bar(0, Math.max(th, prog*w), wave.preview != null ? txt : accent);
   const e = current(), d = e ? durOf(e) : 0;
   if(d > 3600){ // radio-hour markers
-    g.fillStyle = 'rgba(255,255,255,.4)'; g.font = '500 9.5px "Geist Mono", monospace'; g.textAlign = 'center';
+    g.fillStyle = mut; g.font = '500 9.5px "Geist Mono", monospace'; g.textAlign = 'center';
     for(let hr = 1; hr*3600 < d; hr++){ const x = hr*3600/d*w; g.fillRect(x-.5, y + th/2 + 3, 1, 5); g.fillText('HR '+(hr+1), Math.min(w-16, x+18), h-2); }
     g.fillText('HR 1', 16, h-2);
   }
@@ -1418,7 +1546,7 @@ function drawWave(){
     g.fillStyle = accent;
     for(const m of state.marks[e.id]){ const x = m.t/d*w; g.beginPath(); g.moveTo(x-5, y - th/2 - 11); g.lineTo(x+5, y - th/2 - 11); g.lineTo(x, y - th/2 - 3); g.closePath(); g.fill(); }
   }
-  const px = Math.min(w - 8, Math.max(8, prog*w)); g.fillStyle = '#fff'; g.beginPath(); g.arc(px, y, wave.preview != null ? 11 : 8, 0, Math.PI*2); g.fill();
+  const px = Math.min(w - 8, Math.max(8, prog*w)); g.fillStyle = txt; g.beginPath(); g.arc(px, y, wave.preview != null ? 11 : 8, 0, Math.PI*2); g.fill();
 }
 window.addEventListener('resize', drawWave);
 function seekTo(f){
@@ -1456,9 +1584,24 @@ function seekTo(f){
 })();
 
 /* Now playing open/close (tap mini, swipe down to close) */
-function openNP(){ $('#np').classList.add('open'); requestAnimationFrame(drawWave); }
-function closeNP(){ $('#np').classList.remove('open'); }
-$('#mini').addEventListener('click', openNP);
+function openNPNow(){ $('#np').classList.add('open'); requestAnimationFrame(drawWave); }
+function closeNPNow(){ $('#np').classList.remove('open'); }
+// Shared-element transition: the tapped cover grows into the player's cover (and shrinks back into the mini player)
+function morph(update, fromEl, toSel){
+  const np = $('#np');
+  if(!document.startViewTransition || calm() || !fromEl || !fromEl.isConnected){ update(); return; }
+  fromEl.style.viewTransitionName = 'cover'; np.classList.add('vt');
+  const t = document.startViewTransition(() => { fromEl.style.viewTransitionName = ''; update(); const to = $(toSel); if(to) to.style.viewTransitionName = 'cover'; });
+  t.finished.finally(() => { const to = $(toSel); if(to) to.style.viewTransitionName = ''; np.classList.remove('vt'); });
+}
+function openNP(fromEl){ if($('#np').classList.contains('open')) return; morph(openNPNow, fromEl || $('#miniArt'), '#npArt'); }
+function closeNP(){ if(!$('#np').classList.contains('open')) return; morph(closeNPNow, $('#npArt'), '#miniArt'); }
+async function playFrom(e, el){
+  if(audio.dataset.id !== e.id) await loadEpisode(e, true);
+  else if(audio.paused && !e.demo) audio.play().catch(() => {});
+  openNP(el);
+}
+$('#mini').addEventListener('click', () => openNP($('#miniArt')));
 $('#npClose').onclick = closeNP;
 let sy = null;
 $('#np').addEventListener('touchstart', ev => { if(ev.target.closest('.scrub')) return; sy = ev.touches[0].clientY; }, {passive:true});
@@ -1613,19 +1756,26 @@ if(state.boost) $('#boostBtn').classList.add('on');
 audio.addEventListener('play', () => { if(state.boost && !boost.src) setBoost(true); else if(boost.ctx && boost.ctx.state === 'suspended') boost.ctx.resume(); });
 
 /* ================= Themes ================= */
+const DARK_BASE = { '--text':'#f2efe8', '--muted':'#8a8f9c', '--line':'rgba(255,255,255,.08)' };
 const THEMES = {
-  'Amber': { '--accent':'#ffa53d', '--accent-soft':'rgba(255,165,61,.14)', '--glow':'rgba(255,140,30,.35)', '--bg':'#08090c', '--surface':'#111318', '--surface-2':'#191c23' },
-  'Phosphor':   { '--accent':'#5dff8a', '--accent-soft':'rgba(93,255,138,.12)', '--glow':'rgba(60,255,120,.28)', '--bg':'#050906', '--surface':'#0c140e', '--surface-2':'#132016' },
-  'Area 51':    { '--accent':'#5ad1ff', '--accent-soft':'rgba(90,209,255,.13)', '--glow':'rgba(60,170,255,.32)', '--bg':'#05080d', '--surface':'#0d131c', '--surface-2':'#141c28' },
-  'Dopamine':   { '--accent':'#ff4fa3', '--accent-soft':'rgba(255,79,163,.14)', '--glow':'rgba(190,70,255,.38)', '--bg':'#0a0710', '--surface':'#151020', '--surface-2':'#1e172c' }
+  'Auto':     null,
+  'Amber':    Object.assign({ '--accent':'#ffa53d', '--accent-soft':'rgba(255,165,61,.14)', '--glow':'rgba(255,140,30,.35)', '--bg':'#08090c', '--surface':'#111318', '--surface-2':'#191c23' }, DARK_BASE),
+  'Paper':    { '--accent':'#e4560c', '--accent-soft':'rgba(228,86,12,.12)', '--glow':'rgba(255,170,90,.35)', '--bg':'#f2ede3', '--surface':'#fffcf6', '--surface-2':'#e8e1d3', '--text':'#17140f', '--muted':'#6d665a', '--line':'rgba(23,20,15,.09)' },
+  'Phosphor': Object.assign({ '--accent':'#5dff8a', '--accent-soft':'rgba(93,255,138,.12)', '--glow':'rgba(60,255,120,.28)', '--bg':'#050906', '--surface':'#0c140e', '--surface-2':'#132016' }, DARK_BASE),
+  'Area 51':  Object.assign({ '--accent':'#5ad1ff', '--accent-soft':'rgba(90,209,255,.13)', '--glow':'rgba(60,170,255,.32)', '--bg':'#05080d', '--surface':'#0d131c', '--surface-2':'#141c28' }, DARK_BASE),
+  'Dopamine': Object.assign({ '--accent':'#ff4fa3', '--accent-soft':'rgba(255,79,163,.14)', '--glow':'rgba(190,70,255,.38)', '--bg':'#0a0710', '--surface':'#151020', '--surface-2':'#1e172c' }, DARK_BASE)
 };
+const prefersLight = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : { matches:false };
 function applyTheme(name){
-  const t = THEMES[name] || THEMES['Amber'];
+  name = THEMES.hasOwnProperty(name) ? name : 'Auto';
+  const t = THEMES[name] || THEMES[prefersLight.matches ? 'Paper' : 'Amber'];
   for(const k in t) document.documentElement.style.setProperty(k, t[k]);
+  document.documentElement.classList.toggle('light', t === THEMES['Paper']);
   const m = document.querySelector('meta[name=theme-color]'); if(m) m.content = t['--bg'];
   drawWave();
 }
 applyTheme(state.theme);
+try{ prefersLight.addEventListener('change', () => { if(!state.theme || state.theme === 'Auto') applyTheme('Auto'); }); }catch(x){}
 
 /* ================= Settings ================= */
 if(state.calm) document.body.classList.add('calm');
@@ -1633,7 +1783,7 @@ $('#gear').onclick = () => {
   const cached = store.get(INDEX_KEY, null);
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd"><div><div class="t">Settings</div><div class="m">${episodes.length.toLocaleString('en-GB')} shows in your library${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB') : ''}</div></div></div>
-    <div class="swatches">${Object.entries(THEMES).map(([n,t]) => `<button class="sw${(state.theme||'Amber')===n?' on':''}" data-theme="${n}"><i style="background:radial-gradient(circle at 70% 20%,${t['--accent']},${t['--bg']} 80%)"></i>${n}</button>`).join('')}</div>
+    <div class="swatches">${Object.entries(THEMES).map(([n,t]) => `<button class="sw${(state.theme||'Auto')===n?' on':''}" data-theme="${n}"><i style="background:${t ? `radial-gradient(circle at 70% 20%,${t['--accent']},${t['--bg']} 80%)` : 'linear-gradient(135deg,#f2ede3 0 50%,#08090c 50%)'}"></i>${n}</button>`).join('')}</div>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <button class="act" data-s="refresh">Refresh library from archive.org</button>
     <button class="act" data-s="sources">Sources<small>${SOURCES.length} collections</small></button>`;
