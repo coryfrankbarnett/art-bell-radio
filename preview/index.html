@@ -1518,6 +1518,31 @@ html.cine .browsetop .bt-t{font:400 var(--fs-title)/1.1 var(--serif)!important}
   body.bsearch.typing .tabs,body.bsearch.typing .mini{display:none!important}
   body.bsearch.typing .sticky{bottom:calc(var(--kb,0px) + 10px)}
 }
+
+/* the pinned heading now says which year you're in, so the list's year markers just scroll with the page */
+.yhead{position:static!important;background:none!important}
+/* recent searches */
+.suggest .sg-h{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 4px;font:500 var(--fs-label)/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.suggest .sg-clr{font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--muted);padding:8px 0 8px 12px;min-height:36px}
+.suggest .sg-r span{display:flex;align-items:center}
+.suggest .sg-ic{width:15px;height:15px;fill:var(--muted);margin-right:10px;vertical-align:-2px;flex:none}
+/* plain-English progress */
+.row .m .left{color:var(--text);opacity:.85}
+html.cine .row .m .played{background:none;padding:0;color:var(--muted)}
+/* bigger ⋯ target, same look */
+.row .more{position:relative}
+.row .more::after{content:"";position:absolute;inset:-6px -10px -6px -6px}
+.row{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.row.held{transform:scale(.985);transition:transform .2s}
+/* pinned heading */
+.pinbar{position:fixed;left:50%;top:calc(var(--st,0px) + 8px);z-index:23;transform:translate(-50%,-14px);opacity:0;pointer-events:none;display:flex;align-items:center;gap:10px;max-width:calc(100% - 32px);height:38px;padding:0 12px 0 16px;border-radius:19px;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);box-shadow:0 8px 24px rgba(0,0,0,.3),inset 0 0 0 1px var(--line);color:var(--text);transition:opacity .2s,transform .25s cubic-bezier(.2,.8,.2,1)}
+html.light .pinbar{box-shadow:0 8px 22px rgba(60,40,10,.14),inset 0 0 0 1px var(--line)}
+.pinbar.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.pinbar .pb-t{font:400 17px/1 var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.pinbar .pb-n{font:500 var(--fs-label)/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.pinbar svg{width:18px;height:18px;fill:var(--muted);flex:none}
+@media (min-width:960px){ .pinbar{display:none} }
+@media (prefers-reduced-motion:reduce){ .pinbar{transition:none} }
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2841,8 +2866,32 @@ function buildSugIndex(){
   const guests = new Set([...m.values()].filter(x => x.kind === 'Guest').map(x => x.label.toLowerCase()));
   sugIndex = [...m.values()].filter(x => !(x.kind === 'Topic' && guests.has(x.label.toLowerCase())));
 }
+// Recent searches: shown when you tap an empty search bar
+function rememberSearch(label, kind){
+  label = String(label || '').trim(); if(label.length < 2) return;
+  const old = (state.recentQ || []).find(x => x.label.toLowerCase() === label.toLowerCase());
+  if(old && (!kind || kind === 'Search')) kind = old.kind;
+  const r = (state.recentQ || []).filter(x => x !== old);
+  r.unshift({ label, kind: kind || 'Search' }); state.recentQ = r.slice(0, 6); saveState();
+}
+function showRecent(){
+  const box = $('#suggest'), r = state.recentQ || []; sugSel = -1;
+  if(!r.length){ box.classList.remove('show'); box.innerHTML = ''; return; }
+  box.innerHTML = `<div class="sg-h"><span>Recent searches</span><button type="button" class="sg-clr" id="sgClr">Clear</button></div>` +
+    r.map((x, i) => `<button type="button" class="sg sg-r" data-i="${i}" data-kind="${esc(x.kind)}" data-label="${esc(x.label)}"><span><svg class="sg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 2.1 5l-1.4 1.4A9 9 0 1 0 13 3zm-1 5v5l4.3 2.5.7-1.2-3.5-2.1V8z"/></svg>${x.kind === 'Topic' ? sdot(x.label) : ''}${esc(x.label)}</span><small>${x.kind === 'Search' ? '' : esc(x.kind)}</small></button>`).join('');
+  box.classList.add('show');
+}
+function leftTxt(sec){ sec = Math.max(0, Math.round(sec / 60)); if(sec < 1) return 'Almost done'; const h = Math.floor(sec / 60), m = sec % 60; return (h ? h + ' hr' + (m ? ' ' + m + ' min' : '') : m + ' min') + ' left'; }
+function whenTxt(at){
+  if(!at) return 'Played'; const d = new Date(at), now = new Date(), day = 864e5;
+  const days = Math.floor((new Date(now.toDateString()) - new Date(d.toDateString())) / day);
+  if(days <= 0) return 'Played today'; if(days === 1) return 'Played yesterday';
+  if(days < 7) return 'Played ' + d.toLocaleDateString('en-GB', { weekday:'long' });
+  return 'Played ' + d.toLocaleDateString('en-GB', { day:'numeric', month:'short' }) + (d.getFullYear() !== now.getFullYear() ? ' ' + d.getFullYear() : '');
+}
 function suggest(){
   const box = $('#suggest'), q = $('#q').value.trim().toLowerCase();
+  if(!q && document.activeElement === $('#q')){ showRecent(); return; }
   if((q.length < 2 && !/^\d$/.test(q)) || !episodes.length){ box.classList.remove('show'); box.innerHTML = ''; sugSel = -1; return; }
   if(!sugIndex) buildSugIndex();
   const starts = x => { const l = x.label.toLowerCase(); return l.startsWith(q) ? 2 : l.split(/[\s\-–.']+/).some(w => w.startsWith(q)) ? 1 : 0; };
@@ -2855,7 +2904,7 @@ function suggest(){
 }
 function pickSuggestion(b){
   const label = b.dataset.label, kind = b.dataset.kind, box = $('#suggest');
-  box.classList.remove('show'); box.innerHTML = '';
+  box.classList.remove('show'); box.innerHTML = ''; rememberSearch(label, kind);
   if(kind === 'Guest'){ guestFilter = label; $('#q').value = ''; $('#clear').classList.remove('show'); applyFilters(); }
   else if(kind === 'Programme'){ $('#q').value = ''; $('#clear').classList.remove('show'); setShow(label); }
   else if(kind === 'Year'){ $('#q').value = ''; $('#clear').classList.remove('show'); setYear(label); }
@@ -2863,7 +2912,7 @@ function pickSuggestion(b){
   $('#q').blur();
 }
 $('#suggest').addEventListener('mousedown', ev => ev.preventDefault());
-$('#suggest').addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); const b = ev.target.closest('.sg'); if(b) pickSuggestion(b); });
+$('#suggest').addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); if(ev.target.closest('#sgClr')){ state.recentQ = []; saveState(); hideSuggest(); toast('Recent searches cleared'); return; } const b = ev.target.closest('.sg'); if(b) pickSuggestion(b); });
 $('#q').addEventListener('keydown', ev => {
   const items = [...document.querySelectorAll('#suggest .sg')]; if(!items.length) return;
   if(ev.key === 'ArrowDown' || ev.key === 'ArrowUp'){ ev.preventDefault(); sugSel = (sugSel + (ev.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length; items.forEach((x, i) => x.classList.toggle('sel', i === sugSel)); }
@@ -2875,7 +2924,8 @@ $('#q').addEventListener('blur', () => setTimeout(() => $('#suggest').classList.
 const hideSuggest = () => { const b = $('#suggest'); b.classList.remove('show'); b.innerHTML = ''; };
 document.addEventListener('pointerdown', ev => { if(!ev.target.closest('.searchbox')) hideSuggest(); }, true);
 $('#tabs').addEventListener('click', hideSuggest, true);
-$('#q').addEventListener('focus', () => { if($('#q').value.trim().length >= 2) suggest(); });
+$('#q').addEventListener('focus', () => { const v = $('#q').value.trim(); if(v.length >= 2 || !v) suggest(); });
+$('#q').addEventListener('blur', () => { const v = $('#q').value.trim(); if(v.length >= 2 && view.length) rememberSearch(v, 'Search'); });
 
 /* Logo: back to the start, like a fresh open */
 function goHome(){
@@ -3031,13 +3081,29 @@ function render(){
       ${artHTML(e,'sm')}
       <div class="info">
         <div class="t">${esc(e.title)}</div>
-        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${fmt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?'<span class="played">✓ Played</span>':''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span>`:''}</div>
+        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${fmt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?`<span class="played">✓ ${whenTxt(p && p.at)}</span>`:''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span><span class="left">${leftTxt(p.d - p.t)}</span>`:''}</div>
         ${mt && mt.length ? `<div class="jumps"><span class="jl">${esc(ml)}</span>${mt.slice(0,4).map(t => `<button class="jump" data-t="${t}" aria-label="Play ${esc(ml)} at ${fmt(Math.max(0,t-10))}">${I.play2}${fmt(Math.max(0,t-10))}</button>`).join('')}${mt.length > 4 ? `<span class="jl">+${mt.length-4}</span>` : ''}</div>` : ''}
       </div>
       <button class="more" data-act="more" aria-label="More options">${I.more}</button>
     </div></div>`;
   }).join('') + (view.length > shown ? `<button class="loadmore" id="loadmore">Show more · ${(view.length-shown).toLocaleString('en-GB')} left</button>` : '');
 }
+// Press and hold a show for its menu (same as ⋯); moving the finger cancels, so swipes and scrolling are untouched
+(function(){
+  let t = 0, x0 = 0, y0 = 0, fired = false;
+  const list = $('#list');
+  list.addEventListener('pointerdown', ev => {
+    const row = ev.target.closest('.row'); fired = false; if(!row || ev.target.closest('button') || ev.pointerType === 'mouse') return;
+    x0 = ev.clientX; y0 = ev.clientY; clearTimeout(t);
+    t = setTimeout(() => { const e = byId(row.dataset.id); if(!e) return; fired = true; swallowUntil = Date.now() + 8000; row.classList.add('held'); setTimeout(() => row.classList.remove('held'), 260); if(navigator.vibrate && !calm()) navigator.vibrate(12); openSheet(e); }, 480);
+  });
+  list.addEventListener('pointermove', ev => { if(t && (Math.abs(ev.clientX - x0) > 8 || Math.abs(ev.clientY - y0) > 8)){ clearTimeout(t); t = 0; } });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(k => list.addEventListener(k, () => { clearTimeout(t); t = 0; }));
+  let swallowUntil = 0;
+  list.addEventListener('touchend', ev => { if(fired){ ev.preventDefault(); fired = false; swallowUntil = Date.now() + 400; } }, { passive:false });
+  document.addEventListener('click', ev => { if(Date.now() < swallowUntil){ fired = false; swallowUntil = 0; ev.stopImmediatePropagation(); ev.preventDefault(); } }, true);
+  list.addEventListener('contextmenu', ev => { if(ev.target.closest('.row') && matchMedia('(pointer:coarse)').matches) ev.preventDefault(); });
+})();
 $('#list').addEventListener('click', ev => {
   if(ev.target.id === 'loadmore'){ shown += PAGE; render(); return; }
   if(ev.target.closest('#browseAll')){ allOpen = true; render(); return; }
@@ -3871,7 +3937,7 @@ $('#sheet').addEventListener('click', ev => {
      share:()=>{ closeSheet(); shareMoment(e); },
      unresume:()=>{ closeSheet(); hideFromResume(e); },
      notes:()=>openNotes(e),
-     played:()=>{ closeSheet(); const was = isPlayed(e.id), d = durOf(e) || e.length || 1; if(was) delete state.pos[e.id]; else state.pos[e.id] = { t:Math.floor(d), d:Math.floor(d) }; saveState(); render(); toast(was ? 'Marked as not played' : 'Marked as played'); },
+     played:()=>{ closeSheet(); const was = isPlayed(e.id), d = durOf(e) || e.length || 1; if(was) delete state.pos[e.id]; else state.pos[e.id] = { t:Math.floor(d), d:Math.floor(d), at:Date.now() }; saveState(); render(); toast(was ? 'Marked as not played' : 'Marked as played'); },
      guest:()=>{ closeSheet(); closeNP(); guestFilter = b.dataset.g; $('#q').value=''; document.querySelector('.tab[data-tab="all"]').click(); },
      play:()=>{ closeSheet(); loadEpisode(e, true); }, fav:()=>{ closeSheet(); toggleFav(e); }, lists:()=>openListPicker(e), save:()=>saveOffline(e), unsave:()=>removeOffline(e), dl:()=>downloadToPhone(e) })[b.dataset.a]();
 });
@@ -4227,6 +4293,40 @@ if(matchMedia('(display-mode: standalone)').matches || navigator.standalone === 
   addEventListener('touchend', ev => { if(sx == null) return; const t = ev.changedTouches[0]; if(t.clientX - sx > 70 && Math.abs(t.clientY - sy) < 60) history.back(); sx = null; }, { passive:true });
 }
 
+/* Pinned heading: deep in a long list, a slim bar says where you are (tap it to go back to the top) */
+(function(){
+  const bar = document.createElement('button'); bar.type = 'button'; bar.className = 'pinbar'; bar.id = 'pinbar'; bar.setAttribute('aria-hidden', 'true'); bar.tabIndex = -1;
+  document.body.appendChild(bar);
+  bar.onclick = () => scrollTo({ top:0, behavior:smooth() });
+  let raf = 0, last = '';
+  function label(){
+    const n = view.length.toLocaleString('en-GB'), q = $('#q').value.trim();
+    if(tab !== 'all' && tab !== 'fav') return '';
+    if(guestFilter) return [guestFilter, n + ' show' + (view.length === 1 ? '' : 's')];
+    if(yearFilter) return [yearFilter + (showFilter ? ' · ' + showFilter : ''), n + ' shows'];
+    if(q) return ['“' + q + '”', n + ' result' + (view.length === 1 ? '' : 's')];
+    if(showFilter) return [showFilter, n + ' shows'];
+    if(allOpen){ // which year you're in, from the year markers above the top of the screen
+      let y = ''; for(const h of document.querySelectorAll('#list .yhead')){ if(h.getBoundingClientRect().top < 90) y = h.textContent; else break; }
+      return ['All shows' + (y ? ' · ' + y : ''), n + ' shows'];
+    }
+    return '';
+  }
+  function update(){
+    raf = 0;
+    const anchor = $('#secTitle'), lab = label();
+    const past = anchor && anchor.getBoundingClientRect().bottom < 0 && !document.body.classList.contains('np-open');
+    const on = !!(lab && past);
+    if(on){ const k = lab.join('|'); if(k !== last){ last = k; bar.innerHTML = `<span class="pb-t">${esc(lab[0])}</span><span class="pb-n">${esc(lab[1])}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8l-6 6 1.4 1.4L12 10.8l4.6 4.6L18 14z"/></svg>`; } }
+    const st = document.querySelector('.sticky'), bs = document.body.classList.contains('bsearch');
+    bar.style.top = bs || !st ? '' : Math.round(st.getBoundingClientRect().bottom - 8) + 'px';
+    bar.classList.toggle('show', on);
+  }
+  addEventListener('scroll', () => { if(!raf) raf = requestAnimationFrame(update); }, { passive:true });
+  addEventListener('resize', update);
+  { const _r = render; render = function(){ const r = _r.apply(this, arguments); last = ''; requestAnimationFrame(update); return r; }; }
+})();
+
 /* Bottom search on phones: keeps its place above the tab bar, beside the mini player, or above the keyboard */
 (function(){
   const mq = matchMedia('(max-width:959px)'), st = $('.sticky'), q = $('#q'), mini = $('#mini'), root = document.documentElement, vv = window.visualViewport;
@@ -4299,7 +4399,7 @@ addEventListener('keydown', ev => {
 
 /* ================= Backup and restore ================= */
 async function backupState(){
-  const keep = ['favs','lists','autoNext','autoSaveQ','npView','listView','toured','textStyle','textSize','simple','noSwipe','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
+  const keep = ['recentQ','favs','lists','autoNext','autoSaveQ','npView','listView','toured','textStyle','textSize','simple','noSwipe','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
   const data = { app:'art-bell-archive', version:1, saved:new Date().toISOString(), state:Object.fromEntries(keep.map(k => [k, state[k]])) };
   const name = `art-bell-tapes-backup-${new Date().toISOString().slice(0,10)}.json`;
   const file = new File([JSON.stringify(data)], name, { type:'application/json' });
