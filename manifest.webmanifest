@@ -1,6 +1,6 @@
 {
   "name": "Art Bell Archive",
-  "short_name": "Bell Archive",
+  "short_name": "Art Bell",
   "description": "The Art Bell Archive: search, stream and download Art Bell's shows from the Internet Archive.",
   "start_url": "./",
   "scope": "./",
