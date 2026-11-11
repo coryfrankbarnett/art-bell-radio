@@ -1624,6 +1624,18 @@ html.cine .row .m .cno{color:var(--text)!important;opacity:.78}
 .offnote svg.ln{stroke:var(--text)!important}
 .sec h2,.tb-sec h3{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 2 80 7 120 4 S180 3 198 5' fill='none' stroke='%238e877b' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")!important}
 html.light .sec h2,html.light .tb-sec h3{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 2 80 7 120 4 S180 3 198 5' fill='none' stroke='%23a39a8b' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")!important}
+
+/* Programme grid never leaves a hole: a lone last card stretches to fill its row */
+.progs .prog:last-child:nth-child(even):not(:first-child){grid-column:span 2;aspect-ratio:2.1/1}
+.progs .prog:last-child:nth-child(even):not(:first-child) .em{width:16%;height:auto;aspect-ratio:1}
+.progs .prog.cvp:last-child:nth-child(even):not(:first-child) .skscene{width:40%;top:12px}
+@media (min-width:960px){
+  .progs .prog:first-child{aspect-ratio:auto!important}
+  .progs .prog:last-child:nth-child(even):not(:first-child){grid-column:auto;aspect-ratio:1/1.12}
+  .progs .prog.cvp:last-child:nth-child(even):not(:first-child) .skscene{width:46%;top:40px}
+  .progs .prog:last-child:nth-child(4n+2):not(:first-child){grid-column:span 2;aspect-ratio:auto}
+  .progs .prog.cvp:last-child:nth-child(4n+2):not(:first-child) .skscene{width:40%;top:12px}
+}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
