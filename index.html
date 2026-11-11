@@ -1110,6 +1110,48 @@ html.cine .art.cv.sm .mot,html.cine .mini .art.cv .mot{left:18%!important;width:
 .sec h2,.tb-sec h3{display:inline-block;background:no-repeat left bottom/100% 8px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 2 80 7 120 4 S180 3 198 5' fill='none' stroke='%23d4b483' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");padding-bottom:10px}
 html.light .sec h2,html.light .tb-sec h3{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 2 80 7 120 4 S180 3 198 5' fill='none' stroke='%23a8432a' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")}
 @media (min-width:960px){ .skscene{top:40px} }
+
+/* ================= Programme page header: matches its programme card ================= */
+html.cine .proghead{background:var(--pc)!important;color:#f3ebdd;border-radius:2px!important;box-shadow:none!important;padding:18px 20px 20px!important;min-height:0;display:none;flex-direction:column}
+html.cine .proghead.show{display:flex}
+html.cine .proghead::before,html.cine .proghead::after{display:none!important}
+html.cine .proghead .ph-in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start}
+html.cine .proghead .back{position:static!important;display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px 0 8px!important;margin:0 0 22px;border-radius:2px!important;background:transparent!important;border:1px solid rgba(243,235,221,.35);color:#f3ebdd;font:500 10.5px/1 var(--font)!important;letter-spacing:.16em;text-transform:uppercase}
+html.cine .proghead .back svg{width:14px;height:14px}
+html.cine .proghead .yrs{font:500 10px/1 var(--font)!important;letter-spacing:.18em!important;text-transform:uppercase!important;color:rgba(243,235,221,.8);opacity:1}
+html.cine .proghead .nm{font:400 clamp(38px,11vw,48px)/1 var(--serif)!important;letter-spacing:0!important;color:#f3ebdd;margin:58px 0 12px!important;max-width:100%}
+html.cine .proghead p{font:400 14px/1.5 var(--font)!important;color:rgba(243,235,221,.82);text-shadow:none!important;margin:0 0 16px!important;max-width:34em}
+html.cine .proghead .ct{font:500 10px/1 var(--font);letter-spacing:.18em;text-transform:uppercase;color:rgba(243,235,221,.8);padding-top:14px;border-top:1px solid rgba(243,235,221,.25);align-self:stretch}
+html.cine .proghead .skscene{top:16px!important;right:16px!important;width:44%!important;max-width:200px;color:#f3ebdd;opacity:.9}
+html.cine .proghead > .em{position:absolute;width:56px!important;height:56px!important;right:18px!important;top:16px!important;bottom:auto!important;left:auto!important;color:#f3ebdd!important;opacity:.9!important;transform:none!important;filter:none!important}
+html.cine.light .proghead .back{border-color:rgba(243,235,221,.45)}
+
+/* ================= Dark theme: dark surfaces, colour only on the programme drawings ================= */
+html.cine.mono .prog.cvp,html.cine.mono .proghead{background:var(--surface)!important;box-shadow:inset 0 0 0 1px var(--line)!important;color:var(--text)}
+html.cine.mono .prog.cvp .nm,html.cine.mono .proghead .nm{color:var(--text)!important}
+html.cine.mono .prog.cvp .yrs,html.cine.mono .prog.cvp .ct,html.cine.mono .proghead .yrs,html.cine.mono .proghead .ct{color:var(--muted)!important}
+html.cine.mono .proghead p{color:#b4afa6}
+html.cine.mono .proghead .ct{border-top-color:var(--line)}
+html.cine.mono .proghead .back{border-color:var(--line);color:var(--text)}
+html.cine.mono .skscene,html.cine.mono .prog.cvp .em,html.cine.mono .proghead > .em{color:var(--pl)!important;opacity:1!important}
+/* On this night */
+html.cine.mono .tile.tonight.otn2{background:var(--surface)!important;box-shadow:inset 0 0 0 1px var(--line)!important;color:var(--text)}
+html.cine.mono .otn2 .k,html.cine.mono .otn2 .s{color:var(--muted)!important}
+html.cine.mono .otn2 .yr,html.cine.mono .otn2 .big,html.cine.mono .otn2 .ep{color:var(--text)!important}
+html.cine.mono .tile.tonight.cv.otn2 .big em{color:var(--text)!important;opacity:.6}
+html.cine.mono .otn2 .yr{opacity:.5}
+html.cine.mono .otn2 .hero-art .mot{stroke:var(--pl)!important;opacity:1}
+html.cine.mono .otn2 .o-bot{border-top-color:var(--line)}
+html.cine.mono .otn2 .go{background:var(--text)!important}
+/* neutral accents: the hand-drawn underline in grey */
+html.cine.mono .sec h2,html.cine.mono .tb-sec h3{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C40 2 80 7 120 4 S180 3 198 5' fill='none' stroke='%236a665f' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")}
+html.cine.mono h1 em{color:#d4b483}
+
+/* theme picker: three across */
+.swatches.three{grid-template-columns:repeat(3,1fr)}
+.swatches.three .sw i{height:58px}
+.swatches.three .sw span{font:400 21px/1 var(--serif);white-space:normal}
+.swatches.three .sw small{display:block;font:500 9.5px/1 var(--font);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:5px}
 </style>
 </head>
 <body>
@@ -1735,7 +1777,7 @@ $('#progs').addEventListener('click', ev => { const b = ev.target.closest('.prog
 $('#pill').addEventListener('click', ev => { if(ev.target.id === 'pillX'){ guestFilter = ''; applyFilters(); } });
 $('#closeAll').onclick = () => { allOpen = false; shown = PAGE; render(); $('#secTitle').scrollIntoView({ block:'center', behavior:smooth() }); };
 $('#playAll').onclick = () => { if(!view.length) return; state.queue = view.slice(1, 200).map(e => e.id); saveState(); loadEpisode(view[0], true); toast(`Playing ${view.length.toLocaleString('en-GB')} shows in order`); };
-$('#progHead').addEventListener('click', ev => { if(ev.target.id === 'progBack') setShow(''); });
+$('#progHead').addEventListener('click', ev => { if(ev.target.closest('#progBack')) setShow(''); });
 
 /* Year dial */
 function buildDial(){
@@ -1843,7 +1885,9 @@ function render(){
   if(showFilter && info){
     const [c1, c2] = SHOW_COLOURS[showFilter] || SHOW_COLOURS['Art Bell'];
     ph.style.setProperty('--c1', c1); ph.style.setProperty('--c2', c2);
-    ph.innerHTML = `${emblem(showFilter)}<button class="back" id="progBack">All programmes</button><div><div class="yrs">${esc(info[1])}</div><div class="nm">${esc(info[0])}</div><p>${esc(info[2])}</p></div>`;
+    const [hfill, hline] = progCol(showFilter);
+    ph.style.setProperty('--pc', hfill); ph.style.setProperty('--pl', hline);
+    ph.innerHTML = `${PROG_SCENE[showFilter] ? sceneSVG(showFilter) : emblem(showFilter)}<div class="ph-in"><button class="back" id="progBack"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>All programmes</button><div class="yrs">${esc(info[1])}</div><div class="nm">${esc(info[0])}</div><p>${esc(info[2])}</p><span class="ct">${(counts[showFilter]||0).toLocaleString('en-GB')} ${counts[showFilter]===1?'show':'shows'}</span></div>`;
     ph.classList.add('show');
   } else ph.classList.remove('show');
   $('#secTitle').textContent = showFilter && tab === 'all' ? 'Episodes' : { all:'All shows', fav:'Favourites', recent:'Recently played', saved:'Saved offline', guests:'Guests' }[tab];
@@ -2612,18 +2656,21 @@ audio.addEventListener('play', () => { if(state.boost && !boost.src) setBoost(tr
 /* ================= Themes ================= */
 const DARK_BASE = { '--text':'#f2efe8', '--muted':'#8a8f9c', '--line':'rgba(255,255,255,.08)' };
 const THEMES = {
-  'Collection': { '--accent':'#d4b483', '--accent-soft':'rgba(212,180,131,.13)', '--glow':'rgba(212,180,131,.18)', '--bg':'#0e0d0c', '--surface':'#171614', '--surface-2':'#211f1c', '--text':'#ece6da', '--muted':'#8e877b', '--line':'rgba(236,230,218,.1)' },
+  'Classic':    { '--accent':'#d4b483', '--accent-soft':'rgba(212,180,131,.13)', '--glow':'rgba(212,180,131,.18)', '--bg':'#0e0d0c', '--surface':'#171614', '--surface-2':'#211f1c', '--text':'#ece6da', '--muted':'#8e877b', '--line':'rgba(236,230,218,.1)' },
+  'Dark':       { '--accent':'#e4ddd0', '--accent-soft':'rgba(228,221,208,.1)', '--glow':'rgba(228,221,208,.12)', '--bg':'#0b0b0a', '--surface':'#151514', '--surface-2':'#1e1e1c', '--text':'#ebe7df', '--muted':'#8a867e', '--line':'rgba(235,231,223,.1)' },
   'Paper':      { '--accent':'#a8432a', '--accent-soft':'rgba(168,67,42,.1)', '--glow':'rgba(168,67,42,.14)', '--bg':'#f2ede3', '--surface':'#fbf8f2', '--surface-2':'#e7e0d2', '--text':'#17140f', '--muted':'#6d665a', '--line':'rgba(23,20,15,.12)' }
 };
 const THEME_RENAMES = { 'Amber':'Desert', 'Area 51':'Dreamland', 'Dopamine':'Neon' };
-if(state.theme !== 'Paper' && state.theme !== 'Collection'){ state.theme = 'Collection'; saveState(); }
+if(state.theme === 'Collection'){ state.theme = 'Classic'; saveState(); }
+if(!['Classic','Dark','Paper'].includes(state.theme)){ state.theme = 'Classic'; saveState(); }
 const prefersLight = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : { matches:false };
 function applyTheme(name){
-  name = THEMES.hasOwnProperty(name) ? name : 'Collection';
+  name = THEMES.hasOwnProperty(name) ? name : 'Classic';
   const t = THEMES[name];
   document.documentElement.classList.add('cine');
   for(const k in t) document.documentElement.style.setProperty(k, t[k]);
   document.documentElement.classList.toggle('light', name === 'Paper');
+  document.documentElement.classList.toggle('mono', name === 'Dark');
   const m = document.querySelector('meta[name=theme-color]'); if(m) m.content = t['--bg'];
   drawWave();
 }
@@ -2882,7 +2929,7 @@ $('#gear').onclick = () => {
   const cached = store.get(INDEX_KEY, null);
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd"><div><div class="t">Settings</div><div class="m">${episodes.length.toLocaleString('en-GB')} shows in your library${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB') : ''}</div></div></div>
-    <div class="sh-lbl">Theme</div><div class="swatches two">${[['Collection','Night','#0e0d0c','#d4b483','#211f1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Collection')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
+    <div class="sh-lbl">Theme</div><div class="swatches three">${[['Classic','Colour','#0e0d0c','#a8452b','#211f1c'],['Dark','Night','#0b0b0a','#86acd4','#1e1e1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <div class="sh-lbl">Your listening</div>${statsHTML()}
     <div class="sh-lbl">Your data</div>
