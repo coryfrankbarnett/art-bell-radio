@@ -897,6 +897,10 @@ html.cine .sw{border-radius:3px}.cine .sw i{border-radius:2px}
 .tb-ill{display:block;width:100%;height:auto}
 .tb-ill .tg{stroke:var(--accent)}.tb-ill .tga{fill:var(--accent)}
 .tb-fig figcaption{margin-top:12px;font:italic 400 16px var(--serif);color:var(--muted)}
+.browseall{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 16px;width:100%;padding:22px 18px;border:1px solid var(--line);border-radius:3px;text-align:left;background:var(--surface);margin:4px 0 8px}
+.browseall .ba-t{font:400 24px/1.1 var(--serif)}
+.browseall .ba-s{grid-row:2;font:500 10.5px var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.browseall .ba-go{grid-row:1/3;grid-column:2;font:600 10.5px var(--font);letter-spacing:.16em;text-transform:uppercase;padding:10px 14px;background:var(--text);color:var(--bg);border-radius:2px}
 /* ---- Breathing room (Collection look) ---- */
 html.cine .sec{padding:26px 0 16px}
 html.cine .rail{gap:16px;padding-bottom:26px}
@@ -1036,7 +1040,7 @@ html.cine .np .subt{margin-top:8px}
   <div class="filterpill" id="pill"></div>
   <div class="sec">
     <h2 id="secTitle">All shows</h2>
-    <div class="meta"><button class="playall" id="playAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play all</button><button class="playall saveall" id="saveAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span>Save all</span></button><span id="secCount"></span>
+    <div class="meta"><button class="playall" id="playAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play all</button><button class="playall saveall" id="saveAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span>Save all</span></button><button class="seeall" id="closeAll" style="display:none">Close</button><span id="secCount"></span>
       <select id="sort" aria-label="Sort">
         <option value="old">Oldest</option><option value="new">Newest</option><option value="az">A–Z</option><option value="rand">Shuffle</option>
       </select>
@@ -1290,7 +1294,7 @@ function artHTML(e, cls=''){
 let fuse = null;
 let episodes = [], view = [], shown = PAGE, tab = 'all', showFilter = '', yearFilter = '', demoMode = false;
 const state = Object.assign({ favs:{}, pos:{}, recent:[], hideResume:{}, speed:1, last:null, sort:'old', queue:[], marks:{}, autoplay:true, boost:false }, store.get(STATE_KEY, {}));
-let guestFilter = '';
+let guestFilter = '', allOpen = false;
 const saveState = () => store.set(STATE_KEY, state);
 const isPlayed = id => { const p = state.pos[id]; return !!(p && p.d && p.t >= p.d - 120); };
 $('#sort').value = state.sort;
@@ -1446,6 +1450,7 @@ function setShow(v){
 $('#chips').addEventListener('click', ev => { const b = ev.target.closest('.chip'); if(b) setShow(b.dataset.show); });
 $('#progs').addEventListener('click', ev => { const b = ev.target.closest('.prog'); if(!b) return; setShow(b.dataset.show); scrollTo({top:0, behavior:smooth()}); });
 $('#pill').addEventListener('click', ev => { if(ev.target.id === 'pillX'){ guestFilter = ''; applyFilters(); } });
+$('#closeAll').onclick = () => { allOpen = false; shown = PAGE; render(); $('#secTitle').scrollIntoView({ block:'center', behavior:smooth() }); };
 $('#playAll').onclick = () => { if(!view.length) return; state.queue = view.slice(1, 200).map(e => e.id); saveState(); loadEpisode(view[0], true); toast(`Playing ${view.length.toLocaleString('en-GB')} shows in order`); };
 $('#progHead').addEventListener('click', ev => { if(ev.target.id === 'progBack') setShow(''); });
 
@@ -1577,6 +1582,13 @@ function render(){
     el.innerHTML = `<div class="empty">${{fav:'Nothing here yet. Tap ⋯ on any show to add it to your favourites.', saved:'No offline shows yet. Save a few for when you’re out of signal.', recent:'Nothing played yet.'}[tab] || 'Nothing on the dial for that. Try another search or year.'}</div>`;
     return;
   }
+  const homeAll = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value;
+  $('#closeAll').style.display = homeAll && allOpen ? '' : 'none';
+  if(homeAll && !allOpen){
+    $('#sort').style.display = 'none';
+    el.innerHTML = `<button class="browseall" id="browseAll"><span class="ba-t">Browse the full catalogue</span><span class="ba-s">${view.length.toLocaleString('en-GB')} shows, No. 1 to No. ${view.length.toLocaleString('en-GB')}</span><span class="ba-go">Open</span></button>`;
+    return;
+  }
   const cur = audio.dataset.id, paused = audio.paused;
   el.innerHTML = view.slice(0, shown).map(e => {
     const p = state.pos[e.id], done = isPlayed(e.id), pct = !done && p && p.d ? Math.min(100, p.t/p.d*100) : 0, isCur = cur === e.id;
@@ -1593,6 +1605,7 @@ function render(){
 }
 $('#list').addEventListener('click', ev => {
   if(ev.target.id === 'loadmore'){ shown += PAGE; render(); return; }
+  if(ev.target.closest('#browseAll')){ allOpen = true; render(); return; }
   const row = ev.target.closest('.row'); if(!row) return;
   const e = byId(row.dataset.id); if(!e) return;
   if(ev.target.closest('[data-act="more"]')) return openSheet(e);
@@ -2445,6 +2458,23 @@ function specialDay(){
   if(md === '04-13') return { kind:'memorial', title:`Remembering Art Bell`, sub:`${yr - 2018} years ago today. Tonight’s pick: his farewell to Coast to Coast.`, pick: epOn('2002-12-31') };
   return null;
 }
+
+/* Back button: every open layer (player, tribute, sheets) gets a history entry,
+   so Android's back gesture closes it instead of leaving the app */
+const layerStack = []; let layerSkip = 0;
+[['#np', 'open'], ['#tribute', 'open'], ['#sheet', 'show']].forEach(([sel, cls]) => {
+  const el = $(sel); let was = el.classList.contains(cls);
+  new MutationObserver(() => {
+    const now = el.classList.contains(cls); if(now === was) return; was = now;
+    if(now){ layerStack.push(sel); history.pushState({ abrLayer: layerStack.length }, ''); }
+    else { const i = layerStack.lastIndexOf(sel); if(i < 0) return; layerStack.splice(i, 1); layerSkip++; history.back(); }
+  }).observe(el, { attributes:true, attributeFilter:['class'] });
+});
+addEventListener('popstate', () => {
+  if(layerSkip){ layerSkip--; return; }
+  const sel = layerStack.pop(); if(!sel) return;
+  if(sel === '#np') closeNP(); else if(sel === '#tribute') closeTribute(); else closeSheet();
+});
 
 /* ================= Backup and restore ================= */
 async function backupState(){
