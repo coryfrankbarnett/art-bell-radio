@@ -1301,6 +1301,66 @@ body.calm .cs-reel{animation:none!important}
 #otnWrap .bento{margin-top:4px}
 .rail{align-items:flex-start}
 @media (min-width:960px){ .rail{align-items:start} }
+
+/* sketch-in */
+@keyframes skDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+svg.sketching [pathLength]{stroke-dasharray:1;stroke-dashoffset:1;animation:skDraw 1.1s cubic-bezier(.4,.1,.2,1) forwards}
+svg.sketching g g > :nth-child(2){animation-delay:.08s}svg.sketching g g > :nth-child(3){animation-delay:.16s}svg.sketching g g > :nth-child(4){animation-delay:.24s}svg.sketching g g > :nth-child(n+5){animation-delay:.3s}
+/* year headers */
+.yhead{position:sticky;top:calc(var(--st, 0px) + 76px);z-index:3;margin:18px 20px 4px;padding:6px 0;font:italic 400 30px/1 var(--serif);color:var(--text);background:linear-gradient(var(--bg) 70%,transparent);pointer-events:none}
+.yhead:first-child{margin-top:4px}
+@media (min-width:960px){ .yhead{top:76px} }
+/* list / shelf toggle */
+.viewtog{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;margin-right:8px;border:1px solid var(--line);border-radius:2px;font:500 10.5px var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:none}
+.viewtog svg{width:14px;height:14px;fill:currentColor}
+/* tape-spine shelf */
+.list.shelfview{display:block!important}
+.spines{display:flex;flex-wrap:wrap;gap:4px;padding:6px 20px 14px;align-items:flex-end}
+.sp-year{margin:16px 20px 2px;font:italic 400 30px/1 var(--serif);color:var(--text)}
+.spine{position:relative;width:38px;height:230px;flex:none;border-radius:2px;background:var(--surface);border:1px solid var(--line);border-top:7px solid var(--pc);display:flex;flex-direction:column;align-items:center;padding:6px 0 8px;color:var(--text);overflow:hidden;transition:transform .15s ease}
+.spine .sp-no{font:600 8.5px/1 var(--font);letter-spacing:.06em;color:var(--muted);margin-bottom:8px;font-variant-numeric:tabular-nums}
+.spine .sp-t{flex:1;min-height:0;writing-mode:vertical-rl;transform:rotate(180deg);font:400 15px/1.05 var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-height:100%}
+.spine .sp-d{writing-mode:vertical-rl;transform:rotate(180deg);font:500 8px/1 var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:8px;white-space:nowrap}
+.spine.cur{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.spine.played .sp-t{opacity:.55}
+@media (hover:hover){ .spine:hover{transform:translateY(-6px)} }
+html.cine.light .spine{background:#fbf8f2}
+/* rail arrows */
+.has-arrows{position:relative}
+.rarrow{position:absolute;top:50%;z-index:6;width:38px;height:38px;margin-top:-19px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 88%,transparent);color:var(--text);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;backdrop-filter:blur(8px)}
+.rarrow svg{width:18px;height:18px}
+.rarrow.l{left:6px}.rarrow.r{right:6px}
+.has-arrows:hover .rarrow:not([hidden]){opacity:1}
+.rarrow[hidden]{display:none}
+
+/* ---- radio view ---- */
+.radio{display:none;width:100%;max-width:410px;margin:min(4vh,28px) auto 0;padding:14px 16px 16px;border-radius:22px;text-align:left;color:#ece6da;
+  background:linear-gradient(160deg,#2b2620,#191612 70%);border:1px solid rgba(236,230,218,.1);box-shadow:0 30px 70px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07),inset 0 -2px 0 rgba(0,0,0,.4)}
+.np.radioview .bigart,.np.radioview .cassette{display:none!important}
+.np.radioview .radio{display:block}
+.rd-top{display:flex;justify-content:space-between;align-items:center;margin:0 4px 10px}
+.rd-brand{font:italic 400 17px/1 var(--serif);color:#c9b48d;letter-spacing:.01em}
+.rd-lamp{width:9px;height:9px;border-radius:50%;background:#3a2b1d;box-shadow:inset 0 1px 1px rgba(0,0,0,.6)}
+.np.rolling .rd-lamp{background:#f0a35a;box-shadow:0 0 10px 2px rgba(240,163,90,.55)}
+.rd-body{display:flex;gap:14px;align-items:stretch}
+.rd-grille{flex:0 0 38%;aspect-ratio:1;border-radius:14px;background:radial-gradient(circle,rgba(236,230,218,.22) 1.2px,transparent 1.8px) 0 0/8px 8px,#14110e;box-shadow:inset 0 2px 8px rgba(0,0,0,.7)}
+.rd-right{flex:1;display:flex;flex-direction:column;gap:10px;min-width:0}
+.rd-dial{position:relative;height:62px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,rgba(255,248,232,.16),rgba(255,248,232,.05));border:1px solid rgba(255,248,232,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),inset 0 -10px 20px rgba(0,0,0,.25);backdrop-filter:blur(10px) saturate(1.4);-webkit-backdrop-filter:blur(10px) saturate(1.4)}
+.rd-dial::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--pc,#a8452b) 30%,transparent),transparent);opacity:.6}
+.rd-band{position:absolute;left:10px;right:10px;top:10px;bottom:10px}
+.rd-band i{position:absolute;bottom:14px;width:1px;height:7px;background:rgba(236,230,218,.45)}
+.rd-band i.mj{height:13px;background:rgba(236,230,218,.8)}
+.rd-band span{position:absolute;bottom:0;transform:translateX(-50%);font:500 8.5px/1 var(--font);letter-spacing:.06em;color:rgba(236,230,218,.75)}
+.rd-needle{position:absolute;top:6px;bottom:6px;width:2px;margin-left:9px;background:#e8653a;box-shadow:0 0 6px rgba(232,101,58,.8);transition:left .9s linear;border-radius:1px}
+.rd-glare{position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.04) 38%,transparent 40%);pointer-events:none}
+.rd-station{display:flex;flex-direction:column;gap:4px;min-width:0}
+.rd-station span{font:500 8.5px/1.3 var(--font);letter-spacing:.16em;text-transform:uppercase;color:#a3998a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rd-station b{font:400 19px/1.1 var(--serif);font-weight:400;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rd-knobs{display:flex;justify-content:flex-end;gap:12px;margin-top:auto}
+.rd-knob{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4a4238,#211d18 70%);box-shadow:0 3px 6px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12);position:relative;transition:transform .9s linear}
+.rd-knob::after{content:"";position:absolute;left:50%;top:4px;width:2px;height:9px;margin-left:-1px;border-radius:1px;background:#c9b48d}
+body.calm .rd-needle,body.calm .rd-knob{transition:none}
 </style>
 </head>
 <body>
@@ -1415,6 +1475,7 @@ body.calm .cs-reel{animation:none!important}
   <div class="sec">
     <h2 id="secTitle">All shows</h2>
     <div class="meta"><button class="playall" id="playAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play all</button><button class="playall saveall" id="saveAll" style="display:none"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span>Save all</span></button><button class="seeall" id="closeAll" style="display:none">Close</button><span id="secCount"></span>
+      <button class="viewtog" id="viewTog" type="button" aria-label="Switch between list and shelf"></button>
       <select id="sort" aria-label="Sort">
         <option value="old">Oldest</option><option value="new">Newest</option><option value="az">A–Z</option><option value="rand">Shuffle</option>
       </select>
@@ -1472,6 +1533,17 @@ body.calm .cs-reel{animation:none!important}
       <g class="cs-reel" id="csR" style="transform-origin:210px 55px"><circle cx="210" cy="55" r="16" class="cs-tape" id="csRT"/><circle cx="210" cy="55" r="11" class="cs-hub"/><path d="M210 44v6M210 60v6M199 55h6M215 55h6" class="cs-spoke"/></g>
       <path d="M40 110l18-14h204l18 14" class="cs-foot"/><circle cx="62" cy="104" r="3" class="cs-hole"/><circle cx="258" cy="104" r="3" class="cs-hole"/>
     </svg>
+  </button>
+  <button class="radio" id="radio" aria-label="Show the cover">
+    <div class="rd-top"><span class="rd-brand">High Desert</span><span class="rd-lamp" aria-hidden="true"></span></div>
+    <div class="rd-body">
+      <div class="rd-grille" aria-hidden="true"></div>
+      <div class="rd-right">
+        <div class="rd-dial"><div class="rd-band" id="rdBand"></div><div class="rd-needle" id="rdNeedle"></div><div class="rd-glare"></div></div>
+        <div class="rd-station"><span id="rdShow"></span><b id="rdTitle"></b></div>
+        <div class="rd-knobs" aria-hidden="true"><i class="rd-knob" id="rdKnobL"></i><i class="rd-knob" id="rdKnobR"></i></div>
+      </div>
+    </div>
   </button>
   <div class="meta">
     <div class="tx"><div class="title" id="npTitle"></div><div class="subt" id="npSub"></div></div>
@@ -1705,9 +1777,9 @@ const motifSVG = (kind, cls = 'mot', seed) => {
     for(let i = 0; i < n; i++){ const x = 6 + ((h >>> (i * 5 + 3)) % 88), y = 4 + ((h >>> (i * 7 + 2)) % 18); extra += `M${x} ${y}h.1`; }
     extra = `<path d="${extra}" stroke-width="2.6" opacity=".7"/>`;
   }
-  return `<svg class="${cls}" viewBox="0 0 100 90" aria-hidden="true"><g filter="url(#skw)"><g${tf}>${LINE_MOTIF[kind] || LINE_MOTIF.rings}</g>${extra}</g></svg>`;
+  return `<svg class="${cls}" viewBox="0 0 100 90" aria-hidden="true"><g filter="url(#skw)"><g${tf}>${(LINE_MOTIF[kind] || LINE_MOTIF.rings).replace(/<(path|circle|ellipse)(?![^>]*stroke-dasharray)/g, '<$1 pathLength="1"')}</g>${extra}</g></svg>`;
 };
-const sceneSVG = n => PROG_SCENE[n] ? `<svg class="skscene" viewBox="0 0 120 72" aria-hidden="true"><g filter="url(#skw)" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${PROG_SCENE[n]}</g></svg>` : '';
+const sceneSVG = n => PROG_SCENE[n] ? `<svg class="skscene" viewBox="0 0 120 72" aria-hidden="true"><g filter="url(#skw)" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${PROG_SCENE[n].replace(/<(path|circle|ellipse)(?![^>]*stroke-dasharray)/g, '<$1 pathLength="1"')}</g></svg>` : '';
 const PERSON_RE = /^((Father|Fr\.?|Dr\.?|Prof\.?|Major|Maj\.?|Rev\.?|Col\.?|Sir|Gen\.?|Lt\.?)\s)?[A-Z][a-z’'.-]+(\s(de|van|von|St\.?))?(\s[A-Z][\w’'.-]*){1,3}$/;
 const NOT_PERSON_RE = /^(Open Lines|Time Travel|Area 51|Ghost to Ghost|Remote Viewing|Earth Changes|Art’s|Art's|Past Life|Near Death|Cancer|Crop Circles|Comet|Ancient|Alien|UFO|The )/i;
 const cleanPart = x => x.replace(/\([^)]*\)/g, '').replace(/\bfirst appear\w*\b/i, '').replace(/,\s*(M\.?D\.?|Ph\.?D\.?|Jr\.?)$/i, '').split(/(?<!\b(?:[A-Z][a-z]{0,2}|Prof))\.\s+(?=[A-Z][a-z])/)[0].trim();
@@ -2162,6 +2234,44 @@ $('#tabs').addEventListener('click', ev => {
 
 
 
+
+/* ================= List or shelf ================= */
+function syncViewTog(){
+  const b = $('#viewTog'); if(!b) return; const shelf = state.listView === 'shelf';
+  b.innerHTML = shelf ? '<svg viewBox="0 0 24 24"><path d="M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z"/></svg>List' : '<svg viewBox="0 0 24 24"><path d="M4 4h3v16H4zm5 0h3v16H9zm5 1.2 2.9-.8 3.6 15.4-2.9.7z"/></svg>Shelf';
+}
+$('#viewTog').addEventListener('click', () => { state.listView = state.listView === 'shelf' ? '' : 'shelf'; saveState(); render(); });
+let spineTimer = null;
+$('#list').addEventListener('contextmenu', ev => { const sp = ev.target.closest('.spine'); if(!sp) return; ev.preventDefault(); const e = byId(sp.dataset.id); if(e) openSheet(e); });
+$('#list').addEventListener('touchstart', ev => { const sp = ev.target.closest('.spine'); if(!sp) return; clearTimeout(spineTimer); spineTimer = setTimeout(() => { const e = byId(sp.dataset.id); if(e){ if(navigator.vibrate) navigator.vibrate(10); openSheet(e); } }, 550); }, { passive:true });
+['touchend','touchmove','touchcancel'].forEach(t => $('#list').addEventListener(t, () => clearTimeout(spineTimer), { passive:true }));
+
+/* ================= Drawings sketch themselves in ================= */
+const sketchSeen = new WeakSet();
+const sketchIO = 'IntersectionObserver' in window ? new IntersectionObserver(entries => entries.forEach(en => {
+  if(!en.isIntersecting) return; const svg = en.target; sketchIO.unobserve(svg);
+  if(document.body.classList.contains('calm') || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  svg.classList.add('sketching'); setTimeout(() => svg.classList.remove('sketching'), 1400);
+}), { rootMargin:'0px 0px -8% 0px' }) : null;
+function watchSketches(root){ if(!sketchIO) return; (root || document).querySelectorAll('.art.cv .mot, .skscene').forEach(svg => { if(sketchSeen.has(svg)) return; sketchSeen.add(svg); sketchIO.observe(svg); }); }
+new MutationObserver(muts => { for(const m of muts) for(const n of m.addedNodes) if(n.nodeType === 1) watchSketches(n); }).observe(document.body, { childList:true, subtree:true });
+
+/* ================= Arrows on rows that scroll sideways (mouse users) ================= */
+function addRailArrows(){
+  if(!matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  document.querySelectorAll('.otn-rail, .rail, .chips').forEach(r => {
+    const host = r.parentElement; if(!host || host.querySelector(':scope > .rarrow')) return;
+    if(r.scrollWidth <= r.clientWidth + 8) return;
+    host.classList.add('has-arrows');
+    ['l','r'].forEach(d => { const b = document.createElement('button'); b.className = 'rarrow ' + d; b.type = 'button'; b.setAttribute('aria-label', d === 'l' ? 'Scroll left' : 'Scroll right');
+      b.innerHTML = `<svg viewBox="0 0 24 24"><path d="${d === 'l' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      b.onclick = () => r.scrollBy({ left:(d === 'l' ? -1 : 1) * r.clientWidth * .8, behavior:'smooth' }); host.appendChild(b); });
+    const upd = () => { host.querySelector(':scope > .rarrow.l').toggleAttribute('hidden', r.scrollLeft < 8); host.querySelector(':scope > .rarrow.r').toggleAttribute('hidden', r.scrollLeft + r.clientWidth >= r.scrollWidth - 8); };
+    r.addEventListener('scroll', upd, { passive:true }); upd();
+  });
+}
+setInterval(addRailArrows, 2500); window.addEventListener('resize', () => setTimeout(addRailArrows, 300));
+
 /* ================= Commute: keep the next few in Up next saved offline ================= */
 let autoSaving = false;
 async function autoSaveQueue(){
@@ -2519,11 +2629,26 @@ function render(){
   }
   const cur = audio.dataset.id, paused = audio.paused;
   const qTerms = $('#q').value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  syncViewTog();
+  const dated = ['old','new'].includes(state.sort) && tab !== 'recent' && !qTerms.length;
+  if(state.listView === 'shelf'){
+    el.classList.add('shelfview');
+    let lastY = '';
+    el.innerHTML = `<div class="spines">` + view.slice(0, shown).map(e => {
+      const yh = dated && e.year && e.year !== lastY ? `</div><div class="sp-year">${esc(e.year)}</div><div class="spines">` : ''; if(dated) lastY = e.year;
+      const [fill] = progCol(e.show);
+      return `${yh}<button class="spine${cur === e.id ? ' cur' : ''}${isPlayed(e.id) ? ' played' : ''}" data-id="${esc(e.id)}" style="--pc:${fill}" title="${esc(e.title)}"><span class="sp-no">${e.no || ''}</span><span class="sp-t">${esc(topicOf(e) || e.title)}</span><span class="sp-d">${e.date ? niceDate(e.date) : ''}</span></button>`;
+    }).join('') + `</div>` + (shown < view.length ? `<button class="loadmore" id="loadmore">Show more (${(view.length - shown).toLocaleString('en-GB')} left)</button>` : '');
+    return;
+  }
+  el.classList.remove('shelfview');
+  let lastYr = '';
   el.innerHTML = view.slice(0, shown).map(e => {
+    const yhead = dated && e.year && e.year !== lastYr ? `<div class="yhead">${esc(e.year)}</div>` : ''; if(dated) lastYr = e.year;
     const ml = qTerms.length ? momentLabelFor(e, qTerms) : null, mt = ml ? momentsFor(e)[ml] : null;
     const p = state.pos[e.id], done = isPlayed(e.id), pct = !done && p && p.d ? Math.min(100, p.t/p.d*100) : 0, isCur = cur === e.id;
     const len = e.length || (p && p.d) || 0;
-    return `<div class="swipe"><div class="bg l">★ ${state.favs[e.id]?'Unfavourite':'Favourite'}</div><div class="bg r">${savedKeys.has(e.id)?'Remove offline':'Save offline'} ↓</div><div class="row${isCur?' cur':''}${isCur&&paused?' paused':''}" data-id="${esc(e.id)}">
+    return `${yhead}<div class="swipe"><div class="bg l">★ ${state.favs[e.id]?'Unfavourite':'Favourite'}</div><div class="bg r">${savedKeys.has(e.id)?'Remove offline':'Save offline'} ↓</div><div class="row${isCur?' cur':''}${isCur&&paused?' paused':''}" data-id="${esc(e.id)}">
       ${artHTML(e,'sm')}
       <div class="info">
         <div class="t">${esc(e.title)}</div>
@@ -2536,6 +2661,7 @@ function render(){
 }
 $('#list').addEventListener('click', ev => {
   if(ev.target.id === 'loadmore'){ shown += PAGE; render(); return; }
+  const sp = ev.target.closest('.spine'); if(sp){ const e = byId(sp.dataset.id); if(e) playFrom(e); return; }
   if(ev.target.closest('#browseAll')){ allOpen = true; render(); return; }
   const row = ev.target.closest('.row'); if(!row) return;
   const e = byId(row.dataset.id); if(!e) return;
@@ -3035,7 +3161,7 @@ function seekTo(f){
 })();
 
 /* Now playing open/close (tap mini, swipe down to close) */
-function openNPNow(){ $('#np').classList.add('open'); document.body.classList.add('np-open'); renderNPMarks(); updateCassette(true); requestAnimationFrame(drawWave); }
+function openNPNow(){ $('#np').classList.add('open'); document.body.classList.add('np-open'); renderNPMarks(); updateCassette(true); if(state.npView === 'radio') updateRadio(true); requestAnimationFrame(drawWave); }
 function closeNPNow(){ $('#np').classList.remove('open'); document.body.classList.remove('np-open'); }
 // Shared-element transition: the tapped cover grows into the player's cover (and shrinks back into the mini player)
 function morph(update, fromEl, toSel){
@@ -3045,8 +3171,8 @@ function morph(update, fromEl, toSel){
   const t = document.startViewTransition(() => { fromEl.style.viewTransitionName = ''; update(); const to = $(toSel); if(to) to.style.viewTransitionName = 'cover'; });
   t.finished.finally(() => { const to = $(toSel); if(to) to.style.viewTransitionName = ''; np.classList.remove('vt'); });
 }
-function openNP(fromEl){ if($('#np').classList.contains('open')) return; if(state.npView === 'tape' || matchMedia('(min-width:1280px)').matches){ openNPNow(); return; } morph(openNPNow, fromEl || $('#miniArt'), '#npArt'); }
-function closeNP(){ if(!$('#np').classList.contains('open')) return; if(state.npView === 'tape' || matchMedia('(min-width:1280px)').matches){ closeNPNow(); return; } morph(closeNPNow, $('#npArt'), '#miniArt'); }
+function openNP(fromEl){ if($('#np').classList.contains('open')) return; if(state.npView === 'tape' || state.npView === 'radio' || matchMedia('(min-width:1280px)').matches){ openNPNow(); return; } morph(openNPNow, fromEl || $('#miniArt'), '#npArt'); }
+function closeNP(){ if(!$('#np').classList.contains('open')) return; if(state.npView === 'tape' || state.npView === 'radio' || matchMedia('(min-width:1280px)').matches){ closeNPNow(); return; } morph(closeNPNow, $('#npArt'), '#miniArt'); }
 /* Overnight radio: plays back to back like a live station, tonight's date first */
 function radioPicks(n, skip){
   const seen = new Set(skip || []), pool = episodes.filter(e => !seen.has(e.id) && !isPlayed(e.id) && e.length !== 0 && e.show !== 'Ghost to Ghost' || false);
@@ -3166,10 +3292,10 @@ function updateCassette(force){
   const rl = 14 + 18 * Math.sqrt(1 - p), rr = 14 + 18 * Math.sqrt(p);
   $('#csLT').setAttribute('r', rl.toFixed(1)); $('#csRT').setAttribute('r', rr.toFixed(1));
 }
-const setNPView = v => { state.npView = v; saveState(); $('#np').classList.toggle('tape', v === 'tape'); };
-$('#cassette').addEventListener('click', () => setNPView('cover'));
+const setNPView = v => { state.npView = v; saveState(); $('#np').classList.toggle('tape', v === 'tape'); $('#np').classList.toggle('radioview', v === 'radio'); if(v === 'radio') updateRadio(true); if(v === 'tape') updateCassette(true); };
+$('#cassette').addEventListener('click', () => setNPView('radio'));
 $('#np').addEventListener('click', ev => { const a = ev.target.closest('#npArt'); if(!a || ev.target.closest('button')) return; setNPView('tape'); updateCassette(true); });
-$('#np').classList.toggle('tape', state.npView === 'tape');
+$('#np').classList.toggle('tape', state.npView === 'tape'); $('#np').classList.toggle('radioview', state.npView === 'radio');
 ['play','playing'].forEach(x => audio.addEventListener(x, () => $('#np').classList.add('rolling')));
 ['pause','ended'].forEach(x => audio.addEventListener(x, () => $('#np').classList.remove('rolling')));
 // bedside clock
@@ -3224,6 +3350,26 @@ $('#sheet').addEventListener('click', async ev => {
   const b = ev.target.closest('[data-spk]'); if(b){ if(b.dataset.spk === 'cast'){ closeSheet(); castSearch(); } else pickOutput(); return; }
   const k = ev.target.closest('[data-sink]'); if(k){ try{ await audio.setSinkId(k.dataset.sink); toast('Playing through ' + k.textContent.replace('Playing here', '')); closeSheet(); }catch(x){ toast('Couldn’t switch to that speaker', 3000); } }
 });
+
+
+/* ================= Radio view: needle follows the show ================= */
+function updateRadio(force){
+  const e = byId(audio.dataset.id); if(!e) return;
+  const d = audio.duration || e.length || 0;
+  if(force){
+    $('#rdShow').textContent = e.show + (e.date ? ' · ' + niceDate(e.date) : ''); $('#rdTitle').textContent = topicOf(e) || e.title;
+    $('#radio').style.setProperty('--pc', progCol(e.show)[0]);
+    const hrs = Math.max(1, Math.ceil(d / 3600)); let band = '';
+    for(let i = 0; i <= hrs * 4; i++){ const x = i / (hrs * 4) * 100, major = i % 4 === 0; band += `<i class="${major ? 'mj' : ''}" style="left:${x}%"></i>${major ? `<span style="left:${x}%">${i / 4}h</span>` : ''}`; }
+    $('#rdBand').innerHTML = band;
+  }
+  const p = d ? Math.min(1, (audio.currentTime || 0) / d) : 0;
+  $('#rdNeedle').style.left = (p * 100) + '%';
+  $('#rdKnobR').style.transform = `rotate(${Math.round(p * 300 - 150)}deg)`;
+}
+audio.addEventListener('timeupdate', () => { if(state.npView === 'radio') updateRadio(); });
+audio.addEventListener('loadedmetadata', () => updateRadio(true));
+$('#radio').addEventListener('click', () => setNPView('cover'));
 
 /* ================= Sheet ================= */
 function openSheet(e){
@@ -3646,7 +3792,7 @@ addEventListener('keydown', ev => {
 
 /* ================= Backup and restore ================= */
 async function backupState(){
-  const keep = ['favs','lists','autoNext','autoSaveQ','npView','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
+  const keep = ['favs','lists','autoNext','autoSaveQ','npView','listView','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
   const data = { app:'art-bell-archive', version:1, saved:new Date().toISOString(), state:Object.fromEntries(keep.map(k => [k, state[k]])) };
   const name = `art-bell-tapes-backup-${new Date().toISOString().slice(0,10)}.json`;
   const file = new File([JSON.stringify(data)], name, { type:'application/json' });
