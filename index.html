@@ -1015,6 +1015,56 @@ body.calm .install{transition:none}
   .toast{left:calc(50% + 124px)!important}
 }
 @media (min-width:1400px){ .list{grid-template-columns:1fr 1fr 1fr} }
+
+/* ================= Covers v2: B (day) and C (night) ================= */
+html.cine .art.cv{background:#1b1917!important;color:#ece6da;padding:0;container-type:size;box-shadow:inset 0 0 0 1px rgba(236,230,218,.08)}
+html.cine .art.cv::before,html.cine .art.cv::after{display:none!important}
+html.cine .art.cv .win{display:none}
+html.cine .art.cv .mot{display:block;position:absolute;left:14%;right:14%;top:5%;width:72%;height:auto;fill:none;stroke:var(--pl);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;z-index:0}
+html.cine .art.cv .mk{display:none!important}
+html.cine .art.cv .no,html.cine .art.cv .hd,html.cine .art.cv .dt{display:block;position:absolute;left:8%;right:8%;z-index:1}
+html.cine .art.cv .hd{bottom:21%;font:400 12.5cqw/1.02 var(--serif)!important;letter-spacing:0;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;top:auto}
+html.cine .art.cv .dt{bottom:8%;font:600 5.6cqw/1 var(--font)!important;letter-spacing:.12em;text-transform:uppercase;color:#8e877b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.cine .art.cv .no{top:auto;bottom:8%;left:auto;right:8%;width:auto;font:600 5.6cqw/1 var(--font)!important;letter-spacing:.12em;color:var(--pl);opacity:1;text-transform:uppercase;background:#1b1917;padding-left:6px}
+html.cine .art.cv .yy{display:none!important}
+/* small covers: motif + year only */
+html.cine .art.cv.sm .hd,html.cine .art.cv.sm .dt,html.cine .art.cv.sm .no,html.cine .mini .art.cv .hd,html.cine .mini .art.cv .dt,html.cine .mini .art.cv .no{display:none!important}
+html.cine .art.cv.sm .yy,html.cine .mini .art.cv .yy{display:block!important;position:absolute;left:9%;bottom:6%;font:italic 400 30cqw/1 var(--serif)!important;color:#ece6da!important;z-index:1}
+html.cine .art.cv.sm .mot,html.cine .mini .art.cv .mot{top:4%;left:18%;width:64%;stroke-width:4}
+/* player cover */
+html.cine .np .bigart.cv .hd{font-size:11cqw!important}
+/* B — day: one flat colour per programme */
+html.cine.light .art.cv{background:var(--pc)!important;color:#f3ebdd;box-shadow:none}
+html.cine.light .art.cv .mot{display:none}
+html.cine.light .art.cv .mk{display:block!important;position:absolute;right:8%;top:8%;left:auto;bottom:auto;width:12%;height:12%;color:#f3ebdd;opacity:.7;transform:none;filter:none;animation:none}
+html.cine.light .art.cv .no{top:8%;bottom:auto;left:8%;right:auto;color:#f3ebdd;opacity:.8;background:none;padding:0}
+html.cine.light .art.cv .dt{color:rgba(243,235,221,.78)}
+html.cine.light .art.cv.sm .mk,html.cine.light .mini .art.cv .mk{display:none!important}
+html.cine.light .art.cv.sm .yy,html.cine.light .mini .art.cv .yy{color:#f3ebdd!important}
+/* On this night */
+html.cine .tile.tonight.cv{background:#1b1917!important;border:1px solid rgba(236,230,218,.1)}
+html.cine .tile.tonight.cv .hero-art{background:none!important}
+html.cine .tile.tonight.cv .hero-art::before,html.cine .tile.tonight.cv .hero-art::after{display:none!important}
+html.cine .tile.tonight.cv .hero-art .mot{position:absolute;right:-4%;top:6%;width:62%;height:auto;fill:none;stroke:var(--pl);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+html.cine .tile.tonight.cv,html.cine .tile.tonight.cv .k,html.cine .tile.tonight.cv .big,html.cine .tile.tonight.cv .ep,html.cine .tile.tonight.cv .s,html.cine .tile.tonight.cv .yr{color:#ece6da!important}
+html.cine .tile.tonight.cv .big em{color:var(--pl)!important}
+html.cine .tile.tonight.cv .yr{color:var(--pl)!important}
+html.cine .tile.tonight.cv .s{color:#9a9286!important}
+html.cine.light .tile.tonight.cv{background:var(--pc)!important;border:0}
+html.cine.light .tile.tonight.cv .hero-art .mot{stroke:rgba(243,235,221,.35)}
+html.cine.light .tile.tonight.cv .big em,html.cine.light .tile.tonight.cv .yr{color:#f3ebdd!important;opacity:.85}
+html.cine.light .tile.tonight.cv .s{color:rgba(243,235,221,.75)!important}
+/* Programme cards */
+html.cine .prog.cvp{background:#1b1917!important;color:#ece6da;box-shadow:inset 0 0 0 1px rgba(236,230,218,.1)!important}
+html.cine .prog.cvp::before,html.cine .prog.cvp::after{display:none!important}
+html.cine .prog.cvp .em{color:var(--pl)!important;opacity:1;filter:none!important;width:30px!important;height:30px!important;right:14px!important;top:14px!important;left:auto!important;bottom:auto!important;transform:none!important;aspect-ratio:auto!important}
+html.cine .prog.cvp .yrs,html.cine .prog.cvp .ct{color:#9a9286!important;background:none!important;padding:0!important}
+html.cine .prog.cvp .nm{color:#ece6da!important}
+html.cine .prog.cvp .ct{border:0!important}
+html.cine.light .prog.cvp{background:var(--pc)!important;box-shadow:none!important}
+html.cine.light .prog.cvp .em{color:#f3ebdd!important;opacity:.75}
+html.cine.light .prog.cvp .yrs,html.cine.light .prog.cvp .ct{color:rgba(243,235,221,.78)!important}
+html.cine.light .prog.cvp .nm{color:#f3ebdd!important}
 </style>
 </head>
 <body>
@@ -1330,6 +1380,48 @@ const CINE_PALETTES = {
   'Ghost to Ghost':         [['#2b2233','#e7dfe9','#9a86a8'], ['#e7dfe9','#2b2233','#6a5378'], ['#6a5378','#f1ebf2','#151118']]
 };
 const isCine = () => document.documentElement.classList.contains('cine');
+/* One colour per programme: [fill for day covers, line colour for night covers].
+   Picked from what each show was about — swap in exact brand colours here. */
+const PROG_COL = {
+  'Coast to Coast AM':      ['#a8452b', '#e2805a'],   // amber AM dial over the high desert
+  'Dreamland':              ['#2f4a66', '#86acd4'],   // the Nevada night sky (Dreamland: Area 51's nickname)
+  'Somewhere in Time':      ['#6e5d48', '#c8a97f'],   // sepia: the rebroadcasts
+  'Dark Matter':            ['#3d3a6b', '#a29ce6'],   // deep space
+  'Midnight in the Desert': ['#5a2d4f', '#d48cbf'],   // desert midnight
+  'Ghost to Ghost':         ['#3f5f4a', '#93c7a0'],   // ectoplasm green
+  'Art Bell':               ['#4d4a45', '#b3ab9e']
+};
+const progCol = show => PROG_COL[show] || PROG_COL['Art Bell'];
+const LINE_MOTIF = {
+  saucer: '<ellipse cx="50" cy="44" rx="30" ry="7"/><path d="M38 42a12 10 0 0 1 24 0"/><path d="M44 52l-8 22M56 52l8 22" stroke-dasharray="2 3"/>',
+  stars: '<circle cx="50" cy="44" r="14"/><ellipse cx="50" cy="44" rx="28" ry="6"/><path d="M18 18h.1M80 24h.1M72 70h.1M26 66h.1" stroke-width="3"/>',
+  rings: '<circle cx="50" cy="44" r="5"/><circle cx="50" cy="44" r="13"/><circle cx="50" cy="44" r="21"/><circle cx="50" cy="44" r="29" stroke-dasharray="3 4"/>',
+  arches: '<path d="M20 72a30 30 0 0 1 60 0M30 72a20 20 0 0 1 40 0M40 72a10 10 0 0 1 20 0"/>',
+  grid: '<path d="M26 22h48v46H26zM26 37h48M26 53h48M42 22v46M58 22v46"/><circle cx="58" cy="37" r="6"/>',
+  peaks: '<path d="M16 72l22-34 12 18 10-14 24 30z"/><circle cx="74" cy="24" r="5"/>',
+  horizon: '<path d="M34 58a16 16 0 0 1 32 0"/><path d="M16 58h68M24 66h52M34 73h32"/>',
+  halftone: '<circle cx="50" cy="44" r="20"/><path d="M38 36h.1M50 32h.1M62 36h.1M36 48h.1M50 46h.1M64 48h.1M44 58h.1M56 58h.1" stroke-width="4"/>',
+  stripes: '<path d="M28 24l44 44M38 20l40 40M22 34l40 40"/>',
+  quarters: '<path d="M50 44V18a26 26 0 0 1 26 26z"/><circle cx="50" cy="44" r="26"/>',
+  split: '<path d="M20 72L80 18"/><circle cx="58" cy="50" r="10"/>'
+};
+const motifSVG = (kind, cls = 'mot') => `<svg class="${cls}" viewBox="0 0 100 90" aria-hidden="true">${LINE_MOTIF[kind] || LINE_MOTIF.rings}</svg>`;
+const PERSON_RE = /^((Father|Fr\.?|Dr\.?|Prof\.?|Major|Maj\.?|Rev\.?|Col\.?|Sir|Gen\.?|Lt\.?)\s)?[A-Z][a-z’'.-]+(\s(de|van|von|St\.?))?(\s[A-Z][\w’'.-]*){1,3}$/;
+const NOT_PERSON_RE = /^(Open Lines|Time Travel|Area 51|Ghost to Ghost|Remote Viewing|Earth Changes|Art’s|Art's|Past Life|Near Death|Cancer|Crop Circles|Comet|Ancient|Alien|UFO|The )/i;
+const cleanPart = x => x.replace(/\([^)]*\)/g, '').replace(/\bfirst appear\w*\b/i, '').replace(/,\s*(M\.?D\.?|Ph\.?D\.?|Jr\.?)$/i, '').split(/(?<!\b(?:[A-Z][a-z]{0,2}|Prof))\.\s+(?=[A-Z][a-z])/)[0].trim();
+function headOf(e){
+  const parts = e.title.split(/\s+[–-]\s+/).map(cleanPart).filter(Boolean);
+  const person = parts.find(x => PERSON_RE.test(x) && !NOT_PERSON_RE.test(x));
+  if(person) return person;
+  const g = (e.guests || []).find(x => !NOT_PERSON_RE.test(x) && !/discovered|bases|update|lines|hour/i.test(x));
+  return g || parts[0] || e.title;
+}
+function topicOf(e){
+  const h = headOf(e).toLowerCase();
+  const parts = e.title.split(/\s+[–-]\s+/).map(cleanPart)
+    .filter(x => x && !x.toLowerCase().includes(h) && !h.includes(x.toLowerCase()) && !(PERSON_RE.test(x) && !NOT_PERSON_RE.test(x)) && !/^first show$/i.test(x));
+  return parts[0] || '';
+}
 /* Sleeve art: the subject picks the motif where it can (UFOs get a saucer, Earth changes a horizon...) */
 const MOTIF_KEYS = [
   [/ufo|alien|abduct|saucer|roswell|reptil|contact|extraterr|\bet\b|greys?\b|hybrid/i, 'saucer'],
@@ -1372,9 +1464,9 @@ function coverStyle(key, show, title){
   coverCache.set(ck, out); return out;
 }
 function artHTML(e, cls=''){
-  const c = coverStyle(e.id, e.show, e.title);
+  const [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
   const yy = e.year ? "’" + e.year.slice(2) : '—';
-  return `<div class="art gen sleeve ${cls}" style="--cbg:${c.bg};--ink:${c.ink};--c2:${c.ac}"><i class="win" style="background:${c.win}"></i>${e.no ? `<span class="no">No. ${e.no}</span>` : ''}<span class="yy">${yy}</span></div>`;
+  return `<div class="art gen sleeve cv ${cls}" style="--pc:${fill};--pl:${line}">${motifSVG(kind)}${emblem(e.show, 'mk')}<span class="no">${e.no ? 'No. ' + e.no : ''}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
 }
 
 /* ================= State ================= */
@@ -1640,8 +1732,8 @@ function render(){
   renderShelves(showProgs);
   $('#progWrap').style.display = showProgs ? '' : 'none';
   if(showProgs) $('#progs').innerHTML = PROGRAMMES.filter(p => counts[p[0]]).map(([n, y]) => {
-    const pc = coverStyle('prog:' + n, n);
-    return `<button class="art gen prog" data-show="${esc(n)}" style="--cv:${pc.layers};--ink:${pc.ink};--c2:${pc.ac};--cbg:${pc.bg}">${emblem(n)}<span class="yrs">${esc(y)}</span><span class="nm">${esc(n)}</span><span class="ct">${counts[n].toLocaleString('en-GB')} ${counts[n]===1?'show':'shows'}</span></button>`;
+    const pc = coverStyle('prog:' + n, n), [pfill, pline] = progCol(n);
+    return `<button class="art prog cvp" data-show="${esc(n)}" style="--pc:${pfill};--pl:${pline}">${emblem(n)}<span class="yrs">${esc(y)}</span><span class="nm">${esc(n)}</span><span class="ct">${counts[n].toLocaleString('en-GB')} ${counts[n]===1?'show':'shows'}</span></button>`;
   }).join('');
   const ph = $('#progHead'), info = PROGRAMMES.find(p => p[0] === showFilter);
   if(showFilter && info){
@@ -1773,41 +1865,25 @@ function emblemImage(show, color, px){
   });
 }
 async function coverPNG(e, S = 512){
-  const key = e.id + '|' + S; if(artCache.has(key)) return artCache.get(key);
-  const c = coverStyle(e.id, e.show, e.title), h = hashStr(e.id);
+  const key = e.id + '|' + S + '|v2'; if(artCache.has(key)) return artCache.get(key);
+  const [fill, line] = progCol(e.show);
   const cv = document.createElement('canvas'); cv.width = cv.height = S; const g = cv.getContext('2d');
-  const wx = S*.08, wy = S*.08, ww = S*.84, wh = S*.65, A = c.bg, B = c.ac;
-  const x = wx + (30 + (h >>> 7) % 41)/100*ww, y = wy + (25 + (h >>> 11) % 41)/100*wh, a = ((h >>> 15) % 180) * Math.PI/180, k = S/156, sz = (9 + (h >>> 19) % 8)*k, d = (h >>> 5) % 10;
-  const far = (px, py) => Math.max(Math.hypot(px-wx, py-wy), Math.hypot(wx+ww-px, py-wy), Math.hypot(px-wx, wy+wh-py), Math.hypot(wx+ww-px, wy+wh-py));
-  const disc = (px, py, r, col) => { g.fillStyle = col; g.beginPath(); g.arc(px, py, r, 0, Math.PI*2); g.fill(); };
-  const dots = (step, r, col, ox = 0, oy = 0) => { g.fillStyle = col; for(let yy = wy + oy; yy < wy + wh + step; yy += step) for(let xx = wx + ox; xx < wx + ww + step; xx += step){ g.beginPath(); g.arc(xx, yy, r, 0, Math.PI*2); g.fill(); } };
-  g.fillStyle = c.bg; g.fillRect(0, 0, S, S);
-  g.save(); g.beginPath(); g.rect(wx, wy, ww, wh); g.clip(); g.fillStyle = c.fg; g.fillRect(wx, wy, ww, wh);
-  switch(c.kind){
-    case 'saucer': { dots(15*k, .9*k, A, 3*k, 4*k); const cx = wx + ww/2, cy = wy + (40+d)/100*wh;
-      g.globalAlpha = .38; g.fillStyle = A; g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx - Math.tan(18*Math.PI/180)*wh, wy + wh); g.lineTo(cx + Math.tan(18*Math.PI/180)*wh, wy + wh); g.closePath(); g.fill(); g.globalAlpha = 1;
-      g.fillStyle = B; g.beginPath(); g.ellipse(cx, wy + (35+d)/100*wh, .15*ww*1.1, .13*wh*1.1, 0, 0, Math.PI*2); g.fill();
-      g.fillStyle = A; g.beginPath(); g.ellipse(cx, cy, .36*ww*1.1, .08*wh*1.1, 0, 0, Math.PI*2); g.fill(); break; }
-    case 'peaks': { const tri = (px, py, half, col) => { g.fillStyle = col; g.beginPath(); g.moveTo(px, py); g.lineTo(px - Math.tan(half)*S, py + S); g.lineTo(px + Math.tan(half)*S, py + S); g.closePath(); g.fill(); };
-      disc(wx + (78-d)/100*ww, wy + .18*wh, .07*far(wx+ww*.78, wy+wh*.18), A);
-      tri(wx + (32+d)/100*ww, wy + .30*wh, Math.PI/4, B); tri(wx + (62+d)/100*ww, wy + .52*wh, 40*Math.PI/180, A); break; }
-    case 'arches': { const cy = wy + 1.12*wh, R = far(x, cy); [[.56, A], [.44, B], [.32, A], [.20, B]].forEach(([r, col]) => disc(x, cy, r*R, col)); break; }
-    case 'grid': { g.strokeStyle = A; g.lineWidth = 1.5*k; const st = sz + 3*k; for(let p = wx; p < wx + ww; p += st){ g.beginPath(); g.moveTo(p, wy); g.lineTo(p, wy + wh); g.stroke(); } for(let p = wy; p < wy + wh; p += st){ g.beginPath(); g.moveTo(wx, p); g.lineTo(wx + ww, p); g.stroke(); } disc(x, y, .16*far(x, y), B); break; }
-    case 'stars': { dots(13*k, .9*k, A); dots(19*k, .7*k, A, 6*k, 8*k); const R = far(x, y); disc(x, y, .19*R, B); g.strokeStyle = A; g.lineWidth = .05*R; g.beginPath(); g.ellipse(x, y, .34*ww*1.25, .07*wh*1.25, 0, 0, Math.PI*2); g.stroke(); break; }
-    case 'horizon': { const hz = wy + .63*wh; disc(x, hz, .30*far(x, hz), B); g.fillStyle = A; for(let p = wy + sz/2 + 3*k; p < hz; p += sz/2 + 5*k) g.fillRect(wx, p, ww, 2*k); g.fillRect(wx, hz, ww, wy + wh - hz); break; }
-    case 'rings': { g.strokeStyle = A; g.lineWidth = 2.2*k; for(let r = 1.2*k; r < S*1.4; r += sz + 4*k){ g.beginPath(); g.arc(x, y, r, 0, Math.PI*2); g.stroke(); } disc(x, y, .07*far(x, y), B); break; }
-    case 'halftone': dots(sz, sz*.27, A); disc(x, y, .24*far(x, y), B); break;
-    case 'stripes': { g.save(); g.translate(x, y); g.rotate(a - Math.PI/2); g.fillStyle = A; for(let p = -S; p < S; p += sz) g.fillRect(p, -S, sz/2, S*2); g.restore(); disc(x, y, .20*far(x, y), B); break; }
-    case 'quarters': { [[0, A], [1, B]].forEach(([q, col]) => { g.fillStyle = col; g.beginPath(); g.moveTo(x, y); g.arc(x, y, S*2, a - Math.PI/2 + q*Math.PI/2, a - Math.PI/2 + (q+1)*Math.PI/2); g.closePath(); g.fill(); }); break; }
-    default: { g.save(); g.translate(wx + ww/2, wy + wh/2); g.rotate(a); g.fillStyle = A; g.fillRect(-S, -S, S*2, S); g.restore(); disc(x, y, .22*far(x, y), B); }
-  }
-  g.restore();
-  try{ await Promise.all([document.fonts.load(`italic 400 ${Math.round(S*.2)}px "Instrument Serif"`), document.fonts.load(`600 ${Math.round(S*.05)}px "Inter"`)]); }catch(x){}
-  g.fillStyle = c.ink; g.textBaseline = 'alphabetic';
-  g.font = `italic 400 ${Math.round(S*.2)}px "Instrument Serif", Georgia, serif`; g.fillText(e.year ? '’' + e.year.slice(2) : '', S*.08, S*.95);
-  g.textAlign = 'right'; g.font = `600 ${Math.round(S*.045)}px "Inter", sans-serif`;
-  if(e.no) g.fillText(`NO. ${e.no}`, S*.92, S*.875);
-  g.globalAlpha = .7; g.font = `500 ${Math.round(S*.036)}px "Inter", sans-serif`; g.fillText((SHOW_SHORT[e.show] || e.show).toUpperCase(), S*.92, S*.935); g.globalAlpha = 1;
+  g.fillStyle = '#16140f'; g.fillRect(0, 0, S, S);
+  // motif, drawn from the same line art as the app
+  try{
+    const kind = coverStyle(e.id, e.show, e.title).kind;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="${S}" height="${S*.9}" fill="none" stroke="${line}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${LINE_MOTIF[kind] || LINE_MOTIF.rings}</svg>`;
+    const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    await img.decode(); g.drawImage(img, S*.12, S*.02, S*.76, S*.684);
+  }catch(x){}
+  try{ await Promise.all([document.fonts.load(`400 ${Math.round(S*.1)}px "Instrument Serif"`), document.fonts.load(`600 ${Math.round(S*.04)}px "Inter"`)]); }catch(x){}
+  const wrap = (txt, max) => { const words = txt.split(' '), lines = []; let cur = ''; for(const w of words){ const t = cur ? cur + ' ' + w : w; if(g.measureText(t).width > max && cur){ lines.push(cur); cur = w; } else cur = t; } if(cur) lines.push(cur); return lines.slice(0, 2); };
+  g.fillStyle = '#ece6da'; g.font = `400 ${Math.round(S*.105)}px "Instrument Serif", Georgia, serif`;
+  const lines = wrap(headOf(e), S*.84); lines.forEach((l, i) => g.fillText(l, S*.08, S*(.8 - (lines.length - 1 - i)*.1)));
+  g.font = `600 ${Math.round(S*.036)}px "Inter", sans-serif`; g.fillStyle = line;
+  g.fillText((e.no ? 'NO. ' + e.no + '   ' : ''), S*.08, S*.9);
+  const w0 = g.measureText(e.no ? 'NO. ' + e.no + '   ' : '').width; g.fillStyle = '#9a9286';
+  g.fillText(((e.date ? niceDate(e.date) : '') + ' · ' + (SHOW_SHORT[e.show] || e.show)).toUpperCase(), S*.08 + w0, S*.9);
   const url = cv.toDataURL('image/png'); artCache.set(key, url); return url;
 }
 async function setNowPlayingMeta(e){
@@ -1863,12 +1939,12 @@ function renderShelves(show){
   const ess = essentials();
   const essHTML = ess.length ? `<section class="shelf ess"><div class="sec"><h2>The Essentials</h2><button class="seeall" data-ess="1">Play all</button></div>
       <p class="ess-intro">${ess.length} nights every listener should hear, in the order they aired.</p>
-      <div class="rail">${ess.map(({e, note}, i) => `<button class="card esscard" data-id="${esc(e.id)}">${artHTML(e)}<div class="enum">${String(i+1).padStart(2,'0')}</div><div class="t">${esc(e.title)}</div><div class="note">${esc(note)}</div></button>`).join('')}</div></section>` : '';
+      <div class="rail">${ess.map(({e, note}, i) => `<button class="card esscard" data-id="${esc(e.id)}">${artHTML(e)}<div class="enum">${String(i+1).padStart(2,'0')}</div><div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(note)}</div></button>`).join('')}</div></section>` : '';
   const tribHTML = `<button class="tribcard" id="tribCard"><span class="k">In memory</span><span class="n">Art Bell</span><span class="d">1945 — 2018</span><span class="s">The man, the lines and a life on the air</span></button>`;
   el.innerHTML = essHTML + tribHTML + rows.map(([n], idx) => {
     const picks = dailyPick(byShow[n], 10);
     return `<section class="shelf"><div class="sec"><h2>${emblem(n,'hem')}${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
-      <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(e.title)}</div><div class="m">${niceDate(e.date)}</div></button>`).join('')}</div></section>`;
+      <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(topicOf(e) || e.title)}</div></button>`).join('')}</div></section>`;
   }).join('');
 }
 $('#shelves').addEventListener('click', ev => {
@@ -1906,13 +1982,13 @@ function renderBento(){
   if(tonightIdx >= list.length) tonightIdx = 0;
   const dayBig = `<span class="big">${now.getDate()} <em>${MONTHS[now.getMonth()]}</em></span>`;
   const cards = list.length ? list.map((e, i) => {
-    const c = coverStyle(e.id, e.show, e.title);
-    return `<button class="tile tonight" data-t="tonight" data-i="${i}" data-id="${esc(e.id)}" style="--cv:${c.layers};--ink:${c.ink};--cbg:${c.bg}">
-      <span class="hero-art"></span>
+    const c = coverStyle(e.id, e.show, e.title), [fill, line] = progCol(e.show);
+    return `<button class="tile tonight cv" data-t="tonight" data-i="${i}" data-id="${esc(e.id)}" style="--pc:${fill};--pl:${line}">
+      <span class="hero-art">${motifSVG(c.kind)}</span>
       <span class="k">${tn.exact ? 'On this night' : 'Closest to tonight'}</span>
       ${e.year ? `<span class="yr">${esc(e.year)}</span>` : ''}
       ${dayBig}
-      <span class="ep">${esc(e.title)}</span><span class="s">${esc(e.show)} · ${niceDate(e.date)}</span><span class="go">${I.play2}</span>
+      <span class="ep">${esc(headOf(e))}</span><span class="s">${esc(topicOf(e) || e.show)} · ${esc(e.show)}</span><span class="go">${I.play2}</span>
     </button>`;
   }).join('') : (() => { const c = coverStyle('tonight', 'Coast to Coast AM');
     return `<div class="tile tonight" style="--cv:${c.layers};--ink:${c.ink};--cbg:${c.bg}"><span class="hero-art"></span><span class="k">On this night</span>${dayBig}<span class="s">No dated shows yet</span></div>`; })();
