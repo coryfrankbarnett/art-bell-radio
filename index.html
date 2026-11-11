@@ -941,6 +941,19 @@ html.cine .np .subt{margin-top:8px}
 .tb-row{gap:10px;margin-top:12px}
 .tb-end{padding:48px 0 20px}
 
+.installbtn{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;margin-left:auto;margin-right:8px;border:1px solid var(--line);border-radius:2px;font:600 10.5px var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--text);flex:none}
+.installbtn[hidden]{display:none}
+.top{position:relative}
+.top > div:first-child{flex:1;min-width:0}
+.top .gear{position:absolute;right:20px;top:calc(14px + var(--st))}
+.top .installbtn{position:absolute;right:72px;top:calc(18px + var(--st));margin:0}
+.top:has(.installbtn:not([hidden])) .eyebrow{padding-right:150px}
+.top:has(.installbtn[hidden]) .eyebrow,.top .eyebrow{padding-right:56px}
+.top:has(.installbtn:not([hidden])) .eyebrow{padding-right:170px}
+@media (min-width:960px){ .top .gear{right:40px} .top .installbtn{right:92px} }
+.top .eyebrow #greet{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.top .eyebrow{min-width:0}
+.installbtn svg{width:15px;height:15px;fill:var(--accent)}
 /* ================= Install banner ================= */
 .install{position:fixed;left:10px;right:10px;top:calc(10px + var(--st));z-index:90;display:grid;grid-template-columns:44px 1fr auto auto;align-items:center;gap:12px;padding:12px 10px 12px 12px;background:var(--surface);border:1px solid var(--line);border-radius:4px;box-shadow:0 18px 40px rgba(0,0,0,.35);transform:translateY(calc(-100% - 30px));transition:transform .45s cubic-bezier(.2,.8,.2,1);max-width:520px;margin:0 auto}
 .install.show{transform:none}
@@ -1074,7 +1087,7 @@ body.calm .install{transition:none}
       <h1>Art Bell <em>Archive</em></h1>
       <div class="sub" id="count">Loading the archive…</div>
     </div>
-    <button class="gear" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7 7 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7 7 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7 7 0 0 0 1.7 1l.4 2.7h4l.4-2.7a7 7 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></button>
+    <button class="installbtn" id="installBtn" hidden><svg viewBox="0 0 24 24"><path d="M11 3h2v9.2l3.6-3.6L18 10l-6 6-6-6 1.4-1.4 3.6 3.6zM5 18h14v2H5z"/></svg><span>Install</span></button><button class="gear" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7 7 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7 7 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7 7 0 0 0 1.7 1l.4 2.7h4l.4-2.7a7 7 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></button>
   </div>
   <div class="demo" id="demo">Preview mode: showing sample shows. When the app is hosted, the full library loads live from archive.org.</div>
 
@@ -2556,29 +2569,39 @@ addEventListener('popstate', () => {
   if(sel === '#np') closeNP(); else if(sel === '#tribute') closeTribute(); else closeSheet();
 });
 
-/* ================= Install banner ================= */
-(() => {
+/* ================= Install (banner, header button, Settings) ================= */
+const installer = (() => {
   const el = $('#install'), standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
   const ua = navigator.userAgent, ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  let deferred = null, kind = '';
+  const android = /android/i.test(ua);
+  let deferred = null, kind = ios ? 'ios' : '';
   const snoozed = () => { try{ return Date.now() < +(localStorage.getItem('abr.installSnooze') || 0); }catch(_){ return false; } };
-  const show = k => {
-    if(standalone || snoozed() || el.classList.contains('show')) return; kind = k;
-    $('#ibGo').textContent = k === 'ios' ? 'How' : 'Install';
+  const can = () => !standalone && (ios || android || !!deferred);
+  const syncBtn = () => { $('#installBtn').hidden = !can(); };
+  const steps = k => k === 'ios'
+    ? `<li>Tap the <b>Share</b> button <svg viewBox="0 0 24 24"><path d="M12 3 7.5 7.5l1.4 1.4L11 6.8V15h2V6.8l2.1 2.1 1.4-1.4zM5 11v9h14v-9h-3v2h1v5H7v-5h1v-2z"/></svg> in Safari (on newer iPhones it’s inside the <b>⋯</b> menu)</li><li>Choose <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li>`
+    : `<li>Tap the <b>⋮</b> menu in your browser</li><li>Choose <b>Install app</b> or <b>Add to Home screen</b></li><li>Tap <b>Install</b></li>`;
+  const open = (k, withSteps) => {
+    kind = k; $('#ibSteps').innerHTML = steps(k === 'ios' ? 'ios' : 'menu');
+    $('#ibGo').textContent = withSteps ? 'Got it' : (k === 'prompt' ? 'Install' : 'How');
     $('#ibSub').textContent = k === 'ios' ? 'Add it to your home screen and it opens full screen, like any other app.' : innerWidth >= 960 ? 'Get it in its own window, with a shortcut on your desktop.' : 'Open it from your home screen, full screen, like any other app.';
-    const go = () => { el.classList.add('show'); el.setAttribute('aria-hidden', 'false'); };
-    document.getElementById('intro') ? setTimeout(go, 3500) : setTimeout(go, 1200);
+    el.classList.toggle('steps', !!withSteps); el.classList.add('show'); el.setAttribute('aria-hidden', 'false');
   };
   const hide = snooze => { el.classList.remove('show', 'steps'); el.setAttribute('aria-hidden', 'true'); if(snooze) try{ localStorage.setItem('abr.installSnooze', Date.now() + 14*864e5); }catch(_){} };
-  addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; show('prompt'); });
-  addEventListener('appinstalled', () => { hide(true); toast('Installed — you’ll find it with your apps'); });
-  if(ios && !standalone) show('ios');
+  async function run(){
+    if(standalone) return toast('You’re already using the installed app');
+    if(deferred){ deferred.prompt(); const r = await deferred.userChoice.catch(() => ({})); deferred = null; syncBtn(); hide(r.outcome !== 'accepted'); return; }
+    open(ios ? 'ios' : 'menu', true);
+  }
+  const auto = k => { if(standalone || snoozed() || el.classList.contains('show')) return; setTimeout(() => open(k, false), document.getElementById('intro') ? 3500 : 1200); };
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; syncBtn(); auto('prompt'); });
+  addEventListener('appinstalled', () => { deferred = null; hide(true); syncBtn(); toast('Installed — you’ll find it with your apps'); });
+  if(ios && !standalone) auto('ios');
   $('#ibX').onclick = () => hide(true);
-  $('#ibGo').onclick = async () => {
-    if(kind === 'ios'){ el.classList.toggle('steps'); $('#ibGo').textContent = el.classList.contains('steps') ? 'Got it' : 'How'; if(!el.classList.contains('steps')) hide(true); return; }
-    if(!deferred) return hide(false);
-    deferred.prompt(); const r = await deferred.userChoice.catch(() => ({})); deferred = null; hide(r.outcome !== 'accepted');
-  };
+  $('#ibGo').onclick = () => { if(el.classList.contains('steps')) return hide(true); if(kind === 'prompt' && deferred) return run(); open(kind === 'ios' ? 'ios' : 'menu', true); };
+  $('#installBtn').onclick = run;
+  syncBtn();
+  return { can, run };
 })();
 
 /* ================= Keyboard (desktop) ================= */
@@ -2658,6 +2681,7 @@ $('#gear').onclick = () => {
     <button class="act" data-s="backup">Back up favourites &amp; progress<small>Save a file</small></button>
     <button class="act" data-s="restore">Restore from a backup<small>Choose file</small></button>
     <div class="sh-lbl">Library</div>
+    ${installer.can() ? `<button class="act" data-s="install">Install the app<small>Home screen shortcut</small></button>` : ''}
     <button class="act" data-s="tribute">In memory of Art Bell<small>1945–2018</small></button>
     <button class="act" data-s="refresh">Refresh library from archive.org</button>
     <button class="act" data-s="sources">Sources<small>${SOURCES.length} collections</small></button>`;
@@ -2671,6 +2695,7 @@ $('#sheet').addEventListener('click', ev => {
     toast(state.calm ? 'Motion reduced: no animations, sliding or vibration' : 'Motion back on'); }
   if(b.dataset.s === 'refresh'){ closeSheet(); loadLibrary(true); }
   if(b.dataset.s === 'tribute'){ closeSheet(); openTribute(); }
+  if(b.dataset.s === 'install'){ closeSheet(); installer.run(); }
   if(b.dataset.s === 'sources'){ closeSheet(); toast('Internet Archive: ' + SOURCES.length + ' Art Bell collections + search', 3500); }
 });
 
