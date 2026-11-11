@@ -1361,6 +1361,36 @@ html.cine.light .spine{background:#fbf8f2}
 .rd-knob{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4a4238,#211d18 70%);box-shadow:0 3px 6px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12);position:relative;transition:transform .9s linear}
 .rd-knob::after{content:"";position:absolute;left:50%;top:4px;width:2px;height:9px;margin-left:-1px;border-radius:1px;background:#c9b48d}
 body.calm .rd-needle,body.calm .rd-knob{transition:none}
+
+.toast.undoable{display:flex;align-items:center;gap:14px;pointer-events:auto;padding:6px 6px 6px 16px}
+.toast .t-undo{flex:none;height:30px;padding:0 14px;border-radius:999px;background:var(--bg);color:var(--text);font:600 11px/1 var(--font);letter-spacing:.12em;text-transform:uppercase}
+
+.ab-head{text-align:center;padding:10px 0 18px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.ab-the{font:italic 400 20px/1 var(--serif);color:var(--muted)}
+.ab-n{font:400 44px/1 var(--serif);margin-top:2px}
+.ab-n em{color:var(--accent)}
+html.cine.mono .ab-n em{color:#d4b483}
+.ab-s{font:500 10px/1.4 var(--font);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.ab-p{font:400 14.5px/1.55 var(--font);color:var(--text);margin:4px 2px 12px}
+.ab-p a,.ab-list a{color:var(--text);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.ab-small{font-size:12.5px;color:var(--muted)}
+.ab-list{margin:0 0 14px;padding-left:18px;font:400 12.5px/1.7 var(--font);color:var(--muted);word-break:break-all}
+
+.tour{display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 6px 4px}
+.tour-art{width:110px;height:94px;color:var(--accent);margin:6px 0 12px}
+.tour-k{font:500 10px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.tour-h{font:400 32px/1.05 var(--serif);margin:10px 0 10px}
+.tour-p{font:400 15px/1.55 var(--font);color:var(--text);opacity:.85;max-width:30em;margin:0 0 20px}
+.tour-btns{display:flex;justify-content:space-between;align-items:center;width:100%}
+.tour-skip{font:500 11px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:none;padding:12px 4px;min-width:60px;text-align:left}
+.tour-next{height:46px;padding:0 22px;border-radius:2px;background:var(--text);color:var(--bg);font:600 11px/1 var(--font);letter-spacing:.16em;text-transform:uppercase}
+
+/* accessibility: visible keyboard focus everywhere, comfortable tap targets, readable small text */
+:focus-visible{outline:2px solid var(--accent)!important;outline-offset:2px}
+button:focus:not(:focus-visible){outline:none}
+.chip,.np-topics .tp,.jump,.viewtog,#sort{min-height:32px}
+@media (pointer:coarse){ .chip,.np-topics .tp,.jump{min-height:36px} .tb-listen{min-height:44px} }
+@media (prefers-contrast: more){ :root{--muted:var(--text)!important;--line:color-mix(in srgb,var(--text) 40%,transparent)!important} }
 </style>
 </head>
 <body>
@@ -1687,7 +1717,13 @@ async function learnHost(item){
   }catch(x){}
 }
 const niceDate = d => { if(!d) return 'Undated'; if(d.length===4) return d; const [y,m,dd]=d.split('-'); if(+m < 1) return y; if(+dd < 1) return new Date(+y, +m-1, 1).toLocaleDateString('en-GB',{month:'short',year:'numeric'}); return new Date(+y, +m-1, +dd).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); };
-function toast(msg, ms=2400){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'), ms); }
+function toast(msg, ms=2400){ const t=$('#toast'); t.textContent=msg; t.classList.remove('undoable'); t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'), ms); }
+// a toast with an Undo button for a few seconds
+function toastUndo(msg, undo, ms = 6000){
+  const t = $('#toast'); t.innerHTML = `<span>${esc(msg)}</span><button type="button" class="t-undo">Undo</button>`; t.classList.add('show', 'undoable');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show', 'undoable'), ms);
+  t.querySelector('.t-undo').onclick = () => { clearTimeout(toast._t); t.classList.remove('undoable'); try{ undo(); }catch(x){} toast('Undone'); };
+}
 const I = {
   play:'<svg viewBox="0 0 24 24"><path d="M8 5.1v13.8a1 1 0 0 0 1.5.9l10.6-6.9a1 1 0 0 0 0-1.7L9.5 4.2A1 1 0 0 0 8 5.1z"/></svg>',
   pause:'<svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg>',
@@ -2038,8 +2074,10 @@ const HIDDEN_SHOWS = new Set(['Area 2000', 'Art Bell']);
 const NOT_ART = /hilly rose|billy goodman|jeff rense|rense art bell|at ohio state|dreamland with whitley strieber|phil hendrie|old time radio|george noory|mike siegel|ian punnett|barbara simpson|rollye james|psilocybin and the sands of time/i;
 const notArt = e => NOT_ART.test(e.file) || (e.date && e.date < '1992-01-01');
 // Turn archive.org item records into the show list
+// every copy of each night across collections, so a failed file can fall back to another
+const ALTS = new Map();
 function ingest(items){
-  const seen = new Map();
+  const seen = new Map(); ALTS.clear();
   items = items.filter(it => !EXTRA_SOURCES.has(it.id)).concat(items.filter(it => EXTRA_SOURCES.has(it.id)));
   const nights = new Set(), partRx = /\b(hour|hr|part|pt)\.?\s*(\d)/i;
   for(const it of items){
@@ -2050,6 +2088,7 @@ function ingest(items){
     (orig.length ? orig : files).forEach(f => {
       const e = parseFile(it.id, f, it.title || it.id);
       const night = e.date + '|' + e.show, pm = (e.title.match(partRx) || f.name.match(partRx) || [])[2];
+      if(e.date.length === 10 && !notArt(e)){ const k = night + '|' + (pm || ''); if(!ALTS.has(k)) ALTS.set(k, []); ALTS.get(k).push({ item:e.item, file:e.file, length:e.length }); }
       if(extra){
         if(e.date.length !== 10 || nights.has(night) || (pm && nights.has(night + '|full'))) return;
         const k2 = night + '|' + (pm || 'full'); if(seen.has(k2)) return;
@@ -2177,18 +2216,48 @@ function resolveUndated(){
   }
   if(drop.size) episodes = episodes.filter(e => !drop.has(e.id));
 }
+// Rough titles from the gap-filling collections become "Topic – Guest", like the rest
+const CAPS = [[/\bufo(s?)\b/gi, 'UFO$1'], [/\bet(s?)\b/g, 'ET$1'], [/\bEt(s?)\b/g, 'ET$1'], [/\bnasa\b/gi, 'NASA'], [/\bhaarp\b/gi, 'HAARP'], [/\bdna\b/gi, 'DNA'], [/\bjfk\b/gi, 'JFK'], [/\bcia\b/gi, 'CIA'], [/\bfbi\b/gi, 'FBI'], [/\bnde(s?)\b/gi, 'NDE$1'], [/\bobe(s?)\b/gi, 'OBE$1'], [/\bevp\b/gi, 'EVP'], [/\by2k\b/gi, 'Y2K'], [/\bmufon\b/gi, 'MUFON'], [/\bseti\b/gi, 'SETI']];
+function tidyTitles(){
+  const count = new Map(); episodes.forEach(e => (e.guests || []).forEach(g => count.set(g, (count.get(g) || 0) + 1)));
+  const known = [...count.entries()].filter(([g, n]) => n >= 2 && g.split(' ').length >= 2).map(([g]) => g).sort((a, b) => b.length - a.length);
+  episodes.forEach(e => {
+    let t = e.title;
+    if(EXTRA_SOURCES.has(e.item) && !/ – /.test(t)){
+      const low = t.toLowerCase();
+      const g = known.find(n => low.includes(n.toLowerCase().replace(/\./g, '')) || low.includes(n.toLowerCase()));
+      if(g){
+        const gl = g.toLowerCase(), i = low.indexOf(gl) >= 0 ? low.indexOf(gl) : low.indexOf(gl.replace(/\./g, '')), len = low.indexOf(gl) >= 0 ? gl.length : gl.replace(/\./g, '').length;
+        let topic = (t.slice(0, i) + ' ' + t.slice(i + len)).replace(/\b(major|maj\.?|dr\.?|doctor|col\.?|colonel|professor|prof\.?|rev\.?|father)\s*$/i, '').replace(/^\s*(major|dr\.?|col\.?|colonel|professor)\b/i, '').replace(/\s{2,}/g, ' ').replace(/^[\s,&–-]+|[\s,&–-]+$/g, '');
+        t = topic.length >= 3 ? `${topic} – ${g}` : g;
+        if(!(e.guests || []).includes(g)) e.guests = (e.guests || []).concat(g);
+      }
+    }
+    // "Guest – Topic" becomes "Topic – Guest"
+    const two = t.split(' – ');
+    if(two.length === 2){ const [a1, b1] = two.map(x => x.trim()); const isG = x => known.some(n => n.toLowerCase() === x.replace(/^(col\.?|dr\.?|major|maj\.?|fr\.?|father|prof\.?)\s+/i, '').toLowerCase());
+      if(isG(a1) && !isG(b1) && !/^(hour|part)\b/i.test(b1)) t = `${b1} – ${a1}`; }
+    if(/rec test/i.test(t)) t = 'Test broadcast before launch';
+    t = t.replace(/^[\s,.;:–-]+/, '');
+    for(const [re, to] of CAPS) t = t.replace(re, to);
+    e.title = t;
+  });
+}
 function afterLoad(quiet){
   resolveUndated();
   mergeGuestSpellings();
+  tidyTitles();
   idMap = new Map(episodes.map(e => [e.id, e]));
   applyTopics(); sugIndex = null; coverCache.clear();
   // catalogue numbers start with Art's first show in the archive (12 Dec 1992); earlier odds and ends stay unnumbered
   let catNo = 0;
   [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach(e => { e.no = !e.date || e.date.length < 10 || e.date < '1992-12-12' ? 0 : ++catNo; });   // no number without a known air date
-  $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015`;
+  const yrs = episodes.filter(e => e.no).map(e => e.year).sort();
+  $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · ${yrs[0] || '1992'}–${yrs[yrs.length - 1] || '2016'}`;
   fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}, {name:'tags', weight:.35}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
   buildDial(); buildChips(); buildGuests(); applyFilters(); if(window.__introReady){ window.__introReady(); window.__introReady = null; }
   if(quiet) return;
+  maybeTour();
   handleDeepLink();
   if(state.last){ const e = byId(state.last); if(e) loadEpisode(e, false); }
 }
@@ -2395,6 +2464,52 @@ $('#sheet').addEventListener('click', ev => {
   if(b.dataset.sy === 'off'){ store.set(SYNC_KEY, {}); closeSheet(); toast('Sync turned off on this device'); }
 });
 
+
+/* ================= About & credits ================= */
+function openAbout(){
+  const nights = new Set(episodes.filter(e => e.date && e.date.length === 10).map(e => e.date)).size;
+  $('#sheet').innerHTML = `<div class="grab"></div>
+    <div class="ab-head"><div class="ab-the">The</div><div class="ab-n">Art Bell <em>Tapes</em></div><div class="ab-s">${episodes.length.toLocaleString('en-GB')} recordings · ${nights.toLocaleString('en-GB')} nights · Art’s voice only</div></div>
+    <p class="ab-p">A listening room for Art Bell’s radio shows, made by a fan. Everything streams straight from the Internet Archive; nothing is copied or hosted here.</p>
+    <div class="sh-lbl">The recordings</div>
+    <p class="ab-p">Uploaded to the Internet Archive by listeners who taped, kept and shared the shows, in these collections:</p>
+    <ul class="ab-list">${SOURCES.map(id => `<li><a href="${API}/details/${encodeURIComponent(id)}" target="_blank" rel="noopener">${esc(id)}</a></li>`).join('')}</ul>
+    <div class="sh-lbl">Topics and moments</div>
+    <p class="ab-p">Subject tags and the times subjects come up are facts drawn from the show notes and transcripts of <a href="https://artbellarchive.org" target="_blank" rel="noopener">The Art Bell Archive</a> podcast. None of their writing is stored.</p>
+    <div class="sh-lbl">Type</div>
+    <p class="ab-p">Instrument Serif, Inter, Space Grotesk and Geist Mono, under the SIL Open Font License.</p>
+    <p class="ab-p ab-small">Art Bell’s programmes belong to their rights holders. This app is a non-commercial tribute.</p>
+    <button class="act" data-s="back">Back to Settings</button>`;
+  $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
+}
+
+
+/* ================= First-run tour: three tips, once ================= */
+const TOUR = [
+  ['Tap the artwork', 'In the player, tap the cover to switch to a cassette, then a radio. The app remembers your favourite.', 'cassette'],
+  ['Jump to the moment', 'Coloured dots above the progress bar show where subjects come up. Tap one in “In this show” to skip straight there.', 'dots'],
+  ['Browse your way', 'Use Shelf to see any list as tape spines, and type a subject, guest or programme into search for suggestions as you go.', 'shelf']
+];
+const TOUR_ART = {
+  cassette: '<rect x="8" y="14" width="84" height="54" rx="6"/><rect x="18" y="20" width="64" height="14" rx="2"/><circle cx="34" cy="50" r="8"/><circle cx="66" cy="50" r="8"/><path d="M26 68l6-8h36l6 8"/>',
+  dots: '<path d="M10 52h80"/><circle cx="22" cy="40" r="3"/><circle cx="38" cy="40" r="3"/><circle cx="61" cy="40" r="3"/><circle cx="80" cy="40" r="3"/><circle cx="30" cy="52" r="5"/>',
+  shelf: '<path d="M14 72h72"/><rect x="18" y="20" width="10" height="52"/><rect x="30" y="16" width="10" height="56"/><rect x="42" y="24" width="10" height="48"/><path d="M58 26l9-3 13 48-9 3z"/>'
+};
+function openTour(i = 0){
+  const [h, p, art] = TOUR[i];
+  $('#sheet').innerHTML = `<div class="grab"></div>
+    <div class="tour"><svg class="tour-art" viewBox="0 0 100 86" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${TOUR_ART[art]}</g></svg>
+      <div class="tour-k">${i + 1} of ${TOUR.length}</div><div class="tour-h">${h}</div><p class="tour-p">${p}</p>
+      <div class="tour-btns"><button class="tour-skip" data-tour="done">${i < TOUR.length - 1 ? 'Skip' : ''}</button><button class="tour-next" data-tour="${i < TOUR.length - 1 ? i + 1 : 'done'}">${i < TOUR.length - 1 ? 'Next' : 'Start listening'}</button></div></div>`;
+  $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
+}
+$('#sheet').addEventListener('click', ev => { const b = ev.target.closest('[data-tour]'); if(!b) return; if(b.dataset.tour === 'done'){ state.toured = 1; saveState(); closeSheet(); } else openTour(+b.dataset.tour); });
+function maybeTour(){
+  if(state.toured || new URLSearchParams(location.search).get('ep')) return;
+  const wait = () => { const i = document.getElementById('intro'); if(i && getComputedStyle(i).display !== 'none' && getComputedStyle(i).opacity !== '0') return setTimeout(wait, 500); setTimeout(() => { if(!state.toured && !$('#sheet').classList.contains('show')) openTour(0); }, 900); };
+  wait();
+}
+
 /* ================= Guest pages ================= */
 function guestPage(g){
   const eps = episodes.filter(e => (e.guests || []).includes(g) && e.date).sort((a, b) => a.date.localeCompare(b.date));
@@ -2458,7 +2573,8 @@ $('#sheet').addEventListener('click', ev => {
   }
   const del = ev.target.closest('[data-le-del]'); if(del){
     if(del.dataset.armed !== '1'){ del.dataset.armed = '1'; del.firstChild && (del.querySelector('small').textContent = 'Tap again to delete'); return; }
-    const L = state.lists.find(l => l.id === del.dataset.leDel); state.lists = state.lists.filter(l => l.id !== del.dataset.leDel); listFilter = ''; saveState(); closeSheet(); applyFilters(); toast(`Deleted ${L ? L.name : 'list'}`); return;
+    const idx = state.lists.findIndex(l => l.id === del.dataset.leDel), L = state.lists[idx]; state.lists = state.lists.filter(l => l.id !== del.dataset.leDel); listFilter = ''; saveState(); closeSheet(); applyFilters();
+    if(L) toastUndo(`Deleted ${L.name}`, () => { state.lists.splice(idx, 0, L); listFilter = L.id; saveState(); applyFilters(); }); return;
   }
 });
 $('#sheet').addEventListener('submit', ev => {
@@ -2514,6 +2630,9 @@ $('#q').addEventListener('keydown', ev => {
   else if(ev.key === 'Escape'){ $('#suggest').classList.remove('show'); }
 });
 $('#q').addEventListener('blur', () => setTimeout(() => $('#suggest').classList.remove('show'), 150));
+const hideSuggest = () => { const b = $('#suggest'); b.classList.remove('show'); b.innerHTML = ''; };
+document.addEventListener('pointerdown', ev => { if(!ev.target.closest('.searchbox')) hideSuggest(); }, true);
+$('#tabs').addEventListener('click', hideSuggest, true);
 $('#q').addEventListener('focus', () => { if($('#q').value.trim().length >= 2) suggest(); });
 
 /* Logo: back to the start, like a fresh open */
@@ -2667,7 +2786,7 @@ function render(){
     el.innerHTML = `<div class="spines">` + view.slice(0, shown).map(e => {
       const yh = dated && e.year && e.year !== lastY ? `</div><div class="sp-year">${esc(e.year)}</div><div class="spines">` : ''; if(dated) lastY = e.year;
       const [fill] = progCol(e.show);
-      return `${yh}<button class="spine${cur === e.id ? ' cur' : ''}${isPlayed(e.id) ? ' played' : ''}" data-id="${esc(e.id)}" style="--pc:${fill}" title="${esc(e.title)}"><span class="sp-no">${e.no || ''}</span><span class="sp-t">${esc(topicOf(e) || e.title)}</span><span class="sp-d">${e.date ? niceDate(e.date) : ''}</span></button>`;
+      return `${yh}<button class="spine${cur === e.id ? ' cur' : ''}${isPlayed(e.id) ? ' played' : ''}" data-id="${esc(e.id)}" style="--pc:${fill}" title="${esc(e.title)}" aria-label="${esc(e.title)}, ${e.date ? niceDate(e.date) : 'date unknown'}${e.no ? ', number ' + e.no : ''}. Play"><span class="sp-no">${e.no || ''}</span><span class="sp-t">${esc(topicOf(e) || e.title)}</span><span class="sp-d">${e.date ? niceDate(e.date) : ''}</span></button>`;
     }).join('') + `</div>` + (shown < view.length ? `<button class="loadmore" id="loadmore">Show more (${(view.length - shown).toLocaleString('en-GB')} left)</button>` : '');
     return;
   }
@@ -2683,7 +2802,7 @@ function render(){
       <div class="info">
         <div class="t">${esc(e.title)}</div>
         <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${fmt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?'<span class="played">✓ Played</span>':''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span>`:''}</div>
-        ${mt && mt.length ? `<div class="jumps"><span class="jl">${esc(ml)}</span>${mt.slice(0,4).map(t => `<button class="jump" data-t="${t}">${I.play2}${fmt(Math.max(0,t-10))}</button>`).join('')}${mt.length > 4 ? `<span class="jl">+${mt.length-4}</span>` : ''}</div>` : ''}
+        ${mt && mt.length ? `<div class="jumps"><span class="jl">${esc(ml)}</span>${mt.slice(0,4).map(t => `<button class="jump" data-t="${t}" aria-label="Play ${esc(ml)} at ${fmt(Math.max(0,t-10))}">${I.play2}${fmt(Math.max(0,t-10))}</button>`).join('')}${mt.length > 4 ? `<span class="jl">+${mt.length-4}</span>` : ''}</div>` : ''}
       </div>
       <button class="more" data-act="more" aria-label="More options">${I.more}</button>
     </div></div>`;
@@ -3026,8 +3145,24 @@ audio.addEventListener('error', () => {
     const t = audio.currentTime; delete hosts[e.item]; audio.src = fileUrl(e);
     audio.addEventListener('loadedmetadata', () => { if(t) audio.currentTime = t; }, {once:true}); audio.play().catch(()=>{}); return;
   }
-  if(src) toast('That file wouldn’t load from archive.org — try another');
+  // try another copy of the same night from a different collection before giving up
+  if(e && src && tryAlternate(e)) return;
+  if(src) toast('This show won’t load right now. Try again in a moment, or pick another night.', 4000);
 });
+const altTried = new Map();
+function tryAlternate(e){
+  const pm = ((e.title.match(/\b(hour|hr|part|pt)\.?\s*(\d)/i) || e.file.match(/\b(hour|hr|part|pt)\.?\s*(\d)/i)) || [])[2] || '';
+  const list = ALTS.get(e.date + '|' + e.show + '|' + pm) || [];
+  const tried = altTried.get(e.id) || new Set([e.item + '/' + e.file]); altTried.set(e.id, tried);
+  const len = e.length || 0;
+  const next = list.find(a => !tried.has(a.item + '/' + a.file) && (!len || !a.length || Math.abs(a.length - len) / len < .2));
+  if(!next) return false;
+  tried.add(next.item + '/' + next.file);
+  const t = audio.currentTime; audio.src = fileUrl(next);
+  audio.addEventListener('loadedmetadata', () => { if(t) audio.currentTime = t; }, { once:true });
+  audio.play().catch(() => {}); toast('Trying another copy of this show…', 2500);
+  return true;
+}
 let lastP = 0, lastPS = 0, seeking = false;
 audio.addEventListener('timeupdate', () => {
   tickStats();
@@ -3088,7 +3223,7 @@ $('#sheet').addEventListener('click', ev => {
   if(a.dataset.qa === 'auto'){ state.autoplay = !state.autoplay; saveState(); a.querySelector('.toggle').classList.toggle('on', state.autoplay); }
   if(a.dataset.qa === 'asq'){ state.autoSaveQ = !state.autoSaveQ; saveState(); openQueue(); if(state.autoSaveQ){ toast('Saving the next 3 in the background'); autoSaveQueue(); } }
   if(a.dataset.qa === 'rel'){ state.autoNext = state.autoNext === 'related' ? '' : 'related'; if(state.autoNext) state.autoplay = true; saveState(); openQueue(); }
-  if(a.dataset.qa === 'clear'){ state.queue = []; saveState(); updateQueueBadge(); openQueue(); }
+  if(a.dataset.qa === 'clear'){ const was = state.queue.slice(); state.queue = []; saveState(); updateQueueBadge(); openQueue(); toastUndo(`Cleared ${was.length} from Up next`, () => { state.queue = was; saveState(); updateQueueBadge(); if($('#sheet').classList.contains('show')) openQueue(); }); }
 });
 $('#queueBtn').onclick = openQueue;
 updateQueueBadge();
@@ -3274,7 +3409,12 @@ $('#saveAll').onclick = async () => {
   if(navigator.storage && navigator.storage.estimate) navigator.storage.estimate().then(x => { storageText = x.usage ? mbText(x.usage) + ' used' : ''; }).catch(()=>{});
   toast(batch.stop ? `Stopped · ${done} saved` : failed ? `Saved ${done} · ${failed} couldn’t be saved` : `Saved ${done} shows for offline`, 4000);
 };
-async function removeOffline(e){ closeSheet(); try{ await db.del(e.id); }catch(x){} savedKeys.delete(e.id); syncNPButtons(e); toast('Removed offline copy'); applyFilters(); }
+async function removeOffline(e){
+  closeSheet(); let kept = null; try{ kept = await db.get(e.id); }catch(x){}
+  try{ await db.del(e.id); }catch(x){} savedKeys.delete(e.id); syncNPButtons(e); applyFilters();
+  if(kept) toastUndo('Removed offline copy', async () => { await db.put(e.id, kept); savedKeys.add(e.id); syncNPButtons(e); applyFilters(); });
+  else toast('Removed offline copy');
+}
 async function downloadToPhone(e){
   closeSheet(); if(e.demo) return toast('Preview mode — downloads work once hosted');
   try{
@@ -3457,7 +3597,7 @@ function openNotes(e){
     </div>`;
   $('#sheet').dataset.id = ''; $('#sheet').dataset.nid = e.id; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
   loadMoments().then(() => { const box = $('#ntMoments'), m = momentsFor(e); if(!box || !m || !Object.keys(m).length) return;
-    box.innerHTML = `<div class="nt-h">Jump to the moment</div><div class="nt-moments">${Object.entries(m).slice(0, 10).map(([l, ts]) => `<div class="nm-row"><span class="nm-l">${esc(l)}</span>${ts.slice(0, 6).map(t => `<button class="jump" data-t="${t}">${I.play2}${fmt(Math.max(0, t - 10))}</button>`).join('')}</div>`).join('')}</div>`; });
+    box.innerHTML = `<div class="nt-h">Jump to the moment</div><div class="nt-moments">${Object.entries(m).slice(0, 10).map(([l, ts]) => `<div class="nm-row"><span class="nm-l">${esc(l)}</span>${ts.slice(0, 6).map(t => `<button class="jump" data-t="${t}" aria-label="Play ${esc(l)} at ${fmt(Math.max(0, t - 10))}">${I.play2}${fmt(Math.max(0, t - 10))}</button>`).join('')}</div>`).join('')}</div>`; });
   if(!e.demo) itemNotes(e.item).then(n => { const el = $('#ntSrc'); if(!el) return;
     el.innerHTML = n ? `<b>${esc(n.title)}</b>${n.text ? '<br>' + esc(n.text).replace(/\n/g, '<br>') : ''}<br><a href="${API}/details/${encodeURIComponent(e.item)}" target="_blank" rel="noopener">View on archive.org</a>` : 'Couldn’t load notes right now.'; });
 }
@@ -3603,8 +3743,8 @@ audio.addEventListener('play', () => { if(state.boost && !boost.src) setBoost(tr
 const DARK_BASE = { '--text':'#f2efe8', '--muted':'#8a8f9c', '--line':'rgba(255,255,255,.08)' };
 const THEMES = {
   'Classic':    { '--accent':'#d4b483', '--accent-soft':'rgba(212,180,131,.13)', '--glow':'rgba(212,180,131,.18)', '--bg':'#0e0d0c', '--surface':'#171614', '--surface-2':'#211f1c', '--text':'#ece6da', '--muted':'#8e877b', '--line':'rgba(236,230,218,.1)' },
-  'Dark':       { '--accent':'#e4ddd0', '--accent-soft':'rgba(228,221,208,.1)', '--glow':'rgba(228,221,208,.12)', '--bg':'#0b0b0a', '--surface':'#151514', '--surface-2':'#1e1e1c', '--text':'#ebe7df', '--muted':'#8a867e', '--line':'rgba(235,231,223,.1)' },
-  'Paper':      { '--accent':'#a8432a', '--accent-soft':'rgba(168,67,42,.1)', '--glow':'rgba(168,67,42,.14)', '--bg':'#f2ede3', '--surface':'#fbf8f2', '--surface-2':'#e7e0d2', '--text':'#17140f', '--muted':'#6d665a', '--line':'rgba(23,20,15,.12)' }
+  'Dark':       { '--accent':'#e4ddd0', '--accent-soft':'rgba(228,221,208,.1)', '--glow':'rgba(228,221,208,.12)', '--bg':'#0b0b0a', '--surface':'#151514', '--surface-2':'#1e1e1c', '--text':'#ebe7df', '--muted':'#99948b', '--line':'rgba(235,231,223,.1)' },
+  'Paper':      { '--accent':'#a8432a', '--accent-soft':'rgba(168,67,42,.1)', '--glow':'rgba(168,67,42,.14)', '--bg':'#f2ede3', '--surface':'#fbf8f2', '--surface-2':'#e7e0d2', '--text':'#17140f', '--muted':'#615a4e', '--line':'rgba(23,20,15,.12)' }
 };
 const THEME_RENAMES = { 'Amber':'Desert', 'Area 51':'Dreamland', 'Dopamine':'Neon' };
 if(state.theme === 'Collection'){ state.theme = 'Classic'; saveState(); }
@@ -3822,7 +3962,7 @@ addEventListener('keydown', ev => {
 
 /* ================= Backup and restore ================= */
 async function backupState(){
-  const keep = ['favs','lists','autoNext','autoSaveQ','npView','listView','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
+  const keep = ['favs','lists','autoNext','autoSaveQ','npView','listView','toured','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
   const data = { app:'art-bell-archive', version:1, saved:new Date().toISOString(), state:Object.fromEntries(keep.map(k => [k, state[k]])) };
   const name = `art-bell-tapes-backup-${new Date().toISOString().slice(0,10)}.json`;
   const file = new File([JSON.stringify(data)], name, { type:'application/json' });
@@ -3881,17 +4021,17 @@ $('#gear').onclick = () => {
   const cached = store.get(INDEX_KEY, null);
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd"><div><div class="t">Settings</div><div class="m">${episodes.length.toLocaleString('en-GB')} shows in your library${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB') : ''}</div></div></div>
-    <div class="sh-lbl">Theme</div><div class="swatches four">${[['Classic','Colour','#0e0d0c','#a8452b','#211f1c'],['Dark','Night','#0b0b0a','#86acd4','#1e1e1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2'],['Auto','Day & night','linear-gradient(135deg,#f2ede3 0 50%,#0b0b0a 50% 100%)','#d4b483','rgba(128,128,128,.45)']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
+    <div class="sh-lbl">Appearance</div><div class="swatches four">${[['Classic','Colour','#0e0d0c','#a8452b','#211f1c'],['Dark','Night','#0b0b0a','#86acd4','#1e1e1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2'],['Auto','Day & night','linear-gradient(135deg,#f2ede3 0 50%,#0b0b0a 50% 100%)','#d4b483','rgba(128,128,128,.45)']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <div class="sh-lbl">Your listening</div>${statsHTML()}
     <div class="sh-lbl">Your data</div>
+    <button class="act" data-s="sync">Sync phone and computer<small>${syncCfg().token ? 'On · ' + (syncCfg().last ? 'synced ' + new Date(syncCfg().last).toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' }) : 'connected') : 'Off'}</small></button>
     <button class="act" data-s="backup">Back up favourites &amp; progress<small>Save a file</small></button>
     <button class="act" data-s="restore">Restore from a backup<small>Choose file</small></button>
-    <button class="act" data-s="sync">Sync phone and computer<small>${syncCfg().token ? 'On · ' + (syncCfg().last ? 'synced ' + new Date(syncCfg().last).toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' }) : 'connected') : 'Off'}</small></button>
-    <div class="sh-lbl">Library</div>
+    <div class="sh-lbl">About</div>
     <button class="act" data-s="tribute">In memory of Art Bell<small>1945–2018</small></button>
-    <button class="act" data-s="refresh">Refresh library from archive.org</button>
-    <button class="act" data-s="sources">Sources<small>${SOURCES.length} collections</small></button>`;
+    <button class="act" data-s="about">About The Art Bell Tapes<small>Credits &amp; sources</small></button>
+    <button class="act" data-s="refresh">Check for new shows<small>From archive.org</small></button>`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 };
 $('#sheet').addEventListener('click', ev => {
@@ -3903,6 +4043,8 @@ $('#sheet').addEventListener('click', ev => {
   if(b.dataset.s === 'refresh'){ closeSheet(); loadLibrary(true); }
   if(b.dataset.s === 'tribute'){ closeSheet(); openTribute(); }
   if(b.dataset.s === 'sync'){ openSync(); return; }
+  if(b.dataset.s === 'about'){ openAbout(); return; }
+  if(b.dataset.s === 'back'){ $('.gear').click(); return; }
   if(b.dataset.s === 'sources'){ closeSheet(); toast('Shows: Internet Archive (' + SOURCES.length + ' Art Bell collections). Topic tags: facts drawn from The Art Bell Archive podcast’s show notes.', 5000); }
 });
 

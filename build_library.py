@@ -24,6 +24,18 @@ ART_ONLY = {"art-bell-2001-to-2010"}   # mixed collection: keep files that name 
 EXTRA = {"art-bell-episodes", "art-bell-archive", "art-bell-1990-2000", "art-bell-2001-to-2010"}
 
 
+def slim(f):
+    """Only what the app needs: name, size, whole-second length, and 'derivative' when it is one."""
+    out = {"name": f["name"]}
+    if f.get("size"): out["size"] = f["size"]
+    try:
+        if f.get("length"): out["length"] = str(round(float(f["length"])))
+    except ValueError:
+        out["length"] = f["length"]
+    if f.get("source") == "derivative": out["source"] = "derivative"
+    return out
+
+
 def keep(ident, name):
     if ident not in EXTRA:
         return True
@@ -67,7 +79,7 @@ def main():
         if isinstance(title, list):
             title = title[0]
         files = [
-            {k: f[k] for k in ("name", "size", "length", "source") if k in f}
+            slim(f)
             for f in j.get("files", [])
             if f.get("name", "").lower().endswith(".mp3") and keep(ident, f.get("name", ""))
         ]
