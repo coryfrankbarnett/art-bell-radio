@@ -901,6 +901,11 @@ html.cine .sw{border-radius:3px}.cine .sw i{border-radius:2px}
 .browseall .ba-t{font:400 24px/1.1 var(--serif)}
 .browseall .ba-s{grid-row:2;font:500 10.5px var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .browseall .ba-go{grid-row:1/3;grid-column:2;font:600 10.5px var(--font);letter-spacing:.16em;text-transform:uppercase;padding:10px 14px;background:var(--text);color:var(--bg);border-radius:2px}
+/* ---- Comfortable tap targets ---- */
+#pillX{min-height:34px;min-width:44px;padding:0 10px}
+.sec select{min-height:36px;padding:0 4px}
+.proghead .back{min-height:34px;padding:8px 12px}
+.seeall{min-height:34px;padding:0 4px}
 /* ---- Breathing room (Collection look) ---- */
 html.cine .sec{padding:26px 0 16px}
 html.cine .rail{gap:16px;padding-bottom:26px}
@@ -1447,7 +1452,7 @@ function setShow(v){
   const on = document.querySelector('#chips .chip.on'); if(on) on.scrollIntoView({inline:'center', block:'nearest', behavior:smooth()});
   applyFilters();
 }
-$('#chips').addEventListener('click', ev => { const b = ev.target.closest('.chip'); if(b) setShow(b.dataset.show); });
+$('#chips').addEventListener('click', ev => { const b = ev.target.closest('.chip'); if(b) setShow(b.dataset.show === showFilter ? '' : b.dataset.show); });
 $('#progs').addEventListener('click', ev => { const b = ev.target.closest('.prog'); if(!b) return; setShow(b.dataset.show); scrollTo({top:0, behavior:smooth()}); });
 $('#pill').addEventListener('click', ev => { if(ev.target.id === 'pillX'){ guestFilter = ''; applyFilters(); } });
 $('#closeAll').onclick = () => { allOpen = false; shown = PAGE; render(); $('#secTitle').scrollIntoView({ block:'center', behavior:smooth() }); };
