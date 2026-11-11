@@ -1542,6 +1542,30 @@ html.light .pinbar{box-shadow:0 8px 22px rgba(60,40,10,.14),inset 0 0 0 1px var(
 .pinbar svg{width:18px;height:18px;fill:var(--muted);flex:none}
 @media (min-width:960px){ .pinbar{display:none} }
 @media (prefers-reduced-motion:reduce){ .pinbar{transition:none} }
+
+/* loading shapes */
+.skel{padding:6px 20px 0;transition:opacity .25s}
+.skel.gone{opacity:0}
+.skel>div,.skel .sk-two>div{border-radius:3px;background:linear-gradient(100deg,var(--soft) 30%,var(--soft-2) 50%,var(--soft) 70%);background-size:300% 100%;animation:skel 1.6s ease-in-out infinite}
+.skel .sk-h{height:22px;width:42%;margin:18px 0 18px}
+.skel .sk-big{height:180px}
+.skel .sk-two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;background:none!important;animation:none!important}
+.skel .sk-two>div{height:170px}
+@keyframes skel{from{background-position:100% 0}to{background-position:0 0}}
+@media (prefers-reduced-motion:reduce){ .skel>div,.skel .sk-two>div{animation:none} }
+@media (min-width:960px){ .skel{padding:6px 0 0} }
+/* offline */
+.offnote{display:none;align-items:center;gap:10px;margin:0 20px 14px;padding:12px 0;border-bottom:1px solid var(--line);font:500 var(--fs-body)/1.3 var(--font);color:var(--text)}
+.offnote svg{width:18px;height:18px;fill:var(--accent);flex:none}
+body.offline .offnote{display:flex}
+body.offline .row:not(.saved):not(.cur){opacity:.4}
+body.offline .row.saved .badge{color:var(--accent)}
+/* about: collections with counts, dedication */
+.ab-cols{padding-left:0!important;list-style:none;word-break:normal!important;font:400 var(--fs-body)/1.35 var(--font)!important}
+.ab-cols li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.ab-cols .ab-few{font:inherit!important;letter-spacing:0!important;color:var(--text)!important}
+.ab-cols li span{font:500 var(--fs-label)/1.4 var(--font);letter-spacing:.07em;color:var(--muted)}
+.ab-ded{margin:26px 0 20px;text-align:center;font:italic 400 21px/1.35 var(--serif);color:var(--text)}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -1658,6 +1682,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
     </div>
     <button class="gear" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7 7 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7 7 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7 7 0 0 0 1.7 1l.4 2.7h4l.4-2.7a7 7 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></button>
   </div>
+  <div class="offnote" id="offNote" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span>Offline · your saved shows still play</span></div>
   <div class="demo" id="demo">Preview mode: showing sample shows. When the app is hosted, the full library loads live from archive.org.</div>
 
   <div class="sticky">
@@ -1679,6 +1704,11 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 
   <button class="continuebig" id="contBig" type="button" style="display:none"></button>
   <button class="browsetop" id="browseTop" type="button"><span class="bt-t">Browse all shows</span><span class="bt-s" id="browseTopN"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div class="skel" id="skel" aria-hidden="true">
+    <div class="sk-h"></div>
+    <div class="sk-big"></div>
+    <div class="sk-two"><div></div><div></div></div>
+  </div>
   <section id="progWrap" style="display:none">
     <div class="sec"><h2>Programmes</h2><button class="seeall" id="progAll">All shows</button></div>
     <div class="progs" id="progs"></div>
@@ -2363,7 +2393,7 @@ function applyTopics(){
       const g2g = /-10-3[01]$/.test(e.date) && (/^(\d{4}|am)$/i.test(e.title0.trim()) || /ghost/i.test(e.hay0));
       const subj = t.filter(x => !/^[A-Z][\w.'’-]+ [A-Z]/.test(x) && !/open lines|ghost to ghost/i.test(x)).concat(m.filter(x => !/open lines/i.test(x))).slice(0, 3);
       const base = g2g ? 'Ghost to Ghost ' + e.year : /^\d{4}$/.test(e.title0.trim()) || !e.title0.trim() ? (subj.length ? 'Open Lines' : e.show + ' ' + e.year) : e.title0;
-      e.title = subj.length && !g2g ? base + ' – ' + subj.join(', ') : base;
+      e.title = smartText(subj.length && !g2g ? base + ' – ' + subj.join(', ') : base);
     }
     e.about = (e.hay0 + ' | ' + t.join(' | ')).toLowerCase();
     e.hay = e.about + (m.length ? ' | ' + m.join(' | ').toLowerCase() : '');
@@ -2422,6 +2452,14 @@ function resolveUndated(){
 }
 // Rough titles from the gap-filling collections become "Topic – Guest", like the rest
 const CAPS = [[/\bufo(s?)\b/gi, 'UFO$1'], [/\bet(s?)\b/g, 'ET$1'], [/\bEt(s?)\b/g, 'ET$1'], [/\bnasa\b/gi, 'NASA'], [/\bhaarp\b/gi, 'HAARP'], [/\bdna\b/gi, 'DNA'], [/\bjfk\b/gi, 'JFK'], [/\bcia\b/gi, 'CIA'], [/\bfbi\b/gi, 'FBI'], [/\bnde(s?)\b/gi, 'NDE$1'], [/\bobe(s?)\b/gi, 'OBE$1'], [/\bevp\b/gi, 'EVP'], [/\by2k\b/gi, 'Y2K'], [/\bmufon\b/gi, 'MUFON'], [/\bseti\b/gi, 'SETI']];
+function smartText(t){
+  return String(t || '')
+    .replace(/\.\.\./g, '…')
+    .replace(/\s+-{1,2}\s+/g, ' – ')
+    .replace(/(^|[\s(\[–—-])"(?=\S)/g, '$1“').replace(/"/g, '”')
+    .replace(/(^|[\s(\[–—-])'(?=\S)/g, '$1‘').replace(/'/g, '’')
+    .replace(/‘(\d\d)s\b/g, '’$1s');
+}
 function tidyTitles(){
   const count = new Map(); episodes.forEach(e => (e.guests || []).forEach(g => count.set(g, (count.get(g) || 0) + 1)));
   const known = [...count.entries()].filter(([g, n]) => n >= 2 && g.split(' ').length >= 2).map(([g]) => g).sort((a, b) => b.length - a.length);
@@ -2450,7 +2488,7 @@ function tidyTitles(){
 function afterLoad(quiet){
   resolveUndated();
   mergeGuestSpellings();
-  tidyTitles();
+  tidyTitles(); episodes.forEach(e => { e.title = smartText(e.title); });
   idMap = new Map(episodes.map(e => [e.id, e]));
   applyTopics(); sugIndex = null; coverCache.clear();
   // catalogue numbers start with Art's first show in the archive (12 Dec 1992); earlier odds and ends stay unnumbered
@@ -2734,13 +2772,19 @@ function openAbout(){
     <div class="ab-head"><div class="ab-the">The</div><div class="ab-n">Art Bell <em>Tapes</em></div><div class="ab-s">${episodes.length.toLocaleString('en-GB')} recordings · ${nights.toLocaleString('en-GB')} nights · Art’s voice only</div></div>
     <p class="ab-p">A listening room for Art Bell’s radio shows, made by a fan. Everything streams straight from the Internet Archive; nothing is copied or hosted here.</p>
     <div class="sh-lbl">The recordings</div>
-    <p class="ab-p">Uploaded to the Internet Archive by listeners who taped, kept and shared the shows, in these collections:</p>
-    <ul class="ab-list">${SOURCES.map(id => `<li><a href="${API}/details/${encodeURIComponent(id)}" target="_blank" rel="noopener">${esc(id)}</a></li>`).join('')}</ul>
+    <p class="ab-p">Every show here exists because listeners taped it off the radio, kept the cassettes for years, digitised them and shared them on the Internet Archive. Thank you to all of them. These are the collections, and how many shows each one gives this app:</p>
+    <ul class="ab-list ab-cols">${(() => { const n = {}; episodes.forEach(e => n[e.item] = (n[e.item] || 0) + 1);
+      const NAMES = { 'the-ultimate-art-bell-collection_202201':'The Ultimate Art Bell Collection', 'ArtBellArea2000':'Area 2000', 'Art-Bell_Midnight_In_the_Desert':'Midnight in the Desert', 'ArtBell_Somewhere_In_Time':'Somewhere in Time', 'coast-to-coast-am-with-art-bell-ghost-to-ghost':'Coast to Coast AM: Ghost to Ghost', 'coast-to-coast-am-w-art-bell-open-lines-collection':'Coast to Coast AM: Open Lines', 'art-bell-episodes':'Art Bell Episodes', 'art-bell-archive':'Art Bell Archive', 'art-bell-1990-2000':'Art Bell 1990–2000', 'art-bell-2001-to-2010':'Art Bell 2001–2010', 'ultimate-ultimate-art-bell-collection':'The Ultimate Ultimate Art Bell Collection', 'art-bell-dreamland':'Dreamland' };
+      const nice = id => NAMES[id] || id.replace(/_\d{6}$/, '').replace(/[-_]+/g, ' ').replace(/\bw\b/i, 'with').replace(/\b(art|bell|am|coast|to|the|ultimate|collection|episodes|archive|open|lines|ghost|midnight|in|desert|somewhere|time|area|with)\b/gi, w => w[0].toUpperCase() + w.slice(1).toLowerCase()).replace(/^./, c => c.toUpperCase()).replace(/Artbell/i, 'Art Bell').replace(/Area2000/i, 'Area 2000').replace(/(\d{4}) (\d{4})/, '$1–$2').replace(/(\d{4}) To (\d{4})/i, '$1–$2');
+      const big = Object.keys(n).filter(id => n[id] >= 10).sort((a, b) => n[b] - n[a]), small = Object.keys(n).filter(id => n[id] < 10), sn = small.reduce((t, id) => t + n[id], 0);
+      return big.map(id => `<li><a href="${API}/details/${encodeURIComponent(id)}" target="_blank" rel="noopener">${esc(nice(id))}</a><span>${n[id].toLocaleString('en-GB')}</span></li>`).join('') +
+        (sn ? `<li><span class="ab-few">${small.length} smaller uploads</span><span>${sn}</span></li>` : ''); })()}</ul>
     <div class="sh-lbl">Topics and moments</div>
     <p class="ab-p">Subject tags and the times subjects come up are facts drawn from the show notes and transcripts of <a href="https://artbellarchive.org" target="_blank" rel="noopener">The Art Bell Archive</a> podcast. None of their writing is stored.</p>
     <div class="sh-lbl">Type</div>
     <p class="ab-p">Instrument Serif, Inter, Space Grotesk and Geist Mono, under the SIL Open Font License.</p>
     <p class="ab-p ab-small">Art Bell’s programmes belong to their rights holders. This app is a non-commercial tribute.</p>
+    <div class="ab-ded">For Art Bell, 1945–2018,<br>and everyone who stayed up to listen.</div>
     <button class="act" data-s="back">Back to Settings</button>`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
@@ -2879,6 +2923,7 @@ function showRecent(){
     r.map((x, i) => `<button type="button" class="sg sg-r" data-i="${i}" data-kind="${esc(x.kind)}" data-label="${esc(x.label)}"><span><svg class="sg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 2.1 5l-1.4 1.4A9 9 0 1 0 13 3zm-1 5v5l4.3 2.5.7-1.2-3.5-2.1V8z"/></svg>${x.kind === 'Topic' ? sdot(x.label) : ''}${esc(x.label)}</span><small>${x.kind === 'Search' ? '' : esc(x.kind)}</small></button>`).join('');
   box.classList.add('show');
 }
+function lenTxt(sec){ const m = Math.round(sec / 60), h = Math.floor(m / 60), r = m % 60; return h ? h + ' hr' + (r ? ' ' + r + ' min' : '') : m + ' min'; }
 function leftTxt(sec){ sec = Math.max(0, Math.round(sec / 60)); if(sec < 1) return 'Almost done'; const h = Math.floor(sec / 60), m = sec % 60; return (h ? h + ' hr' + (m ? ' ' + m + ' min' : '') : m + ' min') + ' left'; }
 function whenTxt(at){
   if(!at) return 'Played'; const d = new Date(at), now = new Date(), day = 864e5;
@@ -2950,9 +2995,10 @@ const TOPIC_ALIASES = [
   ['ghost','ghosts','haunting','haunted','poltergeist','ghost to ghost'],
   ['remote viewing','remote viewer','ed dames','courtney brown','joe mcmoneagle','lyn buchanan']
 ];
-const termHit = (hay, t) => { const g = TOPIC_ALIASES.find(g => g[0] === t || (t === 'sasquatch' && g[0] === 'bigfoot') || (t === 'yeti' && g[0] === 'bigfoot')); return g ? g.some(a => hay.includes(a)) : hay.includes(t); };
+const plainQ = h => /[’‘“”]/.test(h) ? h.replace(/[’‘]/g, "'").replace(/[“”]/g, '"') : h;
+const termHit = (hay, t) => { hay = plainQ(hay); const g = TOPIC_ALIASES.find(g => g[0] === t || (t === 'sasquatch' && g[0] === 'bigfoot') || (t === 'yeti' && g[0] === 'bigfoot')); return g ? g.some(a => hay.includes(a)) : hay.includes(t); };
 function applyFilters(){
-  const terms = $('#q').value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const terms = $('#q').value.trim().toLowerCase().replace(/[’‘]/g, "'").replace(/[“”]/g, '"').split(/\s+/).filter(Boolean);
   let list = episodes;
   if(tab === 'fav'){ const L = listFilter && state.lists.find(l => l.id === listFilter); if(!L) listFilter = ''; list = L ? L.ids.map(byId).filter(Boolean) : list.filter(e => state.favs[e.id]); }
   if(tab === 'saved') list = list.filter(e => savedKeys.has(e.id));
@@ -2963,7 +3009,7 @@ function applyFilters(){
   let ranked = false;
   if(terms.length){
     const q0 = $('#q').value.trim().toLowerCase(), phrase = TOPIC_ALIASES.find(g => g[0] === q0);
-    const exact = phrase ? list.filter(e => phrase.some(a => e.hay.includes(a))) : list.filter(e => terms.every(t => termHit(e.hay, t)));
+    const exact = phrase ? list.filter(e => phrase.some(a => plainQ(e.hay).includes(a))) : list.filter(e => terms.every(t => termHit(e.hay, t)));
     const q = $('#q').value.trim();
     if(fuse && q.length > 2 && !/^\d+$/.test(q)){
       const allowed = new Set(list.map(e => e.id)), seen = new Set(exact.map(e => e.id));
@@ -3019,7 +3065,7 @@ function render(){
   const inResume = e => !!(e && !state.hideResume[e.id] && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60);
   const cont = state.recent.map(byId).filter(e => inResume(e) && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60).slice(0, 10);
   $('#contWrap').style.display = (tab === 'all' && cont.length && !$('#q').value) ? '' : 'none';
-  $('#rail').innerHTML = cont.map(e => { const p = state.pos[e.id]; return `<div class="card rcard" data-id="${esc(e.id)}" role="button" tabindex="0">${artHTML(e)}<button class="cmore" data-act="more" aria-label="More options">${I.more}</button><div class="bar"><i style="width:${p.t/p.d*100}%"></i></div><div class="t">${esc(e.title)}</div><div class="m">${fmt(p.d - p.t)} left</div></div>`; }).join('');
+  $('#rail').innerHTML = cont.map(e => { const p = state.pos[e.id]; return `<div class="card rcard" data-id="${esc(e.id)}" role="button" tabindex="0">${artHTML(e)}<button class="cmore" data-act="more" aria-label="More options">${I.more}</button><div class="bar"><i style="width:${p.t/p.d*100}%"></i></div><div class="t">${esc(e.title)}</div><div class="m">${leftTxt(p.d - p.t)}</div></div>`; }).join('');
 
   const counts = {}; episodes.forEach(e => counts[e.show] = (counts[e.show]||0)+1);
   const showProgs = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value;
@@ -3075,11 +3121,11 @@ function render(){
     const ml = qTerms.length ? momentLabelFor(e, qTerms) : null, mt = ml ? momentsFor(e)[ml] : null;
     const p = state.pos[e.id], done = isPlayed(e.id), pct = !done && p && p.d ? Math.min(100, p.t/p.d*100) : 0, isCur = cur === e.id;
     const len = e.length || (p && p.d) || 0;
-    return `${yhead}<div class="swipe"><div class="bg l">★ ${state.favs[e.id]?'Unfavourite':'Favourite'}</div><div class="bg r">${savedKeys.has(e.id)?'Remove offline':'Save offline'} ↓</div><div class="row${isCur?' cur':''}${isCur&&paused?' paused':''}" data-id="${esc(e.id)}">
+    return `${yhead}<div class="swipe"><div class="bg l">★ ${state.favs[e.id]?'Unfavourite':'Favourite'}</div><div class="bg r">${savedKeys.has(e.id)?'Remove offline':'Save offline'} ↓</div><div class="row${isCur?' cur':''}${isCur&&paused?' paused':''}${savedKeys.has(e.id)?' saved':''}" data-id="${esc(e.id)}">
       ${artHTML(e,'sm')}
       <div class="info">
         <div class="t">${esc(e.title)}</div>
-        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${fmt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?`<span class="played">✓ ${whenTxt(p && p.at)}</span>`:''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span><span class="left">${leftTxt(p.d - p.t)}</span>`:''}</div>
+        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${lenTxt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?`<span class="played">✓ ${whenTxt(p && p.at)}</span>`:''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span><span class="left">${leftTxt(p.d - p.t)}</span>`:''}</div>
         ${mt && mt.length ? `<div class="jumps"><span class="jl">${esc(ml)}</span>${mt.slice(0,4).map(t => `<button class="jump" data-t="${t}" aria-label="Play ${esc(ml)} at ${fmt(Math.max(0,t-10))}">${I.play2}${fmt(Math.max(0,t-10))}</button>`).join('')}${mt.length > 4 ? `<span class="jl">+${mt.length-4}</span>` : ''}</div>` : ''}
       </div>
       <button class="more" data-act="more" aria-label="More options">${I.more}</button>
@@ -3389,6 +3435,7 @@ $('#bento').addEventListener('click', ev => {
 const audio = $('#audio');
 let blobUrl = null;
 async function loadEpisode(e, autoplay){
+  if(autoplay && !e.demo && !navigator.onLine && !savedKeys.has(e.id)){ toast('That one isn’t saved for offline. It’ll play when you’re back online.', 3600); return; }
   if(blobUrl){ URL.revokeObjectURL(blobUrl); blobUrl = null; }
   audio.dataset.id = e.id;
   if(e.demo){ audio.removeAttribute('src'); }
@@ -3873,7 +3920,7 @@ function openSheet(e){
   const fav = !!state.favs[e.id], sv = savedKeys.has(e.id), mb = e.size ? Math.round(e.size/1048576)+' MB' : '';
   $('#sheet').innerHTML = `<div class="grab"></div>
     <div class="hd">${artHTML(e,'sm')}<div><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div></div>
-    <button class="act" data-a="play">${I.play2} Play now</button>
+    <button class="act" data-a="play">${I.play2} ${(() => { const p = state.pos[e.id]; return p && p.t > 30 && p.t < p.d - 60 ? `Resume <small>from ${fmt(p.t)} · ${leftTxt(p.d - p.t)}</small>` : isPlayed(e.id) ? 'Play again' : 'Play now'; })()}</button>
     <button class="act" data-a="notes"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zm8 1.5V8h4.5zM8 12h10v1.6H8zm0 3.5h10v1.6H8zm0 3.5h7v1.6H8z"/></svg> Show notes</button>
     ${(!state.hideResume[e.id] && state.pos[e.id] && state.pos[e.id].t > 30 && state.pos[e.id].t < state.pos[e.id].d - 60) ? `<button class="act" data-a="unresume"><svg viewBox="0 0 24 24"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg> Remove from Pick up where you left off</button>` : ''}
     <button class="act" data-a="played"><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> ${isPlayed(e.id) ? 'Mark as not played' : 'Mark as played'}</button>
@@ -4324,6 +4371,14 @@ if(matchMedia('(display-mode: standalone)').matches || navigator.standalone === 
   addEventListener('resize', update);
   { const _r = render; render = function(){ const r = _r.apply(this, arguments); last = ''; requestAnimationFrame(update); return r; }; }
 })();
+
+/* Offline: say so plainly, fade the shows that can't play, keep saved ones bright */
+(function(){
+  const sync = () => { const off = !navigator.onLine; const was = document.body.classList.contains('offline'); document.body.classList.toggle('offline', off); if(was && !off) toast('Back online'); };
+  addEventListener('online', sync); addEventListener('offline', sync); sync();
+})();
+// loading shapes go once the shows arrive
+{ const _r = render; render = function(){ const r = _r.apply(this, arguments); if(episodes.length){ const k = $('#skel'); if(k){ k.classList.add('gone'); setTimeout(() => k.remove(), 300); } } return r; }; }
 
 /* Bottom search on phones: keeps its place above the tab bar, beside the mini player, or above the keyboard */
 (function(){
