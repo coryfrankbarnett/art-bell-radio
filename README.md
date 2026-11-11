@@ -1,4 +1,4 @@
-# Art Bell Radio
+# Art Bell Archive
 
 A phone app for searching, streaming and downloading Art Bell's shows (Coast to Coast AM, Dreamland, Somewhere in Time, Dark Matter, Midnight in the Desert and more) from the Internet Archive.
 

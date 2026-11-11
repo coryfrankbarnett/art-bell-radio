@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Art Bell">
+<meta name="apple-mobile-web-app-title" content="Bell Archive">
 <meta name="theme-color" content="#08090c">
-<title>Art Bell Radio</title>
+<title>Art Bell Archive</title>
 <link rel="preconnect" href="https://archive.org" crossorigin>
 <link rel="dns-prefetch" href="https://us.archive.org">
 <link rel="preload" href="fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
@@ -665,6 +665,9 @@ html.light .swipe .row{background:var(--bg)}
 
 .tabs{background:color-mix(in srgb,var(--surface) 72%,transparent);backdrop-filter:blur(36px) saturate(2);-webkit-backdrop-filter:blur(36px) saturate(2)}
 .mini{background:linear-gradient(90deg,color-mix(in srgb,var(--mc,#ff9a2e) 30%,transparent) 0%,transparent 70%),color-mix(in srgb,var(--surface) 74%,transparent);backdrop-filter:blur(36px) saturate(2);-webkit-backdrop-filter:blur(36px) saturate(2)}
+
+h1{font-size:clamp(34px,9.6vw,44px)}
+h1 em{display:inline}
 </style>
 </head>
 <body>
@@ -709,7 +712,7 @@ html.light .swipe .row{background:var(--bg)}
   <div class="top">
     <div>
       <div class="eyebrow"><span class="live"></span><span id="greet">From the high desert</span></div>
-      <h1>Art <em>Bell</em></h1>
+      <h1>Art Bell <em>Archive</em></h1>
       <div class="sub" id="count">Loading the archive…</div>
     </div>
     <button class="gear" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7 7 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7 7 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7 7 0 0 0 1.7 1l.4 2.7h4l.4-2.7a7 7 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></button>
@@ -1372,7 +1375,7 @@ async function coverPNG(e, S = 512){
 }
 async function setNowPlayingMeta(e){
   if(!('mediaSession' in navigator) || typeof MediaMetadata === 'undefined') return;
-  const base = { title: e.title, artist: `${e.show} · ${niceDate(e.date)}`, album: 'Art Bell Radio' };
+  const base = { title: e.title, artist: `${e.show} · ${niceDate(e.date)}`, album: 'Art Bell Archive' };
   navigator.mediaSession.metadata = new MediaMetadata(base);
   try{
     const [big, small] = await Promise.all([coverPNG(e, 512), coverPNG(e, 256)]);
@@ -1745,7 +1748,7 @@ function shareUrl(e, t){
 async function shareMoment(e){
   const t = audio.dataset.id === e.id ? curTime(e) : 0, url = shareUrl(e, t);
   const text = `${e.title} (${e.show}, ${niceDate(e.date)})${t > 5 ? ' from ' + fmt(t) : ''}`;
-  try{ if(navigator.share){ await navigator.share({ title:'Art Bell Radio', text, url }); return; } }catch(x){ if(x && x.name === 'AbortError') return; }
+  try{ if(navigator.share){ await navigator.share({ title:'Art Bell Archive', text, url }); return; } }catch(x){ if(x && x.name === 'AbortError') return; }
   try{ await navigator.clipboard.writeText(text + '\n' + url); toast('Link copied'); }catch(x){ toast('Couldn’t share from here — works once the app is hosted'); }
 }
 function handleDeepLink(){
