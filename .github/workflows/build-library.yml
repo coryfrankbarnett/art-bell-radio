@@ -3,7 +3,7 @@ name: Build show library
 on:
   push:
     branches: [main]
-    paths: [build_library.py, .github/workflows/build-library.yml]
+    paths: [build_library.py, build_topics.py, .github/workflows/build-library.yml]
   schedule:
     - cron: "17 4 * * 1"   # every Monday, early morning
   workflow_dispatch:
@@ -21,9 +21,12 @@ jobs:
           python-version: "3.12"
       - name: Fetch show list from archive.org
         run: python build_library.py
+      - name: Fetch topic tags from the podcast show notes (facts only)
+        run: python build_topics.py || echo "Topic tags skipped this week; keeping the previous topics.json"
       - name: Commit library.json if it changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add library.json
-          git diff --cached --quiet || (git commit -m "Update show library" && git push)
+          [ -f topics.json ] && git add topics.json || true
+          git diff --cached --quiet || (git commit -m "Update show library and topics" && git push)

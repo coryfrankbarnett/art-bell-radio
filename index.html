@@ -1156,6 +1156,7 @@ html.cine.mono h1 em{color:#d4b483}
 .home-logo{color:inherit;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .home-logo:focus-visible{outline:1px solid var(--muted);outline-offset:4px}
 @media (hover:hover){ .home-logo{transition:opacity .2s} .home-logo:hover{opacity:.8} }
+.nt-topics{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}.nt-topics .chip{height:28px;line-height:26px;font-size:10.5px;padding:0 10px}
 </style>
 </head>
 <body>
@@ -1705,7 +1706,7 @@ function ingest(items){
   }
   return Array.from(seen.values()).filter(e => !HIDDEN_SHOWS.has(e.show)).map(addHay);
 }
-const saveIndex = at => store.set(INDEX_KEY, { at, hosts, episodes: episodes.map(({hay,guests,nd,...e}) => e) });
+const saveIndex = at => store.set(INDEX_KEY, { at, hosts, episodes: episodes.map(({hay,hay0,tags,guests,nd,...e}) => e) });
 // Prebuilt list (library.json) is made by a GitHub Action on the same site: one small, fast, cacheable request
 async function getPrebuilt(){
   try{ const r = await fetch('library.json', { cache:'no-cache' }); if(!r.ok) return null; const j = await r.json(); return j && j.items && j.items.length ? j : null; }catch(x){ return null; }
@@ -1750,17 +1751,30 @@ function mergeGuestSpellings(){
   episodes.forEach(e => { if(e.guests) e.guests = [...new Set(e.guests.map(g => best.get(key(g)) || g))]; });
   nameCache.clear(); knownGuests = null;
 }
+// Topic tags per air date (facts only), built weekly from podcast show notes by build_topics.py
+let TOPICS = null;
+const topicsReady = fetch('topics.json', { cache:'no-cache' }).then(r => r.ok ? r.json() : null).then(j => { TOPICS = j && j.dates || null; return TOPICS; }).catch(() => null);
+function applyTopics(){
+  if(!TOPICS) return;
+  episodes.forEach(e => {
+    const t = (e.date && TOPICS[e.date]) || [];
+    e.tags = t; if(e.hay0 === undefined) e.hay0 = e.hay;
+    e.hay = t.length ? e.hay0 + ' | ' + t.join(' ').toLowerCase() : e.hay0;
+  });
+}
 function afterLoad(quiet){
   mergeGuestSpellings();
+  applyTopics();
   [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach((e, i) => { e.no = i + 1; });
   idMap = new Map(episodes.map(e => [e.id, e]));
   $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · 1988–2015`;
-  fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
+  fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}, {name:'tags', weight:.35}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
   buildDial(); buildChips(); buildGuests(); applyFilters(); if(window.__introReady){ window.__introReady(); window.__introReady = null; }
   if(quiet) return;
   handleDeepLink();
   if(state.last){ const e = byId(state.last); if(e) loadEpisode(e, false); }
 }
+topicsReady.then(t => { if(t && episodes.length && !episodes.some(e => e.tags)){ afterLoad(true); } });
 let idMap = new Map();
 const byId = id => idMap.get(id);
 
@@ -2294,6 +2308,7 @@ function openQueue(){
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
 $('#sheet').addEventListener('click', ev => {
+  const tch = ev.target.closest('.nt-topics [data-topic]'); if(tch){ closeSheet(); closeNP(); guestFilter = ''; showFilter = ''; yearFilter = ''; document.querySelectorAll('#chips .chip').forEach(c => c.classList.toggle('on', c.dataset.show === '')); $('#q').value = tch.dataset.topic; $('#clear').classList.add('show'); document.querySelector('.tab[data-tab="all"]').click(); return; }
   const gch = ev.target.closest('.nt-guests [data-g]'); if(gch){ closeSheet(); closeNP(); guestFilter = gch.dataset.g; $('#q').value = ''; document.querySelector('.tab[data-tab="all"]').click(); return; }
   const sb = ev.target.closest('[data-s]'); if(sb && ['backup','restore'].includes(sb.dataset.s)){ sb.dataset.s === 'backup' ? backupState() : $('#restoreFile').click(); return; }
   const q = ev.target.closest('[data-q]'); if(q){ state.queue.splice(+q.dataset.q, 1); saveState(); updateQueueBadge(); openQueue(); return; }
@@ -2527,6 +2542,7 @@ async function itemNotes(item){
   }).catch(() => null);
   notesCache.set(item, p); return p;
 }
+const topicTags = e => { const g = new Set((e.guests || []).map(x => x.toLowerCase())); return (e.tags || []).filter(t => !g.has(t.toLowerCase())); };
 function openNotes(e){
   const prog = PROGRAMMES.find(p => p[0] === e.show), note = essNote(e), p = state.pos[e.id], len = e.length || (p && p.d) || 0;
   $('#sheet').innerHTML = `<div class="grab"></div>
@@ -2541,6 +2557,7 @@ function openNotes(e){
         ${isPlayed(e.id) ? `<div><dt>Status</dt><dd>Played</dd></div>` : p && p.t > 30 ? `<div><dt>Status</dt><dd>${fmt(p.d - p.t)} left</dd></div>` : ''}
       </dl>
       ${e.guests && e.guests.length ? `<div class="nt-h">Guests</div><div class="nt-guests">${e.guests.map(g => `<button class="chip" data-g="${esc(g)}">${esc(g)}</button>`).join('')}</div>` : ''}
+      ${topicTags(e).length ? `<div class="nt-h">Topics</div><div class="nt-topics">${topicTags(e).map(t => `<button class="chip" data-topic="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
       ${prog ? `<div class="nt-h">${esc(prog[0])}</div><p>${esc(prog[2])}</p>` : ''}
       ${e.demo ? '' : `<div class="nt-h">From the collection</div><p class="nt-src" id="ntSrc">Loading notes from archive.org…</p>`}
     </div>`;
@@ -2977,7 +2994,7 @@ $('#sheet').addEventListener('click', ev => {
     toast(state.calm ? 'Motion reduced: no animations, sliding or vibration' : 'Motion back on'); }
   if(b.dataset.s === 'refresh'){ closeSheet(); loadLibrary(true); }
   if(b.dataset.s === 'tribute'){ closeSheet(); openTribute(); }
-  if(b.dataset.s === 'sources'){ closeSheet(); toast('Internet Archive: ' + SOURCES.length + ' Art Bell collections + search', 3500); }
+  if(b.dataset.s === 'sources'){ closeSheet(); toast('Shows: Internet Archive (' + SOURCES.length + ' Art Bell collections). Topic tags: facts drawn from The Art Bell Archive podcast’s show notes.', 5000); }
 });
 
 window.addEventListener('pagehide', persistPos);
