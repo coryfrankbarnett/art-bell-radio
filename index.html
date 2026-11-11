@@ -668,6 +668,18 @@ html.light .swipe .row{background:var(--bg)}
 
 h1{font-size:clamp(34px,9.6vw,44px)}
 h1 em{display:inline}
+
+/* On this night: one card per year, swipeable */
+.otn-rail{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -20px;padding:0 20px;scroll-padding:0 20px;scrollbar-width:none;overscroll-behavior-x:contain}
+.otn-rail::-webkit-scrollbar{display:none}
+.otn-rail .tile.tonight{flex:0 0 calc(100% - 34px);width:auto;scroll-snap-align:start;scroll-snap-stop:always}
+.otn-rail.solo .tile.tonight{flex-basis:100%}
+.tile.tonight .yr{position:absolute;top:18px;right:22px;font:600 22px/1 var(--display);letter-spacing:-.03em;color:var(--ink);background:none;padding:0;border-radius:0;box-shadow:none;width:auto;height:auto;min-height:0}
+.tile.tonight .yr::before,.tile.tonight .yr::after{content:none}
+.otn-chips{display:flex;gap:6px;overflow-x:auto;margin:10px -20px 0;padding:0 20px;scrollbar-width:none}
+.otn-chips::-webkit-scrollbar{display:none}
+.otn-chip{flex:none;height:30px;padding:0 12px;border-radius:99px;font:600 13px/30px var(--font);color:var(--muted);background:var(--surface);border:1px solid var(--line);transition:background .2s,color .2s}
+.otn-chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
 </style>
 </head>
 <body>
@@ -1419,27 +1431,55 @@ function tonightShows(){
 }
 let storageText = '';
 if(navigator.storage && navigator.storage.estimate) navigator.storage.estimate().then(x => { storageText = x.usage ? (x.usage/1048576 > 1024 ? (x.usage/1073741824).toFixed(1)+' GB' : Math.round(x.usage/1048576)+' MB') + ' used' : ''; }).catch(()=>{});
+let tonightIdx = 0;
+function syncChips(b){
+  const row = b.querySelector('.otn-chips'); if(!row) return;
+  row.querySelectorAll('.otn-chip').forEach((c, i) => { const on = i === tonightIdx; c.classList.toggle('on', on); c.setAttribute('aria-selected', on); });
+  const c = row.children[tonightIdx]; if(c){ const l = c.offsetLeft - row.clientWidth/2 + c.offsetWidth/2; row.scrollTo({ left:l, behavior:smooth() }); }
+}
 function renderBento(){
   const show = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value && episodes.length;
   const b = $('#bento'); b.style.display = show ? '' : 'none'; if(!show) return;
-  const now = new Date(), tn = tonightShows(), first = tn.list[0];
-  const years = [...new Set(tn.list.map(e => e.year))];
+  const now = new Date(), tn = tonightShows(), list = tn.list;
   const favN = Object.keys(state.favs).length, offN = savedKeys.size;
-  const hc = first ? coverStyle(first.id, first.show) : coverStyle('tonight', 'Coast to Coast AM');
-  b.innerHTML = `
-    <button class="tile tonight" data-t="tonight" ${first ? `data-id="${esc(first.id)}"` : ''} style="--cv:${hc.layers};--ink:${hc.ink};--cbg:${hc.bg}">
+  const prevRail = b.querySelector('.otn-rail'), prevLeft = prevRail ? prevRail.scrollLeft : 0;
+  if(tonightIdx >= list.length) tonightIdx = 0;
+  const dayBig = `<span class="big">${now.getDate()} <em>${MONTHS[now.getMonth()]}</em></span>`;
+  const cards = list.length ? list.map((e, i) => {
+    const c = coverStyle(e.id, e.show);
+    return `<button class="tile tonight" data-t="tonight" data-i="${i}" data-id="${esc(e.id)}" style="--cv:${c.layers};--ink:${c.ink};--cbg:${c.bg}">
       <span class="hero-art"></span>
       <span class="k">${tn.exact ? 'On this night' : 'Closest to tonight'}</span>
-      <span class="big">${now.getDate()} <em>${MONTHS[now.getMonth()]}</em></span>
-      ${first ? `<span class="ep">${esc(first.title)}</span><span class="s">${esc(first.show)} · ${tn.exact ? years.join(', ') : niceDate(first.date)}</span><span class="go">${I.play2}</span>` : '<span class="s">No dated shows yet</span>'}
-    </button>
+      ${e.year ? `<span class="yr">${esc(e.year)}</span>` : ''}
+      ${dayBig}
+      <span class="ep">${esc(e.title)}</span><span class="s">${esc(e.show)} · ${niceDate(e.date)}</span><span class="go">${I.play2}</span>
+    </button>`;
+  }).join('') : (() => { const c = coverStyle('tonight', 'Coast to Coast AM');
+    return `<div class="tile tonight" style="--cv:${c.layers};--ink:${c.ink};--cbg:${c.bg}"><span class="hero-art"></span><span class="k">On this night</span>${dayBig}<span class="s">No dated shows yet</span></div>`; })();
+  const chips = list.length > 1 ? `<div class="otn-chips" role="tablist" aria-label="Pick a year">${list.map((e, i) =>
+    `<button class="otn-chip${i === tonightIdx ? ' on' : ''}" data-i="${i}" role="tab" aria-selected="${i === tonightIdx}">${esc(e.year || '?')}</button>`).join('')}</div>` : '';
+  b.innerHTML = `
+    <div class="otn-rail${list.length > 1 ? '' : ' solo'}">${cards}</div>${chips}
     <div class="quick">
       <button class="tile q" data-t="spin"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-2.05-4.95L14 10h7V3l-2.64 2.64A8.96 8.96 0 0 0 12 3z"/></svg><span class="v">Wild Card</span></button>
       <button class="tile q" data-t="fav"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg><span class="v">${favN} saved</span></button>
       <button class="tile q" data-t="saved"><svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5zm7-3 6-6-1.4-1.4-3.6 3.6V3h-2v10.2L7.4 9.6 6 11z"/></svg><span class="v">${offN} offline</span></button>
     </div>`;
+  const rail = b.querySelector('.otn-rail');
+  if(rail && list.length > 1){
+    rail.scrollLeft = prevRail ? prevLeft : 0;
+    if(!prevRail && tonightIdx) rail.scrollLeft = rail.children[tonightIdx].offsetLeft - rail.children[0].offsetLeft;
+    rail.addEventListener('scroll', () => {
+      const w = rail.children[1].offsetLeft - rail.children[0].offsetLeft;
+      const n = Math.max(0, Math.min(list.length - 1, Math.round(rail.scrollLeft / w)));
+      if(n !== tonightIdx){ tonightIdx = n; syncChips(b); }
+    }, { passive:true });
+  }
 }
 $('#bento').addEventListener('click', ev => {
+  const chip = ev.target.closest('.otn-chip');
+  if(chip){ const rail = $('#bento .otn-rail'), card = rail && rail.children[+chip.dataset.i];
+    if(card){ tonightIdx = +chip.dataset.i; syncChips($('#bento')); rail.scrollTo({ left: card.offsetLeft - rail.children[0].offsetLeft, behavior:smooth() }); } return; }
   const t = ev.target.closest('.tile'); if(!t) return; if(navigator.vibrate && !calm()) navigator.vibrate(8);
   const k = t.dataset.t;
   if(k === 'tonight'){ const e = byId(t.dataset.id); if(e) playFrom(e, t.querySelector('.hero-art') || t); }
