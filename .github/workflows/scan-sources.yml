@@ -6,15 +6,15 @@ jobs:
     steps:
       - run: |
           python3 - <<'PY'
-          import json, urllib.request, urllib.parse
+          import json, re, urllib.request, collections
           UA={"User-Agent":"art-bell-tapes-scan"}
-          def get(u): return json.load(urllib.request.urlopen(urllib.request.Request(u,headers=UA),timeout=90))
-          seen=set()
-          for q in ['"art bell" AND mediatype:audio', 'subject:"art bell" AND mediatype:audio', '("coast to coast am" AND (1994 OR 1995 OR 1996 OR 1997 OR 1998 OR 1999 OR 2000 OR 2001 OR 2002 OR 2003)) AND mediatype:audio', 'title:(dreamland) AND creator:(bell) AND mediatype:audio']:
-              u="https://archive.org/advancedsearch.php?"+urllib.parse.urlencode({"q":q,"fl[]":["identifier","title","item_size","downloads"],"rows":500,"output":"json","sort[]":"item_size desc"},doseq=True)
-              for d in get(u)["response"]["docs"]:
-                  if d["identifier"] in seen: continue
-                  seen.add(d["identifier"])
-                  sz=int(d.get("item_size") or 0)
-                  if sz>300_000_000: print(f'{sz/1e9:6.1f}GB | {d["identifier"]} | {str(d.get("title"))[:90]}')
+          def get(u): return json.load(urllib.request.urlopen(urllib.request.Request(u,headers=UA),timeout=180))
+          for ident in ["art-bell-1990-2000","art-bell-2001-to-2010","art-bell-archive","art-bell-episodes","coast-to-coast-am-2004","c2cam-2003-comp","the-ultimate-art-bell-collection-1","the-ultimate-art-bell-collection-2","coast-to-coast-am-2006-to-2010","art-bell-compilations"]:
+              try: j=get("https://archive.org/metadata/"+ident)
+              except Exception as e: print("FAIL",ident,e); continue
+              mp3=[f for f in j.get("files",[]) if f.get("name","").lower().endswith(".mp3") and f.get("source")!="derivative"]
+              yrs=collections.Counter((re.search(r"(19|20)\d\d",f["name"].split("/")[-1]) or [None])[0] for f in mp3)
+              art=sum(1 for f in mp3 if re.search(r"art.?bell",f["name"],re.I))
+              print(f"== {ident}: {len(mp3)} mp3, {art} name Art Bell; years {dict(sorted((k,v) for k,v in yrs.items() if k))}")
+              for f in mp3[:: max(1,len(mp3)//6)][:6]: print("   ", f["name"][-110:])
           PY
