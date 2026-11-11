@@ -1,0 +1,20 @@
+name: Scan archive.org for Art Bell collections (one-off)
+on: workflow_dispatch
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          python3 - <<'PY'
+          import json, urllib.request, urllib.parse
+          UA={"User-Agent":"art-bell-tapes-scan"}
+          def get(u): return json.load(urllib.request.urlopen(urllib.request.Request(u,headers=UA),timeout=90))
+          seen=set()
+          for q in ['"art bell" AND mediatype:audio', 'subject:"art bell" AND mediatype:audio', '("coast to coast am" AND (1994 OR 1995 OR 1996 OR 1997 OR 1998 OR 1999 OR 2000 OR 2001 OR 2002 OR 2003)) AND mediatype:audio', 'title:(dreamland) AND creator:(bell) AND mediatype:audio']:
+              u="https://archive.org/advancedsearch.php?"+urllib.parse.urlencode({"q":q,"fl[]":["identifier","title","item_size","downloads"],"rows":500,"output":"json","sort[]":"item_size desc"},doseq=True)
+              for d in get(u)["response"]["docs"]:
+                  if d["identifier"] in seen: continue
+                  seen.add(d["identifier"])
+                  sz=int(d.get("item_size") or 0)
+                  if sz>300_000_000: print(f'{sz/1e9:6.1f}GB | {d["identifier"]} | {str(d.get("title"))[:90]}')
+          PY
