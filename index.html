@@ -1157,6 +1157,23 @@ html.cine.mono h1 em{color:#d4b483}
 .home-logo:focus-visible{outline:1px solid var(--muted);outline-offset:4px}
 @media (hover:hover){ .home-logo{transition:opacity .2s} .home-logo:hover{opacity:.8} }
 .nt-topics{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}.nt-topics .chip{height:28px;line-height:26px;font-size:10.5px;padding:0 10px}
+
+/* Listen buttons in the tribute: own line, round play disc */
+.tb-listen{display:inline-flex!important;align-items:center;gap:12px;height:auto!important;padding:6px 16px 6px 6px!important;border:1px solid var(--line)!important;border-radius:999px!important;background:transparent;color:var(--text);font:500 10.5px/1 var(--font)!important;letter-spacing:.16em;text-transform:uppercase;margin:0!important;transition:border-color .2s,background .2s}
+.tb-listen svg{width:30px!important;height:30px!important;padding:9px 8px 9px 10px;border-radius:50%;background:var(--text);fill:var(--bg)!important;flex:none;box-sizing:border-box}
+.tb-listen small{color:var(--muted)!important;font-size:10px!important;letter-spacing:.14em;margin-left:2px}
+@media (hover:hover){ .tb-listen:hover{border-color:var(--muted)!important;background:var(--surface)} }
+.tt-tx{display:block}
+.tt-go{margin-top:14px}
+/* On this night: the year sits on the right, clear of the label */
+html.cine .otn2 .o-top .k{position:static!important;left:auto!important;top:auto!important}
+html.cine .otn2 .o-top{width:100%}
+/* One logo: same weight and colours in the corner and the header, no faux bold anywhere */
+html{font-synthesis:none}
+html.cine.mono .side-brand em{color:#d4b483}
+.side-brand,.side-brand em,.side-brand span,h1,h1 a,h1 em{font-weight:400!important}
+.side-brand em{font-style:italic}
+html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opacity:1}
 </style>
 </head>
 <body>
@@ -2822,7 +2839,7 @@ function openTribute(){
     </section>
     <section class="tb-sec">
       <h3>A life on the air</h3>
-      <ol class="tb-time">${TIMELINE.map(([y, k, t, d]) => `<li><div class="ty">${esc(y)}</div><div class="tt"><span class="tk">${esc(k)}</span>${esc(t)}${d ? listenBtn(d) : ''}</div></li>`).join('')}</ol>
+      <ol class="tb-time">${TIMELINE.map(([y, k, t, d]) => `<li><div class="ty">${esc(y)}</div><div class="tt"><span class="tk">${esc(k)}</span><span class="tt-tx">${esc(t)}</span>${d ? `<div class="tt-go">${listenBtn(d)}</div>` : ''}</div></li>`).join('')}</ol>
     </section>
     <section class="tb-sec">
       <h3>The lines are open</h3>
