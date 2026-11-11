@@ -1241,6 +1241,68 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
 .sy-steps li{margin-bottom:8px}
 .sy-steps b{font-weight:500}
 .sy-note{color:var(--muted);font-size:12.5px;line-height:1.5;margin:8px 2px 4px}
+
+/* ---- player: subject markers and hours ---- */
+.scrub{position:relative}
+.np-marks{position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none}
+.np-marks i{position:absolute;top:0;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;box-shadow:0 0 0 2px var(--bg);background:var(--mc);opacity:.95;transition:opacity .2s}
+.np-marks i.dim{opacity:.18}
+.np-marks i.hr{width:1px;height:100%;bottom:0;background:var(--line);opacity:1}
+.np-topics{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:2px -2px 10px;padding:2px;align-items:center;min-height:34px}
+.np-topics::-webkit-scrollbar{display:none}
+.np-topics .nt-k{flex:none;font:500 9.5px/1 var(--font);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.np-topics .tp{flex:none;display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 11px;border:1px solid var(--line);border-radius:999px;font:500 11px/1 var(--font);color:var(--text);background:transparent;white-space:nowrap}
+.np-topics .tp i{width:7px;height:7px;border-radius:50%;background:var(--mc)}
+.np-topics .tp.on{border-color:var(--mc)}
+.np-topics .hrbtn{border-style:dashed;color:var(--muted)}
+/* ---- cassette view ---- */
+.cassette{display:none;position:relative;width:100%;max-width:400px;aspect-ratio:16/10.5;margin:min(4vh,28px) auto 0;border-radius:14px;background:#1d1b18;border:1px solid rgba(236,230,218,.12);box-shadow:0 30px 70px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05);padding:16px 18px 12px;color:#ece6da;text-align:left;overflow:hidden}
+html.light .cassette{background:#2a2622}
+.np.tape .bigart{display:none!important}
+.np.tape .cassette{display:flex;flex-direction:column}
+.cs-label{position:relative;background:#efe7d8;color:#1a1612;border-radius:5px;padding:10px 14px 12px;border-top:9px solid var(--pc,#a8452b);display:flex;flex-direction:column;gap:3px}
+.cs-show{font:500 9px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;opacity:.65}
+.cs-title{font:400 clamp(19px,5.4vw,24px)/1.05 var(--serif);display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.cs-date{font:500 9.5px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+.cs-reels{flex:1;width:100%;margin-top:6px}
+.cs-win{fill:#0e0d0c;stroke:rgba(236,230,218,.15)}
+.cs-tape{fill:#3a2a1e;stroke:#4b3828;stroke-width:1;transition:r .6s linear}
+.cs-hub{fill:#d8d0c2}
+.cs-spoke{stroke:#1d1b18;stroke-width:3;stroke-linecap:round}
+.cs-foot{fill:none;stroke:rgba(236,230,218,.14);stroke-width:1.5}
+.cs-hole{fill:#0e0d0c}
+@keyframes csSpin{to{transform:rotate(-360deg)}}
+.np.rolling .cs-reel{animation:csSpin 4.5s linear infinite}
+body.calm .cs-reel{animation:none!important}
+/* ---- bedside ---- */
+.bedside{position:fixed;inset:0;z-index:90;background:#000;color:#8a8378;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;cursor:pointer}
+.bedside.show{display:flex}
+.bd-clock{font:400 clamp(110px,34vw,260px)/.9 var(--serif);color:#b9b0a2;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.bd-date{font:500 11px/1 var(--font);letter-spacing:.24em;text-transform:uppercase;margin-top:18px;color:#6d675e}
+.bd-now{margin-top:46px;font:400 22px/1.2 var(--serif);color:#9a9286;max-width:30em}
+.bd-now span{display:block;font:500 9.5px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:#5d5850;margin-bottom:8px}
+.bd-sleep{margin-top:16px;font:italic 400 18px/1 var(--serif);color:#7a5a45}
+.bd-hint{position:absolute;bottom:calc(24px + var(--sb, 0px));font:500 9px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:#3e3a35}
+/* ---- polish ---- */
+#tCur,#tLeft,.row .m,.jump,.cno{font-variant-numeric:tabular-nums}
+.act,.chip,.jump,.tp,.tb-listen,.card,.row{-webkit-tap-highlight-color:transparent}
+@media (hover:none){ .chip:active,.jump:active,.tp:active,.act:active,.card:active .art{transform:scale(.97);transition:transform .08s} }
+.extras{flex-wrap:wrap;row-gap:8px}
+/* ---- desktop: player docked on the right ---- */
+@media (min-width:1280px){
+  .np{left:auto!important;right:0;width:420px;transform:translateX(100%);border-left:1px solid var(--line);padding:22px 26px 26px;overflow-y:auto}
+  .np.open{transform:none}
+  .np .bigart,.np .cassette{max-width:300px}
+  body.np-open .app{margin-right:440px}
+  body.np-open .mini{display:none}
+}
+
+.yr-big{display:flex;flex-direction:column;gap:6px;margin:10px 0 18px}
+.yr-big b{font:400 84px/.9 var(--serif);font-weight:400}
+.yr-big span{font:italic 400 20px/1.2 var(--serif);color:var(--accent)}
+.yr-facts{margin-bottom:12px}
+.yr-long{color:var(--muted);font-size:14px;line-height:1.5;margin:4px 0 12px}
+.yr-long b{color:var(--text);font-weight:500}
 </style>
 </head>
 <body>
@@ -1400,12 +1462,22 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
     <button id="npMore" aria-label="More"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
   </div>
   <div class="art bigart" id="npArt"></div>
+  <button class="cassette" id="cassette" aria-label="Show the cover">
+    <div class="cs-label"><span class="cs-show" id="csShow"></span><span class="cs-title" id="csTitle"></span><span class="cs-date" id="csDate"></span></div>
+    <svg class="cs-reels" viewBox="0 0 320 120" aria-hidden="true">
+      <rect x="70" y="20" width="180" height="70" rx="35" class="cs-win"/>
+      <g class="cs-reel" id="csL" style="transform-origin:110px 55px"><circle cx="110" cy="55" r="30" class="cs-tape" id="csLT"/><circle cx="110" cy="55" r="11" class="cs-hub"/><path d="M110 44v6M110 60v6M99 55h6M115 55h6" class="cs-spoke"/></g>
+      <g class="cs-reel" id="csR" style="transform-origin:210px 55px"><circle cx="210" cy="55" r="16" class="cs-tape" id="csRT"/><circle cx="210" cy="55" r="11" class="cs-hub"/><path d="M210 44v6M210 60v6M199 55h6M215 55h6" class="cs-spoke"/></g>
+      <path d="M40 110l18-14h204l18 14" class="cs-foot"/><circle cx="62" cy="104" r="3" class="cs-hole"/><circle cx="258" cy="104" r="3" class="cs-hole"/>
+    </svg>
+  </button>
   <div class="meta">
     <div class="tx"><div class="title" id="npTitle"></div><div class="subt" id="npSub"></div></div>
     <button class="fav" id="npFav" aria-label="Favourite"><svg viewBox="0 0 24 24"><path d="M12 17.3 6.2 21l1.6-6.6L2.7 10l6.7-.6L12 3.2l2.6 6.2 6.7.6-5.1 4.4 1.6 6.6z"/></svg></button>
   </div>
-  <div class="scrub" id="scrub"><canvas id="wave"></canvas><div class="bubble" id="bubble"></div><input class="sr" id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek"></div>
+  <div class="scrub" id="scrub"><canvas id="wave"></canvas><div class="np-marks" id="npMarks"></div><div class="bubble" id="bubble"></div><input class="sr" id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek"></div>
   <div class="times"><span id="tCur">0:00</span><span class="scrubmode" id="scrubMode"></span><span id="tLeft">-0:00</span></div>
+  <div class="np-topics" id="npTopics"></div>
   <div class="ctl">
     <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
     <button class="skip" id="back" aria-label="Back 30 seconds"><svg viewBox="0 0 24 24"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/><text x="12" y="15.2" font-size="5.4" font-weight="700" text-anchor="middle" font-family="sans-serif">30</text></svg></button>
@@ -1418,11 +1490,14 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
     <button id="sleep"><svg viewBox="0 0 24 24"><path d="M12.3 2a10 10 0 1 0 9.7 12.4A8 8 0 0 1 12.3 2z"/></svg><span id="sleepVal">Sleep</span></button>
     <button id="markBtn"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span id="markVal">Mark</span></button>
     <button id="queueBtn"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-1V9l5 3z"/></svg><span id="queueVal">Up next</span></button>
+    <button id="bedBtn"><svg viewBox="0 0 24 24"><path d="M3 18v-6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v6h-2v-2H5v2zm2-4h14v-2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1zM7 8V6h4v2z"/></svg><span>Bedside</span></button>
+    <button id="castBtn"><svg viewBox="0 0 24 24"><path d="M2 16v2a3 3 0 0 1 3 3h2a5 5 0 0 0-5-5zm0-4v2a7 7 0 0 1 7 7h2a9 9 0 0 0-9-9zm0-4v2a11 11 0 0 1 11 11h2A13 13 0 0 0 2 8zm19-5H3a2 2 0 0 0-2 2v2h2V5h18v14h-5v2h5a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg><span>Speaker</span></button>
     <button id="boostBtn"><svg viewBox="0 0 24 24"><path d="M3 10v4h3l5 4V6L6 10zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg><span>Boost</span></button>
   </div>
 </div>
 
 <div class="scrim" id="scrim"></div>
+<div class="bedside" id="bedside" role="dialog" aria-label="Bedside clock"><div class="bd-clock" id="bdClock"></div><div class="bd-date" id="bdDate"></div><div class="bd-now" id="bdNow"></div><div class="bd-sleep" id="bdSleep"></div><div class="bd-hint">Tap to close</div></div>
 <div class="sheet" id="sheet"></div>
 <div class="toast" id="toast"></div>
 <audio id="audio" preload="auto"></audio>
@@ -2024,6 +2099,50 @@ $('#tabs').addEventListener('click', ev => {
 
 
 
+
+
+
+/* ================= Your year with Art ================= */
+function yearData(){
+  const Y = String(new Date().getFullYear()), st = state.stats || { secs:0, days:{}, plays:{} };
+  const secs = Object.entries(st.days || {}).filter(([k]) => k.startsWith(Y)).reduce((a, [, v]) => a + v, 0);
+  const playsArr = Object.entries(st.plays || {}).map(([id, v]) => [byId(id), v]).filter(([e]) => e);
+  const g = {}, t = {}, yrs = {};
+  playsArr.forEach(([e, v]) => { (e.guests || []).forEach(n => g[n] = (g[n] || 0) + v); (e.tags || []).slice(0, 6).forEach(x => { if(!/^[A-Z][a-z]+ [A-Z]/.test(x)) t[x] = (t[x] || 0) + v; }); if(e.year) yrs[e.year] = (yrs[e.year] || 0) + v; });
+  const top = o => Object.entries(o).sort((a, b) => b[1] - a[1]);
+  const longest = playsArr.sort((a, b) => b[1] - a[1])[0];
+  const finished = Object.entries(state.pos).filter(([id, p]) => isPlayed(id) && (!p.at || new Date(p.at).getFullYear() === +Y)).length;
+  return { Y, hrs: secs / 3600, finished, guests: top(g).slice(0, 3).map(x => x[0]), topics: top(t).slice(0, 3).map(x => x[0]), era: top(yrs)[0] ? top(yrs)[0][0] : '', longest: longest ? longest[0] : null };
+}
+function openYear(){
+  const y = yearData();
+  const body = y.hrs < .5 ? `<p class="lp-empty">Listen to a few shows and your year will fill in here.</p>` : `
+    <div class="yr-big"><b>${y.hrs >= 10 ? Math.round(y.hrs) : y.hrs.toFixed(1)}</b><span>hours with Art in ${y.Y}</span></div>
+    <dl class="nt-facts yr-facts">
+      <div><dt>Shows finished</dt><dd>${y.finished}</dd></div>
+      ${y.era ? `<div><dt>Favourite era</dt><dd>${y.era}</dd></div>` : ''}
+      ${y.guests.length ? `<div><dt>Top guests</dt><dd>${y.guests.map(esc).join('<br>')}</dd></div>` : ''}
+      ${y.topics.length ? `<div><dt>Top subjects</dt><dd>${y.topics.map(esc).join('<br>')}</dd></div>` : ''}
+    </dl>
+    ${y.longest ? `<p class="yr-long">Most played: <b>${esc(topicOf(y.longest) || y.longest.title)}</b>, ${niceDate(y.longest.date)}</p>` : ''}
+    <button class="act" data-yr="share">${I.share} Share your year<small>Image</small></button>`;
+  $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Your year with Art</div><div class="m">From the high desert, ${y.Y}</div></div></div>${body}`;
+  $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
+}
+async function shareYear(){
+  const y = yearData(), W = 1080, H = 1350, cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d');
+  try{ await Promise.all([document.fonts.load('400 120px "Instrument Serif"'), document.fonts.load('italic 400 120px "Instrument Serif"'), document.fonts.load('500 30px "Inter"')]); }catch(x){}
+  g.fillStyle = '#0e0d0c'; g.fillRect(0, 0, W, H);
+  g.fillStyle = '#8e877b'; g.font = '500 30px Inter, sans-serif'; g.fillText(('MY YEAR WITH ART · ' + y.Y).split('').join(String.fromCharCode(8202)), 90, 150);
+  g.fillStyle = '#ece6da'; g.font = '400 300px "Instrument Serif", Georgia, serif'; g.fillText(y.hrs >= 10 ? Math.round(y.hrs) : y.hrs.toFixed(1), 80, 470);
+  g.font = 'italic 400 70px "Instrument Serif", Georgia, serif'; g.fillStyle = '#d4b483'; g.fillText('hours from the high desert', 90, 560);
+  let yy = 720; const row = (k, v) => { g.fillStyle = '#8e877b'; g.font = '500 26px Inter, sans-serif'; g.fillText(k.toUpperCase(), 90, yy); g.fillStyle = '#ece6da'; g.font = '400 58px "Instrument Serif", Georgia, serif'; g.fillText(v, 90, yy + 66); yy += 150; };
+  if(y.guests.length) row('Top guest', y.guests[0]); if(y.topics.length) row('Top subject', y.topics[0]); row('Shows finished', String(y.finished));
+  g.fillStyle = '#ece6da'; g.font = '400 54px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', 90, H - 90); const w = g.measureText('Art Bell ').width; g.font = 'italic 400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#d4b483'; g.fillText('Tapes', 90 + w, H - 90);
+  const blob = await new Promise(r => cv.toBlob(r, 'image/png')), file = new File([blob], `art-bell-year-${y.Y}.png`, { type:'image/png' });
+  try{ if(navigator.canShare && navigator.canShare({ files:[file] })) await navigator.share({ files:[file], title:'My year with Art' }); else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 20000); toast('Image saved'); } }catch(x){}
+}
+$('#sheet').addEventListener('click', ev => { if(ev.target.closest('[data-yr="share"]')) shareYear(); });
 
 /* ================= Commute: keep the next few in Up next saved offline ================= */
 let autoSaving = false;
@@ -2896,8 +3015,8 @@ function seekTo(f){
 })();
 
 /* Now playing open/close (tap mini, swipe down to close) */
-function openNPNow(){ $('#np').classList.add('open'); requestAnimationFrame(drawWave); }
-function closeNPNow(){ $('#np').classList.remove('open'); }
+function openNPNow(){ $('#np').classList.add('open'); document.body.classList.add('np-open'); renderNPMarks(); updateCassette(true); requestAnimationFrame(drawWave); }
+function closeNPNow(){ $('#np').classList.remove('open'); document.body.classList.remove('np-open'); }
 // Shared-element transition: the tapped cover grows into the player's cover (and shrinks back into the mini player)
 function morph(update, fromEl, toSel){
   const np = $('#np');
@@ -2906,8 +3025,8 @@ function morph(update, fromEl, toSel){
   const t = document.startViewTransition(() => { fromEl.style.viewTransitionName = ''; update(); const to = $(toSel); if(to) to.style.viewTransitionName = 'cover'; });
   t.finished.finally(() => { const to = $(toSel); if(to) to.style.viewTransitionName = ''; np.classList.remove('vt'); });
 }
-function openNP(fromEl){ if($('#np').classList.contains('open')) return; morph(openNPNow, fromEl || $('#miniArt'), '#npArt'); }
-function closeNP(){ if(!$('#np').classList.contains('open')) return; morph(closeNPNow, $('#npArt'), '#miniArt'); }
+function openNP(fromEl){ if($('#np').classList.contains('open')) return; if(state.npView === 'tape' || matchMedia('(min-width:1280px)').matches){ openNPNow(); return; } morph(openNPNow, fromEl || $('#miniArt'), '#npArt'); }
+function closeNP(){ if(!$('#np').classList.contains('open')) return; if(state.npView === 'tape' || matchMedia('(min-width:1280px)').matches){ closeNPNow(); return; } morph(closeNPNow, $('#npArt'), '#miniArt'); }
 /* Overnight radio: plays back to back like a live station, tonight's date first */
 function radioPicks(n, skip){
   const seen = new Set(skip || []), pool = episodes.filter(e => !seen.has(e.id) && !isPlayed(e.id) && e.length !== 0 && e.show !== 'Ghost to Ghost' || false);
@@ -2990,6 +3109,69 @@ async function downloadToPhone(e){
     else { const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = file.name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 30000); toast('Saved to Downloads'); }
   }catch(x){ if(x && x.name === 'AbortError') return toast('Cancelled'); toast('Opening the file instead…'); location.href = fileUrl(e); }
 }
+
+/* ================= Player: subject markers, hours, cassette, bedside, cast ================= */
+const MARK_COL = ['#e2805a','#86acd4','#c8a97f','#a29ce6','#d48cbf','#93c7a0','#e6c46a','#7fc4c4'];
+let npMarkSel = '';
+function renderNPMarks(){
+  const e = byId(audio.dataset.id), box = $('#npMarks'), row = $('#npTopics'); if(!box || !row) return;
+  const d = audio.duration || (e && e.length) || 0;
+  if(!e || !d){ box.innerHTML = ''; row.innerHTML = ''; return; }
+  const m = momentsFor(e) || {};
+  const subj = Object.entries(m).sort((a, b) => b[1].length - a[1].length).slice(0, 6);
+  let ticks = '';
+  subj.forEach(([l, ts], i) => (npMarkSel ? (l === npMarkSel ? ts : []) : ts.slice(0, 3)).forEach(t => { ticks += `<i class="mk${npMarkSel && npMarkSel !== l ? ' dim' : ''}" data-l="${esc(l)}" style="left:${Math.min(99.5, t / d * 100)}%;--mc:${MARK_COL[i % MARK_COL.length]}"></i>`; }));
+  box.innerHTML = ticks;
+  const cur = audio.currentTime || 0, nextHr = Math.ceil((cur + 1) / 3600) * 3600;
+  row.innerHTML = (subj.length ? `<span class="nt-k">In this show</span>` : '') + subj.map(([l], i) => `<button class="tp${npMarkSel === l ? ' on' : ''}" data-tp="${esc(l)}" style="--mc:${MARK_COL[i % MARK_COL.length]}"><i></i>${esc(l)}</button>`).join('') +
+    (d > 3700 && nextHr < d - 60 ? `<button class="tp hrbtn" data-hr="${nextHr}">Hour ${Math.round(nextHr / 3600) + 1} ▸</button>` : '');
+}
+$('#npTopics').addEventListener('click', ev => {
+  const h = ev.target.closest('[data-hr]'); if(h){ audio.currentTime = +h.dataset.hr; persistPos(); renderNPMarks(); toast('Hour ' + (Math.round(+h.dataset.hr / 3600) + 1)); return; }
+  const b = ev.target.closest('[data-tp]'); if(!b) return;
+  const e = byId(audio.dataset.id), m = momentsFor(e) || {}, ts = m[b.dataset.tp] || []; npMarkSel = b.dataset.tp;
+  const now = audio.currentTime || 0, nxt = ts.find(t => t - 10 > now + 5) ?? ts[0];
+  if(nxt !== undefined){ audio.currentTime = Math.max(0, nxt - 10); persistPos(); if(audio.paused) audio.play().catch(() => {}); toast(`${b.dataset.tp} · ${fmt(Math.max(0, nxt - 10))}`); }
+  renderNPMarks();
+});
+$('#npMarks').addEventListener('click', ev => { const k = ev.target.closest('.mk'); if(!k) return; ev.stopPropagation(); });
+audio.addEventListener('loadedmetadata', () => { npMarkSel = ''; loadMoments().then(renderNPMarks); updateCassette(true); });
+let lastMarkHr = -1;
+audio.addEventListener('timeupdate', () => { const hr = Math.floor((audio.currentTime || 0) / 3600); if(hr !== lastMarkHr){ lastMarkHr = hr; renderNPMarks(); } updateCassette(); });
+// cassette view
+function updateCassette(force){
+  const e = byId(audio.dataset.id); if(!e) return;
+  if(force){ $('#csShow').textContent = e.show; $('#csTitle').textContent = topicOf(e) || e.title; $('#csDate').textContent = (e.no ? 'No. ' + e.no + ' · ' : '') + niceDate(e.date); $('#cassette').style.setProperty('--pc', progCol(e.show)[0]); }
+  const d = audio.duration || 0, p = d ? Math.min(1, (audio.currentTime || 0) / d) : 0;
+  const rl = 14 + 18 * Math.sqrt(1 - p), rr = 14 + 18 * Math.sqrt(p);
+  $('#csLT').setAttribute('r', rl.toFixed(1)); $('#csRT').setAttribute('r', rr.toFixed(1));
+}
+const setNPView = v => { state.npView = v; saveState(); $('#np').classList.toggle('tape', v === 'tape'); };
+$('#cassette').addEventListener('click', () => setNPView('cover'));
+$('#np').addEventListener('click', ev => { const a = ev.target.closest('#npArt'); if(!a || ev.target.closest('button')) return; setNPView('tape'); updateCassette(true); });
+$('#np').classList.toggle('tape', state.npView === 'tape');
+['play','playing'].forEach(x => audio.addEventListener(x, () => $('#np').classList.add('rolling')));
+['pause','ended'].forEach(x => audio.addEventListener(x, () => $('#np').classList.remove('rolling')));
+// bedside clock
+let bedT = null, wakeLock = null;
+function bedTick(){
+  const n = new Date(), e = byId(audio.dataset.id);
+  $('#bdClock').textContent = n.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  $('#bdDate').textContent = n.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+  $('#bdNow').innerHTML = e ? `<span>${esc(e.show)}</span>${esc(topicOf(e) || e.title)}` : 'Nothing playing';
+  $('#bdSleep').textContent = sleepAt ? 'Sleep in ' + Math.max(1, Math.round((sleepAt - Date.now()) / 60000)) + ' min' : (typeof sleepEnd !== 'undefined' && sleepEnd ? 'Stops at the end of this show' : '');
+}
+async function openBedside(){ bedTick(); $('#bedside').classList.add('show'); clearInterval(bedT); bedT = setInterval(bedTick, 10000); try{ wakeLock = await navigator.wakeLock.request('screen'); }catch(x){} }
+function closeBedside(){ $('#bedside').classList.remove('show'); clearInterval(bedT); try{ wakeLock && wakeLock.release(); }catch(x){} wakeLock = null; }
+$('#bedBtn').onclick = openBedside; $('#bedside').onclick = closeBedside;
+// cast to a speaker (Chromecast on Android Chrome, AirPlay on Safari)
+$('#castBtn').onclick = async () => {
+  try{
+    if(audio.webkitShowPlaybackTargetPicker){ audio.webkitShowPlaybackTargetPicker(); return; }
+    if(audio.remote && audio.remote.prompt){ await audio.remote.prompt(); return; }
+    toast('This browser can’t send audio to speakers. Try Chrome on Android or Safari on iPhone.', 4000);
+  }catch(x){ toast(x && x.name === 'NotFoundError' ? 'No speakers found on this Wi-Fi' : x && x.name === 'NotSupportedError' ? 'This show can’t be sent to a speaker from here' : 'Speaker picker closed'); }
+};
 
 /* ================= Sheet ================= */
 function openSheet(e){
@@ -3406,7 +3588,7 @@ addEventListener('keydown', ev => {
 
 /* ================= Backup and restore ================= */
 async function backupState(){
-  const keep = ['favs','lists','autoNext','autoSaveQ','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
+  const keep = ['favs','lists','autoNext','autoSaveQ','npView','pos','recent','hideResume','marks','queue','speed','theme','stats','autoplay','boost','sort'];
   const data = { app:'art-bell-archive', version:1, saved:new Date().toISOString(), state:Object.fromEntries(keep.map(k => [k, state[k]])) };
   const name = `art-bell-tapes-backup-${new Date().toISOString().slice(0,10)}.json`;
   const file = new File([JSON.stringify(data)], name, { type:'application/json' });
@@ -3468,6 +3650,7 @@ $('#gear').onclick = () => {
     <div class="sh-lbl">Theme</div><div class="swatches four">${[['Classic','Colour','#0e0d0c','#a8452b','#211f1c'],['Dark','Night','#0b0b0a','#86acd4','#1e1e1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2'],['Auto','Day & night','linear-gradient(135deg,#f2ede3 0 50%,#0b0b0a 50% 100%)','#d4b483','rgba(128,128,128,.45)']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
     <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <div class="sh-lbl">Your listening</div>${statsHTML()}
+    <button class="act" data-s="year">Your year with Art<small>${new Date().getFullYear()}</small></button>
     <div class="sh-lbl">Your data</div>
     <button class="act" data-s="backup">Back up favourites &amp; progress<small>Save a file</small></button>
     <button class="act" data-s="restore">Restore from a backup<small>Choose file</small></button>
@@ -3487,6 +3670,7 @@ $('#sheet').addEventListener('click', ev => {
   if(b.dataset.s === 'refresh'){ closeSheet(); loadLibrary(true); }
   if(b.dataset.s === 'tribute'){ closeSheet(); openTribute(); }
   if(b.dataset.s === 'sync'){ openSync(); return; }
+  if(b.dataset.s === 'year'){ openYear(); return; }
   if(b.dataset.s === 'sources'){ closeSheet(); toast('Shows: Internet Archive (' + SOURCES.length + ' Art Bell collections). Topic tags: facts drawn from The Art Bell Archive podcast’s show notes.', 5000); }
 });
 
