@@ -1908,6 +1908,57 @@ html.cine .prog.cvp :is(.yrs,.nm,.ct){z-index:1}
 .shelf,#progWrap,#contWrap{padding-top:12px}
 .shelf + .shelf{margin-top:6px}
 html.cine.light .np .bigart.cv{box-shadow:inset max(4px,1.4cqw) 0 0 var(--pl),inset 0 0 0 1px rgba(255,255,255,.1),0 34px 80px rgba(0,0,0,.5)!important}
+
+/* ================= Finishing pass: watermark year, chart, wide cards, numbers, type ================= */
+/* the year, very large and faint, behind the name on every large cover */
+html.cine :is(.card,.np) .art.cv:not(.sm) .yy,html.cine.light :is(.card,.np) .art.cv:not(.sm) .yy{display:block!important;position:absolute!important;left:auto!important;right:-.03em!important;top:auto!important;bottom:-.2em!important;transform:none!important;margin:0!important;font:italic 400 66cqw/1 var(--serif)!important;letter-spacing:-.04em!important;color:#fff!important;opacity:.075;z-index:0!important;pointer-events:none;text-shadow:none!important;white-space:nowrap}
+.hs{overflow:hidden}
+.hs-wm{position:absolute;right:-.02em;bottom:-.2em;font:italic 400 clamp(180px,52vw,300px)/1 var(--serif);letter-spacing:-.04em;color:#fff;opacity:.07;pointer-events:none;z-index:0}
+.hs>:not(.hs-wm){position:relative;z-index:1}
+/* No. marks: a raised, underlined o */
+.nmk{text-transform:none;margin-right:.12em;letter-spacing:0}
+.nmk u{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.12em;font-size:.68em;vertical-align:.42em;margin-left:.04em}
+/* tighter tracking on the big serif names */
+html.cine .art.cv .hd{letter-spacing:-.022em!important}
+.hs-name{letter-spacing:-.03em}
+html.cine .sec h2{letter-spacing:-.014em}
+/* dates in small capitals */
+.rail>.card .note.sc,.note.sc{text-transform:uppercase;font:600 11px/1.5 var(--font)!important;letter-spacing:.12em!important;color:var(--muted)!important;margin-top:5px!important}
+@media (min-width:960px){ .rail.wide .card:nth-child(n+7){display:none!important} }
+
+/* The Essentials: a numbered chart, four to a column, paged sideways */
+.shelf .ess-chart{display:flex;gap:0;scroll-snap-type:x mandatory;padding-bottom:20px}
+.ess-col{flex:none;width:calc(100% - 44px);scroll-snap-align:start;display:flex;flex-direction:column;padding-right:16px;box-sizing:border-box}
+.ess-col:last-child{padding-right:0}
+.shelf .ess-row,.ess-row{width:100%!important;display:grid!important;grid-template-columns:46px 60px 1fr;align-items:center;gap:0 14px;padding:10px 0;text-align:left;border-bottom:1px solid var(--line,rgba(127,127,127,.18));scroll-snap-align:none}
+.ess-col .ess-row:last-child{border-bottom:0}
+.ess-row .art{width:60px!important;height:60px!important;aspect-ratio:1;border-radius:8px}
+.ess-n{font:400 44px/1 var(--serif);letter-spacing:-.04em;text-align:center;font-variant-numeric:lining-nums proportional-nums;color:var(--text)}
+.ess-tx{min-width:0;display:flex;flex-direction:column;gap:3px}
+.ess-tx .t{margin:0!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ess-tx .note{margin:0!important;color:var(--muted);font:400 12.5px/1.35 var(--font);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (min-width:960px){
+  .rail.ess-chart{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))!important;gap:0 28px!important;align-items:start}
+  .ess-col{width:auto;padding-right:0}
+  .ess-row .art{width:60px!important;height:60px!important;aspect-ratio:1!important}
+}
+
+/* This week: wide 16:9 cards */
+.shelf .rail.wide .card{width:min(300px,78vw)}
+.rail.wide .card .art{width:100%!important;height:auto!important;aspect-ratio:16/9!important}
+@media (min-width:960px){ .rail.wide{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))!important} }
+html.cine .card .art.cv.wd .hd{top:auto!important;bottom:19%!important;right:30%!important;font-size:8.4cqw!important;-webkit-line-clamp:2!important;max-height:2.1em}
+html.cine .art.cv.wd :is(.pcode,.no,.dt){font-size:3.3cqw!important}
+html.cine .art.cv.wd .dt{bottom:9%!important}
+html.cine .card .art.cv.wd .yy{font-size:92cqh!important;bottom:-.2em!important}
+
+/* By the numbers */
+.band{margin:8px 20px 34px;border-radius:22px;padding:30px 26px 28px;overflow:hidden;text-align:left}
+.band-k{font:600 11px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:rgba(246,239,227,.7)}
+.band-n{font:400 clamp(76px,24vw,128px)/.9 var(--serif);letter-spacing:-.045em;margin:18px 0 10px;font-variant-numeric:lining-nums}
+.band-s{font:400 17px/1.4 var(--serif);font-style:italic;color:rgba(246,239,227,.86);max-width:30ch}
+@media (min-width:960px){ .band{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:36px;align-items:end;padding:36px 40px}
+  .band-k{grid-column:1/-1}.band-n{grid-row:2;margin:16px 0 0}.band-s{grid-row:2;font-size:20px;padding-bottom:10px} }
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2507,10 +2558,17 @@ function coverStyle(key, show, title){
   const out = { bg, fg, ac, ink, kind, win: `${motifCSS(kind, bg, ac, h)}, ${fg}`, layers: `linear-gradient(to top, ${bg} 0 24%, transparent 50%), ${motifCSS(kind, fg, ac, h)}, ${bg}` };
   coverCache.set(ck, out); return out;
 }
+/* The season it aired in: winter nights a touch cooler, summer nights a touch warmer. The programme colour stays recognisable. */
+function seasonCol(fill, date){
+  const m = date && +String(date).slice(5, 7); if(!m) return fill;
+  const t = Math.cos((m - .5) / 12 * 2 * Math.PI), p = Math.round(Math.abs(t) * 15);
+  return p < 4 ? fill : `color-mix(in oklab, ${fill}, ${t > 0 ? '#3f6fa6' : '#d4893a'} ${p}%)`;
+}
+const noMark = n => n ? `<span class="nmk">N<u>o</u></span>${n}` : '';
 function artHTML(e, cls=''){
   const [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
   const yy = e.year ? "’" + e.year.slice(2) : '—';
-  return `<div class="art gen sleeve cv ${cls}" style="--pc:${fill};--pl:${line}">${motifSVG(kind, 'mot', hashStr(e.id + 'c'))}${emblem(e.show, 'mk')}<span class="pcode">${progCode(e.show)}</span><span class="no">${e.pno ? 'No. ' + e.pno : ''}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
+  return `<div class="art gen sleeve cv ${cls}" style="--pc:${seasonCol(fill, e.date)};--pl:${line}">${motifSVG(kind, 'mot', hashStr(e.id + 'c'))}${emblem(e.show, 'mk')}<span class="pcode">${progCode(e.show)}</span><span class="no">${noMark(e.pno)}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
 }
 
 /* ================= State ================= */
@@ -3692,7 +3750,7 @@ function renderShelves(show){
   const ess = essentials();
   const essHTML = ess.length ? `<section class="shelf ess"><div class="sec"><h2>The Essentials</h2><button class="seeall" data-ess="1">Play all</button></div>
       <p class="ess-intro">${ess.length} nights every listener should hear, in the order they aired.</p>
-      <div class="rail">${ess.map(({e, note}, i) => { const em = essMoment(e); return `<button class="card esscard" data-id="${esc(e.id)}">${artHTML(e)}<div class="enum">${String(i+1).padStart(2,'0')}</div><div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(note)}</div></button>`; }).join('')}</div></section>` : '';
+      <div class="rail ess-chart">${Array.from({length: Math.ceil(ess.length / 4)}, (_, c) => `<div class="ess-col">${ess.slice(c * 4, c * 4 + 4).map(({e, note}, j) => `<button class="card ess-row" data-id="${esc(e.id)}"><span class="ess-n">${c * 4 + j + 1}</span>${artHTML(e, 'sm')}<span class="ess-tx"><span class="t">${esc(headOf(e))}</span><span class="note">${esc(note)}</span></span></button>`).join('')}</div>`).join('')}</div></section>` : '';
   const tribHTML = `<button class="tribcard" id="tribCard"><span class="k">In memory</span><span class="n">Art Bell</span><span class="d">1945 — 2018</span><span class="s">The man, the lines and a life on the air</span></button>`;
   // This week in Art Bell history, and seasonal shelves
   const now = new Date(), doy = d => Math.round((Date.UTC(2001, +d.slice(5, 7) - 1, +d.slice(8, 10)) - Date.UTC(2001, 0, 1)) / 864e5);
@@ -3700,14 +3758,23 @@ function renderShelves(show){
   const near = d => { const x = Math.abs(doy(d) - today); return Math.min(x, 365 - x) <= 3; };
   const week = episodes.filter(e => e.date && e.date.length === 10 && near(e.date)).sort((a, b) => a.date.localeCompare(b.date));
   const byAir = (a, b) => (a.date || '9999').localeCompare(b.date || '9999');
-  const shelf = (title, sub, list, key) => (list = list.slice().sort(byAir), list.length) ? `<section class="shelf"><div class="sec"><h2>${title}</h2>${key ? `<button class="seeall" data-q="${esc(key)}">See all</button>` : ''}</div>${sub ? `<p class="ess-intro">${sub}</p>` : ''}
-      <div class="rail">${list.slice(0, 14).map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(niceDate(e.date))}</div></button>`).join('')}</div></section>` : '';
+  const shelf = (title, sub, list, key, wide) => (list = list.slice().sort(byAir), list.length) ? `<section class="shelf"><div class="sec"><h2>${title}</h2>${key ? `<button class="seeall" data-q="${esc(key)}">See all</button>` : ''}</div>${sub ? `<p class="ess-intro">${sub}</p>` : ''}
+      <div class="rail${wide ? ' wide' : ''}">${list.slice(0, 14).map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e, wide ? 'wd' : '')}<div class="t">${esc(topicOf(e) || e.title)}</div><div class="note sc">${wide && e.year ? `${now.getFullYear() - +e.year} years ago · ` : ''}${esc(niceDate(e.date))}</div></button>`).join('')}</div></section>` : '';
+  // By the numbers: plain facts from the library, set large in a programme's colour
+  const fmt = n => n.toLocaleString('en-GB'), yrs = l => { const y = l.map(e => +e.year).filter(Boolean); return y.length ? [Math.min(...y), Math.max(...y)] : null; };
+  const band = (show, n, line) => { const [f, l] = progCol(show); return `<section class="band cfield" style="--pc:${f};--pl:${l}"><div class="band-k">By the numbers</div><div class="band-n">${n}</div><div class="band-s">${line}</div></section>`; };
+  const facts = [];
+  { const c = byShow['Coast to Coast AM'] || [], y = yrs(c); if(c.length > 20 && y) facts.push(band('Coast to Coast AM', fmt(c.length), `nights of Coast to Coast AM, ${y[0]}–${y[1]}`)); }
+  { const secs = episodes.reduce((a, e) => a + (+e.length || 0), 0), withLen = episodes.filter(e => +e.length > 0).length;
+    if(withLen > episodes.length * .8 && secs > 36e4) facts.push(band('Dreamland', fmt(Math.round(secs / 3600)), `hours of Art Bell in the library`)); }
+  { const g = new Set(); episodes.forEach(e => (e.guests || []).forEach(x => g.add(x))); if(g.size > 50) facts.push(band('Midnight in the Desert', fmt(g.size), `guests who took Art’s call, from the famous to the never heard of again`)); }
+  const bandA = facts[0] || '', bandB = facts[1] || facts[2] || '';
   const m = now.getMonth() + 1, d = now.getDate();
   let seasonal = '';
   if((m === 10 && d >= 15) || (m === 11 && d <= 3)) seasonal = shelf('Ghost to Ghost season', 'Art’s Halloween nights of listeners’ own ghost stories, every year on record.', episodes.filter(e => /ghost to ghost|halloween/i.test(e.title) || (e.date && /-10-3[01]$/.test(e.date) && /ghost/i.test(e.hay))).sort((a, b) => a.date.localeCompare(b.date)), 'Ghost to Ghost');
   else if((m === 12 && d >= 18) || (m === 1 && d <= 7)) seasonal = shelf('Predictions for the new year', 'Every year Art opened the lines for listeners’ predictions. See how they did.', episodes.filter(e => /prediction/i.test(e.title) && e.date && /-(12-(2\d|3[01])|01-0\d)$/.test(e.date)).sort((a, b) => a.date.localeCompare(b.date)), 'Predictions');
-  const weekHTML = shelf('This week in Art Bell history', `${week.length} show${week.length === 1 ? '' : 's'} that aired within a few days of today, across the years.`, week);
-  el.innerHTML = seasonal + essHTML + weekHTML + tribHTML + rows.map(([n], idx) => {
+  const weekHTML = shelf('This week in Art Bell history', `${week.length} show${week.length === 1 ? '' : 's'} that aired within a few days of today, across the years.`, week, '', true);
+  el.innerHTML = seasonal + essHTML + bandA + weekHTML + bandB + tribHTML + rows.map(([n], idx) => {
     const picks = dailyPick(byShow[n], 10).slice().sort(byAir);
     return `<section class="shelf"><div class="sec"><h2>${emblem(n,'hem')}${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
       <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(topicOf(e) || e.title)}</div></button>`).join('')}</div></section>`;
@@ -3756,8 +3823,8 @@ function renderHero(){
   const slides = list.map((e, i) => {
     const c = coverStyle(e.id, e.show, e.title), [fill, line] = progCol(e.show), ago = e.year ? now.getFullYear() - +e.year : 0;
     const len = e.length ? lenTxt(e.length) : '';
-    return `<article class="hs cfield" style="--pc:${fill};--pl:${line}" data-id="${esc(e.id)}" aria-label="${esc(headOf(e))}, ${esc(niceDate(e.date))}">
-      <div class="hs-top"><span class="hs-code">${progCode(e.show)}</span><span class="hs-eye">${tn.exact ? 'Tonight' : 'Around tonight'} · ${esc(day)}</span><span class="hs-no">${e.pno ? 'No. ' + e.pno : ''}</span></div>
+    return `<article class="hs cfield" style="--pc:${seasonCol(fill, e.date)};--pl:${line}" data-id="${esc(e.id)}" aria-label="${esc(headOf(e))}, ${esc(niceDate(e.date))}">
+      <div class="hs-top"><span class="hs-code">${progCode(e.show)}</span><span class="hs-eye">${tn.exact ? 'Tonight' : 'Around tonight'} · ${esc(day)}</span><span class="hs-no">${noMark(e.pno)}</span></div>${e.year ? `<span class="hs-wm" aria-hidden="true">’${e.year.slice(2)}</span>` : ''}
       <div class="hs-ago">${ago ? (tn.exact ? `${ago} years ago tonight` : `${ago} years ago`) : esc(niceDate(e.date))}</div>
       <h2 class="hs-name${headOf(e).length > 22 ? ' long' : ''}"><span>${esc(headOf(e))}</span></h2>
       <div class="hs-topic">${esc(topicOf(e) || e.show)}</div>
@@ -3871,7 +3938,7 @@ async function loadEpisode(e, autoplay){
   $('#miniT').textContent = e.title; $('#miniM').textContent = `${e.show} · ${niceDate(e.date)}`;
   $('#mini').classList.add('show');
   $('#npArt').outerHTML = artHTML(e, 'bigart').replace('class="art ', 'id="npArt" class="art ').replace('</div>', `<span class="freq">${e.show.toUpperCase()} · ${niceDate(e.date).toUpperCase()}</span></div>`);
-  $('#npGlow').style.setProperty('--c2', c2); $('#np').style.setProperty('--npc', c2); $('#np').style.setProperty('--npf', progCol(e.show)[0]); $('#np').style.setProperty('--npl', progCol(e.show)[1]); $('#mini').style.setProperty('--mc', c2);
+  $('#npGlow').style.setProperty('--c2', c2); $('#np').style.setProperty('--npc', c2); $('#np').style.setProperty('--npf', seasonCol(progCol(e.show)[0], e.date)); $('#np').style.setProperty('--npl', progCol(e.show)[1]); $('#mini').style.setProperty('--mc', c2);
   $('#npShow').textContent = e.show;
   $('#npTitle').textContent = e.title; $('#npTitle').onclick = () => openNotes(e); $('#npSub').textContent = niceDate(e.date);
   syncNPButtons(e);
