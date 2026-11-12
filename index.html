@@ -1732,12 +1732,12 @@ html.cine .card .art.cv .hd,html.cine .prog .art.cv .hd{bottom:auto;top:calc(79%
 .quick{grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
 
 /* List rows are all the same height: title always two lines' space, details always one line */
-#list .row .t{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2!important;line-clamp:2;overflow:hidden;min-height:2lh;height:2lh}
-#list .row .m{flex-wrap:nowrap!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:0}
-#list .row .m{letter-spacing:.04em!important}
-#list .row .m>*{flex:none}
-#list .row .m>span:last-child{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
-#list .row .m .bar{flex:0 1 60px;min-width:30px}
+#list .row .t,.hold-row .row .t{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2!important;line-clamp:2;overflow:hidden;min-height:2lh;height:2lh}
+#list .row .m,.hold-row .row .m{flex-wrap:nowrap!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:0}
+#list .row .m,.hold-row .row .m{letter-spacing:.04em!important}
+#list .row .m>*,.hold-row .row .m>*{flex:none}
+#list .row .m>span:last-child,.hold-row .row .m>span:last-child{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+#list .row .m .bar,.hold-row .row .m .bar{flex:0 1 60px;min-width:30px}
 
 /* Programme identity: one system, only colour and a two-letter code change.
    Code in the top-left corner of every large cover; a colour spine down the left edge of every cover, large or small. */
@@ -1755,6 +1755,59 @@ html.cine .np .bigart.cv .pcode{font-size:min(5.6cqw,7cqh)}
 .pkey .pk{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 12px;border-radius:18px;background:var(--soft);color:var(--text);font:600 var(--fs-label)/1 var(--font);letter-spacing:.12em}
 .pkey .pk i{width:3px;height:14px;border-radius:1px;background:var(--pl)}
 @media (min-width:960px){ .pkey{margin:0 0 14px} }
+
+/* One spring for everything that moves — sheets, the player, menus, the top bar — with the faintest settle at the end */
+@supports (transition-timing-function: linear(0, 1)){
+  html{--spring:linear(0.0000, 0.0402, 0.1356, 0.2571, 0.3855, 0.5084, 0.6190, 0.7139, 0.7923, 0.8550, 0.9035, 0.9399, 0.9663, 0.9847, 0.9970, 1.0046, 1.0088, 1.0107, 1.0111, 1.0105, 1.0093, 1.0079, 1.0065, 1.0052, 1.0040, 1.0030, 1.0021, 1.0015, 1.0000);--ease:var(--spring);--t-move:.55s}
+}
+/* Press feedback: anything you can tap dips the instant your finger lands, and springs back when you let go */
+:is(.card,.row,.prog,.tile,.ycard,.chip,.pk,.browsetop,.grow,.sg,.tp-main,.tp-times button,.tp-hr,.act,.np-tpbtn,.ctl button,.extras button,.tab,.mini,.playall,.saveall,.gear,.otn-chip){transition:scale .35s var(--ease,ease),opacity .2s ease;-webkit-tap-highlight-color:transparent}
+:is(.card,.row,.prog,.tile,.ycard,.browsetop,.grow,.mini):active{scale:.975;transition-duration:.08s}
+:is(.chip,.pk,.sg,.tp-main,.tp-times button,.tp-hr,.act,.np-tpbtn,.ctl button,.extras button,.tab,.playall,.saveall,.gear,.otn-chip):active{scale:.94;transition-duration:.08s}
+@media (prefers-reduced-motion:reduce){ :is(.card,.row,.prog,.tile,.ycard,.chip,.pk,.browsetop,.grow,.sg,.act,.ctl button,.extras button,.tab,.mini):active{scale:1;opacity:.7} }
+body.calm :is(.card,.row,.prog,.tile,.ycard,.chip,.act,.ctl button,.tab,.mini):active{scale:1;opacity:.7}
+
+/* player opens and closes on the shared spring; while dragged it shows its edge */
+.np{transition:transform var(--t-move) var(--ease)!important}
+.np.dragging{transition:none!important;border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.4)}
+
+/* slim top bar (phones) */
+.topbar{display:none}
+@media (max-width:959px){
+  .pinbar{display:none!important}
+  .topbar{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:fixed;left:0;right:0;top:0;z-index:21;height:calc(44px + var(--st,0px));padding-top:var(--st,0px);color:var(--text);
+    background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);
+    box-shadow:0 1px 0 color-mix(in srgb,var(--line) calc(var(--p,0) * 100%),transparent);opacity:var(--p,0);pointer-events:none;transition:opacity .12s linear}
+  .topbar.show{pointer-events:auto}
+  .topbar .tb-t{font:400 18px/1 var(--serif);max-width:72vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transform:translateY(calc((1 - var(--p,0)) * 6px))}
+  .topbar .tb-t.logo em{font-style:italic;color:var(--accent)}
+  .topbar .tb-n{font:500 10px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .topbar .tb-n:empty{display:none}
+  html .sticky{top:calc(44px + var(--st,0px));padding-top:10px}
+  html .sticky::before,html .sticky::after{top:-1px}
+  body.np-open .topbar{opacity:0}
+}
+@media (prefers-reduced-motion:reduce){ .topbar .tb-t{transform:none} }
+
+/* hold menu */
+.hold{position:fixed;inset:0;z-index:60;pointer-events:none;visibility:hidden}
+.hold.show,.hold.measuring{visibility:visible}
+.hold.show{pointer-events:auto}
+.hold-ov{position:absolute;inset:0;background:color-mix(in srgb,var(--bg) 45%,transparent);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);opacity:0;transition:opacity .25s ease}
+.hold.show .hold-ov{opacity:1}
+.hold-row{position:fixed;border-radius:16px;overflow:hidden;background:var(--surface);box-shadow:0 0 0 rgba(0,0,0,0);transition:transform var(--t-move) var(--ease),box-shadow .3s ease,scale var(--t-move) var(--ease)}
+.hold.show .hold-row{scale:1.025;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.hold-row .row{border:0!important;margin:0!important;padding-left:14px!important;padding-right:14px!important;height:100%;pointer-events:none}
+.hold-menu{position:fixed;width:min(270px,calc(100vw - 32px));border-radius:16px;overflow:hidden;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(30px) saturate(1.4);-webkit-backdrop-filter:blur(30px) saturate(1.4);box-shadow:0 24px 60px rgba(0,0,0,.45),inset 0 0 0 1px var(--line);scale:.8;opacity:0;transition:scale var(--t-move) var(--ease),opacity .18s ease}
+.hold.show .hold-menu{scale:1;opacity:1}
+.hold.measuring .hold-menu{transition:none}
+html.light .hold-row,html.light .hold-menu{box-shadow:0 24px 60px rgba(60,40,10,.22),inset 0 0 0 1px var(--line)}
+.hm-g+.hm-g{border-top:7px solid color-mix(in srgb,var(--bg) 60%,transparent)}
+.hm-i{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:46px;padding:0 16px;text-align:left;color:var(--text);font:400 16px/1.2 var(--font)}
+.hm-i+.hm-i{border-top:1px solid var(--line)}
+.hm-i svg{width:20px;height:20px;flex:none;color:var(--text)}
+.hm-i:active,.hm-i:focus-visible{background:var(--soft);outline:none}
+@media (prefers-reduced-motion:reduce){ .hold-row,.hold-menu{transition:opacity .15s ease} .hold.show .hold-row{scale:1} }
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2015,6 +2068,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 </div>
 
 <div class="scrim" id="scrim"></div>
+<div class="hold" id="hold" aria-hidden="true"><div class="hold-ov"></div><div class="hold-row"></div><div class="hold-menu" role="menu"></div></div>
 <div class="bedside" id="bedside" role="dialog" aria-label="Bedside clock"><div class="bd-clock" id="bdClock"></div><div class="bd-date" id="bdDate"></div><div class="bd-now" id="bdNow"></div><div class="bd-sleep" id="bdSleep"></div><div class="bd-hint">Tap to close</div></div>
 <div class="sheet" id="sheet"></div>
 <div class="toast" id="toast"></div>
@@ -2182,6 +2236,7 @@ const progCol = show => PROG_COL[show] || PROG_COL['Art Bell'];
 // Two-letter programme codes, like a record label's catalogue prefix
 const PROG_CODE = { 'Coast to Coast AM':'CC', 'Dreamland':'DL', 'Ghost to Ghost':'GG', 'Somewhere in Time':'ST', 'Dark Matter':'DM', 'Midnight in the Desert':'MD', 'Area 2000':'AT', 'Art Bell':'AB' };
 const progCode = show => PROG_CODE[show] || 'AB';
+const catLabel = e => e && e.pno ? progCode(e.show) + ' ' + e.pno : '';
 const LINE_MOTIF = {
   saucer: '<ellipse cx="50" cy="44" rx="30" ry="7"/><path d="M38 42a12 10 0 0 1 24 0"/><path d="M44 52l-8 22M56 52l8 22" stroke-dasharray="2 3"/>',
   stars: '<circle cx="50" cy="44" r="14"/><ellipse cx="50" cy="44" rx="28" ry="6"/><path d="M18 18h.1M80 24h.1M72 70h.1M26 66h.1" stroke-width="3"/>',
@@ -2354,7 +2409,7 @@ function coverStyle(key, show, title){
 function artHTML(e, cls=''){
   const [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
   const yy = e.year ? "’" + e.year.slice(2) : '—';
-  return `<div class="art gen sleeve cv ${cls}" style="--pc:${fill};--pl:${line}">${motifSVG(kind, 'mot', hashStr(e.id + 'c'))}${emblem(e.show, 'mk')}<span class="pcode">${progCode(e.show)}</span><span class="no">${e.no ? 'No. ' + e.no : ''}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
+  return `<div class="art gen sleeve cv ${cls}" style="--pc:${fill};--pl:${line}">${motifSVG(kind, 'mot', hashStr(e.id + 'c'))}${emblem(e.show, 'mk')}<span class="pcode">${progCode(e.show)}</span><span class="no">${e.pno ? 'No. ' + e.pno : ''}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
 }
 
 /* ================= State ================= */
@@ -2681,12 +2736,23 @@ function tidyTitles(){
 function afterLoad(quiet){
   resolveUndated();
   mergeGuestSpellings();
+  // Somewhere in Time was a rebroadcast series. Where the original night is already in the library the rebroadcast is a
+  // duplicate: hide it and keep it as a backup copy. Where it's the only surviving copy, file it under the programme it first aired on.
+  { const byNight = new Map();
+    episodes.forEach(e => { if(e.show !== 'Somewhere in Time' && e.date && e.date.length === 10){ if(!byNight.has(e.date)) byNight.set(e.date, []); byNight.get(e.date).push(e); } });
+    episodes = episodes.filter(e => {
+      if(e.show !== 'Somewhere in Time' || !e.date || e.date.length < 10) return true;
+      const orig = byNight.get(e.date);
+      if(orig){ orig.forEach(o => { const k = o.date + '|' + o.show + '|'; if(!ALTS.has(k)) ALTS.set(k, []); ALTS.get(k).push({ item:e.item, file:e.file, length:e.length }); }); return false; }
+      e.show = showByDate(e.date); e.via = 'Somewhere in Time'; return true;
+    });
+  }
   tidyTitles(); episodes.forEach(e => { e.title = smartText(g2gTitle(e) || e.title); });
   idMap = new Map(episodes.map(e => [e.id, e]));
   applyTopics(); sugIndex = null; coverCache.clear();
   // catalogue numbers start with Art's first show in the archive (12 Dec 1992); earlier odds and ends stay unnumbered
-  let catNo = 0;
-  [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach(e => { e.no = !e.date || e.date.length < 10 || e.date < '1992-12-12' ? 0 : ++catNo; });   // no number without a known air date
+  let catNo = 0; const progNo = {}; // overall number across the run, and a number within each programme (DL 46)
+  [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach(e => { e.no = !e.date || e.date.length < 10 || e.date < '1992-12-12' ? 0 : ++catNo; e.pno = e.no ? (progNo[e.show] = (progNo[e.show] || 0) + 1) : 0; });   // no number without a known air date
   const yrs = episodes.filter(e => e.no).map(e => e.year).sort();
   $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · ${yrs[0] || '1992'}–${yrs[yrs.length - 1] || '2016'}`;
   fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}, {name:'tags', weight:.35}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
@@ -3207,7 +3273,9 @@ function applyFilters(){
   if(yearFilter) list = list.filter(e => e.year === yearFilter);
   if(guestFilter) list = list.filter(e => e.guests.includes(guestFilter));
   let ranked = false;
-  if(terms.length){
+  const codeQ = $('#q').value.trim().match(/^(cc|dl|gg|dm|md|at)\s*(?:no\.?\s*)?0*(\d{1,4})$/i);
+  if(codeQ){ list = list.filter(e => progCode(e.show).toLowerCase() === codeQ[1].toLowerCase() && e.pno === +codeQ[2]); }  // "DL 46" goes straight to that show
+  else if(terms.length){
     const q0 = $('#q').value.trim().toLowerCase(), phrase = TOPIC_ALIASES.find(g => g[0] === q0);
     const exact = phrase ? list.filter(e => phrase.some(a => plainQ(e.hay).includes(a))) : list.filter(e => terms.every(t => termHit(e.hay, t)));
     const q = $('#q').value.trim();
@@ -3325,7 +3393,7 @@ function render(){
       ${artHTML(e,'sm')}
       <div class="info">
         <div class="t">${esc(e.title)}</div>
-        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span aria-label="${lenTxt(len)}">${lenShort(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?`<span class="played">✓ ${whenTxt(p && p.at)}</span>`:''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span><span class="left">${leftTxt(p.d - p.t)}</span>`:''}</div>
+        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.pno ? `<span class="cno">${catLabel(e)}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span aria-label="${lenTxt(len)}">${lenShort(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?`<span class="played">✓ ${whenTxt(p && p.at)}</span>`:''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span><span class="left">${leftTxt(p.d - p.t)}</span>`:''}</div>
         ${mt && mt.length ? `<div class="jumps"><span class="jl">${esc(ml)}</span>${mt.slice(0,4).map(t => `<button class="jump" data-t="${t}" aria-label="Play ${esc(ml)} at ${fmt(Math.max(0,t-10))}">${I.play2}${fmt(Math.max(0,t-10))}</button>`).join('')}${mt.length > 4 ? `<span class="jl">+${mt.length-4}</span>` : ''}</div>` : ''}
       </div>
       <button class="more" data-act="more" aria-label="More options">${I.more}</button>
@@ -3339,14 +3407,14 @@ function render(){
   list.addEventListener('pointerdown', ev => {
     const row = ev.target.closest('.row'); fired = false; if(!row || ev.target.closest('button') || ev.pointerType === 'mouse') return;
     x0 = ev.clientX; y0 = ev.clientY; clearTimeout(t);
-    t = setTimeout(() => { const e = byId(row.dataset.id); if(!e) return; fired = true; swallowUntil = Date.now() + 8000; row.classList.add('held'); setTimeout(() => row.classList.remove('held'), 260); if(navigator.vibrate && !calm()) navigator.vibrate(12); openSheet(e); }, 480);
+    t = setTimeout(() => { const e = byId(row.dataset.id); if(!e) return; fired = true; swallowUntil = Date.now() + 8000; row.classList.add('held'); setTimeout(() => row.classList.remove('held'), 260); if(navigator.vibrate && !calm()) navigator.vibrate(12); openHold(row, e); }, 480);
   });
   list.addEventListener('pointermove', ev => { if(t && (Math.abs(ev.clientX - x0) > 8 || Math.abs(ev.clientY - y0) > 8)){ clearTimeout(t); t = 0; } });
   ['pointerup', 'pointercancel', 'pointerleave'].forEach(k => list.addEventListener(k, () => { clearTimeout(t); t = 0; }));
   let swallowUntil = 0;
   list.addEventListener('touchend', ev => { if(fired){ ev.preventDefault(); fired = false; swallowUntil = Date.now() + 400; } }, { passive:false });
   document.addEventListener('click', ev => { if(Date.now() < swallowUntil){ fired = false; swallowUntil = 0; ev.stopImmediatePropagation(); ev.preventDefault(); } }, true);
-  list.addEventListener('contextmenu', ev => { if(ev.target.closest('.row') && matchMedia('(pointer:coarse)').matches) ev.preventDefault(); });
+  list.addEventListener('contextmenu', ev => { const row = ev.target.closest('.row'); if(!row) return; ev.preventDefault(); if(!matchMedia('(pointer:coarse)').matches){ const e = byId(row.dataset.id); if(e) openHold(row, e); } });
 })();
 $('#list').addEventListener('click', ev => {
   if(ev.target.id === 'loadmore'){ shown += PAGE; render(); return; }
@@ -3455,8 +3523,8 @@ async function coverPNG(e, S = 512){
   g.fillStyle = '#ece6da'; g.font = `400 ${Math.round(S*.105)}px "Instrument Serif", Georgia, serif`;
   const lines = wrap(headOf(e), S*.84); lines.forEach((l, i) => g.fillText(l, S*.08, S*(.8 - (lines.length - 1 - i)*.1)));
   g.font = `600 ${Math.round(S*.036)}px "Inter", sans-serif`; g.fillStyle = line;
-  g.fillText((e.no ? 'NO. ' + e.no + '   ' : ''), S*.08, S*.9);
-  const w0 = g.measureText(e.no ? 'NO. ' + e.no + '   ' : '').width; g.fillStyle = '#9a9286';
+  g.fillText((e.pno ? catLabel(e) + '   ' : ''), S*.08, S*.9);
+  const w0 = g.measureText(e.pno ? catLabel(e) + '   ' : '').width; g.fillStyle = '#9a9286';
   g.fillText(((e.date ? niceDate(e.date) : '') + ' · ' + (SHOW_SHORT[e.show] || e.show)).toUpperCase(), S*.08 + w0, S*.9);
   const url = cv.toDataURL('image/png'); artCache.set(key, url); return url;
 }
@@ -3914,8 +3982,27 @@ async function playFrom(e, el){
 $('#mini').addEventListener('click', () => openNP($('#miniArt')));
 $('#npClose').onclick = closeNP;
 let sy = null;
-$('#np').addEventListener('touchstart', ev => { if(ev.target.closest('.scrub')) return; sy = ev.touches[0].clientY; }, {passive:true});
-$('#np').addEventListener('touchend', ev => { if(sy !== null && ev.changedTouches[0].clientY - sy > 90) closeNP(); sy = null; }, {passive:true});
+// The player follows your finger: drag it down and it moves with you; let go and it closes or springs back,
+// depending on how far and how fast you flicked
+{ const np = $('#np'); let y0 = null, x0 = 0, dy = 0, dragging = false, lastY = 0, lastT = 0, vel = 0, swallowTil = 0;
+  np.addEventListener('touchstart', ev => {
+    if(ev.target.closest('.scrub, .tp-panel, .tp-scrim') || $('#tpPanel').classList.contains('open') || matchMedia('(min-width:1280px)').matches){ y0 = null; return; }
+    const t = ev.touches[0]; y0 = lastY = t.clientY; x0 = t.clientX; dy = 0; vel = 0; dragging = false; lastT = performance.now();
+  }, { passive:true });
+  np.addEventListener('touchmove', ev => {
+    if(y0 === null) return; const t = ev.touches[0], d = t.clientY - y0;
+    if(!dragging){ if(Math.abs(d) < 8) return; if(Math.abs(t.clientX - x0) > Math.abs(d) || d < 0){ y0 = null; return; } dragging = true; np.style.transition = 'none'; np.classList.add('dragging'); }
+    const now = performance.now(); vel = (t.clientY - lastY) / Math.max(1, now - lastT); lastY = t.clientY; lastT = now;
+    dy = Math.max(0, d); np.style.transform = `translateY(${dy}px)`;
+  }, { passive:true });
+  const end = () => {
+    if(y0 === null) return; y0 = null; if(!dragging) return; dragging = false; swallowTil = performance.now() + 350;
+    np.classList.remove('dragging'); np.style.transition = '';
+    requestAnimationFrame(() => { np.style.transform = ''; if(dy > innerHeight * .22 || vel > .55) closeNPNow(); });
+  };
+  np.addEventListener('touchend', end, { passive:true }); np.addEventListener('touchcancel', end, { passive:true });
+  np.addEventListener('click', ev => { if(performance.now() < swallowTil){ ev.stopPropagation(); ev.preventDefault(); } }, true);
+}
 
 /* ================= Favourites, offline, download ================= */
 function toggleFav(e){ if(state.favs[e.id]) delete state.favs[e.id]; else state.favs[e.id] = 1; saveState(); syncNPButtons(e); toast(state.favs[e.id] ? 'Added to favourites' : 'Removed from favourites'); applyFilters(); }
@@ -4171,7 +4258,7 @@ function openNotes(e){
     <div class="notes">
       ${note ? `<div class="nt-ess"><b>The Essentials</b>${esc(note)}</div>` : ''}
       <dl class="nt-facts">
-        ${e.no ? `<div><dt>Catalogue</dt><dd>No. ${e.no}</dd></div>` : ''}
+        ${e.pno ? `<div><dt>Catalogue</dt><dd>${catLabel(e)} · show ${e.no.toLocaleString('en-GB')} of ${episodes.filter(x => x.no).length.toLocaleString('en-GB')}</dd></div>` : ''}${e.via ? `<div><dt>Source</dt><dd>Survives through a ${esc(e.via)} rebroadcast</dd></div>` : ''}
         <div><dt>Aired</dt><dd>${e.date ? niceDate(e.date) : 'Date unknown'}</dd></div>
         ${len ? `<div><dt>Length</dt><dd>${fmt(len)}</dd></div>` : ''}
         ${e.size ? `<div><dt>File</dt><dd>${Math.round(e.size/1048576)} MB MP3</dd></div>` : ''}
@@ -4204,6 +4291,54 @@ $('#sheet').addEventListener('click', ev => {
      play:()=>{ closeSheet(); loadEpisode(e, true); }, fav:()=>{ closeSheet(); toggleFav(e); }, lists:()=>openListPicker(e), save:()=>saveOffline(e), unsave:()=>removeOffline(e), dl:()=>downloadToPhone(e) })[b.dataset.a]();
 });
 
+/* Hold a show: it lifts out of the list, everything else blurs, and a compact menu appears beside it */
+const HI = {
+  play:'<path d="M8 5.5v13l10.5-6.5z"/>',
+  next:'<path d="M4 6.5h11M4 11.5h11M4 16.5h7M16 14v6l4.5-3z"/>',
+  fav:'<path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/>',
+  list:'<path d="M4 6.5h11M4 11.5h11M4 16.5h7M18 13v7M14.5 16.5h7"/>',
+  save:'<path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/>',
+  share:'<path d="M12 3.5v11M8 7.5l4-4 4 4M6 11.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-7.5"/>',
+  notes:'<path d="M6.5 3.5h8l4 4v13h-12zM14 3.5V8h4.5M9 12.5h7M9 16h7"/>',
+  more:'<circle cx="6" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="18" cy="12" r="1.2"/>'
+};
+let holdEp = null;
+function openHold(row, e){
+  const h = $('#hold'), menu = h.querySelector('.hold-menu'), lift = h.querySelector('.hold-row');
+  holdEp = e; try{ prepCard(e); }catch(_){}
+  const p = state.pos[e.id], resume = p && p.t > 30 && p.t < p.d - 60;
+  const item = (k, label) => `<button class="hm-i" role="menuitem" data-h="${k}"><span>${label}</span><svg viewBox="0 0 24 24" class="ln" aria-hidden="true">${HI[k]}</svg></button>`;
+  menu.innerHTML = `<div class="hm-g">${item('play', resume ? 'Resume from ' + fmt(p.t) : isPlayed(e.id) ? 'Play again' : 'Play')}${item('next', 'Play next')}</div>
+    <div class="hm-g">${item('fav', state.favs[e.id] ? 'Remove from Favourites' : 'Favourite')}${item('list', 'Add to a list…')}${item('save', savedKeys.has(e.id) ? 'Remove offline copy' : 'Save for offline')}</div>
+    <div class="hm-g">${item('share', 'Share')}${item('notes', 'Show notes')}${item('more', 'More')}</div>`;
+  const r = row.getBoundingClientRect();
+  lift.innerHTML = ''; const c = row.cloneNode(true); c.classList.remove('held'); c.style.scale = ''; lift.appendChild(c);
+  const pad = 14; // the lifted card is wider by its padding, so the row inside keeps its exact width
+  Object.assign(lift.style, { left: (r.left - pad) + 'px', top: r.top + 'px', width: (r.width + pad * 2) + 'px', height: r.height + 'px', transform: '' });
+  h.classList.add('measuring'); const mh = menu.offsetHeight, mw = menu.offsetWidth; h.classList.remove('measuring');
+  const gap = 10, top0 = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--st')) || 0;
+  let rowTop = r.top, menuTop;
+  if(r.bottom + gap + mh <= innerHeight - 16){ menuTop = r.bottom + gap; menu.style.transformOrigin = '24px 0'; }
+  else if(r.top - gap - mh >= 16 + top0){ menuTop = r.top - gap - mh; menu.style.transformOrigin = '24px 100%'; }
+  else { menuTop = innerHeight - 16 - mh; rowTop = Math.max(16 + top0, menuTop - gap - r.height); menu.style.transformOrigin = '24px 0'; }
+  if(rowTop !== r.top) lift.style.transform = `translateY(${rowTop - r.top}px)`;
+  menu.style.left = Math.min(Math.max(6, r.left - pad), innerWidth - mw - 6) + 'px'; menu.style.top = menuTop + 'px';
+  h.setAttribute('aria-hidden', 'false'); h.getBoundingClientRect(); h.classList.add('show');
+  if(!matchMedia('(pointer:coarse)').matches) setTimeout(() => { const f = menu.querySelector('.hm-i'); if(f) f.focus({ preventScroll:true }); }, 60);  // keyboard and mouse users start on the first item
+}
+function closeHold(){ const h = $('#hold'); if(!h.classList.contains('show')) return; h.classList.remove('show'); h.setAttribute('aria-hidden', 'true'); }
+$('#hold').addEventListener('click', ev => {
+  const b = ev.target.closest('[data-h]'); const e = holdEp;
+  if(!b){ if(!ev.target.closest('.hold-menu')) closeHold(); return; }
+  closeHold(); if(!e) return;
+  setTimeout(() => ({ play:() => loadEpisode(e, true), next:() => addToQueue(e, true), fav:() => toggleFav(e), list:() => openListPicker(e),
+    save:() => savedKeys.has(e.id) ? removeOffline(e) : saveOffline(e), share:() => shareMoment(e), notes:() => openNotes(e), more:() => openSheet(e) })[b.dataset.h](), b.dataset.h === 'share' ? 0 : 160);
+});
+$('#hold').addEventListener('keydown', ev => {
+  if(ev.key === 'Escape'){ closeHold(); return; }
+  if(ev.key === 'ArrowDown' || ev.key === 'ArrowUp'){ const it = [...$('#hold').querySelectorAll('.hm-i')], i = it.indexOf(document.activeElement); it[(i + (ev.key === 'ArrowDown' ? 1 : it.length - 1)) % it.length].focus(); ev.preventDefault(); }
+});
+
 /* ================= Bookmarks ================= */
 const curTime = e => (audio.dataset.id === e.id && audio.duration) ? audio.currentTime : ((state.pos[e.id] && state.pos[e.id].t) || 0);
 function updateMarkBadge(){ const e = current(), n = e && state.marks[e.id] ? state.marks[e.id].length : 0; $('#markVal').textContent = n ? `Marks (${n})` : 'Mark'; $('#markBtn').setAttribute('aria-label', n ? `Bookmarks, ${n} saved` : 'Bookmark this moment'); $('#markBtn').classList.toggle('on', n > 0); }
@@ -4234,16 +4369,19 @@ async function shareCard(e, t){
   const W = 1080, H = 1350, [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
   const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d');
   g.fillStyle = '#141210'; g.fillRect(0, 0, W, H);
-  g.fillStyle = fill; g.fillRect(0, 0, W, 14);
+  g.fillStyle = line; g.fillRect(0, 0, 18, H);   // the programme's colour spine, like every cover
   try{
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="900" height="810"><defs><filter id="w" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs><g filter="url(#w)" fill="none" stroke="${line}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${LINE_MOTIF[kind] || LINE_MOTIF.rings}</g></svg>`;
     const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); await img.decode();
     g.drawImage(img, 250, 70, 580, 522);
   }catch(x){}
   try{ await Promise.all([document.fonts.load('400 100px "Instrument Serif"'), document.fonts.load('italic 400 50px "Instrument Serif"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
+  // programme code top-left and catalogue number top-right, as on the covers
+  g.font = '600 30px "Inter", sans-serif'; g.fillStyle = line; g.fillText(progCode(e.show).split('').join(String.fromCharCode(8202, 8202)), 90, 96);
+  if(e.pno){ g.textAlign = 'right'; g.fillStyle = '#8e877b'; g.fillText(('No. ' + e.pno).toUpperCase().split('').join(String.fromCharCode(8202)), W - 90, 96); g.textAlign = 'left'; }
   const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n-1] = out[n-1].replace(/\s*\S*$/, '') + '…'; } return out; };
   let y = 690; const X = 90, M = W - 180;
-  g.font = '600 28px "Inter", sans-serif'; g.fillStyle = line; g.fillText((e.show + (e.no ? '   ·   No. ' + e.no : '')).toUpperCase().split('').join(String.fromCharCode(8202)), X, y);
+  g.font = '600 28px "Inter", sans-serif'; g.fillStyle = line; g.fillText(e.show.toUpperCase().split('').join(String.fromCharCode(8202)), X, y);
   y += 110; g.fillStyle = '#ece6da'; g.font = '400 112px "Instrument Serif", Georgia, serif';
   wrap(headOf(e), M, 2).forEach(l => { g.fillText(l, X, y); y += 112; });
   const tp = topicOf(e); if(tp){ g.font = 'italic 400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#b3aa9c'; wrap(tp, M, 2).forEach(l => { g.fillText(l, X, y); y += 62; }); }
@@ -4254,7 +4392,7 @@ async function shareCard(e, t){
   const w1 = g.measureText('The ').width; g.font = '400 40px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', X + w1, H - 100);
   const w2 = g.measureText('Art Bell ').width; g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#d4b483'; g.fillText('Tapes', X + w1 + w2, H - 100);
   g.font = '500 24px "Inter", sans-serif'; g.fillStyle = '#8e877b'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
-  return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-${e.no || 'show'}.png`, { type:'image/png' }) : null), 'image/png'));
+  return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.png`, { type:'image/png' }) : null), 'image/png'));
 }
 const cardReady = new Map();
 function prepCard(e){
@@ -4426,7 +4564,7 @@ const LINES = [
   ['Special lines', 'On some nights he opened lines for very particular callers — former Area 51 workers, or time travellers.', [['1997-09-11', 'The Area 51 line'], ['1998-07-29', 'The time traveller line']]]
 ];
 const epOn = d => d && episodes.find(e => e.date === d);
-function listenBtn(d, label){ const e = epOn(d); return e ? `<button class="tb-listen" data-id="${esc(e.id)}">${I.play2}<span>${esc(label || 'Listen')}</span><small>No. ${e.no}</small></button>` : ''; }
+function listenBtn(d, label){ const e = epOn(d); return e ? `<button class="tb-listen" data-id="${esc(e.id)}">${I.play2}<span>${esc(label || 'Listen')}</span><small>${catLabel(e)}</small></button>` : ''; }
 function openTribute(){
   const first = episodes.slice().sort((a, b) => (a.date || '9').localeCompare(b.date || '9'))[0];
   $('#tbBody').innerHTML = `
@@ -4486,7 +4624,7 @@ function specialDay(){
 /* Back button: every open layer (player, tribute, sheets) gets a history entry,
    so Android's back gesture closes it instead of leaving the app */
 const layerStack = []; let layerSkip = 0;
-[['#np', 'open'], ['#tribute', 'open'], ['#sheet', 'show'], ['#tpPanel', 'open']].forEach(([sel, cls]) => {
+[['#np', 'open'], ['#tribute', 'open'], ['#sheet', 'show'], ['#tpPanel', 'open'], ['#hold', 'show']].forEach(([sel, cls]) => {
   const el = $(sel); let was = el.classList.contains(cls);
   new MutationObserver(() => {
     const now = el.classList.contains(cls); if(now === was) return; was = now;
@@ -4497,7 +4635,7 @@ const layerStack = []; let layerSkip = 0;
 addEventListener('popstate', ev => {
   if(layerSkip){ layerSkip--; nav.sync(); return; }
   const sel = layerStack.pop();
-  if(sel){ if(sel === '#tpPanel') closeTopics(); else if(sel === '#np'){ closeTopics(); closeNP(); } else if(sel === '#tribute') closeTribute(); else closeSheet(); return; }
+  if(sel){ if(sel === '#hold') closeHold(); else if(sel === '#tpPanel') closeTopics(); else if(sel === '#np'){ closeTopics(); closeNP(); } else if(sel === '#tribute') closeTribute(); else closeSheet(); return; }
   nav.restore(ev.state);
 });
 
@@ -4633,6 +4771,50 @@ function fitNP(){
     key.style.display = showKey && key.innerHTML ? '' : 'none';
     return r;
   };
+})();
+
+document.addEventListener('touchstart', () => {}, { passive:true }); // lets iPhone show the press state instantly
+
+/* Phones: the large title shrinks into a slim bar as you scroll, like Apple's own apps. The bar names where you are
+   (Art Bell Tapes, a year, a guest, a programme, a search) and tapping it goes back to the top. */
+(function(){
+  const mq = matchMedia('(max-width:959px)');
+  const bar = document.createElement('button'); bar.type = 'button'; bar.className = 'topbar'; bar.id = 'topbar'; bar.setAttribute('aria-label', 'Back to top');
+  bar.innerHTML = '<span class="tb-t"></span><span class="tb-n"></span>';
+  document.body.appendChild(bar);
+  bar.onclick = () => scrollTo({ top:0, behavior:smooth() });
+  const T = bar.querySelector('.tb-t'), N = bar.querySelector('.tb-n');
+  let raf = 0, last = '';
+  function label(){
+    const n = view.length.toLocaleString('en-GB'), q = $('#q').value.trim(), plural = (k, w) => k + ' ' + w + (view.length === 1 ? '' : 's');
+    if(tab === 'guests') return ['Guests', ''];
+    if(tab === 'fav') return [listFilter ? ((state.lists.find(l => l.id === listFilter) || {}).name || 'List') : 'Favourites', plural(n, 'show')];
+    if(tab === 'recent') return ['Recent', ''];
+    if(tab === 'saved') return ['Offline', plural(n, 'show')];
+    if(guestFilter) return [guestFilter, plural(n, 'show')];
+    if(yearFilter) return [yearFilter + (showFilter ? ' · ' + (SHOW_SHORT[showFilter] || showFilter) : ''), plural(n, 'show')];
+    if(q) return ['“' + q + '”', plural(n, 'result')];
+    if(showFilter) return [SHOW_SHORT[showFilter] || showFilter, plural(n, 'show')];
+    if(allOpen){ let y = ''; for(const h of document.querySelectorAll('#list .yhead')){ if(h.getBoundingClientRect().top < 120) y = h.textContent; else break; } return ['All shows' + (y ? ' · ' + y : ''), plural(n, 'show')]; }
+    return ['', ''];
+  }
+  function update(){
+    raf = 0;
+    if(!mq.matches){ bar.classList.remove('show'); document.body.classList.remove('tb-on'); return; }
+    const h1 = $('.top h1'), hb = bar.offsetHeight || 44;
+    const past = h1 ? Math.min(1, Math.max(0, (hb - h1.getBoundingClientRect().bottom + 14) / 28)) : 1;
+    bar.style.setProperty('--p', past.toFixed(3));
+    const on = past > .02 && !document.body.classList.contains('np-open');
+    bar.classList.toggle('show', on); document.body.classList.toggle('tb-on', on);
+    if(on){
+      const [t, n] = label(), k = t + '|' + n;
+      if(k !== last){ last = k; if(t){ T.textContent = t; T.classList.remove('logo'); } else { T.innerHTML = 'Art Bell <em>Tapes</em>'; T.classList.add('logo'); } N.textContent = n; }
+    }
+  }
+  const q = () => { if(!raf) raf = requestAnimationFrame(update); };
+  addEventListener('scroll', q, { passive:true }); addEventListener('resize', q);
+  { const _r = render; render = function(){ const r = _r.apply(this, arguments); last = ''; q(); return r; }; }
+  update();
 })();
 
 /* Bottom search on phones: keeps its place above the tab bar, beside the mini player, or above the keyboard */
