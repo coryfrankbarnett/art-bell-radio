@@ -738,6 +738,9 @@ h1 em{display:inline}
 #intro.quick .in-ttl i,#intro.quick .in-ded{animation:none!important;opacity:1!important;filter:none!important;transform:none!important}
 #intro.quick{transition:opacity .35s ease}
 #intro.out .in-card{transform:scale(1.03);filter:blur(6px)}
+#intro.fly{transition:background-color .7s ease}
+#intro.fly .the i,#intro.fly .in-ded{transition:opacity .35s ease;opacity:0!important;animation:none!important}
+#intro.fly.out .in-card{transform:none;filter:none}
 @keyframes inSoft{to{opacity:1;filter:blur(0);transform:none}}
 @media (prefers-reduced-motion:reduce){#intro *{animation:none!important;transition:none!important}#intro .in-ttl i{transform:none;opacity:1;filter:none}}
 
@@ -1764,7 +1767,27 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   const start = () => el.classList.add('go');
   Promise.race([Promise.all([document.fonts.load('400 20px "Instrument Serif"'), document.fonts.load('italic 400 60px "Instrument Serif"')]), new Promise(r => setTimeout(r, 350))]).then(start, start);
   let done = false;
-  const go = () => { if(done) return; done = true; el.classList.add('out'); setTimeout(() => el.remove(), 750); };
+  // Leaving: "Art Bell" and "Tapes" glide into the header logo's exact place, size and colours, so the logo never jumps
+  const fly = () => {
+    const h1 = document.querySelector('.top h1 a'), em = h1 && h1.querySelector('em'); if(!h1 || !em) return false;
+    const txt = h1.firstChild; if(!txt || txt.nodeType !== 3) return false;
+    const rg = document.createRange(); rg.setStart(txt, 0); rg.setEnd(txt, txt.textContent.trimEnd().length);
+    const pairs = [[el.querySelector('.ab i'), rg.getBoundingClientRect(), getComputedStyle(h1)], [el.querySelector('.ar i'), em.getBoundingClientRect(), getComputedStyle(em)]];
+    if(pairs.some(([s, t]) => !s || !t.height || t.bottom < 0 || t.top > innerHeight)) return false;
+    const bg = getComputedStyle(document.body).backgroundColor;
+    el.classList.add('fly'); el.style.background = bg;
+    pairs.forEach(([s, t, cs]) => {
+      s.style.display = 'inline-block'; s.style.animation = 'none'; s.style.opacity = 1; s.style.filter = 'none'; s.style.transform = 'none';
+      const r = s.getBoundingClientRect(), k = r.width ? t.width / r.width : parseFloat(cs.fontSize) / parseFloat(getComputedStyle(s).fontSize);
+      const dx = t.left - r.left, dy = (t.top + t.height / 2) - (r.top + r.height * k / 2);
+      s.getBoundingClientRect();
+      s.style.transformOrigin = '0 0'; s.style.transition = 'transform .7s cubic-bezier(.2,.8,.2,1), color .7s ease';
+      s.style.transform = `translate(${dx}px, ${dy}px) scale(${k})`; s.style.color = cs.color;
+    });
+    setTimeout(() => { el.style.transition = 'opacity .3s ease'; el.classList.add('out'); setTimeout(() => el.remove(), 320); }, 720);
+    return true;
+  };
+  const go = () => { if(done) return; done = true; let ok = false; if(!reduce){ try{ ok = fly(); }catch(_){ ok = false; } } if(!ok){ el.classList.add('out'); setTimeout(() => el.remove(), 750); } };
   window.__introReady = () => setTimeout(go, Math.max(0, min - (performance.now() - t0)));
   el.addEventListener('click', go);
   setTimeout(go, 3000);
@@ -4764,7 +4787,7 @@ document.addEventListener('visibilitychange', () => { if(document.hidden) persis
 updatePP();
 loadLibrary(false);
 // Installable app: register the service worker when hosted (not available inside previews)
-if('serviceWorker' in navigator && window.isSecureContext && location.protocol !== 'file:'){ try{ navigator.serviceWorker.register('sw.js').catch(()=>{}); }catch(x){} }
+if('serviceWorker' in navigator && window.isSecureContext && location.protocol !== 'file:'){ try{ navigator.serviceWorker.register('sw.js', { updateViaCache:'none' }).then(r => { try{ r.update(); }catch(_){} }).catch(()=>{}); }catch(x){} }
 </script>
 </body>
 </html>
