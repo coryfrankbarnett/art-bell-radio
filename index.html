@@ -1861,7 +1861,6 @@ html.light .hero-track{box-shadow:0 22px 50px rgba(60,40,10,.22)}
 .np .ctl .big svg.ln{stroke:#151210!important}
 html.cine .np .bigart.cv{box-shadow:inset max(4px,1.4cqw) 0 0 var(--npl,var(--pl)),inset 0 0 0 1px rgba(255,255,255,.07),0 34px 80px rgba(0,0,0,.55)!important}
 html.cine.light .np .bigart.cv{background:#171513!important;color:#ece6da}
-html.cine.light .np .bigart.cv .mot{display:block!important}
 html.cine.light .np .bigart.cv .mk{display:none!important}
 html.cine.light .np .bigart.cv .no,html.cine.light .np .bigart.cv .pcode{color:var(--pl)!important;opacity:1}
 html.cine.light .np .bigart.cv .dt{color:#8e877b!important}
@@ -1869,6 +1868,55 @@ html.cine.light .np .bigart.cv .dt{color:#8e877b!important}
 
 /* No year dial or filter drawer under the search bar: years live in the catalogue and search ("1997"), programmes on their cards */
 .filtersblock,#filterBtn{display:none!important}
+
+/* ================= Typographic covers: colour field, grain, and type. No drawings anywhere. ================= */
+html{--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+html.cine .art.cv,html.cine.light .art.cv{background:radial-gradient(140% 85% at 25% 0%,color-mix(in srgb,var(--pc) 84%,#fff 16%) 0%,var(--pc) 42%,color-mix(in srgb,var(--pc) 52%,#0b0908) 100%)!important;color:#f6efe3;isolation:isolate}
+html.cine .art.cv::after{content:""!important;display:block!important;position:absolute;inset:0;z-index:0;pointer-events:none;background-image:var(--grain);background-size:140px;opacity:.12;mix-blend-mode:overlay;border-radius:inherit}
+html.cine .art.cv .mot,html.cine .art.cv .mk,html.cine.light .art.cv .mk{display:none!important}
+html.cine .art.cv :is(.hd,.dt,.no,.pcode,.yy){z-index:1}
+html.cine .art.cv .hd,html.cine.light .art.cv .hd{color:#f6efe3!important;letter-spacing:-.01em}
+html.cine .art.cv .dt,html.cine.light .art.cv .dt{color:rgba(246,239,227,.72)!important}
+html.cine .art.cv .no,html.cine.light .art.cv .no{top:7%!important;bottom:auto!important;right:8%!important;left:auto!important;color:rgba(246,239,227,.72)!important;opacity:1!important;background:none!important;padding:0!important}
+html.cine .art.cv .pcode,html.cine.light .art.cv .pcode{color:rgba(246,239,227,.9)!important;opacity:1}
+/* large covers in rows: the name is the cover, three lines' space, starting on the same line across a row */
+html.cine .card .art.cv .hd,html.cine .prog .art.cv .hd{top:30%!important;bottom:auto!important;font-size:14cqw!important;line-height:1!important;-webkit-line-clamp:3!important;display:-webkit-box!important;-webkit-box-orient:vertical;overflow:hidden;max-height:3.05em}
+/* small covers (lists, mini player, shortcuts): just the year, centred */
+html.cine :is(.art.cv.sm,.mini .art.cv,.row .art.cv) :is(.hd,.dt,.no,.pcode){display:none!important}
+html.cine :is(.art.cv.sm,.mini .art.cv,.row .art.cv) .yy,html.cine.light :is(.art.cv.sm,.mini .art.cv,.row .art.cv) .yy{display:block!important;left:0!important;right:0!important;top:50%!important;bottom:auto!important;transform:translateY(-52%);text-align:center;font:italic 400 40cqw/1 var(--serif)!important;color:#f6efe3!important}
+/* the player's cover */
+html.cine .np .bigart.cv,html.cine.light .np .bigart.cv{background:radial-gradient(140% 85% at 25% 0%,color-mix(in srgb,var(--pc) 80%,#fff 20%) 0%,var(--pc) 45%,color-mix(in srgb,var(--pc) 50%,#0b0908) 100%)!important}
+html.cine .np .bigart.cv .hd{font-size:min(15cqw,20cqh)!important;line-height:1!important;top:auto!important;bottom:calc(8% + min(5.6cqw,7cqh) + min(5cqw,6cqh))!important;-webkit-line-clamp:3!important;display:-webkit-box!important;-webkit-box-orient:vertical;overflow:hidden}
+html.cine .np .bigart.cv .no{font-size:min(5.6cqw,7cqh)!important}
+/* programme cards: colour field and type, no drawings */
+html.cine .prog.cvp{background:radial-gradient(140% 90% at 25% 0%,color-mix(in srgb,var(--pc) 84%,#fff 16%) 0%,var(--pc) 45%,color-mix(in srgb,var(--pc) 55%,#0b0908) 100%)!important;isolation:isolate}
+html.cine .prog.cvp::after{content:""!important;display:block!important;position:absolute;inset:0;z-index:0;pointer-events:none;background-image:var(--grain);background-size:160px;opacity:.12;mix-blend-mode:overlay;border-radius:inherit}
+html.cine .prog.cvp :is(.skscene,.em,svg){display:none!important}
+html.cine .prog.cvp :is(.yrs,.nm,.ct){z-index:1}
+/* Tonight card without a drawing: the name carries it */
+.hs{grid-template-rows:auto 1fr auto auto auto auto auto 1fr!important}
+.hs-ago{grid-row:3;margin-top:8px}
+.hs-name{grid-row:4;font-size:clamp(46px,13.5vw,62px)}
+.hs-name.long{font-size:clamp(28px,8vw,38px)}
+.hs-topic{grid-row:5}.hs-play{grid-row:6}.hs-meta{grid-row:7}
+
+/* Recently played */
+.shortcuts{margin:0 20px 6px}
+.shortcuts .sec{padding:0!important;margin:0 0 12px!important}
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sc{position:relative;display:grid;grid-template-columns:56px 1fr;align-items:center;gap:10px;height:56px;padding-right:10px;border-radius:8px;overflow:hidden;background:var(--soft);text-align:left;color:var(--text)}
+.sc .art{width:56px!important;height:56px!important;border-radius:0!important;margin:0!important}
+.sc-t{font:600 13px/1.25 var(--font);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.sc-p{position:absolute;left:56px;bottom:0;height:2px;background:var(--accent)}
+body.has-shortcuts #contBig,body.has-shortcuts #contWrap{display:none!important}
+
+/* Editorial headings: label above, generous space, no hand-drawn underline */
+.sec h2,.tb-sec h3,html.light .sec h2{background-image:none!important;padding-bottom:0!important}
+.sec h2[data-k]{flex-wrap:wrap}
+.sec h2[data-k]::before{content:attr(data-k);display:block;flex:0 0 100%;width:100%;margin-bottom:8px;font:600 11px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--kc,var(--muted))}
+.shelf,#progWrap,#contWrap{padding-top:12px}
+.shelf + .shelf{margin-top:6px}
+html.cine.light .np .bigart.cv{box-shadow:inset max(4px,1.4cqw) 0 0 var(--pl),inset 0 0 0 1px rgba(255,255,255,.1),0 34px 80px rgba(0,0,0,.5)!important}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2009,6 +2057,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 
 
   <section class="hero" id="hero" aria-label="Tonight in Art Bell history" style="display:none"></section>
+  <section class="shortcuts" id="shortcuts" style="display:none"></section>
   <button class="continuebig" id="contBig" type="button" style="display:none"></button>
   <button class="browsetop" id="browseTop" type="button"><span class="bt-t">Browse all shows</span><span class="bt-s" id="browseTopN"></span><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <div class="skel" id="skel" aria-hidden="true">
@@ -3719,7 +3768,6 @@ function renderHero(){
     const len = e.length ? lenTxt(e.length) : '';
     return `<article class="hs cfield" style="--pc:${fill};--pl:${line}" data-id="${esc(e.id)}" aria-label="${esc(headOf(e))}, ${esc(niceDate(e.date))}">
       <div class="hs-top"><span class="hs-code">${progCode(e.show)}</span><span class="hs-eye">${tn.exact ? 'Tonight' : 'Around tonight'} · ${esc(day)}</span><span class="hs-no">${e.pno ? 'No. ' + e.pno : ''}</span></div>
-      <div class="hs-art">${motifSVG(c.kind)}</div>
       <div class="hs-ago">${ago ? (tn.exact ? `${ago} years ago tonight` : `${ago} years ago`) : esc(niceDate(e.date))}</div>
       <h2 class="hs-name${headOf(e).length > 22 ? ' long' : ''}"><span>${esc(headOf(e))}</span></h2>
       <div class="hs-topic">${esc(topicOf(e) || e.show)}</div>
@@ -3741,8 +3789,34 @@ $('#hero').addEventListener('click', ev => {
   const p = ev.target.closest('[data-play]'); if(p){ const e = byId(p.dataset.play); if(e) loadEpisode(e, true); return; }
   const s = ev.target.closest('.hs'); if(s){ const e = byId(s.dataset.id); if(e) openSheet(e); }
 });
+/* Editorial headings: a small label above every section title, like a magazine */
+function addKickers(){
+  const P = Object.fromEntries(PROGRAMMES.map(p => [p[0], p[1]]));
+  const K = { 'Programmes':'The shows', 'The Essentials':'Start here', 'This week in Art Bell history':'Anniversaries', 'Pick up where you left off':'Your listening',
+              'Jump to a year':'Browse', 'All shows':'The catalogue', 'Episodes':'The catalogue', 'Guests':'Who Art talked to', 'Favourites':'Kept', 'Recent':'Your listening', 'Offline':'On this phone' };
+  document.querySelectorAll('.sec h2').forEach(h => {
+    const t = h.textContent.trim();
+    let k = K[t] || P[t] || '';
+    if(h.id === 'secTitle'){ k = showFilter ? (P[showFilter] || 'Programme') : yearFilter ? 'The year' : guestFilter ? 'Guest' : ($('#q').value.trim() ? 'Search' : k || 'The catalogue'); }
+    if(k) h.dataset.k = k; else delete h.dataset.k;
+  });
+}
+{ const _r = render; render = function(){ const r = _r.apply(this, arguments); addKickers(); return r; }; }
+
+/* Recently played: a Spotify-style grid of slim tiles, one tap to get back to a show */
+function renderShortcuts(){
+  const el = $('#shortcuts'), home = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !allOpen && !$('#q').value && episodes.length;
+  const list = home ? (state.recent || []).map(byId).filter(Boolean).slice(0, 6) : [];
+  const on = list.length >= 2; el.style.display = on ? '' : 'none'; document.body.classList.toggle('has-shortcuts', on); if(!on) return;
+  const n = list.length % 2 ? list.length - 1 : list.length;   // always full rows
+  el.innerHTML = `<div class="sec"><h2 data-k="Your listening">Recently played</h2></div><div class="sc-grid">${list.slice(0, n).map(e => {
+    const p = state.pos[e.id], pct = p && p.d && p.t < p.d - 60 ? Math.min(100, Math.round(p.t / p.d * 100)) : 0;
+    return `<button class="sc" data-id="${esc(e.id)}" aria-label="${esc(e.title)}">${artHTML(e, 'sm')}<span class="sc-t">${esc(headOf(e))}</span>${pct ? `<i class="sc-p" style="width:${pct}%"></i>` : ''}</button>`;
+  }).join('')}</div>`;
+}
+$('#shortcuts').addEventListener('click', ev => { const b = ev.target.closest('.sc'); if(!b) return; const e = byId(b.dataset.id); if(e) loadEpisode(e, true); });
 function renderBento(){
-  renderHero();
+  renderHero(); renderShortcuts();
   const show = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value && episodes.length;
   const b = $('#bento'); b.style.display = show ? '' : 'none'; if(!show) return;
   const now = new Date(), tn = tonightShows(), list = tn.list;
@@ -4868,7 +4942,7 @@ function fitNP(){
   render = function(){
     const r = _r.apply(this, arguments);
     const h = $('#secTitle'), col = showFilter ? progCol(showFilter)[1] : '';
-    if(h){ if(col) h.style.setProperty('background-image', ul(col), 'important'); else h.style.removeProperty('background-image'); }
+    if(h){ h.style.removeProperty('background-image'); if(col) h.style.setProperty('--kc', col); else h.style.removeProperty('--kc'); }
     const showKey = tab === 'all' && !showFilter && !guestFilter && (yearFilter || allOpen);
     if(showKey){
       const present = new Set(view.map(e => e.show));
