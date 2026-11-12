@@ -1960,6 +1960,63 @@ html.cine .card .art.cv.wd .yy{font-size:92cqh!important;bottom:-.2em!important}
 .band-s{font:400 17px/1.4 var(--serif);font-style:italic;color:rgba(246,239,227,.86);max-width:30ch}
 @media (min-width:960px){ .band{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:36px;align-items:end;padding:36px 40px}
   .band-k{grid-column:1/-1}.band-n{grid-row:2;margin:16px 0 0}.band-s{grid-row:2;font-size:20px;padding-bottom:10px} }
+
+/* ================= Finishing pass 2 ================= */
+/* Collections */
+.rail.cols{gap:12px}
+.colcard{flex:none;width:156px;aspect-ratio:3/4;border-radius:14px;padding:14px 14px 16px;display:flex;flex-direction:column;text-align:left;overflow:hidden;scroll-snap-align:start;box-shadow:inset 3px 0 0 color-mix(in srgb,var(--pc) 55%,#fff 45%)}
+.colcard>*{position:relative;z-index:1}
+.cc-no{font:600 10.5px/1 var(--font);letter-spacing:.16em;color:rgba(246,239,227,.6)}
+.cc-k{margin-top:auto;font:600 9.5px/1 var(--font);letter-spacing:.18em;text-transform:uppercase;color:rgba(246,239,227,.7)}
+.cc-t{font:400 25px/1.02 var(--serif);letter-spacing:-.02em;color:#f6efe3;margin:7px 0 9px;height:3.06em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cc-m{font:600 9.5px/1.3 var(--font);letter-spacing:.12em;text-transform:uppercase;color:rgba(246,239,227,.66)}
+@media (min-width:960px){ .rail.cols{grid-template-columns:repeat(6,1fr)!important} .colcard{width:auto} }
+/* Endless */
+.mixcard{flex:none;width:236px;min-height:128px;border-radius:16px;padding:16px 16px 14px;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto 1fr auto;text-align:left;overflow:hidden;scroll-snap-align:start}
+.mixcard>*{position:relative;z-index:1}
+.mx-k{grid-column:1;font:600 9.5px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:rgba(246,239,227,.7)}
+.mixcard.on .mx-k{color:#f6efe3}
+.mixcard.on .mx-k::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#f6efe3;margin-right:7px;vertical-align:1px}
+.mx-t{grid-column:1/-1;align-self:end;font:400 27px/1.02 var(--serif);letter-spacing:-.02em;color:#f6efe3;margin-top:18px}
+.mx-s{grid-column:1;font:400 12.5px/1.35 var(--font);color:rgba(246,239,227,.72);margin-top:5px;padding-right:8px}
+.mx-go{grid-column:2;grid-row:3;align-self:end;width:36px;height:36px;border-radius:50%;background:#f6efe3;display:grid;place-items:center}
+.mx-go svg{width:15px;height:15px;fill:#151210!important;stroke:none}
+@media (min-width:960px){ .rail.mixes{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))!important} .mixcard{width:auto} }
+/* Collection page */
+#tribute.colpage .tb-body{padding-top:4px}
+.col-hero{border-radius:22px;padding:28px 24px 24px;margin:4px 0 22px;overflow:hidden}
+.col-hero>*{position:relative;z-index:1}
+.col-k{font:600 10.5px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:rgba(246,239,227,.7)}
+.col-t{font:400 clamp(40px,12vw,64px)/.98 var(--serif);letter-spacing:-.03em;color:#f6efe3;margin:14px 0 14px}
+.col-in{font:400 16px/1.55 var(--font);color:rgba(246,239,227,.86);margin:0 0 16px;max-width:52ch}
+.col-m{font:600 10.5px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;color:rgba(246,239,227,.66)}
+.col-acts{display:flex;gap:10px;margin-top:22px}
+.col-play,.col-shuf{height:46px;border-radius:999px;padding:0 20px;display:inline-flex;align-items:center;gap:8px;font:600 14px var(--font)}
+.col-play{background:#f6efe3;color:#151210}.col-play svg{width:15px;height:15px;fill:#151210!important;stroke:none}
+.col-shuf{background:rgba(246,239,227,.14);color:#f6efe3}
+.col-list{list-style:none;margin:0;padding:0}
+.col-row{width:100%;display:grid;grid-template-columns:34px 56px 1fr;gap:0 14px;align-items:center;padding:10px 0;text-align:left;border-bottom:1px solid var(--line)}
+.col-list li:last-child .col-row{border-bottom:0}
+.col-row .art{width:56px!important;height:56px!important;border-radius:8px}
+.col-n{font:400 26px/1 var(--serif);text-align:center;color:var(--muted)}
+.col-tx{min-width:0;display:flex;flex-direction:column;gap:3px}
+.col-tx .t{font:600 15px/1.25 var(--font);color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.col-tx .m{font:400 13px/1.3 var(--font);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Tonight: one line on why it matters */
+.hs-why{display:block;white-space:normal;overflow:visible;text-overflow:clip;margin:10px auto 0;max-width:30ch;font:italic 400 17px/1.35 var(--serif);color:rgba(246,239,227,.82)}
+/* Marks: clip button */
+.li .clipbtn svg{stroke:var(--accent)!important}
+/* Sound sheet */
+.snd{display:flex;flex-direction:column;gap:2px;padding:4px 0 8px}
+.snd-row{display:flex;align-items:center;gap:14px;padding:14px 2px;text-align:left;border-bottom:1px solid var(--line)}
+.snd-row:last-child{border-bottom:0}
+.snd-tx{flex:1;display:flex;flex-direction:column;gap:3px}
+.snd-t{font:600 16px var(--font);color:var(--text)}
+.snd-s{font:400 13px/1.35 var(--font);color:var(--muted)}
+.tgl{flex:none;width:50px;height:30px;border-radius:999px;background:rgba(127,127,127,.32);position:relative;transition:background .2s}
+.tgl i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .25s var(--ease,ease)}
+.snd-row.on .tgl{background:var(--accent)}
+.snd-row.on .tgl i{transform:translateX(20px)}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2217,7 +2274,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
     <button id="queueBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M16 14v6l4.5-3z"/></svg><span id="queueVal">Up next</span></button>
     <button id="bedBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M3 18.5v-6.5a2.5 2.5 0 0 1 2.5-2.5h13a2.5 2.5 0 0 1 2.5 2.5v6.5M3 15.5h18M6.5 9.5V7h4v2.5"/></svg><span>Bedside</span></button>
     <button id="castBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M3.5 17.5a3 3 0 0 1 3 3M3.5 13.5a7 7 0 0 1 7 7M3.5 9.5V6A1.5 1.5 0 0 1 5 4.5h14A1.5 1.5 0 0 1 20.5 6v12a1.5 1.5 0 0 1-1.5 1.5h-5"/></svg><span>Speaker</span></button>
-    <button id="boostBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>Boost</span></button>
+    <button id="boostBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>Sound</span></button>
   </div>
 </div>
 
@@ -3691,13 +3748,13 @@ async function coverPNG(e, S = 512){
 }
 async function setNowPlayingMeta(e){
   if(!('mediaSession' in navigator) || typeof MediaMetadata === 'undefined') return;
-  const base = { title: e.title, artist: `${e.show} · ${niceDate(e.date)}`, album: 'The Art Bell Tapes' };
+  const base = lockWords(e); msArt = null;
   navigator.mediaSession.metadata = new MediaMetadata(base);
   try{
     const [big, small] = await Promise.all([coverPNG(e, 512), coverPNG(e, 256)]);
     if(audio.dataset.id !== e.id) return;
-    navigator.mediaSession.metadata = new MediaMetadata(Object.assign(base, { artwork: [
-      { src: small, sizes: '256x256', type: 'image/png' }, { src: big, sizes: '512x512', type: 'image/png' } ] }));
+    msArt = [{ src: small, sizes: '256x256', type: 'image/png' }, { src: big, sizes: '512x512', type: 'image/png' }];
+    navigator.mediaSession.metadata = new MediaMetadata(Object.assign(lockWords(e), { artwork: msArt }));
   }catch(x){}
 }
 
@@ -3776,7 +3833,13 @@ function renderShelves(show){
   if((m === 10 && d >= 15) || (m === 11 && d <= 3)) seasonal = shelf('Ghost to Ghost season', 'Art’s Halloween nights of listeners’ own ghost stories, every year on record.', episodes.filter(e => /ghost to ghost|halloween/i.test(e.title) || (e.date && /-10-3[01]$/.test(e.date) && /ghost/i.test(e.hay))).sort((a, b) => a.date.localeCompare(b.date)), 'Ghost to Ghost');
   else if((m === 12 && d >= 18) || (m === 1 && d <= 7)) seasonal = shelf('Predictions for the new year', 'Every year Art opened the lines for listeners’ predictions. See how they did.', episodes.filter(e => /prediction/i.test(e.title) && e.date && /-(12-(2\d|3[01])|01-0\d)$/.test(e.date)).sort((a, b) => a.date.localeCompare(b.date)), 'Predictions');
   const weekHTML = shelf('This week in Art Bell history', `${week.length} show${week.length === 1 ? '' : 's'} that aired within a few days of today, across the years.`, week, '', true);
-  el.innerHTML = seasonal + essHTML + bandA + weekHTML + bandB + tribHTML + rows.map(([n], idx) => {
+  const colShelf = (title, sub, cs) => cs.length ? `<section class="shelf"><div class="sec"><h2>${title}</h2></div><p class="ess-intro">${sub}</p>
+      <div class="rail cols">${cs.map((c, i) => `<button class="colcard cfield" data-col="${esc(c.k)}" style="--pc:${c.col};--pl:${c.col}"><span class="cc-no">${String(i + 1).padStart(2, '0')}</span><span class="cc-k">${c.guest ? 'In conversation' : 'Collection'}</span><span class="cc-t">${esc(c.title)}</span><span class="cc-m">${c.list.length} ${c.guest ? 'nights' : 'shows'}<br>${c.yrs}</span></button>`).join('')}</div></section>` : '';
+  const colHTML = colShelf('Collections', 'Hand-gathered sets with a few words on each, the way a good archive should be.', collections().filter(c => !c.guest));
+  const convHTML = colShelf('In conversation', 'The guests who kept coming back, every night they spent with Art.', collections().filter(c => c.guest));
+  const mixHTML = `<section class="shelf"><div class="sec"><h2>Endless</h2></div><p class="ess-intro">Pick a mood and it keeps going, one night after another, until you stop it.</p>
+      <div class="rail mixes">${MIXES.map(m => { const on = state.radio && state.radioMix === m.k; return `<button class="mixcard cfield${on ? ' on' : ''}" data-mix="${m.k}" style="--pc:${m.col}"><span class="mx-k">${on ? 'On air' : 'Endless'}</span><span class="mx-t">${esc(m.title)}</span><span class="mx-s">${esc(m.sub)}</span><span class="mx-go">${on ? I.pause || '' : I.play2}</span></button>`; }).join('')}</div></section>`;
+  el.innerHTML = seasonal + essHTML + bandA + colHTML + weekHTML + convHTML + mixHTML + bandB + tribHTML + rows.map(([n], idx) => {
     const picks = dailyPick(byShow[n], 10).slice().sort(byAir);
     return `<section class="shelf"><div class="sec"><h2>${emblem(n,'hem')}${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
       <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(topicOf(e) || e.title)}</div></button>`).join('')}</div></section>`;
@@ -3784,6 +3847,8 @@ function renderShelves(show){
 }
 $('#shelves').addEventListener('click', ev => {
   if(ev.target.closest('#tribCard')){ openTribute(); return; }
+  const cb = ev.target.closest('[data-col]'); if(cb){ buzz(6); openCollection(cb.dataset.col); return; }
+  const mb = ev.target.closest('[data-mix]'); if(mb){ buzz(10); startMix(mb.dataset.mix); return; }
   if(ev.target.closest('[data-ess]')){ const list = essentials().map(x => x.e); if(!list.length) return; state.radio = false; state.queue = list.slice(1).map(e => e.id); saveState(); loadEpisode(list[0], true); toast(`Playing The Essentials · ${list.length} shows`); renderBento(); return; }
   const s = ev.target.closest('.seeall'); if(s && s.dataset.q){ $('#q').value = s.dataset.q; $('#clear').classList.add('show'); applyFilters(); scrollTo({top:0, behavior:smooth()}); return; }
   if(s){ setShow(s.dataset.show); scrollTo({top:0, behavior:smooth()}); return; }
@@ -3829,7 +3894,7 @@ function renderHero(){
       <div class="hs-top"><span class="hs-code">${progCode(e.show)}</span><span class="hs-eye">${tn.exact ? 'Tonight' : 'Around tonight'} · ${esc(day)}</span><span class="hs-no">${noMark(e.pno)}</span></div>${e.year ? `<span class="hs-wm" aria-hidden="true">’${e.year.slice(2)}</span>` : ''}
       <div class="hs-ago">${ago ? (tn.exact ? `${ago} years ago tonight` : `${ago} years ago`) : esc(niceDate(e.date))}</div>
       <h2 class="hs-name${headOf(e).length > 22 ? ' long' : ''}"><span>${esc(headOf(e))}</span></h2>
-      <div class="hs-topic">${esc(topicOf(e) || e.show)}</div>
+      <div class="hs-topic">${esc(topicOf(e) || e.show)}${(w => w ? `<span class="hs-why">${esc(w)}</span>` : '')(contextLine(e))}</div>
       <button class="hs-play" data-play="${esc(e.id)}" aria-label="Play ${esc(headOf(e))}">${I.play2}</button>
       <div class="hs-meta">${len ? 'Listen · ' + len : 'Listen'}</div>
     </article>`;
@@ -3930,9 +3995,9 @@ async function loadEpisode(e, autoplay){
   else {
     let src = streamUrl(e); if(!hosts[e.item]) learnHost(e.item);
     if(savedKeys.has(e.id)){ try{ const b = await db.get(e.id); if(b){ blobUrl = URL.createObjectURL(b); src = blobUrl; } }catch(x){} }
-    audio.src = src; audio.playbackRate = state.speed;
+    audio.src = src; audio.playbackRate = rateFor(e);
     const p = state.pos[e.id];
-    audio.addEventListener('loadedmetadata', function once(){ audio.removeEventListener('loadedmetadata', once); if(p && p.t && p.t < audio.duration-10) audio.currentTime = p.t; audio.playbackRate = state.speed; });
+    audio.addEventListener('loadedmetadata', function once(){ audio.removeEventListener('loadedmetadata', once); if(p && p.t && p.t < audio.duration-10) audio.currentTime = p.t; audio.playbackRate = rateFor(e); });
   }
   // Mini + now playing
   const c2 = coverStyle(e.id, e.show).ac;
@@ -4066,8 +4131,16 @@ $('#fwd').onclick = () => { if(audio.duration) audio.currentTime = Math.min(audi
 $('#prev').onclick = () => { if(audio.currentTime > 5){ audio.currentTime = 0; } else step(-1); };
 $('#next').onclick = () => step(1);
 const SPEEDS = [1, 1.25, 1.5, 1.75, 2, .8];
-$('#speedVal').textContent = state.speed + '×';
-$('#speed').onclick = () => { state.speed = SPEEDS[(SPEEDS.indexOf(state.speed)+1) % SPEEDS.length]; audio.playbackRate = state.speed; $('#speedVal').textContent = state.speed + '×'; saveState(); };
+/* Speed is remembered per programme, the way Overcast does it per podcast */
+function rateFor(e){ return (e && state.speedBy && state.speedBy[e.show]) || state.speed || 1; }
+const showSpeed = () => { $('#speedVal').textContent = rateFor(current()) + '×'; };
+showSpeed();
+$('#speed').onclick = () => {
+  const e = current(), cur = rateFor(e), next = SPEEDS[(SPEEDS.indexOf(cur) + 1) % SPEEDS.length];
+  if(e){ state.speedBy = state.speedBy || {}; state.speedBy[e.show] = next; } else state.speed = next;
+  audio.playbackRate = next; if(typeof trim !== 'undefined') trim.fast = false; showSpeed(); saveState(); buzz(6);
+  if(e) toast(`${next}× for ${e.show}`);
+};
 let sleepAt = 0, sleepEnd = false, sleepIdx = -1; const SLEEPS = [15, 30, 45, 60, 90, 'end'];
 function sleepLabel(){
   if(sleepEnd) return 'End of show';
@@ -4082,7 +4155,8 @@ $('#sleep').onclick = () => {
   $('#sleepVal').textContent = sleepLabel(); $('#sleep').classList.toggle('on', !!(sleepAt || sleepEnd));
   toast(sleepEnd ? 'Stopping at the end of this show' : sleepAt ? `Stopping in ${v} minutes` : 'Sleep timer off');
 };
-setInterval(() => { if(sleepAt) $('#sleepVal').textContent = sleepLabel(); }, 20000);
+setInterval(() => { if(sleepAt){ $('#sleepVal').textContent = sleepLabel(); lockMeta(); } }, 20000);
+$('#sleep').addEventListener('click', () => { lockMeta(); buzz(6); });
 $('#npFav').onclick = () => { const e = current(); if(e) toggleFav(e); };
 $('#npMore').onclick = () => { const e = current(); if(e) openSheet(e); };
 if('mediaSession' in navigator){
@@ -4179,12 +4253,15 @@ function openNP(fromEl){ if($('#np').classList.contains('open')) return; if(stat
 function closeNP(){ if(!$('#np').classList.contains('open')) return; if(state.npView === 'tape' || state.npView === 'radio' || matchMedia('(min-width:1280px)').matches){ closeNPNow(); return; } morph(closeNPNow, $('#npArt'), '#miniArt'); }
 /* Overnight radio: plays back to back like a live station, tonight's date first */
 function radioPicks(n, skip){
-  const seen = new Set(skip || []), pool = episodes.filter(e => !seen.has(e.id) && !isPlayed(e.id) && e.length !== 0 && e.show !== 'Ghost to Ghost' || false);
+  const seen = new Set(skip || []), mix = state.radioMix && MIXES.find(m => m.k === state.radioMix);
+  let pool = episodes.filter(e => !seen.has(e.id) && !isPlayed(e.id) && e.length !== 0 && (mix ? mixHit(mix, e) : e.show !== 'Ghost to Ghost'));
+  if(mix && pool.length < n) pool = pool.concat(episodes.filter(e => !seen.has(e.id) && isPlayed(e.id) && e.length !== 0 && mixHit(mix, e)));
   for(let i = pool.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
   return pool.slice(0, n);
 }
 function toggleRadio(){
-  if(state.radio){ state.radio = false; state.queue = []; saveState(); renderBento(); toast('Overnight radio off'); return; }
+  if(state.radio){ const was = state.radioMix; state.radio = false; state.radioMix = ''; state.queue = []; saveState(); renderBento(); toast(was ? 'Endless mix off' : 'Overnight radio off'); return; }
+  state.radioMix = '';
   const tn = tonightShows().list.filter(e => !isPlayed(e.id));
   const first = tn.length ? tn : [];
   const rest = radioPicks(30, first.map(e => e.id));
@@ -4576,13 +4653,14 @@ function openMarks(){
   $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Bookmarks</div><div class="m">${esc(e.title)}</div></div></div>
     <input class="field" id="markNote" maxlength="80" placeholder="Note for ${fmt(t)} (optional) – e.g. the Area 51 caller">
     <button class="btn" data-m="add" data-t="${t}">Bookmark ${fmt(t)}</button>
-    ${marks.length ? marks.map((m,i) => `<div class="li"><button class="tm" data-m="go" data-t="${m.t}">${fmt(m.t)}</button><div class="tx" data-m="go" data-t="${m.t}"><div class="t">${esc(m.note || 'Bookmark')}</div></div><button class="x" data-m="del" data-t="${m.t}" aria-label="Delete">${I.trash}</button></div>`).join('') : '<div class="empty">Your marks show up here and as pins on the waveform.</div>'}`;
+    ${marks.length ? marks.map((m,i) => `<div class="li"><button class="tm" data-m="go" data-t="${m.t}">${fmt(m.t)}</button><div class="tx" data-m="go" data-t="${m.t}"><div class="t">${esc(m.note || 'Bookmark')}</div></div><button class="x clipbtn" data-m="clip" data-t="${m.t}" aria-label="Share a clip from ${fmt(m.t)}">${I.share}</button><button class="x" data-m="del" data-t="${m.t}" aria-label="Delete">${I.trash}</button></div>`).join('') : '<div class="empty">Your marks show up here and as pins on the waveform.</div>'}`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
 $('#sheet').addEventListener('click', ev => {
   const b = ev.target.closest('[data-m]'); if(!b) return; const e = current(); if(!e) return; const t = +b.dataset.t;
-  if(b.dataset.m === 'add'){ const note = ($('#markNote').value || '').trim(); (state.marks[e.id] = state.marks[e.id] || []).push({ t, note }); saveState(); updateMarkBadge(); drawWave(); toast('Bookmarked ' + fmt(t)); closeSheet(); }
+  if(b.dataset.m === 'add'){ const note = ($('#markNote').value || '').trim(); (state.marks[e.id] = state.marks[e.id] || []).push({ t, note }); saveState(); buzz(12); updateMarkBadge(); drawWave(); toast('Bookmarked ' + fmt(t)); closeSheet(); }
   if(b.dataset.m === 'go'){ closeSheet(); const d = durOf(e); if(d) seekTo(t/d); }
+  if(b.dataset.m === 'clip'){ const m = (state.marks[e.id] || []).find(x => x.t === t); buzz(8); shareClip(e, t, m && m.note); return; }
   if(b.dataset.m === 'del'){ state.marks[e.id] = (state.marks[e.id]||[]).filter(m => m.t !== t); saveState(); updateMarkBadge(); drawWave(); openMarks(); }
 });
 $('#markBtn').onclick = openMarks;
@@ -4645,7 +4723,7 @@ async function shareMoment(e){
 function handleDeepLink(){
   let p; try{ p = new URLSearchParams(location.search); }catch(x){ return; }
   const id = p.get('ep'); if(!id) return; const e = byId(id); if(!e){ toast('That show isn’t in the library any more'); return; }
-  const t = +p.get('t') || 0;
+  const t = +p.get('t') || 0; clipEnd = +p.get('e') > t ? +p.get('e') : 0;
   if(t){ state.pos[e.id] = { t, d: Math.max(t + 1, (state.pos[e.id] && state.pos[e.id].d) || e.length || t + 1) }; saveState(); }
   loadEpisode(e, false); openNP(); toast(t ? `Tap play to start at ${fmt(t)}` : 'Tap play to start');
   try{ history.replaceState(null, '', location.pathname); }catch(x){}
@@ -4667,22 +4745,26 @@ function routeBoost(){
   if(!boost.src) return; try{ boost.src.disconnect(); }catch(x){}
   boost.src.connect(state.boost ? boost.chain : boost.ctx.destination);
 }
+// Web Audio needs CORS access to the stream; reload the current show with it, once
+async function graphReady(){
+  if(boost.src) return true;
+  const t = audio.currentTime, playing = !audio.paused, src = audio.currentSrc;
+  audio.crossOrigin = 'anonymous';
+  if(src && !src.startsWith('blob:')){
+    audio.src = src; await new Promise((res, rej) => { audio.addEventListener('loadedmetadata', res, {once:true}); audio.addEventListener('error', rej, {once:true}); });
+    audio.currentTime = t; audio.playbackRate = rateFor(current());
+  }
+  buildBoost(); routeBoost(); if(playing) await audio.play();
+  if(boost.ctx.state === 'suspended') await boost.ctx.resume();
+  return true;
+}
 async function setBoost(on){
   const e = current();
   if(e && e.demo){ toast('Preview mode — voice boost works once hosted'); return; }
   state.boost = on; saveState(); $('#boostBtn').classList.toggle('on', on);
   if(!on){ routeBoost(); toast('Voice boost off'); return; }
   try{
-    if(!boost.src){
-      // Web Audio needs CORS access to the stream; reload the current show with it
-      const t = audio.currentTime, playing = !audio.paused, src = audio.currentSrc;
-      audio.crossOrigin = 'anonymous';
-      if(src && !src.startsWith('blob:')){
-        audio.src = src; await new Promise((res, rej) => { audio.addEventListener('loadedmetadata', res, {once:true}); audio.addEventListener('error', rej, {once:true}); });
-        audio.currentTime = t;
-      }
-      buildBoost(); if(playing) await audio.play();
-    }
+    await graphReady();
     if(boost.ctx.state === 'suspended') await boost.ctx.resume();
     routeBoost(); toast('Voice boost on — quiet callers lifted, loud bits tamed');
   }catch(x){
@@ -4691,10 +4773,228 @@ async function setBoost(on){
     toast('Archive.org didn’t allow voice boost for this file', 3500);
   }
 }
-$('#boostBtn').onclick = () => setBoost(!state.boost);
+$('#boostBtn').onclick = openSound;
 if(state.boost) $('#boostBtn').classList.add('on');
 // if boost was left on, enable it on first play (needs a user gesture)
 audio.addEventListener('play', () => { if(state.boost && !boost.src) setBoost(true); else if(boost.ctx && boost.ctx.state === 'suspended') boost.ctx.resume(); });
+
+
+/* ================= Finishing pass 2: collections, endless mixes, clips, trim silence, lock screen, feel ================= */
+var buzz = (ms = 8) => { try{ if(navigator.vibrate && !calm()) navigator.vibrate(ms); }catch(x){} };
+['#pp', '#miniPP', '#npFav', '#next', '#prev'].forEach(s => { const b = $(s); if(b) b.addEventListener('click', () => buzz(s === '#pp' || s === '#miniPP' ? 10 : 6)); });
+
+// Collections: gathered by subject, or every night with one guest
+var COLLECTIONS = [
+  { k:'area51', title:'The Area 51 years', col:'#5b4a2c', re:/area 51|lazar|groom lake/i,
+    intro:'In 1989 Bob Lazar said he had worked on alien craft near Groom Lake in Nevada. Art’s show, broadcast from just down the road, became the place the story kept coming back to: John Lear, Glenn Campbell, Lazar himself, and the frantic caller of September 1997.' },
+  { k:'mel', title:'Mel’s Hole', col:'#3e4f3a', re:/mel'?s hole|mel waters/i,
+    intro:'In February 1997 a caller named Mel Waters described a hole on his land in Washington that seemed to have no bottom. He came back with stranger and stranger updates, and listeners have argued about it ever since.' },
+  { k:'hale', title:'Hale-Bopp and the companion', col:'#2f4660', re:/hale.?bopp|shramek/i,
+    intro:'In November 1996 an amateur astronomer’s photo seemed to show something travelling alongside Comet Hale-Bopp. For months it was the biggest story on the show, with remote viewers, astronomers and a lot of callers.' },
+  { k:'time', title:'Time travellers', col:'#4b3a5c', re:/time travel|time machine|titor|single seven|montauk|philadelphia experiment/i,
+    intro:'Time machines, the Philadelphia Experiment, Montauk, and callers who said they came from somewhere else in time. Art gave every one of them a hearing.' },
+  { k:'exorcism', title:'Possession and exorcism', col:'#5c2b28', re:/exorcis|possess|malachi/i,
+    intro:'Father Malachi Martin’s nights on possession and exorcism are among the most asked-for shows in the archive. These are the dark ones. Maybe not for the drive home.' },
+  { k:'cryptids', title:'Things in the woods', col:'#384a3f', re:/bigfoot|sasquatch|chupacabra|mothman|cryptozo|yeti|skunk ape|lake monster|loch ness/i,
+    intro:'Bigfoot recordings, the chupacabra, lake monsters and the Mothman. Some of the strangest calls Art ever took were about something out there in the trees.' },
+  { k:'triangles', title:'Black triangles', col:'#2d3540', re:/triangle/i,
+    intro:'Art and his wife Ramona saw a huge triangular craft in the sky over Pahrump and he told the story on air. Black triangles became a thread that ran through the years that followed.' },
+  { k:'shadow', title:'Shadow people', col:'#33303f', re:/shadow (people|beings)/i,
+    intro:'Dark, human-shaped figures seen at the edge of sight. Once listeners started describing them, the calls never really stopped.' },
+  { k:'evp', title:'Voices on tape', col:'#4a3f33', re:/\bevp\b|electronic voice/i,
+    intro:'Recordings of voices that shouldn’t be there. Researchers played their tapes on air, and Art played them to millions of people listening in the dark.' },
+  { k:'y2k', title:'Waiting for Y2K', col:'#3b4652', re:/y2k/i,
+    intro:'The year the clocks were meant to stop. Preparedness, worry and open lines as 1999 ran out.' },
+  { k:'earth', title:'Earth changes', col:'#2f4a4a', re:/earth changes|pole shift|superstorm/i,
+    intro:'Pole shifts, superstorms and prophecies of a changing planet. Art took the subject seriously enough to write a book about it with Whitley Strieber, The Coming Global Superstorm.' }
+];
+var GUEST_COLS = [['Richard C. Hoagland', '#4a3526'], ['Ed Dames', '#2e4552'], ['Linda Moulton Howe', '#4b3448'], ['Whitley Strieber', '#323c4e'], ['Michio Kaku', '#3a4636']];
+var colCache = null;
+function collections(){
+  if(colCache && colCache.n === episodes.length) return colCache.list;
+  const byAir = (a, b) => (a.date || '9').localeCompare(b.date || '9');
+  const yrsOf = l => { const y = l.map(e => +e.year).filter(Boolean); if(!y.length) return ''; const a = Math.min(...y), b = Math.max(...y); return a === b ? '' + a : `${a}–${b}`; };
+  const out = [];
+  COLLECTIONS.forEach(c => { const list = episodes.filter(e => c.re.test(e.title)).sort(byAir); if(list.length >= 5) out.push(Object.assign({}, c, { list, yrs: yrsOf(list) })); });
+  GUEST_COLS.forEach(([g, col]) => { const list = episodes.filter(e => (e.guests || []).includes(g)).sort(byAir); if(list.length >= 6) out.push({ k:'g:' + g, guest:g, title:g, col, list, yrs: yrsOf(list),
+    intro:`Every night ${g} spent with Art in the archive, ${list.length} of them, in the order they aired.` }); });
+  colCache = { n: episodes.length, list: out }; return out;
+}
+const colByKey = k => collections().find(c => c.k === k);
+function openCollection(k){
+  const c = colByKey(k); if(!c) return;
+  const hrs = Math.round(c.list.reduce((a, e) => a + (+e.length || 0), 0) / 3600);
+  $('#tribute').querySelector('.tb-head span').textContent = c.guest ? 'In conversation' : 'Collection';
+  $('#tribute').classList.add('colpage');
+  $('#tbBody').innerHTML = `
+    <section class="col-hero cfield" style="--pc:${c.col}">
+      <div class="col-k">${c.guest ? 'In conversation' : 'Collection No. ' + String(collections().filter(x => !x.guest).indexOf(c) + 1).padStart(2, '0')} · ${c.yrs}</div>
+      <h2 class="col-t">${esc(c.title)}</h2>
+      <p class="col-in">${esc(c.intro)}</p>
+      <div class="col-m">${c.list.length} shows${hrs ? ` · ${hrs} hours` : ''}</div>
+      <div class="col-acts"><button class="col-play" data-cplay="${esc(c.k)}">${I.play2}<span>Play in order</span></button><button class="col-shuf" data-cplay="${esc(c.k)}" data-shuf="1">Shuffle</button></div>
+    </section>
+    <ol class="col-list">${c.list.map((e, i) => `<li><button class="col-row" data-cplay="${esc(c.k)}" data-at="${esc(e.id)}"><span class="col-n">${i + 1}</span>${artHTML(e, 'sm')}<span class="col-tx"><span class="t">${esc(headOf(e))}</span><span class="m">${esc(topicOf(e) || e.show)} · ${esc(niceDate(e.date))}</span></span></button></li>`).join('')}</ol>`;
+  $('#tribute').classList.add('open'); $('#tribute').setAttribute('aria-hidden', 'false'); $('#tbBody').scrollTop = 0;
+}
+
+// Endless: a mood that keeps playing, one night after another
+var MIXES = [
+  { k:'ghosts', title:'Ghost stories', sub:'Hauntings, shadow people and voices on tape', col:'#3b3245', re:/\bghosts?\b|haunt|poltergeist|shadow people|\bevp\b|electronic voice/i },
+  { k:'ufos', title:'Lights in the sky', sub:'UFOs, abductions, Area 51 and black triangles', col:'#2c4257', re:/ufo|abduct|alien|triangle|area 51|roswell|disclosure/i },
+  { k:'open', title:'Open lines', sub:'Just Art and whoever got through', col:'#5a3a24', re:/open lines/i },
+  { k:'prophecy', title:'Prophecy', sub:'Predictions, prophets and the end of the world', col:'#4e2f2f', re:/prophec|predict|nostradamus|earth changes|apocalyp/i },
+  { k:'space', title:'Out there', sub:'Mars, the Moon, physics and deep time', col:'#2f4743', re:/\bmars\b|\bmoon\b|cydonia|physics|kaku|cosmos|universe|space/i },
+  { k:'dreamland', title:'Dreamland Sundays', sub:'Art’s weekend show, back to back', col:'#33415e', show:'Dreamland' }
+];
+var mixHit = (m, e) => m.show ? e.show === m.show : (m.re.test(e.title) || (e.guests || []).some(g => m.re.test(g)));
+function startMix(k){
+  const m = MIXES.find(x => x.k === k); if(!m) return;
+  if(state.radio && state.radioMix === k){ state.radio = false; state.radioMix = ''; state.queue = []; saveState(); renderBento(); toast('Endless mix off'); return; }
+  state.radioMix = k; const list = radioPicks(30, []); if(!list.length){ state.radioMix = ''; return toast('Nothing to play in this mix'); }
+  state.radio = true; state.autoplay = true; state.queue = list.slice(1).map(e => e.id); saveState();
+  loadEpisode(list[0], true); renderBento(); toast(`On air: ${m.title}, until you stop it`, 3200);
+}
+
+// Why tonight's show matters, in one line, from the archive itself
+function contextLine(e){
+  const n = essNote(e); if(n) return n;
+  const ord = i => i + (['th','st','nd','rd'][(i % 100 > 10 && i % 100 < 14) ? 0 : (i % 10 < 4 ? i % 10 : 0)] || 'th');
+  for(const g of (e.guests || [])){
+    const all = episodes.filter(x => (x.guests || []).includes(g) && x.date).sort((a, b) => a.date.localeCompare(b.date)), i = all.findIndex(x => x.id === e.id);
+    if(all.length < 3 || i < 0) continue;
+    if(i === 0) return `${g}’s first night on the show, of ${all.length} in the archive.`;
+    if(i === all.length - 1) return `The last of ${g}’s ${all.length} nights in the archive.`;
+    return `${g}’s ${ord(i + 1)} of ${all.length} nights in the archive.`;
+  }
+  const c = collections().find(c => !c.guest && c.list.some(x => x.id === e.id)); if(c) return `Part of the collection ${c.title}.`;
+  return '';
+}
+
+// Lock screen: the hour of the show and the sleep timer, under the cover
+var msArt = null, lockHr = -1;
+function lockWords(e){
+  const d = durOf(e), t = audio.dataset.id === e.id ? (audio.currentTime || 0) : 0, H = d > 3700 ? Math.round(d / 3600) : 0;
+  const hr = H ? ` · Hour ${Math.min(H, Math.floor(t / 3600) + 1)} of ${H}` : '';
+  const sl = sleepEnd ? 'Sleep timer · end of show' : sleepAt ? `Sleep timer · ${Math.max(1, Math.ceil((sleepAt - Date.now()) / 60000))} min left` : 'The Art Bell Tapes';
+  return { title: e.title, artist: `${e.show} · ${niceDate(e.date)}${hr}`, album: sl };
+}
+function lockMeta(){
+  const e = current(); if(!e || !('mediaSession' in navigator) || typeof MediaMetadata === 'undefined') return;
+  try{ navigator.mediaSession.metadata = new MediaMetadata(Object.assign(lockWords(e), msArt ? { artwork: msArt } : {})); }catch(x){}
+}
+audio.addEventListener('timeupdate', () => { const h = Math.floor((audio.currentTime || 0) / 3600); if(h !== lockHr){ lockHr = h; lockMeta(); } });
+audio.addEventListener('loadedmetadata', () => { lockHr = -1; });
+
+// A shared clip: plays from its start and stops at its end
+var clipEnd = 0;
+audio.addEventListener('timeupdate', () => { if(clipEnd && audio.currentTime >= clipEnd){ clipEnd = 0; audio.pause(); toast('End of the clip · tap play to keep listening', 3500); } });
+
+/* Clips: a minute of audio from a bookmark, plus a card with the note set as a quote */
+async function clipCard(e, t, note){
+  const W = 1080, H = 1350, [fill, line] = progCol(e.show), pc = seasonCol(fill, e.date);
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d');
+  // the colour field, as on the covers (canvas can't read color-mix, so resolve it through the page)
+  const probe = document.createElement('i'); probe.style.color = pc; document.body.appendChild(probe); const base = getComputedStyle(probe).color; probe.remove();
+  g.fillStyle = base; g.fillRect(0, 0, W, H);
+  const gr = g.createRadialGradient(W * .25, 0, 0, W * .25, 0, H * 1.1); gr.addColorStop(0, 'rgba(255,255,255,.16)'); gr.addColorStop(.42, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(8,6,5,.55)');
+  g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  g.fillStyle = line; g.fillRect(0, 0, 18, H);
+  try{ await Promise.all([document.fonts.load('400 100px "Instrument Serif"'), document.fonts.load('italic 400 50px "Instrument Serif"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
+  const sp = (s, n = 1) => s.split('').join(String.fromCharCode(8202).repeat(n));
+  g.font = '600 30px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.9)'; g.fillText(sp(progCode(e.show), 2), 90, 110);
+  g.textAlign = 'right'; g.fillStyle = 'rgba(246,239,227,.72)'; g.fillText(sp(('Clip · ' + fmt(t)).toUpperCase()), W - 90, 110); g.textAlign = 'left';
+  const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n - 1] = out[n - 1].replace(/\s*\S*$/, '') + '…'; } return out; };
+  const X = 90, M = W - 180, q = note || topicOf(e) || headOf(e);
+  g.font = 'italic 400 96px "Instrument Serif", Georgia, serif'; const ql = wrap(q, M, 5);
+  g.font = '400 54px "Instrument Serif", Georgia, serif'; const hl = wrap(headOf(e), M, 2);
+  const total = 150 + ql.length * 104 + 30 + hl.length * 60 + 50;   // quote mark, quote, name, programme line
+  let y = Math.round(170 + (H - 210 - 170 - total) / 2) + 150;       // centred between the top line and the footer
+  g.font = 'italic 400 300px "Instrument Serif", Georgia, serif'; g.fillStyle = 'rgba(246,239,227,.18)'; g.fillText('“', X - 14, y - 40);
+  g.font = 'italic 400 96px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3';
+  y += 50; ql.forEach(l => { g.fillText(l, X, y); y += 104; });
+  y += 30; g.font = '400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3'; hl.forEach(l => { g.fillText(l, X, y); y += 60; });
+  y += 10; g.font = '600 28px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.72)'; g.fillText(sp(`${e.show} · ${niceDate(e.date)}`.toUpperCase()), X, y);
+  g.fillStyle = 'rgba(246,239,227,.22)'; g.fillRect(X, H - 170, M, 2);
+  g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3'; g.fillText('The', X, H - 100);
+  const w1 = g.measureText('The ').width; g.font = '400 40px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', X + w1, H - 100);
+  const w2 = g.measureText('Art Bell ').width; g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillText('Tapes', X + w1 + w2, H - 100);
+  g.font = '500 24px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.72)'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
+  return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-clip-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.png`, { type:'image/png' }) : null), 'image/png'));
+}
+// The audio: MP3 frames resync on their own, so a byte range of the file plays as a clip
+async function clipAudio(e, t0, len){
+  if(e.demo || !e.size || !(+e.length > 0)) return null;
+  const bps = e.size / e.length, a = Math.max(0, Math.floor(t0 * bps)), b = Math.min(e.size - 1, Math.floor((t0 + len) * bps));
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 12000);
+  try{
+    const r = await fetch(streamUrl(e), { headers:{ Range:`bytes=${a}-${b}` }, signal: ctl.signal });
+    if(r.status !== 206) return null;
+    const blob = await r.blob(); if(blob.size < 20000 || blob.size > (b - a) * 1.5) return null;
+    return new File([blob], `art-bell-clip-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.mp3`, { type:'audio/mpeg' });
+  }catch(x){ return null; } finally { clearTimeout(to); }
+}
+async function shareClip(e, t, note){
+  const t0 = Math.max(0, t - 5), len = 60, u = new URL(shareUrl(e, t0)); u.searchParams.set('t', Math.floor(t0)); u.searchParams.set('e', Math.floor(t0 + len));
+  const text = `${note ? '“' + note + '” — ' : ''}${e.title} (${e.show}, ${niceDate(e.date)}) at ${fmt(t0)}`;
+  toast('Making the clip…', 6000);
+  const [card, snd] = await Promise.all([clipCard(e, t0, note).catch(() => null), clipAudio(e, t0, len)]);
+  const files = [snd, card].filter(Boolean);
+  if(navigator.share){
+    for(const fs of [files, card ? [card] : []]){
+      if(!fs.length || !(navigator.canShare && navigator.canShare({ files: fs }))) continue;
+      try{ await navigator.share({ files: fs, title:'The Art Bell Tapes', text: text + '\n' + u }); toast(fs.includes(snd) ? 'Clip shared' : 'Shared with a link to the moment'); return; }
+      catch(x){ if(x && x.name === 'AbortError'){ toast('Cancelled'); return; } }
+    }
+    try{ await navigator.share({ title:'The Art Bell Tapes', text, url: u.toString() }); toast('Shared'); return; }catch(x){ if(x && x.name === 'AbortError'){ toast('Cancelled'); return; } }
+  }
+  try{ await navigator.clipboard.writeText(text + '\n' + u); toast('Link to the clip copied'); }catch(x){ toast('Couldn’t share from here'); }
+}
+
+/* Trim silence: quiet gaps play fast, like Overcast's Smart Speed. Saved time is counted. */
+const trim = { an:null, buf:null, qs:0, fast:false, saved:+(store.get('abr.trimSaved', 0)) || 0, iv:0, zeros:0 };
+function trimTick(){
+  if(!state.trim || !trim.an || audio.paused) return;
+  const base = rateFor(current()); trim.an.getFloatTimeDomainData(trim.buf);
+  let sum = 0, nz = 0; for(let i = 0; i < trim.buf.length; i++){ const v = trim.buf[i]; sum += v * v; if(v !== 0) nz++; }
+  if(!nz){ if(++trim.zeros > 60){ setTrim(false, true); } return; } trim.zeros = 0;   // all zeros for 6s: the stream isn't readable
+  const rms = Math.sqrt(sum / trim.buf.length), now = performance.now();
+  if(rms < .012){ if(!trim.qs) trim.qs = now; if(now - trim.qs > 350 && !trim.fast){ trim.fast = true; audio.playbackRate = Math.min(4, base * 2.5); } }
+  else { trim.qs = 0; if(trim.fast){ trim.fast = false; audio.playbackRate = base; } }
+  if(trim.fast){ trim.saved += .1 * 1.5; if(Math.random() < .05) store.set('abr.trimSaved', trim.saved); }
+}
+async function setTrim(on, quiet){
+  state.trim = on; saveState();
+  if(!on){ clearInterval(trim.iv); trim.iv = 0; if(trim.fast){ trim.fast = false; audio.playbackRate = rateFor(current()); } if(!quiet) toast('Trim silence off'); else toast('Archive.org didn’t allow trimming for this file', 3500); renderSound(); return; }
+  const e = current(); if(e && e.demo){ state.trim = false; saveState(); toast('Preview mode — works once hosted'); return; }
+  try{
+    if(e) await graphReady();
+    if(boost.src && !trim.an){ trim.an = boost.ctx.createAnalyser(); trim.an.fftSize = 2048; trim.buf = new Float32Array(trim.an.fftSize); boost.src.connect(trim.an); }
+    if(!trim.iv) trim.iv = setInterval(trimTick, 100);
+    if(!quiet) toast('Trim silence on — quiet gaps pass quickly');
+  }catch(x){ state.trim = false; saveState(); toast('Archive.org didn’t allow trimming for this file', 3500); }
+  renderSound();
+}
+audio.addEventListener('play', () => { if(state.trim && !trim.iv) setTrim(true, true); });
+const savedTxt = () => { const m = Math.round(trim.saved / 60); return m >= 60 ? `${Math.floor(m / 60)} hr ${m % 60} min` : `${m} min`; };
+function renderSound(){
+  if(!$('#sheet').classList.contains('show') || !$('#sheet').querySelector('.snd')) return;
+  $('#sheet').querySelectorAll('[data-snd]').forEach(b => { const on = b.dataset.snd === 'boost' ? state.boost : state.trim; b.classList.toggle('on', !!on); b.setAttribute('aria-checked', on ? 'true' : 'false'); });
+  const sv = $('#sheet').querySelector('.snd-saved'); if(sv) sv.textContent = trim.saved > 30 ? `Trimming has saved you ${savedTxt()} so far` : 'Quiet gaps pass at speed, then normal again';
+}
+function openSound(){
+  const e = current();
+  $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Sound</div><div class="m">${e ? esc(e.show) + ' plays at ' + rateFor(e) + '×' : 'Settings for every show'}</div></div></div>
+    <div class="snd">
+      <button class="snd-row" data-snd="boost" role="switch"><span class="snd-tx"><span class="snd-t">Voice boost</span><span class="snd-s">Quiet callers lifted, loud bits tamed</span></span><span class="tgl"><i></i></span></button>
+      <button class="snd-row" data-snd="trim" role="switch"><span class="snd-tx"><span class="snd-t">Trim silence</span><span class="snd-s snd-saved"></span></span><span class="tgl"><i></i></span></button>
+    </div>`;
+  $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show'); renderSound();
+}
+$('#sheet').addEventListener('click', async ev => {
+  const b = ev.target.closest('[data-snd]'); if(!b) return; buzz(8);
+  if(b.dataset.snd === 'boost'){ await setBoost(!state.boost); renderSound(); } else await setTrim(!state.trim);
+});
 
 /* ================= Themes ================= */
 const DARK_BASE = { '--text':'#f2efe8', '--muted':'#8a8f9c', '--line':'rgba(255,255,255,.08)' };
@@ -4795,6 +5095,7 @@ const LINES = [
 const epOn = d => d && episodes.find(e => e.date === d);
 function listenBtn(d, label){ const e = epOn(d); return e ? `<button class="tb-listen" data-id="${esc(e.id)}">${I.play2}<span>${esc(label || 'Listen')}</span><small>${catLabel(e)}</small></button>` : ''; }
 function openTribute(){
+  $('#tribute').querySelector('.tb-head span').textContent = 'In memory'; $('#tribute').classList.remove('colpage');
   const first = episodes.slice().sort((a, b) => (a.date || '9').localeCompare(b.date || '9'))[0];
   $('#tbBody').innerHTML = `
     <section class="tb-hero">
@@ -4839,7 +5140,11 @@ function openTribute(){
 }
 function closeTribute(){ $('#tribute').classList.remove('open'); $('#tribute').setAttribute('aria-hidden', 'true'); }
 $('#tbClose').onclick = closeTribute;
-$('#tbBody').addEventListener('click', ev => { const b = ev.target.closest('.tb-listen'); if(!b) return; const e = byId(b.dataset.id); if(e){ closeTribute(); playFrom(e); } });
+$('#tbBody').addEventListener('click', ev => {
+  const r = ev.target.closest('[data-cplay]'); if(r){ const c = colByKey(r.dataset.cplay); if(!c) return; let list = c.list.slice(); if(r.dataset.shuf){ for(let i = list.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } }
+    const at = r.dataset.at ? list.findIndex(e => e.id === r.dataset.at) : 0; list = list.slice(Math.max(0, at));
+    state.radio = false; state.radioMix = ''; state.queue = list.slice(1).map(e => e.id); saveState(); buzz(10); closeTribute(); loadEpisode(list[0], true); openNP(); if(!r.dataset.at) toast(`Playing ${c.title} · ${list.length} shows`); return; }
+  const b = ev.target.closest('.tb-listen'); if(!b) return; const e = byId(b.dataset.id); if(e){ closeTribute(); playFrom(e); } });
 
 /* Special dates: his birthday (17 June) and the anniversary of his death (13 April) */
 function specialDay(){
