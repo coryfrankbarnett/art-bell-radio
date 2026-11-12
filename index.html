@@ -2514,7 +2514,7 @@ function applyTopics(){
       const g2g = /-10-3[01]$/.test(e.date) && (/^(\d{4}|am)$/i.test(e.title0.trim()) || /ghost/i.test(e.hay0));
       const subj = t.filter(x => !/^[A-Z][\w.'’-]+ [A-Z]/.test(x) && !/open lines|ghost to ghost/i.test(x)).concat(m.filter(x => !/open lines/i.test(x))).slice(0, 3);
       const base = g2g ? 'Ghost to Ghost ' + e.year : /^\d{4}$/.test(e.title0.trim()) || !e.title0.trim() ? (subj.length ? 'Open Lines' : e.show + ' ' + e.year) : e.title0;
-      e.title = smartText(subj.length && !g2g ? base + ' – ' + subj.join(', ') : base);
+      e.title = smartText(g2gTitle(e) || (subj.length && !g2g ? base + ' – ' + subj.join(', ') : base));
     }
     e.about = (e.hay0 + ' | ' + t.join(' | ')).toLowerCase();
     e.hay = e.about + (m.length ? ' | ' + m.join(' | ').toLowerCase() : '');
@@ -2581,6 +2581,22 @@ function smartText(t){
     .replace(/(^|[\s(\[–—-])'(?=\S)/g, '$1‘').replace(/'/g, '’')
     .replace(/‘(\d\d)s\b/g, '’$1s');
 }
+// Ghost to Ghost: the Halloween specials are named by year; the ghost-story open-lines nights from other times of year say so
+function g2gTitle(e){
+  if(e.show !== 'Ghost to Ghost' || !e.date || e.date.length < 10) return null;
+  const raw = (e.file || '').replace(/\.[a-z0-9]+$/i, '').toLowerCase(), m = +e.date.slice(5, 7), d = +e.date.slice(8, 10), y = e.date.slice(0, 4);
+  const halloween = (m === 10 && d >= 25) || (m === 11 && d <= 2);
+  if(halloween){
+    let t = 'Ghost to Ghost ' + y;
+    const n = raw.match(/night[\s_]*(\d)/); if(n) t += ' · Night ' + n[1];
+    if(/hoagland|shostak|pegasi/.test(raw)) t += ' – Seth Shostak, R.C. Hoagland';
+    else if(/partial/.test(raw)) t += ' (partial)';
+    return t;
+  }
+  if(/friday[\s_-]*night[\s_-]*ghost[\s_-]*tales/.test(raw)) return 'Friday Night Ghost Tales';
+  if(/stories/.test(raw)) return 'Ghost Stories Open Lines';
+  return 'Ghost to Ghost Open Lines';
+}
 function tidyTitles(){
   const count = new Map(); episodes.forEach(e => (e.guests || []).forEach(g => count.set(g, (count.get(g) || 0) + 1)));
   const known = [...count.entries()].filter(([g, n]) => n >= 2 && g.split(' ').length >= 2).map(([g]) => g).sort((a, b) => b.length - a.length);
@@ -2609,7 +2625,7 @@ function tidyTitles(){
 function afterLoad(quiet){
   resolveUndated();
   mergeGuestSpellings();
-  tidyTitles(); episodes.forEach(e => { e.title = smartText(e.title); });
+  tidyTitles(); episodes.forEach(e => { e.title = smartText(g2gTitle(e) || e.title); });
   idMap = new Map(episodes.map(e => [e.id, e]));
   applyTopics(); sugIndex = null; coverCache.clear();
   // catalogue numbers start with Art's first show in the archive (12 Dec 1992); earlier odds and ends stay unnumbered
@@ -2634,8 +2650,10 @@ function buildChips(){
   $('#chips').innerHTML = `<button class="chip on" data-show="">All</button>` + shows.map(s =>
     `<button class="chip" data-show="${esc(s)}"><svg class="emi" style="color:${(SHOW_COLOURS[s]||SHOW_COLOURS['Art Bell'])[1]}" aria-hidden="true"><use href="#em-${SHOW_EMBLEM[s]||'art'}"/></svg>${esc(s)}</button>`).join('');
 }
+// programme and year pages always open oldest first (the sort menu can still change it)
+function oldestFirst(){ if(state.sort !== 'old'){ state.sort = 'old'; $('#sort').value = 'old'; saveState(); } }
 function setShow(v){
-  showFilter = v;
+  showFilter = v; if(v) oldestFirst();
   document.querySelectorAll('#chips .chip').forEach(c => c.classList.toggle('on', c.dataset.show === v));
   const on = document.querySelector('#chips .chip.on'); if(on) on.scrollIntoView({inline:'center', block:'nearest', behavior:smooth()});
   applyFilters();
@@ -2729,7 +2747,7 @@ function viewMorph(update){ update(); }
 
 /* ================= Years as their own libraries ================= */
 function setYear(y){
-  yearFilter = y || ''; showFilter = ''; guestFilter = '';
+  yearFilter = y || ''; showFilter = ''; guestFilter = ''; if(yearFilter) oldestFirst();
   document.querySelectorAll('#chips .chip').forEach(c => c.classList.toggle('on', c.dataset.show === ''));
   try{ dialLock = true; const b = [...dial.querySelectorAll('.yr')].find(x => x.dataset.y === yearFilter); if(b){ dial.querySelectorAll('.yr').forEach(x => x.classList.toggle('on', x === b)); dial.scrollTo({ left: b.offsetLeft - dial.clientWidth / 2 + b.offsetWidth / 2 }); } setTimeout(() => dialLock = false, 500); }catch(x){}
   if(tab !== 'all'){ tab = 'all'; document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === 'all')); }
