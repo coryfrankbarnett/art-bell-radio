@@ -1718,19 +1718,24 @@ html:not(.ts-l):not(.ts-xl):not(.simple) .np .extras button{min-width:0!importan
 /* Covers and programme drawings are still: no bobbing, swaying, orbiting, pulsing or drawing-in */
 .art svg,.art svg *,.prog svg,.prog svg *,.prog .em,.prog .em *,.skscene,.skscene *,.mot,.mot *,[class*="a-ghost"],[class*="a-area"],[class*="a-coast"],[class*="a-dream"],[class*="a-time"],[class*="a-dark"],[class*="a-midnight"],[class*="a-art"]{animation:none!important}
 
-/* Symmetry: every card in a row is the same height, and each line sits at the same place across the row —
-   titles always take two lines, descriptions three, dates one, and the play button sits on the bottom edge at full width */
-.rail{align-items:stretch}
+/* Symmetry: every card is built on the same grid — cover, then fixed text lines. A title under a cover is always exactly
+   one line; an Essentials description exactly two. Nothing depends on how long the text is. */
+.rail{align-items:flex-start}
 .rail>.card{display:flex;flex-direction:column;align-items:stretch}
 .rail>.card>.art{flex:none}
-.rail>.card .t{-webkit-line-clamp:2;line-clamp:2;min-height:2lh}
-.rail>.card .note,.rail>.card .m{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rail>.esscard .note{white-space:normal;-webkit-line-clamp:3;line-clamp:3;min-height:3lh;margin-bottom:14px}
-.rail>.esscard .ess-jump{margin-top:auto;align-self:stretch;justify-content:flex-start;max-width:none;width:100%}
-.rail>.esscard .ess-jump svg{flex:none}
+.rail>.card .t,.rail>.card .note,.rail>.card .m{display:block!important;-webkit-line-clamp:unset!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:0}
+.rail>.esscard .note{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2!important;line-clamp:2;white-space:normal;height:2lh;min-height:2lh}
+/* Inside a cover, the title block starts at the same height whether it runs to one line or two */
+html.cine .card .art.cv .hd,html.cine .prog .art.cv .hd{bottom:auto;top:calc(79% - 25.5cqw)}
 
 /* quick tiles: whichever tiles are showing share the row equally */
 .quick{grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+
+/* List rows are all the same height: title always two lines' space, details always one line */
+#list .row .t{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2!important;line-clamp:2;overflow:hidden;min-height:2lh;height:2lh}
+#list .row .m{flex-wrap:nowrap!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:0}
+#list .row .m>*{flex:none}
+#list .row .m .bar{flex:0 1 60px;min-width:30px}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2195,14 +2200,8 @@ const PROG_SCENE = {
   'Ghost to Ghost': '<path d="M4 66h112"/><path d="M48 66V36a12 12 0 0 1 24 0v30l-4-4-4 4-4-4-4 4-4-4z"/><circle cx="56" cy="38" r="1.5"/><circle cx="64" cy="38" r="1.5"/>'
 };
 const motifSVG = (kind, cls = 'mot', seed) => {
-  let extra = '', tf = '';
-  if(seed !== undefined){
-    const h = seed >>> 0, rot = ((h % 13) - 6), sc = 0.9 + ((h >>> 4) % 12) / 100, dx = ((h >>> 8) % 9) - 4;
-    tf = ` transform="translate(${50 + dx} 45) rotate(${rot}) scale(${sc}) translate(-50 -45)"`;
-    const n = 2 + ((h >>> 12) % 3);
-    for(let i = 0; i < n; i++){ const x = 6 + ((h >>> (i * 5 + 3)) % 88), y = 4 + ((h >>> (i * 7 + 2)) % 18); extra += `M${x} ${y}h.1`; }
-    extra = `<path d="${extra}" stroke-width="2.6" opacity=".7"/>`;
-  }
+  // every drawing sits dead centre, level and at the same size (no random tilt, nudge or scattered dots)
+  const extra = '', tf = '';
   return `<svg class="${cls}" viewBox="0 0 100 90" aria-hidden="true"><g filter="url(#skw)"><g${tf}>${(LINE_MOTIF[kind] || LINE_MOTIF.rings).replace(/<(path|circle|ellipse)(?![^>]*stroke-dasharray)/g, '<$1 pathLength="1"')}</g>${extra}</g></svg>`;
 };
 const sceneSVG = n => PROG_SCENE[n] ? `<svg class="skscene" viewBox="0 0 120 72" aria-hidden="true"><g filter="url(#skw)" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${PROG_SCENE[n].replace(/<(path|circle|ellipse)(?![^>]*stroke-dasharray)/g, '<$1 pathLength="1"')}</g></svg>` : '';
@@ -2780,6 +2779,8 @@ setInterval(addRailArrows, 2500); window.addEventListener('resize', () => setTim
 
 function viewMorph(update){ update(); }
 
+const APP_VERSION = '64'; // keep in step with sw.js
+
 /* ================= Years as their own libraries ================= */
 function setYear(y){
   yearFilter = y || ''; showFilter = ''; guestFilter = ''; if(yearFilter) oldestFirst();
@@ -2959,6 +2960,7 @@ function openAbout(){
     <p class="ab-p">Instrument Serif, Inter, Space Grotesk and Geist Mono, under the SIL Open Font License.</p>
     <p class="ab-p ab-small">Art Bell’s programmes belong to their rights holders. This app is a non-commercial tribute.</p>
     <div class="ab-ded">For Art Bell, 1945–2018,<br>and everyone who stayed up to listen.</div>
+    <p class="ab-p ab-small" style="text-align:center">Version ${APP_VERSION}</p>
     <button class="act" data-s="back">Back to Settings</button>`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
@@ -3012,7 +3014,7 @@ function guestPage(g){
     <div class="gp-yrs"><span>${span[0]}</span><span>${span[span.length - 1]}</span></div>
     ${top.length ? `<div class="gp-sub"><span class="gp-k">Talked about</span><div class="nt-topics">${top.map(([t]) => `<button class="chip" data-gtopic="${esc(t)}">${sdot(t)}${esc(t)}</button>`).join('')}</div></div>` : ''}`;
 }
-$('#pill').addEventListener('click', ev => { const t = ev.target.closest('[data-gtopic]'); if(!t) return; const g = guestFilter; $('#q').value = t.dataset.gtopic; $('#clear').classList.add('show'); guestFilter = g; applyFilters(); });
+$('#pill').addEventListener('click', ev => { const t = ev.target.closest('[data-gtopic]'); if(!t) return; const g = guestFilter; $('#q').value = t.dataset.gtopic; $('#clear').classList.add('show'); guestFilter = g; if(guestFilter) oldestFirst(); applyFilters(); });
 
 /* ================= Your own lists ================= */
 const newListId = () => 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
@@ -3123,7 +3125,7 @@ function suggest(){
 function pickSuggestion(b){
   const label = b.dataset.label, kind = b.dataset.kind, box = $('#suggest');
   box.classList.remove('show'); box.innerHTML = ''; rememberSearch(label, kind);
-  if(kind === 'Guest'){ guestFilter = label; $('#q').value = ''; $('#clear').classList.remove('show'); applyFilters(); }
+  if(kind === 'Guest'){ guestFilter = label; if(guestFilter) oldestFirst(); $('#q').value = ''; $('#clear').classList.remove('show'); applyFilters(); }
   else if(kind === 'Programme'){ $('#q').value = ''; $('#clear').classList.remove('show'); setShow(label); }
   else if(kind === 'Year'){ $('#q').value = ''; $('#clear').classList.remove('show'); setYear(label); }
   else { $('#q').value = label; $('#clear').classList.add('show'); searchScope = 'all'; applyFilters(); }
@@ -3388,7 +3390,7 @@ function renderGuests(){
 $('#guests').addEventListener('click', ev => {
   const b = ev.target.closest('.grow'); if(!b) return;
   viewMorph(() => {
-    guestFilter = b.dataset.g; $('#q').value = ''; $('#clear').classList.remove('show');
+    guestFilter = b.dataset.g; if(guestFilter) oldestFirst(); $('#q').value = ''; $('#clear').classList.remove('show');
     document.querySelector('.tab[data-tab="all"]').click(); scrollTo({ top:0, behavior:'instant' });
   }, b.querySelector('.n'));
 });
@@ -3498,14 +3500,15 @@ function renderShelves(show){
   const ess = essentials();
   const essHTML = ess.length ? `<section class="shelf ess"><div class="sec"><h2>The Essentials</h2><button class="seeall" data-ess="1">Play all</button></div>
       <p class="ess-intro">${ess.length} nights every listener should hear, in the order they aired.</p>
-      <div class="rail">${ess.map(({e, note}, i) => { const em = essMoment(e); return `<button class="card esscard" data-id="${esc(e.id)}">${artHTML(e)}<div class="enum">${String(i+1).padStart(2,'0')}</div><div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(note)}</div>${em ? `<span class="jump ess-jump" role="button" data-t="${em.t}">${I.play2}${esc(em.label)} · ${fmt(Math.max(0, em.t - 10))}</span>` : ''}</button>`; }).join('')}</div></section>` : '';
+      <div class="rail">${ess.map(({e, note}, i) => { const em = essMoment(e); return `<button class="card esscard" data-id="${esc(e.id)}">${artHTML(e)}<div class="enum">${String(i+1).padStart(2,'0')}</div><div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(note)}</div></button>`; }).join('')}</div></section>` : '';
   const tribHTML = `<button class="tribcard" id="tribCard"><span class="k">In memory</span><span class="n">Art Bell</span><span class="d">1945 — 2018</span><span class="s">The man, the lines and a life on the air</span></button>`;
   // This week in Art Bell history, and seasonal shelves
   const now = new Date(), doy = d => Math.round((Date.UTC(2001, +d.slice(5, 7) - 1, +d.slice(8, 10)) - Date.UTC(2001, 0, 1)) / 864e5);
   const today = doy('2001-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0'));
   const near = d => { const x = Math.abs(doy(d) - today); return Math.min(x, 365 - x) <= 3; };
   const week = episodes.filter(e => e.date && e.date.length === 10 && near(e.date)).sort((a, b) => a.date.localeCompare(b.date));
-  const shelf = (title, sub, list, key) => list.length ? `<section class="shelf"><div class="sec"><h2>${title}</h2>${key ? `<button class="seeall" data-q="${esc(key)}">See all</button>` : ''}</div>${sub ? `<p class="ess-intro">${sub}</p>` : ''}
+  const byAir = (a, b) => (a.date || '9999').localeCompare(b.date || '9999');
+  const shelf = (title, sub, list, key) => (list = list.slice().sort(byAir), list.length) ? `<section class="shelf"><div class="sec"><h2>${title}</h2>${key ? `<button class="seeall" data-q="${esc(key)}">See all</button>` : ''}</div>${sub ? `<p class="ess-intro">${sub}</p>` : ''}
       <div class="rail">${list.slice(0, 14).map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(niceDate(e.date))}</div></button>`).join('')}</div></section>` : '';
   const m = now.getMonth() + 1, d = now.getDate();
   let seasonal = '';
@@ -3513,7 +3516,7 @@ function renderShelves(show){
   else if((m === 12 && d >= 18) || (m === 1 && d <= 7)) seasonal = shelf('Predictions for the new year', 'Every year Art opened the lines for listeners’ predictions. See how they did.', episodes.filter(e => /prediction/i.test(e.title) && e.date && /-(12-(2\d|3[01])|01-0\d)$/.test(e.date)).sort((a, b) => a.date.localeCompare(b.date)), 'Predictions');
   const weekHTML = shelf('This week in Art Bell history', `${week.length} show${week.length === 1 ? '' : 's'} that aired within a few days of today, across the years.`, week);
   el.innerHTML = seasonal + essHTML + weekHTML + tribHTML + rows.map(([n], idx) => {
-    const picks = dailyPick(byShow[n], 10);
+    const picks = dailyPick(byShow[n], 10).slice().sort(byAir);
     return `<section class="shelf"><div class="sec"><h2>${emblem(n,'hem')}${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
       <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(topicOf(e) || e.title)}</div></button>`).join('')}</div></section>`;
   }).join('');
@@ -3733,7 +3736,7 @@ $('#sheet').addEventListener('click', ev => {
   const rel = ev.target.closest('[data-rel]'); if(rel){ const x = byId(rel.dataset.rel); if(x){ openNotes(x); $('#sheet').scrollTop = 0; } return; }
   const jm = ev.target.closest('.nt-moments .jump'); if(jm){ const e = byId($('#sheet').dataset.nid); if(e){ closeSheet(); playAt(e, +jm.dataset.t); } return; }
   const tch = ev.target.closest('.nt-topics [data-topic]'); if(tch){ closeSheet(); closeNP(); guestFilter = ''; showFilter = ''; yearFilter = ''; document.querySelectorAll('#chips .chip').forEach(c => c.classList.toggle('on', c.dataset.show === '')); $('#q').value = tch.dataset.topic; $('#clear').classList.add('show'); document.querySelector('.tab[data-tab="all"]').click(); return; }
-  const gch = ev.target.closest('.nt-guests [data-g]'); if(gch){ closeSheet(); closeNP(); guestFilter = gch.dataset.g; $('#q').value = ''; document.querySelector('.tab[data-tab="all"]').click(); return; }
+  const gch = ev.target.closest('.nt-guests [data-g]'); if(gch){ closeSheet(); closeNP(); guestFilter = gch.dataset.g; oldestFirst(); $('#q').value = ''; document.querySelector('.tab[data-tab="all"]').click(); return; }
   const sb = ev.target.closest('[data-s]'); if(sb && ['backup','restore'].includes(sb.dataset.s)){ sb.dataset.s === 'backup' ? backupState() : $('#restoreFile').click(); return; }
   const q = ev.target.closest('[data-q]'); if(q){ state.queue.splice(+q.dataset.q, 1); saveState(); updateQueueBadge(); openQueue(); return; }
   const a = ev.target.closest('[data-qa]'); if(!a) return;
@@ -4174,7 +4177,7 @@ $('#sheet').addEventListener('click', ev => {
      unresume:()=>{ closeSheet(); hideFromResume(e); },
      notes:()=>openNotes(e),
      played:()=>{ closeSheet(); const was = isPlayed(e.id), d = durOf(e) || e.length || 1; if(was) delete state.pos[e.id]; else state.pos[e.id] = { t:Math.floor(d), d:Math.floor(d), at:Date.now() }; saveState(); render(); toast(was ? 'Marked as not played' : 'Marked as played'); },
-     guest:()=>{ closeSheet(); closeNP(); guestFilter = b.dataset.g; $('#q').value=''; document.querySelector('.tab[data-tab="all"]').click(); },
+     guest:()=>{ closeSheet(); closeNP(); guestFilter = b.dataset.g; if(guestFilter) oldestFirst(); $('#q').value=''; document.querySelector('.tab[data-tab="all"]').click(); },
      play:()=>{ closeSheet(); loadEpisode(e, true); }, fav:()=>{ closeSheet(); toggleFav(e); }, lists:()=>openListPicker(e), save:()=>saveOffline(e), unsave:()=>removeOffline(e), dl:()=>downloadToPhone(e) })[b.dataset.a]();
 });
 
