@@ -2017,6 +2017,12 @@ html.cine .card .art.cv.wd .yy{font-size:92cqh!important;bottom:-.2em!important}
 .tgl i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .25s var(--ease,ease)}
 .snd-row.on .tgl{background:var(--accent)}
 .snd-row.on .tgl i{transform:translateX(20px)}
+
+/* A24 billing block in the player */
+.np .subt .bill{display:block;font:500 10px/1.55 var(--font);letter-spacing:.14em;text-transform:uppercase;color:rgba(246,239,227,.62);margin-top:6px}
+.np .subt .bill b{font-weight:700;color:rgba(246,239,227,.9)}
+.np .subt .bill-2{display:block;color:rgba(246,239,227,.5)}
+.np .subt .bill .nmk{letter-spacing:0}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -3587,7 +3593,7 @@ function render(){
   const el = $('#list');
   if(!episodes.length){ el.innerHTML = ''; return; }
   if(!view.length){
-    el.innerHTML = `<div class="empty">${{fav:'Nothing here yet. Tap ⋯ on any show to add it to your favourites.', saved:'No offline shows yet. Save a few for when you’re out of signal.', recent:'Nothing played yet.'}[tab] || 'Nothing on the dial for that. Try another search or year.'}</div>`;
+    el.innerHTML = `<div class="empty">${{fav:'Nothing kept yet. Tap ⋯ on any show and it will wait for you here.', saved:'Nothing saved for the road. Shows you save here play anywhere, even out where the signal ends.', recent:'Nothing played yet. Tonight’s show is a good place to start.'}[tab] || 'Nothing on the dial for that. Try a surname, a subject or a year.'}</div>`;
     return;
   }
   const homeAll = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value;
@@ -3681,7 +3687,7 @@ function buildGuests(){
 function renderGuests(){
   const q = $('#q').value.trim().toLowerCase();
   const list = guestCounts.filter(([g]) => !q || g.toLowerCase().includes(q));
-  if(!list.length){ $('#guests').innerHTML = `<div class="empty">${guestCounts.length ? 'No guests match that.' : 'No guest names found yet.'}</div>`; return; }
+  if(!list.length){ $('#guests').innerHTML = `<div class="empty">${guestCounts.length ? 'No guest by that name. Try just the surname.' : 'The guest list is still loading.'}</div>`; return; }
   let html = '', last = '';
   if(!q){
     const top = guestCounts.slice().sort((a, b) => b[1] - a[1]).slice(0, 12);
@@ -3916,15 +3922,19 @@ $('#hero').addEventListener('click', ev => {
 function addKickers(){
   const P = Object.fromEntries(PROGRAMMES.map(p => [p[0], p[1]]));
   const K = { 'Programmes':'The shows', 'The Essentials':'Start here', 'This week in Art Bell history':'Anniversaries', 'Pick up where you left off':'Your listening',
-              'Jump to a year':'Browse', 'All shows':'The catalogue', 'Episodes':'The catalogue', 'Guests':'Who Art talked to', 'Favourites':'Kept', 'Recent':'Your listening', 'Offline':'On this phone' };
+              'Jump to a year':'Browse', 'All shows':'The catalogue', 'Episodes':'The catalogue', 'Guests':'Who Art talked to', 'Favourites':'Kept', 'Recent':'Your listening', 'Offline':'On this phone',
+              'Collections':'Gathered', 'In conversation':'The regulars', 'Endless':'Non-stop' };
   document.querySelectorAll('.sec h2').forEach(h => {
     const t = h.textContent.trim();
     let k = K[t] || P[t] || '';
     if(h.id === 'secTitle'){ k = showFilter ? (P[showFilter] || 'Programme') : yearFilter ? 'The year' : guestFilter ? 'Guest' : ($('#q').value.trim() ? 'Search' : k || 'The catalogue'); }
     if(k) h.dataset.k = k; else delete h.dataset.k;
   });
+  // the home page reads like a magazine: each section numbered, in order
+  let n = 0; document.querySelectorAll('#shelves .sec h2[data-k]').forEach(h => { h.dataset.k = String(++n).padStart(2, '0') + '\u2003' + h.dataset.k.replace(/ – /g, '–'); });
 }
 { const _r = render; render = function(){ const r = _r.apply(this, arguments); addKickers(); return r; }; }
+{ const _rs = renderShelves; renderShelves = function(){ const r = _rs.apply(this, arguments); addKickers(); return r; }; }
 
 function renderBento(){
   renderHero();
@@ -4006,7 +4016,7 @@ async function loadEpisode(e, autoplay){
   $('#npArt').outerHTML = artHTML(e, 'bigart').replace('class="art ', 'id="npArt" class="art ').replace('</div>', `<span class="freq">${e.show.toUpperCase()} · ${niceDate(e.date).toUpperCase()}</span></div>`);
   $('#npGlow').style.setProperty('--c2', c2); $('#np').style.setProperty('--npc', c2); $('#np').style.setProperty('--npf', seasonCol(progCol(e.show)[0], e.date)); $('#np').style.setProperty('--npl', progCol(e.show)[1]); $('#mini').style.setProperty('--mc', c2);
   $('#npShow').textContent = e.show;
-  $('#npTitle').textContent = e.title; $('#npTitle').onclick = () => openNotes(e); $('#npSub').textContent = niceDate(e.date);
+  $('#npTitle').textContent = e.title; $('#npTitle').onclick = () => openNotes(e); $('#npSub').innerHTML = billing(e);
   syncNPButtons(e);
   loadWave(e); updateMarkBadge();
   state.queue = state.queue.filter(x => x !== e.id); updateQueueBadge();
@@ -4025,7 +4035,7 @@ function syncNPButtons(e){
   $('#npFav').classList.toggle('on', !!state.favs[e.id]);
 }
 const current = () => byId(audio.dataset.id);
-function togglePlay(){ const e = current(); if(!e) return; if(e.demo){ toast('Preview mode — audio plays once the app is hosted'); return; } audio.paused ? audio.play().catch(()=>toast('Couldn’t start playback')) : audio.pause(); }
+function togglePlay(){ const e = current(); if(!e) return; if(e.demo){ toast('Preview mode — audio plays once the app is hosted'); return; } audio.paused ? audio.play().catch(()=>toast('That one won’t start just now. Try again in a moment.')) : audio.pause(); }
 function updatePP(){ const ic = audio.paused ? I.play2 : I.pause; $('#pp').innerHTML = ic; $('#miniPP').innerHTML = ic; }
 function setSeek(v){ $('#seek').value = v; wave.progress = v/1000; drawWave(); }
 audio.addEventListener('play', () => { updatePP(); markPlaying(); });
@@ -4099,7 +4109,7 @@ function updateQueueBadge(){ const n = state.queue.length; $('#queueVal').textCo
 function openQueue(){
   const items = state.queue.map(byId).filter(Boolean);
   $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Up next</div><div class="m">${items.length} queued · then ${!state.autoplay ? 'stops' : state.autoNext === 'related' ? 'plays something related' : 'keeps playing the list'}</div></div></div>
-    ${items.length ? items.map((e,i) => `<div class="li"><span class="tm">${i+1}</span><div class="tx"><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div><button class="x" data-q="${i}" aria-label="Remove">${I.trash}</button></div>`).join('') : '<div class="empty">Nothing queued. Use ⋯ → Play next, or Play all on any list.</div>'}
+    ${items.length ? items.map((e,i) => `<div class="li"><span class="tm">${i+1}</span><div class="tx"><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div><button class="x" data-q="${i}" aria-label="Remove">${I.trash}</button></div>`).join('') : '<div class="empty">Nothing lined up. Tap ⋯ on any show and choose Play next.</div>'}
     <button class="act" data-qa="auto">Autoplay next show<span class="toggle${state.autoplay ? ' on' : ''}"></span></button>
     <button class="act" data-qa="asq">Keep the next 3 saved offline<small>${state.autoSaveQ ? 'For the commute · removed after you play them' : 'Off'}</small><span class="toggle${state.autoSaveQ ? ' on' : ''}"></span></button>
     <button class="act" data-qa="rel">Pick something related<small>${state.autoNext === 'related' ? 'Shares guests or subjects' : 'Off · goes in list order'}</small><span class="toggle${state.autoNext === 'related' ? ' on' : ''}"></span></button>
@@ -4264,7 +4274,7 @@ function toggleRadio(){
   const tn = tonightShows().list.filter(e => !isPlayed(e.id));
   const first = tn.length ? tn : [];
   const rest = radioPicks(30, first.map(e => e.id));
-  const list = [...first, ...rest]; if(!list.length) return toast('Nothing left to play');
+  const list = [...first, ...rest]; if(!list.length) return toast('You’ve heard everything. Remarkable.');
   state.radio = true; state.autoplay = true; state.queue = list.slice(1).map(e => e.id); saveState();
   loadEpisode(list[0], true); renderBento();
   toast(first.length ? `On air: ${first.length} from tonight’s date, then the archive` : 'On air: back to back from the archive', 3500);
@@ -4329,7 +4339,7 @@ async function saveOffline(e){
 
     try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(x){}
     toast('Saved — plays without signal'); syncNPButtons(e); render();
-  }catch(x){ syncNPButtons(e); toast('Couldn’t save offline — storage full or connection dropped'); }
+  }catch(x){ syncNPButtons(e); toast('Couldn’t save it. The phone may be full, or the signal dropped.'); }
 }
 /* Save a whole programme, year or favourites list for offline listening */
 const batch = { on:false, armed:false, stop:false };
@@ -4652,7 +4662,7 @@ function openMarks(){
   $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Bookmarks</div><div class="m">${esc(e.title)}</div></div></div>
     <input class="field" id="markNote" maxlength="80" placeholder="Note for ${fmt(t)} (optional) – e.g. the Area 51 caller">
     <button class="btn" data-m="add" data-t="${t}">Bookmark ${fmt(t)}</button>
-    ${marks.length ? marks.map((m,i) => `<div class="li"><button class="tm" data-m="go" data-t="${m.t}">${fmt(m.t)}</button><div class="tx" data-m="go" data-t="${m.t}"><div class="t">${esc(m.note || 'Bookmark')}</div></div><button class="x clipbtn" data-m="clip" data-t="${m.t}" aria-label="Share a clip from ${fmt(m.t)}">${I.share}</button><button class="x" data-m="del" data-t="${m.t}" aria-label="Delete">${I.trash}</button></div>`).join('') : '<div class="empty">Your marks show up here and as pins on the waveform.</div>'}`;
+    ${marks.length ? marks.map((m,i) => `<div class="li"><button class="tm" data-m="go" data-t="${m.t}">${fmt(m.t)}</button><div class="tx" data-m="go" data-t="${m.t}"><div class="t">${esc(m.note || 'Bookmark')}</div></div><button class="x clipbtn" data-m="clip" data-t="${m.t}" aria-label="Share a clip from ${fmt(m.t)}">${I.share}</button><button class="x" data-m="del" data-t="${m.t}" aria-label="Delete">${I.trash}</button></div>`).join('') : '<div class="empty">Mark a moment worth keeping. It stays here, and as a pin on the waveform.</div>'}`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
 $('#sheet').addEventListener('click', ev => {
@@ -4778,6 +4788,15 @@ if(state.boost) $('#boostBtn').classList.add('on');
 audio.addEventListener('play', () => { if(state.boost && !boost.src) setBoost(true); else if(boost.ctx && boost.ctx.state === 'suspended') boost.ctx.resume(); });
 
 
+/* A24-style billing block: who, what and when, set tight in small capitals */
+function billing(e){
+  const guests = (e.guests || []).filter(g => !/^art bell$/i.test(g)).slice(0, 3);
+  const d = e.date && e.date.length === 10 ? new Date(e.date + 'T12:00:00').toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }) : niceDate(e.date);
+  const len = +e.length > 0 ? lenTxt(e.length) : '';
+  const parts = [`<b>${esc(e.show)}</b> presents`, `<b>Art Bell</b>`];
+  if(guests.length) parts.push(`with <b>${guests.map(esc).join('</b> and <b>')}</b>`);
+  return `<span class="bill">${parts.join(' ')}<span class="bill-2">${esc(d)}${len ? ' · ' + esc(len) : ''}${e.pno ? ' · ' + progCode(e.show) + ' ' + noMark(e.pno) : ''}</span></span>`;
+}
 /* ================= Finishing pass 2: collections, endless mixes, clips, trim silence, lock screen, feel ================= */
 var buzz = () => {};   // no haptics: the app stays silent and still
 ['#pp', '#miniPP', '#npFav', '#next', '#prev'].forEach(s => { const b = $(s); if(b) b.addEventListener('click', () => buzz(s === '#pp' || s === '#miniPP' ? 10 : 6)); });
