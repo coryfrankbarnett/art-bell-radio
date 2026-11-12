@@ -1734,8 +1734,27 @@ html.cine .card .art.cv .hd,html.cine .prog .art.cv .hd{bottom:auto;top:calc(79%
 /* List rows are all the same height: title always two lines' space, details always one line */
 #list .row .t{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2!important;line-clamp:2;overflow:hidden;min-height:2lh;height:2lh}
 #list .row .m{flex-wrap:nowrap!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:0}
+#list .row .m{letter-spacing:.04em!important}
 #list .row .m>*{flex:none}
+#list .row .m>span:last-child{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
 #list .row .m .bar{flex:0 1 60px;min-width:30px}
+
+/* Programme identity: one system, only colour and a two-letter code change.
+   Code in the top-left corner of every large cover; a colour spine down the left edge of every cover, large or small. */
+html.cine .art.cv .pcode{display:block;position:absolute;left:8%;top:7%;z-index:1;font:600 5.6cqw/1 var(--font);letter-spacing:.12em;color:var(--pl)}
+html.cine.light .art.cv .pcode{color:#f3ebdd;opacity:.85}
+html.cine.light .art.cv .no{top:auto!important;bottom:8%!important;left:auto!important;right:8%!important}
+html.cine .art.cv.sm .pcode,html.cine .mini .art.cv .pcode,html.cine .row .art.cv .pcode{display:none}
+html.cine .art.cv{box-shadow:inset max(3px,1.6cqw) 0 0 var(--pl),inset 0 0 0 1px rgba(236,230,218,.08)!important}
+html.cine.light .art.cv{box-shadow:inset max(3px,1.6cqw) 0 0 color-mix(in srgb,var(--pl) 70%,#000)!important}
+html.cine .np .bigart.cv{box-shadow:inset max(4px,1.4cqw) 0 0 var(--pl),inset 0 0 0 1px rgba(236,230,218,.08),0 30px 70px rgba(0,0,0,.6)!important}
+html.cine.light .np .bigart.cv{box-shadow:inset max(4px,1.4cqw) 0 0 color-mix(in srgb,var(--pl) 70%,#000),0 30px 60px rgba(60,40,10,.22)!important}
+html.cine .np .bigart.cv .pcode{font-size:min(5.6cqw,7cqh)}
+/* the key */
+.pkey{display:flex;flex-wrap:wrap;gap:8px;margin:0 20px 14px}
+.pkey .pk{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 12px;border-radius:18px;background:var(--soft);color:var(--text);font:600 var(--fs-label)/1 var(--font);letter-spacing:.12em}
+.pkey .pk i{width:3px;height:14px;border-radius:1px;background:var(--pl)}
+@media (min-width:960px){ .pkey{margin:0 0 14px} }
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2160,6 +2179,9 @@ const PROG_COL = {
   'Art Bell':               ['#4d4a45', '#b3ab9e']
 };
 const progCol = show => PROG_COL[show] || PROG_COL['Art Bell'];
+// Two-letter programme codes, like a record label's catalogue prefix
+const PROG_CODE = { 'Coast to Coast AM':'CC', 'Dreamland':'DL', 'Ghost to Ghost':'GG', 'Somewhere in Time':'ST', 'Dark Matter':'DM', 'Midnight in the Desert':'MD', 'Area 2000':'AT', 'Art Bell':'AB' };
+const progCode = show => PROG_CODE[show] || 'AB';
 const LINE_MOTIF = {
   saucer: '<ellipse cx="50" cy="44" rx="30" ry="7"/><path d="M38 42a12 10 0 0 1 24 0"/><path d="M44 52l-8 22M56 52l8 22" stroke-dasharray="2 3"/>',
   stars: '<circle cx="50" cy="44" r="14"/><ellipse cx="50" cy="44" rx="28" ry="6"/><path d="M18 18h.1M80 24h.1M72 70h.1M26 66h.1" stroke-width="3"/>',
@@ -2332,7 +2354,7 @@ function coverStyle(key, show, title){
 function artHTML(e, cls=''){
   const [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
   const yy = e.year ? "’" + e.year.slice(2) : '—';
-  return `<div class="art gen sleeve cv ${cls}" style="--pc:${fill};--pl:${line}">${motifSVG(kind, 'mot', hashStr(e.id + 'c'))}${emblem(e.show, 'mk')}<span class="no">${e.no ? 'No. ' + e.no : ''}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
+  return `<div class="art gen sleeve cv ${cls}" style="--pc:${fill};--pl:${line}">${motifSVG(kind, 'mot', hashStr(e.id + 'c'))}${emblem(e.show, 'mk')}<span class="pcode">${progCode(e.show)}</span><span class="no">${e.no ? 'No. ' + e.no : ''}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
 }
 
 /* ================= State ================= */
@@ -2779,7 +2801,7 @@ setInterval(addRailArrows, 2500); window.addEventListener('resize', () => setTim
 
 function viewMorph(update){ update(); }
 
-const APP_VERSION = '64'; // keep in step with sw.js
+const APP_VERSION = '65'; // keep in step with sw.js
 
 /* ================= Years as their own libraries ================= */
 function setYear(y){
@@ -3100,6 +3122,7 @@ function showRecent(){
     r.map((x, i) => `<button type="button" class="sg sg-r" data-i="${i}" data-kind="${esc(x.kind)}" data-label="${esc(x.label)}"><span><svg class="ln sg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.7h3.7M12 8v4.3l3 1.8"/></svg>${x.kind === 'Topic' ? sdot(x.label) : ''}${esc(x.label)}</span><small>${x.kind === 'Search' ? '' : esc(x.kind)}</small></button>`).join('');
   box.classList.add('show');
 }
+function lenShort(sec){ const m = Math.round(sec / 60), h = Math.floor(m / 60), r = m % 60; return h ? h + 'h' + (r ? ' ' + r + 'm' : '') : m + 'm'; }
 function lenTxt(sec){ const m = Math.round(sec / 60), h = Math.floor(m / 60), r = m % 60; return h ? h + ' hr' + (r ? ' ' + r + ' min' : '') : m + ' min'; }
 function leftTxt(sec){ sec = Math.max(0, Math.round(sec / 60)); if(sec < 1) return 'Almost done'; const h = Math.floor(sec / 60), m = sec % 60; return (h ? h + ' hr' + (m ? ' ' + m + ' min' : '') : m + ' min') + ' left'; }
 function whenTxt(at){
@@ -3302,7 +3325,7 @@ function render(){
       ${artHTML(e,'sm')}
       <div class="info">
         <div class="t">${esc(e.title)}</div>
-        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span>${lenTxt(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?`<span class="played">✓ ${whenTxt(p && p.at)}</span>`:''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span><span class="left">${leftTxt(p.d - p.t)}</span>`:''}</div>
+        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span aria-label="${lenTxt(len)}">${lenShort(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?`<span class="played">✓ ${whenTxt(p && p.at)}</span>`:''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span><span class="left">${leftTxt(p.d - p.t)}</span>`:''}</div>
         ${mt && mt.length ? `<div class="jumps"><span class="jl">${esc(ml)}</span>${mt.slice(0,4).map(t => `<button class="jump" data-t="${t}" aria-label="Play ${esc(ml)} at ${fmt(Math.max(0,t-10))}">${I.play2}${fmt(Math.max(0,t-10))}</button>`).join('')}${mt.length > 4 ? `<span class="jl">+${mt.length-4}</span>` : ''}</div>` : ''}
       </div>
       <button class="more" data-act="more" aria-label="More options">${I.more}</button>
@@ -4589,9 +4612,32 @@ function fitNP(){
   new MutationObserver(q).observe($('#np'), { attributes:true, attributeFilter:['class'], childList:true, subtree:true, characterData:false });
 }
 
+/* Programme pages take their colour; year pages and the catalogue get a one-line key of the programme codes */
+(function(){
+  const ul = c => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'><path d='M2 5 C40 2 80 7 120 4 S180 3 198 5' fill='none' stroke='${c}' stroke-width='1.6' stroke-linecap='round'/></svg>`)}")`;
+  let key = document.getElementById('pkey');
+  if(!key){ key = document.createElement('div'); key.className = 'pkey'; key.id = 'pkey'; key.setAttribute('role', 'group'); key.setAttribute('aria-label', 'Programme key'); $('#list').before(key); }
+  key.addEventListener('click', ev => { const b = ev.target.closest('[data-show]'); if(b) setShow(b.dataset.show); });
+  const _r = render;
+  render = function(){
+    const r = _r.apply(this, arguments);
+    const h = $('#secTitle'), col = showFilter ? progCol(showFilter)[1] : '';
+    if(h){ if(col) h.style.setProperty('background-image', ul(col), 'important'); else h.style.removeProperty('background-image'); }
+    const showKey = tab === 'all' && !showFilter && !guestFilter && (yearFilter || allOpen);
+    if(showKey){
+      const present = new Set(view.map(e => e.show));
+      const k = PROGRAMMES.map(p => p[0]).filter(n => present.has(n) && n !== 'Art Bell');
+      const html = k.map(n => `<button class="pk" data-show="${esc(n)}" style="--pl:${progCol(n)[1]}" aria-label="${esc(n)}"><i></i>${progCode(n)}</button>`).join('');
+      if(key.innerHTML !== html) key.innerHTML = html;
+    }
+    key.style.display = showKey && key.innerHTML ? '' : 'none';
+    return r;
+  };
+})();
+
 /* Bottom search on phones: keeps its place above the tab bar, beside the mini player, or above the keyboard */
 (function(){
-  const mq = matchMedia('(max-width:959px)'), st = $('.sticky'), q = $('#q'), mini = $('#mini'), root = document.documentElement, vv = window.visualViewport;
+  const mq = { matches:false, addEventListener(){}, addListener(){} } /* search stays at the top on every screen */, st = $('.sticky'), q = $('#q'), mini = $('#mini'), root = document.documentElement, vv = window.visualViewport;
   function layout(){
     const on = mq.matches; document.body.classList.toggle('bsearch', on);
     if(!on){ document.body.classList.remove('hasmini', 'searching', 'typing'); return; }
