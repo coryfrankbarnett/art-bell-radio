@@ -1640,6 +1640,45 @@ html.light .sec h2,html.light .tb-sec h3{background-image:url("data:image/svg+xm
 /* player's bottom row stays on one line (larger text sizes and the simple player may still wrap) */
 html:not(.ts-l):not(.ts-xl):not(.simple) .np .extras{flex-wrap:nowrap!important;justify-content:space-between;gap:0}
 html:not(.ts-l):not(.ts-xl):not(.simple) .np .extras button{min-width:0!important;flex:1 1 0;font-size:10.5px!important;white-space:nowrap;letter-spacing:0}
+
+/* subjects on the bar: thin ticks, not dots */
+.np-marks i:not(.hr){width:2px;height:9px;margin-left:-1px;border-radius:1px;box-shadow:none;opacity:.8;top:-1px}
+.np-topics{display:none!important}
+.np-now{justify-content:flex-start}
+.np-now .nn{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-tpbtn{flex:none;display:flex;align-items:center;gap:7px;margin-left:auto;min-height:40px;padding:0 12px 0 14px;border-radius:20px;background:var(--soft);color:var(--text);font:500 var(--fs-label)/1 var(--font);letter-spacing:.07em;text-transform:uppercase}
+.np-tpbtn b{font-weight:600;color:var(--muted)}
+.np-tpbtn svg{width:16px;height:16px}
+.np-now{margin-top:10px;min-height:40px}
+/* the panel */
+.tp-scrim{position:absolute;inset:0;z-index:5;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity var(--t-quick) var(--ease)}
+.tp-scrim.show{opacity:1;pointer-events:auto}
+.tp-panel{position:absolute;left:0;right:0;bottom:0;z-index:6;max-height:78%;display:flex;flex-direction:column;padding:8px 22px calc(18px + var(--sb));background:var(--surface);border-radius:22px 22px 0 0;box-shadow:0 -20px 50px rgba(0,0,0,.4);transform:translateY(105%);transition:transform var(--t-move) var(--ease);visibility:hidden}
+.tp-panel.open{transform:none;visibility:visible}
+@media (min-width:700px){ .tp-panel{left:50%;right:auto;width:520px;margin-left:-260px} }
+.tp-grab{width:38px;height:4px;border-radius:2px;background:var(--line);margin:4px auto 10px}
+.tp-hd{display:flex;align-items:center;justify-content:space-between}
+.tp-hd h3{font:400 var(--fs-head)/1.1 var(--serif);margin:0}
+.tp-x{width:44px;height:44px;display:grid;place-items:center;margin-right:-10px;color:var(--muted)}
+.tp-x svg{width:22px;height:22px}
+.tp-note{margin:4px 0 12px;font:400 13px/1.4 var(--font);color:var(--muted)}
+.tp-hrs{display:flex;gap:8px;margin-bottom:12px}
+.tp-hrs:empty{display:none}
+.tp-hr{min-height:40px;padding:0 16px;border-radius:20px;background:var(--soft);color:var(--text);font:500 var(--fs-label)/1 var(--font);letter-spacing:.07em;text-transform:uppercase}
+.tp-hr.on{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.tp-list{overflow-y:auto;overscroll-behavior:contain;margin:0 -22px;padding:0 22px}
+.tp-row{border-top:1px solid var(--line);padding:6px 0 12px}
+.tp-main{display:flex;align-items:center;gap:0;width:100%;min-height:48px;text-align:left;color:var(--text)}
+.tp-main .sd{width:10px;height:10px;margin-right:12px}
+.tp-n{font:400 var(--fs-title)/1.2 var(--serif)}
+.tp-now{margin-left:10px;padding:4px 8px;border-radius:10px;background:var(--mc);color:var(--bg);font:600 10px/1 var(--font);letter-spacing:.08em;text-transform:uppercase}
+.tp-c{margin-left:auto;font:500 var(--fs-label)/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.tp-times{display:flex;flex-wrap:wrap;gap:6px;padding-left:22px}
+.tp-times button{min-height:36px;padding:0 12px;border-radius:18px;background:var(--soft);color:var(--text);font:500 13px/1 var(--font)}
+.tp-times button.on{box-shadow:inset 0 0 0 1.5px var(--mc)}
+.tp-row.now .tp-n{color:var(--text)}
+.tp-empty{color:var(--muted);padding:16px 0}
+@media (prefers-reduced-motion:reduce){ .tp-panel,.tp-scrim{transition:none} }
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -1887,6 +1926,14 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
     <button class="fav" id="npFav" aria-label="Favourite"><svg viewBox="0 0 24 24" class="ln"><path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/></svg></button>
   </div>
   <div class="np-now" id="npNow" aria-live="polite"></div>
+  <div class="tp-scrim" id="tpScrim"></div>
+  <section class="tp-panel" id="tpPanel" role="dialog" aria-modal="true" aria-labelledby="tpTitle">
+    <div class="tp-grab" aria-hidden="true"></div>
+    <div class="tp-hd"><h3 id="tpTitle">In this show</h3><button class="tp-x" id="tpClose" aria-label="Close"><svg viewBox="0 0 24 24" class="ln"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button></div>
+    <p class="tp-note">Subjects mentioned on air. Times are approximate.</p>
+    <div class="tp-hrs" id="tpHrs"></div>
+    <div class="tp-list" id="tpList"></div>
+  </section>
   <div class="scrub" id="scrub"><canvas id="wave"></canvas><div class="np-marks" id="npMarks"></div><div class="bubble" id="bubble"></div><input class="sr" id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek"></div>
   <div class="times"><span id="tCur">0:00</span><span class="scrubmode" id="scrubMode"></span><span id="tLeft">-0:00</span></div>
   <div class="np-topics" id="npTopics"></div>
@@ -3864,9 +3911,11 @@ function renderNowLine(force){
   const now = audio.currentTime || 0, hr = Math.floor(now / 3600) + 1;
   let best = null;
   npSubj.forEach(([l, ts], i) => ts.forEach(t => { if(t <= now + 15 && now - t < 900 && (!best || t > best.t)) best = { t, l, c: subjCol(l) }; }));
-  const key = hr + '|' + (best ? best.l : ''); if(!force && key === nowKey) return; nowKey = key;
+  const key = hr + '|' + (best ? best.l : '') + '|' + npSubj.length; if(!force && key === nowKey) return; nowKey = key;
   const hrTxt = d > 3700 ? `Hour ${hr}` : '';
-  el.innerHTML = best ? `<i style="--mc:${best.c}"></i><span>${hrTxt ? hrTxt + ' · ' : ''}now on <b>${esc(best.l)}</b></span>` : (hrTxt ? `<span>${hrTxt} of ${Math.ceil(d / 3600)}</span>` : '');
+  const btn = npSubj.length ? `<button class="np-tpbtn" id="tpOpen" aria-haspopup="dialog">Topics<b>${npSubj.length}</b><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M6 14.5l6-6 6 6"/></svg></button>` : (d > 3700 ? `<button class="np-tpbtn" id="tpOpen" aria-haspopup="dialog">Hours<svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M6 14.5l6-6 6 6"/></svg></button>` : '');
+  el.innerHTML = (best ? `<i style="--mc:${best.c}"></i><span class="nn">${hrTxt ? hrTxt + ' · ' : ''}now on <b>${esc(best.l)}</b></span>` : (hrTxt ? `<span class="nn">${hrTxt} of ${Math.ceil(d / 3600)}</span>` : '<span class="nn"></span>')) + btn;
+  if($('#tpPanel').classList.contains('open')) renderTopicsPanel();
 }
 // Any big jump can be taken back for a few seconds
 function jumpUndo(prev, msg){
@@ -3879,11 +3928,11 @@ function renderNPMarks(){
   const d = audio.duration || (e && e.length) || 0;
   if(!e || !d){ box.innerHTML = ''; row.innerHTML = ''; npMarkList = []; npSubj = []; renderNowLine(true); return; }
   const m = momentsFor(e) || {};
-  const subj = Object.entries(m).sort((a, b) => b[1].length - a[1].length).slice(0, 6);
+  const subj = Object.entries(m).sort((a, b) => b[1].length - a[1].length);
   let ticks = '';
-  subj.forEach(([l, ts], i) => (npMarkSel ? (l === npMarkSel ? ts : []) : ts.slice(0, 3)).forEach(t => { ticks += `<i class="mk${npMarkSel && npMarkSel !== l ? ' dim' : ''}" data-l="${esc(l)}" style="left:${Math.min(99.5, t / d * 100)}%;--mc:${subjCol(l)}"></i>`; }));
+  subj.forEach(([l, ts], i) => ts.forEach(t => { ticks += `<i class="mk${npMarkSel && npMarkSel !== l ? ' dim' : ''}" data-l="${esc(l)}" style="left:${Math.min(99.5, t / d * 100)}%;--mc:${subjCol(l)}"></i>`; }));
   box.innerHTML = ticks;
-  npMarkList = []; subj.forEach(([l, ts], i) => (npMarkSel ? (l === npMarkSel ? ts : []) : ts.slice(0, 3)).forEach(t => npMarkList.push({ t, l })));
+  npMarkList = []; subj.forEach(([l, ts], i) => ts.forEach(t => npMarkList.push({ t, l }))); npMarkList.sort((a, b) => a.t - b.t);
   npSubj = subj; renderNowLine(true);
   const cur = audio.currentTime || 0, nextHr = Math.ceil((cur + 1) / 3600) * 3600;
   row.innerHTML = (subj.length ? `<span class="nt-k">In this show</span>` : '') + subj.map(([l], i) => `<button class="tp${npMarkSel === l ? ' on' : ''}" data-tp="${esc(l)}" style="--mc:${subjCol(l)}"><i></i>${esc(l)}</button>`).join('') +
@@ -3898,6 +3947,40 @@ $('#npTopics').addEventListener('click', ev => {
   renderNPMarks();
 });
 $('#npMarks').addEventListener('click', ev => { const k = ev.target.closest('.mk'); if(!k) return; ev.stopPropagation(); });
+
+/* Topics panel: every subject mentioned, in order, with each time it came up — big, readable, tap to jump */
+function renderTopicsPanel(){
+  const e = byId(audio.dataset.id), d = audio.duration || (e && e.length) || 0; if(!e) return;
+  const m = momentsFor(e) || {}, now = audio.currentTime || 0, hrs = Math.ceil(d / 3600), curHr = Math.floor(now / 3600);
+  let nowL = ''; { let bt = -1; Object.entries(m).forEach(([l, ts]) => ts.forEach(t => { if(t <= now + 15 && now - t < 900 && t > bt){ bt = t; nowL = l; } })); }
+  $('#tpHrs').innerHTML = d > 3700 ? Array.from({ length: hrs }, (_, h) => `<button class="tp-hr${h === curHr ? ' on' : ''}" data-hr="${h * 3600}">Hour ${h + 1}</button>`).join('') : '';
+  const list = Object.entries(m).map(([l, ts]) => [l, ts.slice().sort((a, b) => a - b)]).sort((a, b) => a[1][0] - b[1][0]);
+  $('#tpList').innerHTML = list.length ? list.map(([l, ts]) => `<div class="tp-row${l === nowL ? ' now' : ''}" style="--mc:${subjCol(l)}">
+      <button class="tp-main" data-tp="${esc(l)}"><i class="sd"></i><span class="tp-n">${esc(l)}</span>${l === nowL ? '<span class="tp-now">Now</span>' : ''}<span class="tp-c">${ts.length === 1 ? 'once' : ts.length + ' times'}</span></button>
+      <div class="tp-times">${ts.map(t => `<button data-t="${t}" aria-label="${esc(l)} at ${fmt(Math.max(0, t - 10))}"${t - 10 <= now && now < t + 300 ? ' class="on"' : ''}>${fmt(Math.max(0, t - 10))}</button>`).join('')}</div>
+    </div>`).join('') : `<p class="tp-empty">No subjects marked for this show yet.</p>`;
+  $('#tpPanel').querySelector('.tp-note').style.display = list.length ? '' : 'none';
+}
+function openTopics(){ renderTopicsPanel(); $('#tpPanel').classList.add('open'); $('#tpScrim').classList.add('show'); setTimeout(() => { const b = $('#tpPanel .tp-row.now .tp-main') || $('#tpPanel button'); if(b) b.focus({ preventScroll:true }); const n = $('#tpPanel .tp-row.now'), L = $('#tpList'); if(n && L) L.scrollTop = n.offsetTop - L.offsetTop; else if(L) L.scrollTop = 0; }, 60); }
+function closeTopics(){ $('#tpPanel').classList.remove('open'); $('#tpScrim').classList.remove('show'); const o = $('#tpOpen'); if(o) o.focus({ preventScroll:true }); }
+$('#npNow').addEventListener('click', ev => { if(ev.target.closest('#tpOpen')) openTopics(); });
+$('#tpClose').onclick = closeTopics; $('#tpScrim').onclick = closeTopics;
+$('#tpPanel').addEventListener('keydown', ev => { if(ev.key === 'Escape'){ ev.stopPropagation(); closeTopics(); } });
+function tpJump(t, label){
+  const prev = audio.currentTime || 0; audio.currentTime = Math.max(0, t); persistPos(); if(audio.paused) audio.play().catch(() => {});
+  renderNPMarks(); jumpUndo(prev, label); setTimeout(closeTopics, 220);
+}
+$('#tpPanel').addEventListener('click', ev => {
+  const h = ev.target.closest('[data-hr]'); if(h) return tpJump(+h.dataset.hr, 'Hour ' + (Math.round(+h.dataset.hr / 3600) + 1));
+  const tb = ev.target.closest('[data-t]'); if(tb){ const l = tb.closest('.tp-row').querySelector('[data-tp]').dataset.tp; return tpJump(+tb.dataset.t - 10, `${l} · ${fmt(Math.max(0, +tb.dataset.t - 10))}`); }
+  const b = ev.target.closest('[data-tp]'); if(!b) return;
+  const e = byId(audio.dataset.id), ts = ((momentsFor(e) || {})[b.dataset.tp] || []).slice().sort((x, y) => x - y), now = audio.currentTime || 0;
+  const nxt = ts.find(t => t - 10 > now + 5) ?? ts[0]; if(nxt !== undefined) tpJump(nxt - 10, `${b.dataset.tp} · ${fmt(Math.max(0, nxt - 10))}`);
+});
+// swipe the panel down to close
+{ let y0 = null; const p = $('#tpPanel');
+  p.addEventListener('touchstart', ev => { y0 = (p.scrollTop || $('#tpList').scrollTop) > 0 ? null : ev.touches[0].clientY; }, { passive:true });
+  p.addEventListener('touchend', ev => { if(y0 != null && ev.changedTouches[0].clientY - y0 > 70) closeTopics(); y0 = null; }, { passive:true }); }
 audio.addEventListener('loadedmetadata', () => { npMarkSel = ''; loadMoments().then(renderNPMarks); updateCassette(true); });
 let lastMarkHr = -1;
 audio.addEventListener('timeupdate', () => { const hr = Math.floor((audio.currentTime || 0) / 3600); if(hr !== lastMarkHr){ lastMarkHr = hr; renderNPMarks(); } else renderNowLine(); updateCassette(); });
@@ -4349,7 +4432,7 @@ function specialDay(){
 /* Back button: every open layer (player, tribute, sheets) gets a history entry,
    so Android's back gesture closes it instead of leaving the app */
 const layerStack = []; let layerSkip = 0;
-[['#np', 'open'], ['#tribute', 'open'], ['#sheet', 'show']].forEach(([sel, cls]) => {
+[['#np', 'open'], ['#tribute', 'open'], ['#sheet', 'show'], ['#tpPanel', 'open']].forEach(([sel, cls]) => {
   const el = $(sel); let was = el.classList.contains(cls);
   new MutationObserver(() => {
     const now = el.classList.contains(cls); if(now === was) return; was = now;
@@ -4360,7 +4443,7 @@ const layerStack = []; let layerSkip = 0;
 addEventListener('popstate', ev => {
   if(layerSkip){ layerSkip--; nav.sync(); return; }
   const sel = layerStack.pop();
-  if(sel){ if(sel === '#np') closeNP(); else if(sel === '#tribute') closeTribute(); else closeSheet(); return; }
+  if(sel){ if(sel === '#tpPanel') closeTopics(); else if(sel === '#np'){ closeTopics(); closeNP(); } else if(sel === '#tribute') closeTribute(); else closeSheet(); return; }
   nav.restore(ev.state);
 });
 
