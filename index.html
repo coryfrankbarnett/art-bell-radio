@@ -8,6 +8,27 @@
 <meta name="apple-mobile-web-app-title" content="Art Bell">
 <meta name="theme-color" content="#08090c">
 <title>The Art Bell Tapes</title>
+<script>
+/* Set the look before anything is drawn, so nothing jumps or flashes on opening */
+window.__THEMES = {
+  'Classic':    { '--accent':'#d4b483', '--accent-soft':'rgba(212,180,131,.13)', '--glow':'rgba(212,180,131,.18)', '--bg':'#0e0d0c', '--surface':'#171614', '--surface-2':'#211f1c', '--text':'#ece6da', '--muted':'#8e877b', '--line':'rgba(236,230,218,.1)' },
+  'Dark':       { '--accent':'#e4ddd0', '--accent-soft':'rgba(228,221,208,.1)', '--glow':'rgba(228,221,208,.12)', '--bg':'#0b0b0a', '--surface':'#151514', '--surface-2':'#1e1e1c', '--text':'#ebe7df', '--muted':'#99948b', '--line':'rgba(235,231,223,.1)' },
+  'Paper':      { '--accent':'#a8432a', '--accent-soft':'rgba(168,67,42,.1)', '--glow':'rgba(168,67,42,.14)', '--bg':'#f2ede3', '--surface':'#fbf8f2', '--surface-2':'#e7e0d2', '--text':'#17140f', '--muted':'#615a4e', '--line':'rgba(23,20,15,.12)' }
+};
+(function(){
+  var st = {}; try{ st = JSON.parse(localStorage.getItem('abr.state.v2') || '{}') || {}; }catch(e){}
+  var h = document.documentElement, name = st.theme;
+  if(['Classic','Dark','Paper','Auto'].indexOf(name) < 0) name = 'Classic';
+  if(name === 'Auto'){ var hr = new Date().getHours(); name = hr >= 7 && hr < 19 ? 'Paper' : 'Dark'; }
+  var t = window.__THEMES[name] || window.__THEMES.Classic;
+  h.classList.add('cine'); for(var k in t) h.style.setProperty(k, t[k]);
+  if(name === 'Paper') h.classList.add('light'); if(name === 'Dark') h.classList.add('mono');
+  if(st.textStyle !== 'classic') h.classList.add('easy');
+  if(st.textSize === 'l') h.classList.add('ts-l'); if(st.textSize === 'xl') h.classList.add('ts-xl');
+  if(st.simple) h.classList.add('simple');
+  var m = document.querySelector('meta[name=theme-color]'); if(m) m.content = t['--bg'];
+})();
+</script>
 <link rel="preconnect" href="https://archive.org" crossorigin>
 <link rel="dns-prefetch" href="https://us.archive.org">
 <link rel="preload" href="fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
@@ -4291,11 +4312,7 @@ audio.addEventListener('play', () => { if(state.boost && !boost.src) setBoost(tr
 
 /* ================= Themes ================= */
 const DARK_BASE = { '--text':'#f2efe8', '--muted':'#8a8f9c', '--line':'rgba(255,255,255,.08)' };
-const THEMES = {
-  'Classic':    { '--accent':'#d4b483', '--accent-soft':'rgba(212,180,131,.13)', '--glow':'rgba(212,180,131,.18)', '--bg':'#0e0d0c', '--surface':'#171614', '--surface-2':'#211f1c', '--text':'#ece6da', '--muted':'#8e877b', '--line':'rgba(236,230,218,.1)' },
-  'Dark':       { '--accent':'#e4ddd0', '--accent-soft':'rgba(228,221,208,.1)', '--glow':'rgba(228,221,208,.12)', '--bg':'#0b0b0a', '--surface':'#151514', '--surface-2':'#1e1e1c', '--text':'#ebe7df', '--muted':'#99948b', '--line':'rgba(235,231,223,.1)' },
-  'Paper':      { '--accent':'#a8432a', '--accent-soft':'rgba(168,67,42,.1)', '--glow':'rgba(168,67,42,.14)', '--bg':'#f2ede3', '--surface':'#fbf8f2', '--surface-2':'#e7e0d2', '--text':'#17140f', '--muted':'#615a4e', '--line':'rgba(23,20,15,.12)' }
-};
+const THEMES = window.__THEMES;
 const THEME_RENAMES = { 'Amber':'Desert', 'Area 51':'Dreamland', 'Dopamine':'Neon' };
 if(state.theme === 'Collection'){ state.theme = 'Classic'; saveState(); }
 if(!['Classic','Dark','Paper','Auto'].includes(state.theme)){ state.theme = 'Classic'; saveState(); }
