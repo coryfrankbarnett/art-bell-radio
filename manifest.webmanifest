@@ -1,26 +1,26 @@
 {
-  "name": "The Art Bell Tapes",
-  "short_name": "Art Bell",
+  "name": "Art Bell Tapes",
+  "short_name": "Art Bell Tapes",
   "description": "Every Art Bell show on the Internet Archive — Coast to Coast AM, Dreamland, Midnight in the Desert and more — to search, stream and save.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#141210",
-  "theme_color": "#08090c",
+  "background_color": "#0e0d0c",
+  "theme_color": "#0e0d0c",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "brand/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "brand/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "icon-maskable-512.png",
+      "src": "brand/icon-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

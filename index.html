@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Art Bell">
-<meta name="theme-color" content="#08090c">
-<title>The Art Bell Tapes</title>
+<meta name="apple-mobile-web-app-title" content="Art Bell Tapes">
+<meta name="theme-color" content="#0e0d0c">
+<title>Art Bell Tapes</title>
 <script>
 /* Set the look before anything is drawn, so nothing jumps or flashes on opening */
 window.__THEMES = {
@@ -18,8 +18,8 @@ window.__THEMES = {
 (function(){
   var st = {}; try{ st = JSON.parse(localStorage.getItem('abr.state.v2') || '{}') || {}; }catch(e){}
   var h = document.documentElement, name = st.theme;
-  if(['Classic','Dark','Paper','Auto'].indexOf(name) < 0) name = 'Classic';
-  if(name === 'Auto'){ var hr = new Date().getHours(); name = hr >= 7 && hr < 19 ? 'Paper' : 'Dark'; }
+  if(['Classic','Paper','Auto'].indexOf(name) < 0) name = 'Classic';
+  if(name === 'Auto'){ var hr = new Date().getHours(); name = hr >= 7 && hr < 19 ? 'Paper' : 'Classic'; }
   var t = window.__THEMES[name] || window.__THEMES.Classic;
   h.classList.add('cine'); for(var k in t) h.style.setProperty(k, t[k]);
   if(name === 'Paper') h.classList.add('light'); if(name === 'Dark') h.classList.add('mono');
@@ -36,21 +36,21 @@ window.__THEMES = {
 <link rel="preload" href="fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/640x1136.png">
-<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/750x1334.png">
-<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1242x2208.png">
-<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1125x2436.png">
-<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/828x1792.png">
-<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1242x2688.png">
-<link rel="apple-touch-startup-image" media="(device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1080x2340.png">
-<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1170x2532.png">
-<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1284x2778.png">
-<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1179x2556.png">
-<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1290x2796.png">
-<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1206x2622.png">
-<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/1320x2868.png">
+<link rel="icon" href="brand/icon-192.png">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="brand/splash/640x1136.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="brand/splash/750x1334.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1242x2208.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1125x2436.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="brand/splash/828x1792.png">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1242x2688.png">
+<link rel="apple-touch-startup-image" media="(device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1080x2340.png">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1170x2532.png">
+<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1284x2778.png">
+<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1179x2556.png">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1290x2796.png">
+<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1206x2622.png">
+<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1320x2868.png">
 <style>
 /* Fonts bundled with the app (SIL Open Font License): Space Grotesk (headings), Inter (text), Geist Mono (times) */
 @font-face{font-family:'Space Grotesk';src:url(fonts/space-grotesk.woff2) format('woff2-variations');font-weight:300 700;font-display:swap}
@@ -1232,6 +1232,7 @@ html.cine.mono .tile.tonight.cv.otn2 .o-top .yr{color:var(--muted)!important;opa
 .swatches.four .sw{padding:6px 6px 9px}
 .swatches.four .sw i{height:50px}
 .swatches.four .sw span{font:400 18px/1 var(--serif);white-space:normal}
+.swatches.four.three{grid-template-columns:repeat(3,1fr)}
 .swatches.four .sw small{display:block;font:500 8.5px/1.2 var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:5px}
 .ess-jump{margin-top:10px;height:28px;font-size:10.5px;white-space:nowrap;max-width:100%;overflow:hidden}
 
@@ -1732,12 +1733,12 @@ html.cine .card .art.cv .hd,html.cine .prog .art.cv .hd{bottom:auto;top:calc(79%
 .quick{grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
 
 /* List rows are all the same height: title always two lines' space, details always one line */
-#list .row .t{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2!important;line-clamp:2;overflow:hidden;min-height:2lh;height:2lh}
-#list .row .m{flex-wrap:nowrap!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:0}
-#list .row .m{letter-spacing:.04em!important}
-#list .row .m>*{flex:none}
-#list .row .m>span:last-child{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
-#list .row .m .bar{flex:0 1 60px;min-width:30px}
+#list .row .t,.hold-row .row .t{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2!important;line-clamp:2;overflow:hidden;min-height:2lh;height:2lh}
+#list .row .m,.hold-row .row .m{flex-wrap:nowrap!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:0}
+#list .row .m,.hold-row .row .m{letter-spacing:.04em!important}
+#list .row .m>*,.hold-row .row .m>*{flex:none}
+#list .row .m>span:last-child,.hold-row .row .m>span:last-child{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+#list .row .m .bar,.hold-row .row .m .bar{flex:0 1 60px;min-width:30px}
 
 /* Programme identity: one system, only colour and a two-letter code change.
    Code in the top-left corner of every large cover; a colour spine down the left edge of every cover, large or small. */
@@ -1755,6 +1756,295 @@ html.cine .np .bigart.cv .pcode{font-size:min(5.6cqw,7cqh)}
 .pkey .pk{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 12px;border-radius:18px;background:var(--soft);color:var(--text);font:600 var(--fs-label)/1 var(--font);letter-spacing:.12em}
 .pkey .pk i{width:3px;height:14px;border-radius:1px;background:var(--pl)}
 @media (min-width:960px){ .pkey{margin:0 0 14px} }
+
+/* One spring for everything that moves — sheets, the player, menus, the top bar — with the faintest settle at the end */
+@supports (transition-timing-function: linear(0, 1)){
+  html{--spring:linear(0.0000, 0.0402, 0.1356, 0.2571, 0.3855, 0.5084, 0.6190, 0.7139, 0.7923, 0.8550, 0.9035, 0.9399, 0.9663, 0.9847, 0.9970, 1.0046, 1.0088, 1.0107, 1.0111, 1.0105, 1.0093, 1.0079, 1.0065, 1.0052, 1.0040, 1.0030, 1.0021, 1.0015, 1.0000);--ease:var(--spring);--t-move:.55s}
+}
+/* Press feedback: anything you can tap dips the instant your finger lands, and springs back when you let go */
+:is(.card,.row,.prog,.tile,.ycard,.chip,.pk,.browsetop,.grow,.sg,.tp-main,.tp-times button,.tp-hr,.act,.np-tpbtn,.ctl button,.extras button,.tab,.mini,.playall,.saveall,.gear,.otn-chip){transition:scale .35s var(--ease,ease),opacity .2s ease;-webkit-tap-highlight-color:transparent}
+:is(.card,.row,.prog,.tile,.ycard,.browsetop,.grow,.mini):active{scale:.975;transition-duration:.08s}
+:is(.chip,.pk,.sg,.tp-main,.tp-times button,.tp-hr,.act,.np-tpbtn,.ctl button,.extras button,.tab,.playall,.saveall,.gear,.otn-chip):active{scale:.94;transition-duration:.08s}
+@media (prefers-reduced-motion:reduce){ :is(.card,.row,.prog,.tile,.ycard,.chip,.pk,.browsetop,.grow,.sg,.act,.ctl button,.extras button,.tab,.mini):active{scale:1;opacity:.7} }
+body.calm :is(.card,.row,.prog,.tile,.ycard,.chip,.act,.ctl button,.tab,.mini):active{scale:1;opacity:.7}
+
+/* player opens and closes on the shared spring; while dragged it shows its edge */
+.np{transition:transform var(--t-move) var(--ease)!important}
+.np.dragging{transition:none!important;border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.4)}
+
+/* slim top bar (phones) */
+.topbar{display:none}
+@media (max-width:959px){
+  .pinbar{display:none!important}
+  .topbar{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:fixed;left:0;right:0;top:0;z-index:21;height:calc(44px + var(--st,0px));padding-top:var(--st,0px);color:var(--text);
+    background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);
+    box-shadow:0 1px 0 color-mix(in srgb,var(--line) calc(var(--p,0) * 100%),transparent);opacity:var(--p,0);pointer-events:none;transition:opacity .12s linear}
+  .topbar.show{pointer-events:auto}
+  .topbar .tb-t{font:400 18px/1 var(--serif);max-width:72vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transform:translateY(calc((1 - var(--p,0)) * 6px))}
+  .topbar .tb-t.logo em{font-style:italic;color:var(--accent)}
+  .topbar .tb-n{font:500 10px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .topbar .tb-n:empty{display:none}
+  html .sticky{top:calc(44px + var(--st,0px));padding-top:10px}
+  html .sticky::before,html .sticky::after{top:-1px}
+  body.np-open .topbar{opacity:0}
+}
+@media (prefers-reduced-motion:reduce){ .topbar .tb-t{transform:none} }
+
+/* hold menu */
+.hold{position:fixed;inset:0;z-index:60;pointer-events:none;visibility:hidden}
+.hold.show,.hold.measuring{visibility:visible}
+.hold.show{pointer-events:auto}
+.hold-ov{position:absolute;inset:0;background:color-mix(in srgb,var(--bg) 45%,transparent);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);opacity:0;transition:opacity .25s ease}
+.hold.show .hold-ov{opacity:1}
+.hold-row{position:fixed;border-radius:16px;overflow:hidden;background:var(--surface);box-shadow:0 0 0 rgba(0,0,0,0);transition:transform var(--t-move) var(--ease),box-shadow .3s ease,scale var(--t-move) var(--ease)}
+.hold.show .hold-row{scale:1.025;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.hold-row .row{border:0!important;margin:0!important;padding-left:14px!important;padding-right:14px!important;height:100%;pointer-events:none}
+.hold-menu{position:fixed;width:min(270px,calc(100vw - 32px));border-radius:16px;overflow:hidden;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(30px) saturate(1.4);-webkit-backdrop-filter:blur(30px) saturate(1.4);box-shadow:0 24px 60px rgba(0,0,0,.45),inset 0 0 0 1px var(--line);scale:.8;opacity:0;transition:scale var(--t-move) var(--ease),opacity .18s ease}
+.hold.show .hold-menu{scale:1;opacity:1}
+.hold.measuring .hold-menu{transition:none}
+html.light .hold-row,html.light .hold-menu{box-shadow:0 24px 60px rgba(60,40,10,.22),inset 0 0 0 1px var(--line)}
+.hm-g+.hm-g{border-top:7px solid color-mix(in srgb,var(--bg) 60%,transparent)}
+.hm-i{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:46px;padding:0 16px;text-align:left;color:var(--text);font:400 16px/1.2 var(--font)}
+.hm-i+.hm-i{border-top:1px solid var(--line)}
+.hm-i svg{width:20px;height:20px;flex:none;color:var(--text)}
+.hm-i:active,.hm-i:focus-visible{background:var(--soft);outline:none}
+@media (prefers-reduced-motion:reduce){ .hold-row,.hold-menu{transition:opacity .15s ease} .hold.show .hold-row{scale:1} }
+
+/* the player owns its gestures: no page scrolling or pull-to-refresh behind it */
+.np{touch-action:none;overscroll-behavior:contain;will-change:transform}
+.np .tp-list{touch-action:pan-y}
+@media (max-width:1279px){ html:has(body.np-open){overflow:hidden} body.np-open{overscroll-behavior:none} body.np-open .app{pointer-events:none} }
+.np.dragging,.np.dragging *{transition:none!important}
+/* no scroll bars on phones and tablets */
+@media (pointer:coarse){
+  html{scrollbar-width:none}
+  html::-webkit-scrollbar,body::-webkit-scrollbar{width:0;height:0;display:none}
+}
+
+/* ===== Signature look (.cfield): the programme's colour as a deep field with fine grain (the Tonight card and the player) ===== */
+.cfield{position:relative;isolation:isolate;color:#f6efe3;
+  background:radial-gradient(130% 75% at 50% 0%,color-mix(in srgb,var(--pc) 88%,#fff 12%) 0%,var(--pc) 34%,color-mix(in srgb,var(--pc) 52%,#0b0908) 72%,color-mix(in srgb,var(--pc) 28%,#060505) 100%)}
+.cfield::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;opacity:.13;mix-blend-mode:overlay}
+
+/* Tonight hero */
+.hero{margin:2px 20px 22px}
+.hero-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:22px;box-shadow:0 26px 60px rgba(0,0,0,.38);-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.hero-track::-webkit-scrollbar{display:none}
+html.light .hero-track{box-shadow:0 22px 50px rgba(60,40,10,.22)}
+.hs{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;display:grid;grid-template-rows:auto 1fr auto auto auto auto auto;justify-items:center;text-align:center;padding:20px 24px 22px;min-height:min(560px,128vw);cursor:pointer;box-shadow:inset 6px 0 0 var(--pl),inset 0 0 0 1px rgba(255,255,255,.06)}
+.hs-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:100%;font:600 11px/1 var(--font);letter-spacing:.14em;text-transform:uppercase}
+.hs-code{justify-self:start;color:rgba(246,239,227,.82)}
+.hs-no{justify-self:end;color:rgba(246,239,227,.62)}
+.hs-eye{color:rgba(246,239,227,.82)}
+.hs-art{align-self:center;width:46%;max-width:210px;margin:14px 0 6px}
+.hs-art svg{width:100%;height:auto;display:block;fill:none!important;stroke:var(--pl);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hs-art svg *{fill:none!important}
+.hs-ago{font:italic 400 19px/1.2 var(--serif);color:rgba(246,239,227,.78);margin-bottom:8px}
+.hs-name{margin:0;width:100%;height:2.04em;display:flex;align-items:center;justify-content:center;font:400 clamp(38px,11.6vw,54px)/1.02 var(--serif);letter-spacing:-.01em;text-wrap:balance;overflow:hidden}
+.hs-name.long{font-size:clamp(28px,8vw,38px);height:3.06em}
+.hs-name span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.hs-topic{margin-top:10px;font:400 15px/1.3 var(--font);color:rgba(246,239,227,.74);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hs-play{margin-top:20px;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#f6efe3;color:#151210;box-shadow:0 14px 34px rgba(0,0,0,.35)}
+.hs-play svg{width:24px;height:24px;fill:#151210;margin-left:3px}
+.hs-meta{margin-top:14px;font:500 11px/1 var(--font);letter-spacing:.12em;text-transform:uppercase;color:rgba(246,239,227,.6)}
+.hero-years{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:14px}
+.hero-years .hy{min-height:36px;padding:0 14px;border-radius:18px;background:var(--soft);color:var(--muted);font:600 var(--fs-label)/1 var(--font);letter-spacing:.1em}
+.hero-years .hy.on{background:var(--text);color:var(--bg)}
+@media (min-width:960px){ .hero{margin:6px 20px 26px} .hs{min-height:440px} .hs-name:not(.long){font-size:56px} }
+
+/* Player: the whole screen becomes the programme's colour field */
+.np{--text:#f6efe3;--muted:rgba(246,239,227,.66);--line:rgba(246,239,227,.16);--soft:rgba(246,239,227,.12);--soft-2:rgba(246,239,227,.2);
+  background:radial-gradient(130% 70% at 50% 0%,color-mix(in srgb,var(--npf,#3a2a20) 90%,#fff 10%) 0%,var(--npf,#3a2a20) 36%,color-mix(in srgb,var(--npf,#3a2a20) 50%,#0b0908) 74%,color-mix(in srgb,var(--npf,#3a2a20) 26%,#060505) 100%)!important;color:#f6efe3;isolation:isolate}
+.np::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;opacity:.13;mix-blend-mode:overlay}
+.np .bgglow{display:none!important}
+.np .ctl .big{background:#f6efe3!important}
+.np .ctl .big svg{fill:#151210!important}
+.np .ctl .big svg.ln{stroke:#151210!important}
+html.cine .np .bigart.cv{box-shadow:inset max(4px,1.4cqw) 0 0 var(--npl,var(--pl)),inset 0 0 0 1px rgba(255,255,255,.07),0 34px 80px rgba(0,0,0,.55)!important}
+html.cine.light .np .bigart.cv{background:#171513!important;color:#ece6da}
+html.cine.light .np .bigart.cv .mk{display:none!important}
+html.cine.light .np .bigart.cv .no,html.cine.light .np .bigart.cv .pcode{color:var(--pl)!important;opacity:1}
+html.cine.light .np .bigart.cv .dt{color:#8e877b!important}
+.np :is(h1,h2,h3,.t,.ttl,.title){color:#f6efe3}
+
+/* No year dial or filter drawer under the search bar: years live in the catalogue and search ("1997"), programmes on their cards */
+.filtersblock,#filterBtn{display:none!important}
+
+/* ================= Typographic covers: colour field, grain, and type. No drawings anywhere. ================= */
+html{--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+html.cine .art.cv,html.cine.light .art.cv{background:radial-gradient(140% 85% at 25% 0%,color-mix(in srgb,var(--pc) 84%,#fff 16%) 0%,var(--pc) 42%,color-mix(in srgb,var(--pc) 52%,#0b0908) 100%)!important;color:#f6efe3;isolation:isolate}
+html.cine .art.cv::after{content:""!important;display:block!important;position:absolute;inset:0;z-index:0;pointer-events:none;background-image:var(--grain);background-size:140px;opacity:.12;mix-blend-mode:overlay;border-radius:inherit}
+html.cine .art.cv .mot,html.cine .art.cv .mk,html.cine.light .art.cv .mk{display:none!important}
+html.cine .art.cv :is(.hd,.dt,.no,.pcode,.yy){z-index:1}
+html.cine .art.cv .hd,html.cine.light .art.cv .hd{color:#f6efe3!important;letter-spacing:-.01em}
+html.cine .art.cv .dt,html.cine.light .art.cv .dt{color:rgba(246,239,227,.72)!important}
+html.cine .art.cv .no,html.cine.light .art.cv .no{top:7%!important;bottom:auto!important;right:8%!important;left:auto!important;color:rgba(246,239,227,.72)!important;opacity:1!important;background:none!important;padding:0!important}
+html.cine .art.cv .pcode,html.cine.light .art.cv .pcode{color:rgba(246,239,227,.9)!important;opacity:1}
+/* large covers in rows: the name is the cover, three lines' space, starting on the same line across a row */
+html.cine .card .art.cv .hd,html.cine .prog .art.cv .hd{top:30%!important;bottom:auto!important;font-size:14cqw!important;line-height:1!important;-webkit-line-clamp:3!important;display:-webkit-box!important;-webkit-box-orient:vertical;overflow:hidden;max-height:3.05em}
+/* small covers (lists, mini player, shortcuts): just the year, centred */
+html.cine :is(.art.cv.sm,.mini .art.cv,.row .art.cv) :is(.hd,.dt,.no,.pcode){display:none!important}
+html.cine :is(.art.cv.sm,.mini .art.cv,.row .art.cv) .yy,html.cine.light :is(.art.cv.sm,.mini .art.cv,.row .art.cv) .yy{display:block!important;left:0!important;right:0!important;top:50%!important;bottom:auto!important;transform:translateY(-52%);text-align:center;font:italic 400 40cqw/1 var(--serif)!important;color:#f6efe3!important}
+/* the player's cover */
+html.cine .np .bigart.cv,html.cine.light .np .bigart.cv{background:radial-gradient(140% 85% at 25% 0%,color-mix(in srgb,var(--pc) 80%,#fff 20%) 0%,var(--pc) 45%,color-mix(in srgb,var(--pc) 50%,#0b0908) 100%)!important}
+html.cine .np .bigart.cv .hd{font-size:min(15cqw,20cqh)!important;line-height:1!important;top:auto!important;bottom:calc(8% + min(5.6cqw,7cqh) + min(5cqw,6cqh))!important;-webkit-line-clamp:3!important;display:-webkit-box!important;-webkit-box-orient:vertical;overflow:hidden}
+html.cine .np .bigart.cv .no{font-size:min(5.6cqw,7cqh)!important}
+/* programme cards: colour field and type, no drawings */
+html.cine .prog.cvp{background:radial-gradient(140% 90% at 25% 0%,color-mix(in srgb,var(--pc) 84%,#fff 16%) 0%,var(--pc) 45%,color-mix(in srgb,var(--pc) 55%,#0b0908) 100%)!important;isolation:isolate}
+html.cine .prog.cvp::after{content:""!important;display:block!important;position:absolute;inset:0;z-index:0;pointer-events:none;background-image:var(--grain);background-size:160px;opacity:.12;mix-blend-mode:overlay;border-radius:inherit}
+html.cine .prog.cvp :is(.skscene,.em,svg){display:none!important}
+html.cine .prog.cvp :is(.yrs,.nm,.ct){z-index:1}
+/* Tonight card without a drawing: the name carries it */
+.hs{grid-template-rows:auto 1fr auto auto auto auto auto 1fr!important}
+.hs-ago{grid-row:3;margin-top:8px}
+.hs-name{grid-row:4;font-size:clamp(46px,13.5vw,62px)}
+.hs-name.long{font-size:clamp(28px,8vw,38px)}
+.hs-topic{grid-row:5}.hs-play{grid-row:6}.hs-meta{grid-row:7}
+
+
+/* Editorial headings: label above, generous space, no hand-drawn underline */
+.sec h2,.tb-sec h3,html.light .sec h2{background-image:none!important;padding-bottom:0!important}
+.sec h2[data-k]{flex-wrap:wrap}
+.sec h2[data-k]::before{content:attr(data-k);display:block;flex:0 0 100%;width:100%;margin-bottom:8px;font:600 11px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--kc,var(--muted))}
+.shelf,#progWrap,#contWrap{padding-top:12px}
+.shelf + .shelf{margin-top:6px}
+html.cine.light .np .bigart.cv{box-shadow:inset max(4px,1.4cqw) 0 0 var(--pl),inset 0 0 0 1px rgba(255,255,255,.1),0 34px 80px rgba(0,0,0,.5)!important}
+
+/* ================= Finishing pass: watermark year, chart, wide cards, numbers, type ================= */
+/* the year, very large and faint, behind the name on every large cover */
+html.cine :is(.card,.np) .art.cv:not(.sm) .yy,html.cine.light :is(.card,.np) .art.cv:not(.sm) .yy{display:block!important;position:absolute!important;left:auto!important;right:-.03em!important;top:auto!important;bottom:-.2em!important;transform:none!important;margin:0!important;font:italic 400 66cqw/1 var(--serif)!important;letter-spacing:-.04em!important;color:#fff!important;opacity:.075;z-index:0!important;pointer-events:none;text-shadow:none!important;white-space:nowrap}
+.hs{overflow:hidden}
+.hs-wm{position:absolute;right:-.02em;bottom:-.2em;font:italic 400 clamp(180px,52vw,300px)/1 var(--serif);letter-spacing:-.04em;color:#fff;opacity:.07;pointer-events:none;z-index:0}
+.hs>:not(.hs-wm){position:relative;z-index:1}
+/* No. marks: a raised, underlined o */
+.nmk{text-transform:none;margin-right:.12em;letter-spacing:0}
+.nmk u{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.12em;font-size:.68em;vertical-align:.42em;margin-left:.04em}
+/* tighter tracking on the big serif names */
+html.cine .art.cv .hd{letter-spacing:-.022em!important}
+.hs-name{letter-spacing:-.03em}
+html.cine .sec h2{letter-spacing:-.014em}
+/* dates in small capitals */
+.rail>.card .note.sc,.note.sc{text-transform:uppercase;font:600 11px/1.5 var(--font)!important;letter-spacing:.12em!important;color:var(--muted)!important;margin-top:5px!important}
+@media (min-width:960px){ .rail.wide .card:nth-child(n+7){display:none!important} }
+
+/* The Essentials: a numbered chart, four to a column, paged sideways */
+.shelf .ess-chart{display:flex;gap:0;scroll-snap-type:x mandatory;padding-bottom:20px}
+.ess-col{flex:none;width:calc(100% - 44px);scroll-snap-align:start;display:flex;flex-direction:column;padding-right:16px;box-sizing:border-box}
+.ess-col:last-child{padding-right:0}
+.shelf .ess-row,.ess-row{width:100%!important;display:grid!important;grid-template-columns:46px 60px 1fr;align-items:center;gap:0 14px;padding:10px 0;text-align:left;border-bottom:1px solid var(--line,rgba(127,127,127,.18));scroll-snap-align:none}
+.ess-col .ess-row:last-child{border-bottom:0}
+.ess-row .art{width:60px!important;height:60px!important;aspect-ratio:1;border-radius:8px}
+.ess-n{font:400 44px/1 var(--serif);letter-spacing:-.04em;text-align:center;font-variant-numeric:lining-nums proportional-nums;color:var(--text)}
+.ess-tx{min-width:0;display:flex;flex-direction:column;gap:3px}
+.ess-tx .t{margin:0!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ess-tx .note{margin:0!important;color:var(--muted);font:400 12.5px/1.35 var(--font);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (min-width:960px){
+  .rail.ess-chart{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))!important;gap:0 28px!important;align-items:start}
+  .ess-col{width:auto;padding-right:0}
+  .ess-row .art{width:60px!important;height:60px!important;aspect-ratio:1!important}
+}
+
+/* This week: wide 16:9 cards */
+.shelf .rail.wide .card{width:min(300px,78vw)}
+.rail.wide .card .art{width:100%!important;height:auto!important;aspect-ratio:16/9!important}
+@media (min-width:960px){ .rail.wide{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))!important} }
+html.cine .card .art.cv.wd .hd{top:auto!important;bottom:19%!important;right:30%!important;font-size:8.4cqw!important;-webkit-line-clamp:2!important;max-height:2.1em}
+html.cine .art.cv.wd :is(.pcode,.no,.dt){font-size:3.3cqw!important}
+html.cine .art.cv.wd .dt{bottom:9%!important}
+html.cine .card .art.cv.wd .yy{font-size:92cqh!important;bottom:-.2em!important}
+
+/* By the numbers */
+.band{margin:8px 20px 34px;border-radius:22px;padding:30px 26px 28px;overflow:hidden;text-align:left}
+.band-k{font:600 11px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:rgba(246,239,227,.7)}
+.band-n{font:400 clamp(76px,24vw,128px)/.9 var(--serif);letter-spacing:-.045em;margin:18px 0 10px;font-variant-numeric:lining-nums}
+.band-s{font:400 17px/1.4 var(--serif);font-style:italic;color:rgba(246,239,227,.86);max-width:30ch}
+@media (min-width:960px){ .band{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:36px;align-items:end;padding:36px 40px}
+  .band-k{grid-column:1/-1}.band-n{grid-row:2;margin:16px 0 0}.band-s{grid-row:2;font-size:20px;padding-bottom:10px} }
+
+/* ================= Finishing pass 2 ================= */
+/* Collections */
+.rail.cols{gap:12px}
+.colcard{flex:none;width:156px;aspect-ratio:3/4;border-radius:14px;padding:14px 14px 16px;display:flex;flex-direction:column;text-align:left;overflow:hidden;scroll-snap-align:start;box-shadow:inset 3px 0 0 color-mix(in srgb,var(--pc) 55%,#fff 45%)}
+.colcard>*{position:relative;z-index:1}
+.cc-no{font:600 10.5px/1 var(--font);letter-spacing:.16em;color:rgba(246,239,227,.6)}
+.cc-k{margin-top:auto;font:600 9.5px/1 var(--font);letter-spacing:.18em;text-transform:uppercase;color:rgba(246,239,227,.7)}
+.cc-t{font:400 25px/1.02 var(--serif);letter-spacing:-.02em;color:#f6efe3;margin:7px 0 9px;height:3.06em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cc-m{font:600 9.5px/1.3 var(--font);letter-spacing:.12em;text-transform:uppercase;color:rgba(246,239,227,.66)}
+@media (min-width:960px){ .rail.cols{grid-template-columns:repeat(6,1fr)!important} .colcard{width:auto} }
+/* Endless */
+.mixcard{flex:none;width:236px;min-height:128px;border-radius:16px;padding:16px 16px 14px;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto 1fr auto;text-align:left;overflow:hidden;scroll-snap-align:start}
+.mixcard>*{position:relative;z-index:1}
+.mx-k{grid-column:1;font:600 9.5px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:rgba(246,239,227,.7)}
+.mixcard.on .mx-k{color:#f6efe3}
+.mixcard.on .mx-k::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#f6efe3;margin-right:7px;vertical-align:1px}
+.mx-t{grid-column:1/-1;align-self:end;font:400 27px/1.02 var(--serif);letter-spacing:-.02em;color:#f6efe3;margin-top:18px}
+.mx-s{grid-column:1;font:400 12.5px/1.35 var(--font);color:rgba(246,239,227,.72);margin-top:5px;padding-right:8px}
+.mx-go{grid-column:2;grid-row:3;align-self:end;width:36px;height:36px;border-radius:50%;background:#f6efe3;display:grid;place-items:center}
+.mx-go svg{width:15px;height:15px;fill:#151210!important;stroke:none}
+@media (min-width:960px){ .rail.mixes{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))!important} .mixcard{width:auto} }
+/* Collection page */
+#tribute.colpage .tb-body{padding-top:4px}
+.col-hero{border-radius:22px;padding:28px 24px 24px;margin:4px 0 22px;overflow:hidden}
+.col-hero>*{position:relative;z-index:1}
+.col-k{font:600 10.5px/1 var(--font);letter-spacing:.2em;text-transform:uppercase;color:rgba(246,239,227,.7)}
+.col-t{font:400 clamp(40px,12vw,64px)/.98 var(--serif);letter-spacing:-.03em;color:#f6efe3;margin:14px 0 14px}
+.col-in{font:400 16px/1.55 var(--font);color:rgba(246,239,227,.86);margin:0 0 16px;max-width:52ch}
+.col-m{font:600 10.5px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;color:rgba(246,239,227,.66)}
+.col-acts{display:flex;gap:10px;margin-top:22px}
+.col-play,.col-shuf{height:46px;border-radius:999px;padding:0 20px;display:inline-flex;align-items:center;gap:8px;font:600 14px var(--font)}
+.col-play{background:#f6efe3;color:#151210}.col-play svg{width:15px;height:15px;fill:#151210!important;stroke:none}
+.col-shuf{background:rgba(246,239,227,.14);color:#f6efe3}
+.col-list{list-style:none;margin:0;padding:0}
+.col-row{width:100%;display:grid;grid-template-columns:34px 56px 1fr;gap:0 14px;align-items:center;padding:10px 0;text-align:left;border-bottom:1px solid var(--line)}
+.col-list li:last-child .col-row{border-bottom:0}
+.col-row .art{width:56px!important;height:56px!important;border-radius:8px}
+.col-n{font:400 26px/1 var(--serif);text-align:center;color:var(--muted)}
+.col-tx{min-width:0;display:flex;flex-direction:column;gap:3px}
+.col-tx .t{font:600 15px/1.25 var(--font);color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.col-tx .m{font:400 13px/1.3 var(--font);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Tonight: one line on why it matters */
+.hs-why{display:block;white-space:normal;overflow:visible;text-overflow:clip;margin:10px auto 0;max-width:30ch;font:italic 400 17px/1.35 var(--serif);color:rgba(246,239,227,.82)}
+/* Marks: clip button */
+.li .clipbtn svg{stroke:var(--accent)!important}
+/* Sound sheet */
+.snd{display:flex;flex-direction:column;gap:2px;padding:4px 0 8px}
+.snd-row{display:flex;align-items:center;gap:14px;padding:14px 2px;text-align:left;border-bottom:1px solid var(--line)}
+.snd-row:last-child{border-bottom:0}
+.snd-tx{flex:1;display:flex;flex-direction:column;gap:3px}
+.snd-t{font:600 16px var(--font);color:var(--text)}
+.snd-s{font:400 13px/1.35 var(--font);color:var(--muted)}
+.tgl{flex:none;width:50px;height:30px;border-radius:999px;background:rgba(127,127,127,.32);position:relative;transition:background .2s}
+.tgl i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .25s var(--ease,ease)}
+.snd-row.on .tgl{background:var(--accent)}
+.snd-row.on .tgl i{transform:translateX(20px)}
+
+/* A24 billing block in the player */
+.np .subt .bill{display:block;font:500 10px/1.55 var(--font);letter-spacing:.14em;text-transform:uppercase;color:rgba(246,239,227,.62);margin-top:6px}
+.np .subt .bill b{font-weight:700;color:rgba(246,239,227,.9)}
+.np .subt .bill-2{display:block;color:rgba(246,239,227,.5)}
+.np .subt .bill .nmk{letter-spacing:0}
+
+/* On this night removed: Tonight's card at the top already does this job */
+#otnWrap{display:none!important}
+/* Pick up where you left off: the ••• button sits where the number was */
+#rail .art.cv .no{display:none!important}
+
+/* ================= Opening: the app icon, then the library rises into place ================= */
+#intro{background:#0e0d0c!important}
+#intro .in-tile{width:96px;height:96px;border-radius:22px;display:block;box-shadow:0 0 0 1px rgba(255,255,255,.06);transition:transform .8s cubic-bezier(.2,.8,.2,1),opacity .6s ease}
+#intro.out .in-tile{transform:scale(1.06);opacity:0}
+#intro.out{transition:opacity .7s ease .1s}
+#intro .in-ded{opacity:0}
+#intro.go .in-ded{animation:inSoft 1.2s .5s ease forwards}
+body.opening .app>*{opacity:0;transform:translateY(14px)}
+body.opened .app>*{opacity:1;transform:none;transition:opacity .8s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+body.opened .app>*:nth-child(2){transition-delay:.06s}body.opened .app>*:nth-child(3){transition-delay:.12s}body.opened .app>*:nth-child(n+4){transition-delay:.18s}
+@media (prefers-reduced-motion:reduce){ body.opening .app>*{opacity:1;transform:none} }
+
+/* Settings, simplified */
+.sizepick.three{grid-template-columns:repeat(3,1fr)}
+.set-foot{margin:18px 2px 6px;font:400 12.5px/1.5 var(--font);color:var(--muted);text-align:center}
+.set-foot button{color:var(--text);text-decoration:underline;text-underline-offset:3px;font:inherit}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -1804,7 +2094,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 </style>
 </head>
 <body>
-<div id="intro" aria-label="The Art Bell Tapes"><div class="in-card"><div class="in-ttl"><span class="the"><i>The</i></span><span class="ab"><i>Art Bell</i></span><span class="ar"><i>Tapes</i></span></div><div class="in-ded">In memory of Art Bell · 1945–2018</div></div></div>
+<div id="intro" aria-label="The Art Bell Tapes"><img class="in-tile" src="brand/tile-288.png" alt="" width="96" height="96"><div class="in-ded">In memory of Art Bell · 1945–2018</div></div>
 <script>
 /* Opening animation: shown once per launch; leaves as soon as the library is ready (min ~1.3s, max 2.6s) */
 (function(){
@@ -1815,14 +2105,15 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   // Installed on Android, the phone already shows the logo on its own opening screen; a second logo would cross-fade over it
   const androidApp = /Android/i.test(navigator.userAgent) && (matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || matchMedia('(display-mode: minimal-ui)').matches);
   if(seen || androidApp){ el.remove(); return; }
-  const t0 = performance.now(), min = reduce ? 350 : quick ? 450 : 1900;
+  if(!reduce) document.body.classList.add('opening');
+  const t0 = performance.now(), min = reduce ? 350 : quick ? 450 : 1300;
   if(quick) el.classList.add('quick');
-  if(reduce){ el.querySelectorAll('.in-ttl i').forEach(x => { x.style.transform = 'none'; x.style.opacity = 1; x.style.filter = 'none'; }); }
-  const start = () => el.classList.add('go');
-  Promise.race([Promise.all([document.fonts.load('400 20px "Instrument Serif"'), document.fonts.load('italic 400 60px "Instrument Serif"')]), new Promise(r => setTimeout(r, 350))]).then(start, start);
+  const start = () => el.classList.add('go'); start();
   let done = false;
   // Leaving: the opening logo stays exactly as it is and the screen simply fades away
-  const go = () => { if(done) return; done = true; el.classList.add('out'); setTimeout(() => el.remove(), 750); };
+  // Leaving: the icon lifts away and the library rises gently into place underneath
+  const go = () => { if(done) return; done = true; el.classList.add('out'); requestAnimationFrame(() => { document.body.classList.add('opened'); });
+    setTimeout(() => { el.remove(); document.body.classList.remove('opening', 'opened'); }, 1100); };
   window.__introReady = () => setTimeout(go, Math.max(0, min - (performance.now() - t0)));
   el.addEventListener('click', go);
   setTimeout(go, 3000);
@@ -1869,7 +2160,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   <div class="top">
     <div>
       <div class="eyebrow"><span class="live"></span><span id="greet">From the high desert</span></div>
-      <h1><a href="./" id="homeLogo" class="home-logo" aria-label="The Art Bell Tapes, back to the start">Art Bell <em>Tapes</em></a></h1>
+      <h1><a href="./" id="homeLogo" class="home-logo greet-h" aria-label="Back to the start"><span id="greetH">Good evening</span></a></h1>
       <div class="sub" id="count">Loading the archive…</div>
     </div>
     <button class="gear" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24" class="ln"><path d="M4 7.5h9M17 7.5h3M4 16.5h3M11 16.5h9"/><circle cx="15" cy="7.5" r="2"/><circle cx="9" cy="16.5" r="2"/></svg></button>
@@ -1894,6 +2185,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   <div class="progress" id="progress"><i></i></div>
 
 
+  <section class="hero" id="hero" aria-label="Tonight in Art Bell history" style="display:none"></section>
   <button class="continuebig" id="contBig" type="button" style="display:none"></button>
   <button class="browsetop" id="browseTop" type="button"><span class="bt-t">Browse all shows</span><span class="bt-s" id="browseTopN"></span><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <div class="skel" id="skel" aria-hidden="true">
@@ -1948,7 +2240,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   <div class="tb-body" id="tbBody"></div>
 </div>
 <div class="install" id="install" role="dialog" aria-label="Install the app" aria-hidden="true">
-  <img src="apple-touch-icon.png" alt="" width="44" height="44">
+  <img src="brand/apple-touch-icon.png" alt="" width="44" height="44">
   <div class="ib-tx"><b>Install The Art Bell Tapes</b><span id="ibSub">Open it from your home screen, full screen, like any other app.</span></div>
   <button class="ib-go" id="ibGo">Install</button>
   <button class="ib-x" id="ibX" aria-label="Not now"><svg viewBox="0 0 24 24" class="ln"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button>
@@ -2010,11 +2302,12 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
     <button id="queueBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M16 14v6l4.5-3z"/></svg><span id="queueVal">Up next</span></button>
     <button id="bedBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M3 18.5v-6.5a2.5 2.5 0 0 1 2.5-2.5h13a2.5 2.5 0 0 1 2.5 2.5v6.5M3 15.5h18M6.5 9.5V7h4v2.5"/></svg><span>Bedside</span></button>
     <button id="castBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M3.5 17.5a3 3 0 0 1 3 3M3.5 13.5a7 7 0 0 1 7 7M3.5 9.5V6A1.5 1.5 0 0 1 5 4.5h14A1.5 1.5 0 0 1 20.5 6v12a1.5 1.5 0 0 1-1.5 1.5h-5"/></svg><span>Speaker</span></button>
-    <button id="boostBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>Boost</span></button>
+    <button id="boostBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>Sound</span></button>
   </div>
 </div>
 
 <div class="scrim" id="scrim"></div>
+<div class="hold" id="hold" aria-hidden="true"><div class="hold-ov"></div><div class="hold-row"></div><div class="hold-menu" role="menu"></div></div>
 <div class="bedside" id="bedside" role="dialog" aria-label="Bedside clock"><div class="bd-clock" id="bdClock"></div><div class="bd-date" id="bdDate"></div><div class="bd-now" id="bdNow"></div><div class="bd-sleep" id="bdSleep"></div><div class="bd-hint">Tap to close</div></div>
 <div class="sheet" id="sheet"></div>
 <div class="toast" id="toast"></div>
@@ -2182,6 +2475,7 @@ const progCol = show => PROG_COL[show] || PROG_COL['Art Bell'];
 // Two-letter programme codes, like a record label's catalogue prefix
 const PROG_CODE = { 'Coast to Coast AM':'CC', 'Dreamland':'DL', 'Ghost to Ghost':'GG', 'Somewhere in Time':'ST', 'Dark Matter':'DM', 'Midnight in the Desert':'MD', 'Area 2000':'AT', 'Art Bell':'AB' };
 const progCode = show => PROG_CODE[show] || 'AB';
+const catLabel = e => e && e.pno ? progCode(e.show) + ' ' + e.pno : '';
 const LINE_MOTIF = {
   saucer: '<ellipse cx="50" cy="44" rx="30" ry="7"/><path d="M38 42a12 10 0 0 1 24 0"/><path d="M44 52l-8 22M56 52l8 22" stroke-dasharray="2 3"/>',
   stars: '<circle cx="50" cy="44" r="14"/><ellipse cx="50" cy="44" rx="28" ry="6"/><path d="M18 18h.1M80 24h.1M72 70h.1M26 66h.1" stroke-width="3"/>',
@@ -2351,10 +2645,17 @@ function coverStyle(key, show, title){
   const out = { bg, fg, ac, ink, kind, win: `${motifCSS(kind, bg, ac, h)}, ${fg}`, layers: `linear-gradient(to top, ${bg} 0 24%, transparent 50%), ${motifCSS(kind, fg, ac, h)}, ${bg}` };
   coverCache.set(ck, out); return out;
 }
+/* The season it aired in: winter nights a touch cooler, summer nights a touch warmer. The programme colour stays recognisable. */
+function seasonCol(fill, date){
+  const m = date && +String(date).slice(5, 7); if(!m) return fill;
+  const t = Math.cos((m - .5) / 12 * 2 * Math.PI), p = Math.round(Math.abs(t) * 15);
+  return p < 4 ? fill : `color-mix(in oklab, ${fill}, ${t > 0 ? '#3f6fa6' : '#d4893a'} ${p}%)`;
+}
+const noMark = n => n ? `<span class="nmk">N<u>o</u></span>${n}` : '';
 function artHTML(e, cls=''){
   const [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
   const yy = e.year ? "’" + e.year.slice(2) : '—';
-  return `<div class="art gen sleeve cv ${cls}" style="--pc:${fill};--pl:${line}">${motifSVG(kind, 'mot', hashStr(e.id + 'c'))}${emblem(e.show, 'mk')}<span class="pcode">${progCode(e.show)}</span><span class="no">${e.no ? 'No. ' + e.no : ''}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
+  return `<div class="art gen sleeve cv ${cls}" style="--pc:${seasonCol(fill, e.date)};--pl:${line}">${motifSVG(kind, 'mot', hashStr(e.id + 'c'))}${emblem(e.show, 'mk')}<span class="pcode">${progCode(e.show)}</span><span class="no">${noMark(e.pno)}</span><span class="hd">${esc(headOf(e))}</span><span class="dt">${e.date ? niceDate(e.date) : esc(e.show)}</span><span class="yy">${yy}</span></div>`;
 }
 
 /* ================= State ================= */
@@ -2570,7 +2871,7 @@ function applyTopics(){
       const g2g = /-10-3[01]$/.test(e.date) && (/^(\d{4}|am)$/i.test(e.title0.trim()) || /ghost/i.test(e.hay0));
       const subj = t.filter(x => !/^[A-Z][\w.'’-]+ [A-Z]/.test(x) && !/open lines|ghost to ghost/i.test(x)).concat(m.filter(x => !/open lines/i.test(x))).slice(0, 3);
       const base = g2g ? 'Ghost to Ghost ' + e.year : /^\d{4}$/.test(e.title0.trim()) || !e.title0.trim() ? (subj.length ? 'Open Lines' : e.show + ' ' + e.year) : e.title0;
-      e.title = smartText(g2gTitle(e) || (subj.length && !g2g ? base + ' – ' + subj.join(', ') : base));
+      e.title = titleCase(smartText(g2gTitle(e) || (subj.length && !g2g ? base + ' – ' + subj.join(', ') : base)));
     }
     e.about = (e.hay0 + ' | ' + t.join(' | ')).toLowerCase();
     e.hay = e.about + (m.length ? ' | ' + m.join(' | ').toLowerCase() : '');
@@ -2653,6 +2954,18 @@ function g2gTitle(e){
   if(/stories/.test(raw)) return 'Ghost Stories Open Lines';
   return 'Ghost to Ghost Open Lines';
 }
+/* Every word starts with a capital, except the small joining words (unless they start the title or a part of it) */
+const SMALL_WORDS = new Set(['a','an','and','as','at','but','by','for','from','in','into','nor','of','on','or','the','to','vs','via','with']);
+function titleCase(t){
+  return String(t).replace(/[A-Za-z][A-Za-z’']*/g, (w, i, all) => {
+    const before = all.slice(0, i).replace(/\s+$/, ''), starts = !before || /[–—:(\-\/"“.!?]$/.test(before) || /\s[–—-]$/.test(all.slice(0, i));
+    const low = w.toLowerCase(), nx = all[i + w.length] || '';
+    if(/^x+$/.test(low) && (/\d/.test(all[i - 1] || '') || (nx === '-' && /\d/.test(all[i + w.length + 1] || '')))) return w;   // dates like 07-xx-199x
+    if(SMALL_WORDS.has(low) && !starts) return /^[A-Z][a-z’']*$/.test(w) || w === low ? low : w;
+    if(/^[a-z]/.test(w)) return w[0].toUpperCase() + w.slice(1);
+    return w;
+  });
+}
 function tidyTitles(){
   const count = new Map(); episodes.forEach(e => (e.guests || []).forEach(g => count.set(g, (count.get(g) || 0) + 1)));
   const known = [...count.entries()].filter(([g, n]) => n >= 2 && g.split(' ').length >= 2).map(([g]) => g).sort((a, b) => b.length - a.length);
@@ -2675,18 +2988,29 @@ function tidyTitles(){
     if(/rec test/i.test(t)) t = 'Test broadcast before launch';
     t = t.replace(/^[\s,.;:–-]+/, '');
     for(const [re, to] of CAPS) t = t.replace(re, to);
-    e.title = t;
+    e.title = titleCase(t);
   });
 }
 function afterLoad(quiet){
   resolveUndated();
   mergeGuestSpellings();
-  tidyTitles(); episodes.forEach(e => { e.title = smartText(g2gTitle(e) || e.title); });
+  // Somewhere in Time was a rebroadcast series. Where the original night is already in the library the rebroadcast is a
+  // duplicate: hide it and keep it as a backup copy. Where it's the only surviving copy, file it under the programme it first aired on.
+  { const byNight = new Map();
+    episodes.forEach(e => { if(e.show !== 'Somewhere in Time' && e.date && e.date.length === 10){ if(!byNight.has(e.date)) byNight.set(e.date, []); byNight.get(e.date).push(e); } });
+    episodes = episodes.filter(e => {
+      if(e.show !== 'Somewhere in Time' || !e.date || e.date.length < 10) return true;
+      const orig = byNight.get(e.date);
+      if(orig){ orig.forEach(o => { const k = o.date + '|' + o.show + '|'; if(!ALTS.has(k)) ALTS.set(k, []); ALTS.get(k).push({ item:e.item, file:e.file, length:e.length }); }); return false; }
+      e.show = showByDate(e.date); e.via = 'Somewhere in Time'; return true;
+    });
+  }
+  tidyTitles(); episodes.forEach(e => { e.title = titleCase(smartText(g2gTitle(e) || e.title)); });
   idMap = new Map(episodes.map(e => [e.id, e]));
   applyTopics(); sugIndex = null; coverCache.clear();
   // catalogue numbers start with Art's first show in the archive (12 Dec 1992); earlier odds and ends stay unnumbered
-  let catNo = 0;
-  [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach(e => { e.no = !e.date || e.date.length < 10 || e.date < '1992-12-12' ? 0 : ++catNo; });   // no number without a known air date
+  let catNo = 0; const progNo = {}; // overall number across the run, and a number within each programme (DL 46)
+  [...episodes].sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999') || a.id.localeCompare(b.id)).forEach(e => { e.no = !e.date || e.date.length < 10 || e.date < '1992-12-12' ? 0 : ++catNo; e.pno = e.no ? (progNo[e.show] = (progNo[e.show] || 0) + 1) : 0; });   // no number without a known air date
   const yrs = episodes.filter(e => e.no).map(e => e.year).sort();
   $('#count').textContent = `${episodes.length.toLocaleString('en-GB')} shows · ${yrs[0] || '1992'}–${yrs[yrs.length - 1] || '2016'}`;
   fuse = new Fuse(episodes, { keys:[{name:'title', weight:.6}, {name:'guests', weight:.5}, {name:'show', weight:.15}, {name:'nd', weight:.2}, {name:'date', weight:.2}, {name:'tags', weight:.35}], threshold:.38, ignoreLocation:true, minMatchCharLength:2 });
@@ -2738,7 +3062,7 @@ dial.addEventListener('scroll', () => {
   dial.querySelectorAll('.yr').forEach(b => { const c = b.offsetLeft + b.offsetWidth/2, d = Math.abs(c-mid); if(d < bd){ bd = d; best = b; } });
   dial.querySelectorAll('.yr').forEach(b => b.classList.toggle('on', b === best));
   if(dialLock) return;
-  dialT = setTimeout(() => { if(best && best.dataset.y !== yearFilter){ yearFilter = best.dataset.y; if(navigator.vibrate && !calm()) navigator.vibrate(8); applyFilters(); } }, 160);
+  dialT = setTimeout(() => { if(best && best.dataset.y !== yearFilter){ yearFilter = best.dataset.y;  applyFilters(); } }, 160);
 }, {passive:true});
 dial.addEventListener('click', ev => {
   const b = ev.target.closest('.yr'); if(!b) return;
@@ -3207,7 +3531,9 @@ function applyFilters(){
   if(yearFilter) list = list.filter(e => e.year === yearFilter);
   if(guestFilter) list = list.filter(e => e.guests.includes(guestFilter));
   let ranked = false;
-  if(terms.length){
+  const codeQ = $('#q').value.trim().match(/^(cc|dl|gg|dm|md|at)\s*(?:no\.?\s*)?0*(\d{1,4})$/i);
+  if(codeQ){ list = list.filter(e => progCode(e.show).toLowerCase() === codeQ[1].toLowerCase() && e.pno === +codeQ[2]); }  // "DL 46" goes straight to that show
+  else if(terms.length){
     const q0 = $('#q').value.trim().toLowerCase(), phrase = TOPIC_ALIASES.find(g => g[0] === q0);
     const exact = phrase ? list.filter(e => phrase.some(a => plainQ(e.hay).includes(a))) : list.filter(e => terms.every(t => termHit(e.hay, t)));
     const q = $('#q').value.trim();
@@ -3302,7 +3628,7 @@ function render(){
   const el = $('#list');
   if(!episodes.length){ el.innerHTML = ''; return; }
   if(!view.length){
-    el.innerHTML = `<div class="empty">${{fav:'Nothing here yet. Tap ⋯ on any show to add it to your favourites.', saved:'No offline shows yet. Save a few for when you’re out of signal.', recent:'Nothing played yet.'}[tab] || 'Nothing on the dial for that. Try another search or year.'}</div>`;
+    el.innerHTML = `<div class="empty">${{fav:'Nothing kept yet. Tap ⋯ on any show and it will wait for you here.', saved:'Nothing saved for the road. Shows you save here play anywhere, even out where the signal ends.', recent:'Nothing played yet. Tonight’s show is a good place to start.'}[tab] || 'Nothing on the dial for that. Try a surname, a subject or a year.'}</div>`;
     return;
   }
   const homeAll = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value;
@@ -3325,7 +3651,7 @@ function render(){
       ${artHTML(e,'sm')}
       <div class="info">
         <div class="t">${esc(e.title)}</div>
-        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.no ? `<span class="cno">No. ${e.no}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span aria-label="${lenTxt(len)}">${lenShort(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?`<span class="played">✓ ${whenTxt(p && p.at)}</span>`:''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span><span class="left">${leftTxt(p.d - p.t)}</span>`:''}</div>
+        <div class="m">${isCur ? '<span class="eq"><i></i><i></i><i></i></span>' : ''}${e.pno ? `<span class="cno">${catLabel(e)}</span>` : ''}<span>${niceDate(e.date)}</span>${len?`<span class="sep">·</span><span aria-label="${lenTxt(len)}">${lenShort(len)}</span>`:''}${state.favs[e.id]?'<span class="badge">★</span>':''}${savedKeys.has(e.id)?'<span class="badge">↓</span>':''}${done?`<span class="played">✓ ${whenTxt(p && p.at)}</span>`:''}${pct?`<span class="bar"><i style="width:${pct}%"></i></span><span class="left">${leftTxt(p.d - p.t)}</span>`:''}</div>
         ${mt && mt.length ? `<div class="jumps"><span class="jl">${esc(ml)}</span>${mt.slice(0,4).map(t => `<button class="jump" data-t="${t}" aria-label="Play ${esc(ml)} at ${fmt(Math.max(0,t-10))}">${I.play2}${fmt(Math.max(0,t-10))}</button>`).join('')}${mt.length > 4 ? `<span class="jl">+${mt.length-4}</span>` : ''}</div>` : ''}
       </div>
       <button class="more" data-act="more" aria-label="More options">${I.more}</button>
@@ -3339,14 +3665,14 @@ function render(){
   list.addEventListener('pointerdown', ev => {
     const row = ev.target.closest('.row'); fired = false; if(!row || ev.target.closest('button') || ev.pointerType === 'mouse') return;
     x0 = ev.clientX; y0 = ev.clientY; clearTimeout(t);
-    t = setTimeout(() => { const e = byId(row.dataset.id); if(!e) return; fired = true; swallowUntil = Date.now() + 8000; row.classList.add('held'); setTimeout(() => row.classList.remove('held'), 260); if(navigator.vibrate && !calm()) navigator.vibrate(12); openSheet(e); }, 480);
+    t = setTimeout(() => { const e = byId(row.dataset.id); if(!e) return; fired = true; swallowUntil = Date.now() + 8000; row.classList.add('held'); setTimeout(() => row.classList.remove('held'), 260);  openHold(row, e); }, 480);
   });
   list.addEventListener('pointermove', ev => { if(t && (Math.abs(ev.clientX - x0) > 8 || Math.abs(ev.clientY - y0) > 8)){ clearTimeout(t); t = 0; } });
   ['pointerup', 'pointercancel', 'pointerleave'].forEach(k => list.addEventListener(k, () => { clearTimeout(t); t = 0; }));
   let swallowUntil = 0;
   list.addEventListener('touchend', ev => { if(fired){ ev.preventDefault(); fired = false; swallowUntil = Date.now() + 400; } }, { passive:false });
   document.addEventListener('click', ev => { if(Date.now() < swallowUntil){ fired = false; swallowUntil = 0; ev.stopImmediatePropagation(); ev.preventDefault(); } }, true);
-  list.addEventListener('contextmenu', ev => { if(ev.target.closest('.row') && matchMedia('(pointer:coarse)').matches) ev.preventDefault(); });
+  list.addEventListener('contextmenu', ev => { const row = ev.target.closest('.row'); if(!row) return; ev.preventDefault(); if(!matchMedia('(pointer:coarse)').matches){ const e = byId(row.dataset.id); if(e) openHold(row, e); } });
 })();
 $('#list').addEventListener('click', ev => {
   if(ev.target.id === 'loadmore'){ shown += PAGE; render(); return; }
@@ -3370,7 +3696,7 @@ $('#list').addEventListener('click', ev => {
     row.style.transform = `translateX(${dx}px)`;
     sw.querySelector('.bg.l').style.opacity = dx > 0 ? 1 : 0; sw.querySelector('.bg.r').style.opacity = dx < 0 ? 1 : 0;
     const nowArmed = Math.abs(dx) > TH;
-    if(nowArmed !== armed){ armed = nowArmed; sw.querySelectorAll('.bg').forEach(b => b.classList.toggle('armed', armed)); if(armed && navigator.vibrate && !calm()) navigator.vibrate(12); }
+    if(nowArmed !== armed){ armed = nowArmed; sw.querySelectorAll('.bg').forEach(b => b.classList.toggle('armed', armed));  }
   }, {passive:false});
   list.addEventListener('touchend', () => {
     if(!sw) return; const s = sw, r = row; sw = null; s.classList.remove('dragging'); r.style.transform = '';
@@ -3396,7 +3722,7 @@ function buildGuests(){
 function renderGuests(){
   const q = $('#q').value.trim().toLowerCase();
   const list = guestCounts.filter(([g]) => !q || g.toLowerCase().includes(q));
-  if(!list.length){ $('#guests').innerHTML = `<div class="empty">${guestCounts.length ? 'No guests match that.' : 'No guest names found yet.'}</div>`; return; }
+  if(!list.length){ $('#guests').innerHTML = `<div class="empty">${guestCounts.length ? 'No guest by that name. Try just the surname.' : 'The guest list is still loading.'}</div>`; return; }
   let html = '', last = '';
   if(!q){
     const top = guestCounts.slice().sort((a, b) => b[1] - a[1]).slice(0, 12);
@@ -3421,8 +3747,8 @@ $('#guests').addEventListener('click', ev => {
 /* ================= Fun bits ================= */
 (function(){
   const h = new Date().getHours();
-  const part = h < 5 ? 'Good morning, night owl' : h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
-  $('#greet').textContent = `${part} from the high desert`;
+  $('#greetH').textContent = h < 5 ? 'Still up?' : h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+  $('#greet').textContent = h < 5 ? 'The lines are open in the high desert' : 'From the high desert';
 })();
 
 
@@ -3455,20 +3781,20 @@ async function coverPNG(e, S = 512){
   g.fillStyle = '#ece6da'; g.font = `400 ${Math.round(S*.105)}px "Instrument Serif", Georgia, serif`;
   const lines = wrap(headOf(e), S*.84); lines.forEach((l, i) => g.fillText(l, S*.08, S*(.8 - (lines.length - 1 - i)*.1)));
   g.font = `600 ${Math.round(S*.036)}px "Inter", sans-serif`; g.fillStyle = line;
-  g.fillText((e.no ? 'NO. ' + e.no + '   ' : ''), S*.08, S*.9);
-  const w0 = g.measureText(e.no ? 'NO. ' + e.no + '   ' : '').width; g.fillStyle = '#9a9286';
+  g.fillText((e.pno ? catLabel(e) + '   ' : ''), S*.08, S*.9);
+  const w0 = g.measureText(e.pno ? catLabel(e) + '   ' : '').width; g.fillStyle = '#9a9286';
   g.fillText(((e.date ? niceDate(e.date) : '') + ' · ' + (SHOW_SHORT[e.show] || e.show)).toUpperCase(), S*.08 + w0, S*.9);
   const url = cv.toDataURL('image/png'); artCache.set(key, url); return url;
 }
 async function setNowPlayingMeta(e){
   if(!('mediaSession' in navigator) || typeof MediaMetadata === 'undefined') return;
-  const base = { title: e.title, artist: `${e.show} · ${niceDate(e.date)}`, album: 'The Art Bell Tapes' };
+  const base = lockWords(e); msArt = null;
   navigator.mediaSession.metadata = new MediaMetadata(base);
   try{
     const [big, small] = await Promise.all([coverPNG(e, 512), coverPNG(e, 256)]);
     if(audio.dataset.id !== e.id) return;
-    navigator.mediaSession.metadata = new MediaMetadata(Object.assign(base, { artwork: [
-      { src: small, sizes: '256x256', type: 'image/png' }, { src: big, sizes: '512x512', type: 'image/png' } ] }));
+    msArt = [{ src: small, sizes: '256x256', type: 'image/png' }, { src: big, sizes: '512x512', type: 'image/png' }];
+    navigator.mediaSession.metadata = new MediaMetadata(Object.assign(lockWords(e), { artwork: msArt }));
   }catch(x){}
 }
 
@@ -3523,7 +3849,7 @@ function renderShelves(show){
   const ess = essentials();
   const essHTML = ess.length ? `<section class="shelf ess"><div class="sec"><h2>The Essentials</h2><button class="seeall" data-ess="1">Play all</button></div>
       <p class="ess-intro">${ess.length} nights every listener should hear, in the order they aired.</p>
-      <div class="rail">${ess.map(({e, note}, i) => { const em = essMoment(e); return `<button class="card esscard" data-id="${esc(e.id)}">${artHTML(e)}<div class="enum">${String(i+1).padStart(2,'0')}</div><div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(note)}</div></button>`; }).join('')}</div></section>` : '';
+      <div class="rail ess-chart">${Array.from({length: Math.ceil(ess.length / 4)}, (_, c) => `<div class="ess-col">${ess.slice(c * 4, c * 4 + 4).map(({e, note}, j) => `<button class="card ess-row" data-id="${esc(e.id)}"><span class="ess-n">${c * 4 + j + 1}</span>${artHTML(e, 'sm')}<span class="ess-tx"><span class="t">${esc(headOf(e))}</span><span class="note">${esc(note)}</span></span></button>`).join('')}</div>`).join('')}</div></section>` : '';
   const tribHTML = `<button class="tribcard" id="tribCard"><span class="k">In memory</span><span class="n">Art Bell</span><span class="d">1945 — 2018</span><span class="s">The man, the lines and a life on the air</span></button>`;
   // This week in Art Bell history, and seasonal shelves
   const now = new Date(), doy = d => Math.round((Date.UTC(2001, +d.slice(5, 7) - 1, +d.slice(8, 10)) - Date.UTC(2001, 0, 1)) / 864e5);
@@ -3531,14 +3857,29 @@ function renderShelves(show){
   const near = d => { const x = Math.abs(doy(d) - today); return Math.min(x, 365 - x) <= 3; };
   const week = episodes.filter(e => e.date && e.date.length === 10 && near(e.date)).sort((a, b) => a.date.localeCompare(b.date));
   const byAir = (a, b) => (a.date || '9999').localeCompare(b.date || '9999');
-  const shelf = (title, sub, list, key) => (list = list.slice().sort(byAir), list.length) ? `<section class="shelf"><div class="sec"><h2>${title}</h2>${key ? `<button class="seeall" data-q="${esc(key)}">See all</button>` : ''}</div>${sub ? `<p class="ess-intro">${sub}</p>` : ''}
-      <div class="rail">${list.slice(0, 14).map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(topicOf(e) || e.title)}</div><div class="note">${esc(niceDate(e.date))}</div></button>`).join('')}</div></section>` : '';
+  const shelf = (title, sub, list, key, wide) => (list = list.slice().sort(byAir), list.length) ? `<section class="shelf"><div class="sec"><h2>${title}</h2>${key ? `<button class="seeall" data-q="${esc(key)}">See all</button>` : ''}</div>${sub ? `<p class="ess-intro">${sub}</p>` : ''}
+      <div class="rail${wide ? ' wide' : ''}">${list.slice(0, 14).map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e, wide ? 'wd' : '')}<div class="t">${esc(topicOf(e) || e.title)}</div><div class="note sc">${wide && e.year ? `${now.getFullYear() - +e.year} years ago · ` : ''}${esc(niceDate(e.date))}</div></button>`).join('')}</div></section>` : '';
+  // By the numbers: plain facts from the library, set large in a programme's colour
+  const fmt = n => n.toLocaleString('en-GB'), yrs = l => { const y = l.map(e => +e.year).filter(Boolean); return y.length ? [Math.min(...y), Math.max(...y)] : null; };
+  const band = (show, n, line) => { const [f, l] = progCol(show); return `<section class="band cfield" style="--pc:${f};--pl:${l}"><div class="band-k">By the numbers</div><div class="band-n">${n}</div><div class="band-s">${line}</div></section>`; };
+  const facts = [];
+  { const c = byShow['Coast to Coast AM'] || [], y = yrs(c); if(c.length > 20 && y) facts.push(band('Coast to Coast AM', fmt(c.length), `nights of Coast to Coast AM, ${y[0]}–${y[1]}`)); }
+  { const secs = episodes.reduce((a, e) => a + (+e.length || 0), 0), withLen = episodes.filter(e => +e.length > 0).length;
+    if(withLen > episodes.length * .8 && secs > 36e4) facts.push(band('Dreamland', fmt(Math.round(secs / 3600)), `hours of Art Bell in the library`)); }
+  { const g = new Set(); episodes.forEach(e => (e.guests || []).forEach(x => g.add(x))); if(g.size > 50) facts.push(band('Midnight in the Desert', fmt(g.size), `guests who took Art’s call, from the famous to the never heard of again`)); }
+  const bandA = facts[0] || '', bandB = facts[1] || facts[2] || '';
   const m = now.getMonth() + 1, d = now.getDate();
   let seasonal = '';
   if((m === 10 && d >= 15) || (m === 11 && d <= 3)) seasonal = shelf('Ghost to Ghost season', 'Art’s Halloween nights of listeners’ own ghost stories, every year on record.', episodes.filter(e => /ghost to ghost|halloween/i.test(e.title) || (e.date && /-10-3[01]$/.test(e.date) && /ghost/i.test(e.hay))).sort((a, b) => a.date.localeCompare(b.date)), 'Ghost to Ghost');
   else if((m === 12 && d >= 18) || (m === 1 && d <= 7)) seasonal = shelf('Predictions for the new year', 'Every year Art opened the lines for listeners’ predictions. See how they did.', episodes.filter(e => /prediction/i.test(e.title) && e.date && /-(12-(2\d|3[01])|01-0\d)$/.test(e.date)).sort((a, b) => a.date.localeCompare(b.date)), 'Predictions');
-  const weekHTML = shelf('This week in Art Bell history', `${week.length} show${week.length === 1 ? '' : 's'} that aired within a few days of today, across the years.`, week);
-  el.innerHTML = seasonal + essHTML + weekHTML + tribHTML + rows.map(([n], idx) => {
+  const weekHTML = shelf('This week in Art Bell history', `${week.length} show${week.length === 1 ? '' : 's'} that aired within a few days of today, across the years.`, week, '', true);
+  const colShelf = (title, sub, cs) => cs.length ? `<section class="shelf"><div class="sec"><h2>${title}</h2></div><p class="ess-intro">${sub}</p>
+      <div class="rail cols">${cs.map((c, i) => `<button class="colcard cfield" data-col="${esc(c.k)}" style="--pc:${c.col};--pl:${c.col}"><span class="cc-no">${String(i + 1).padStart(2, '0')}</span><span class="cc-k">${c.guest ? 'In conversation' : 'Collection'}</span><span class="cc-t">${esc(c.title)}</span><span class="cc-m">${c.list.length} ${c.guest ? 'nights' : 'shows'}<br>${c.yrs}</span></button>`).join('')}</div></section>` : '';
+  const colHTML = colShelf('Collections', 'Hand-gathered sets with a few words on each, the way a good archive should be.', collections().filter(c => !c.guest));
+  const convHTML = colShelf('In conversation', 'The guests who kept coming back, every night they spent with Art.', collections().filter(c => c.guest));
+  const mixHTML = `<section class="shelf"><div class="sec"><h2>Endless</h2></div><p class="ess-intro">Pick a mood and it keeps going, one night after another, until you stop it.</p>
+      <div class="rail mixes">${MIXES.map(m => { const on = state.radio && state.radioMix === m.k; return `<button class="mixcard cfield${on ? ' on' : ''}" data-mix="${m.k}" style="--pc:${m.col}"><span class="mx-k">${on ? 'On air' : 'Endless'}</span><span class="mx-t">${esc(m.title)}</span><span class="mx-s">${esc(m.sub)}</span><span class="mx-go">${on ? I.pause || '' : I.play2}</span></button>`; }).join('')}</div></section>`;
+  el.innerHTML = seasonal + essHTML + bandA + colHTML + weekHTML + convHTML + mixHTML + bandB + tribHTML + rows.map(([n], idx) => {
     const picks = dailyPick(byShow[n], 10).slice().sort(byAir);
     return `<section class="shelf"><div class="sec"><h2>${emblem(n,'hem')}${esc(n)}</h2><button class="seeall" data-show="${esc(n)}">See all</button></div>
       <div class="rail">${picks.map(e => `<button class="card" data-id="${esc(e.id)}">${artHTML(e)}<div class="t">${esc(topicOf(e) || e.title)}</div></button>`).join('')}</div></section>`;
@@ -3546,6 +3887,8 @@ function renderShelves(show){
 }
 $('#shelves').addEventListener('click', ev => {
   if(ev.target.closest('#tribCard')){ openTribute(); return; }
+  const cb = ev.target.closest('[data-col]'); if(cb){ buzz(6); openCollection(cb.dataset.col); return; }
+  const mb = ev.target.closest('[data-mix]'); if(mb){ buzz(10); startMix(mb.dataset.mix); return; }
   if(ev.target.closest('[data-ess]')){ const list = essentials().map(x => x.e); if(!list.length) return; state.radio = false; state.queue = list.slice(1).map(e => e.id); saveState(); loadEpisode(list[0], true); toast(`Playing The Essentials · ${list.length} shows`); renderBento(); return; }
   const s = ev.target.closest('.seeall'); if(s && s.dataset.q){ $('#q').value = s.dataset.q; $('#clear').classList.add('show'); applyFilters(); scrollTo({top:0, behavior:smooth()}); return; }
   if(s){ setShow(s.dataset.show); scrollTo({top:0, behavior:smooth()}); return; }
@@ -3575,7 +3918,61 @@ function syncChips(b){
   row.querySelectorAll('.otn-chip').forEach((c, i) => { const on = i === tonightIdx; c.classList.toggle('on', on); c.setAttribute('aria-selected', on); });
   const c = row.children[tonightIdx]; if(c){ const l = c.offsetLeft - row.clientWidth/2 + c.offsetWidth/2; row.scrollTo({ left:l, behavior:smooth() }); }
 }
+/* Tonight: the home screen opens on an editorial card for a show that aired on this night, one slide per year */
+let heroIdx = 0;
+function renderHero(){
+  const h = $('#hero'), show = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !allOpen && !$('#q').value && episodes.length;
+  h.style.display = show ? '' : 'none'; if(!show) return;
+  const now = new Date(), tn = tonightShows(), list = tn.list.slice().sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+  if(!list.length){ h.style.display = 'none'; return; }
+  if(heroIdx >= list.length) heroIdx = 0;
+  const day = `${now.getDate()} ${MONTHS[now.getMonth()]}`;
+  const slides = list.map((e, i) => {
+    const c = coverStyle(e.id, e.show, e.title), [fill, line] = progCol(e.show), ago = e.year ? now.getFullYear() - +e.year : 0;
+    const len = e.length ? lenTxt(e.length) : '';
+    return `<article class="hs cfield" style="--pc:${seasonCol(fill, e.date)};--pl:${line}" data-id="${esc(e.id)}" aria-label="${esc(headOf(e))}, ${esc(niceDate(e.date))}">
+      <div class="hs-top"><span class="hs-code">${progCode(e.show)}</span><span class="hs-eye">${tn.exact ? 'Tonight' : 'Around tonight'} · ${esc(day)}</span><span class="hs-no">${noMark(e.pno)}</span></div>${e.year ? `<span class="hs-wm" aria-hidden="true">’${e.year.slice(2)}</span>` : ''}
+      <div class="hs-ago">${ago ? (tn.exact ? `${ago} years ago tonight` : `${ago} years ago`) : esc(niceDate(e.date))}</div>
+      <h2 class="hs-name${headOf(e).length > 22 ? ' long' : ''}"><span>${esc(headOf(e))}</span></h2>
+      <div class="hs-topic">${esc(topicOf(e) || e.show)}${(w => w ? `<span class="hs-why">${esc(w)}</span>` : '')(contextLine(e))}</div>
+      <button class="hs-play" data-play="${esc(e.id)}" aria-label="Play ${esc(headOf(e))}">${I.play2}</button>
+      <div class="hs-meta">${len ? 'Listen · ' + len : 'Listen'}</div>
+    </article>`;
+  }).join('');
+  const chips = list.length > 1 ? `<div class="hero-years" role="tablist" aria-label="Pick a year">${list.map((e, i) => `<button class="hy${i === heroIdx ? ' on' : ''}" data-i="${i}" role="tab" aria-selected="${i === heroIdx}">${esc(e.year)}</button>`).join('')}</div>` : '';
+  const sig = list.map(e => e.id).join('|');
+  if(h.dataset.sig !== sig){
+    h.dataset.sig = sig;
+    h.innerHTML = `<div class="hero-track" id="heroTrack">${slides}</div>${chips}`;
+    const tr = $('#heroTrack'); requestAnimationFrame(() => { tr.scrollLeft = heroIdx * tr.clientWidth; });
+    let t = 0; tr.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(() => { const i = Math.round(tr.scrollLeft / Math.max(1, tr.clientWidth)); if(i !== heroIdx){ heroIdx = i; h.querySelectorAll('.hy').forEach((c, k) => { c.classList.toggle('on', k === i); c.setAttribute('aria-selected', k === i); }); } }, 80); }, { passive:true });
+  }
+}
+$('#hero').addEventListener('click', ev => {
+  const y = ev.target.closest('.hy'); if(y){ heroIdx = +y.dataset.i; const tr = $('#heroTrack'); tr.scrollTo({ left: heroIdx * tr.clientWidth, behavior: smooth() }); $('#hero').querySelectorAll('.hy').forEach((c, k) => { c.classList.toggle('on', k === heroIdx); c.setAttribute('aria-selected', k === heroIdx); }); return; }
+  const p = ev.target.closest('[data-play]'); if(p){ const e = byId(p.dataset.play); if(e) loadEpisode(e, true); return; }
+  const s = ev.target.closest('.hs'); if(s){ const e = byId(s.dataset.id); if(e) openSheet(e); }
+});
+/* Editorial headings: a small label above every section title, like a magazine */
+function addKickers(){
+  const P = Object.fromEntries(PROGRAMMES.map(p => [p[0], p[1]]));
+  const K = { 'Programmes':'The shows', 'The Essentials':'Start here', 'This week in Art Bell history':'Anniversaries', 'Pick up where you left off':'Your listening',
+              'Jump to a year':'Browse', 'All shows':'The catalogue', 'Episodes':'The catalogue', 'Guests':'Who Art talked to', 'Favourites':'Kept', 'Recent':'Your listening', 'Offline':'On this phone',
+              'Collections':'Gathered', 'In conversation':'The regulars', 'Endless':'Non-stop' };
+  document.querySelectorAll('.sec h2').forEach(h => {
+    const t = h.textContent.trim();
+    let k = K[t] || P[t] || '';
+    if(h.id === 'secTitle'){ k = showFilter ? (P[showFilter] || 'Programme') : yearFilter ? 'The year' : guestFilter ? 'Guest' : ($('#q').value.trim() ? 'Search' : k || 'The catalogue'); }
+    if(k) h.dataset.k = k; else delete h.dataset.k;
+  });
+  // the home page reads like a magazine: each section numbered, in order
+  let n = 0; document.querySelectorAll('#shelves .sec h2[data-k]').forEach(h => { h.dataset.k = String(++n).padStart(2, '0') + '\u2003' + h.dataset.k.replace(/ – /g, '–'); });
+}
+{ const _r = render; render = function(){ const r = _r.apply(this, arguments); addKickers(); return r; }; }
+{ const _rs = renderShelves; renderShelves = function(){ const r = _rs.apply(this, arguments); addKickers(); return r; }; }
+
 function renderBento(){
+  renderHero();
   const show = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value && episodes.length;
   const b = $('#bento'); b.style.display = show ? '' : 'none'; if(!show) return;
   const now = new Date(), tn = tonightShows(), list = tn.list;
@@ -3596,7 +3993,6 @@ function renderBento(){
     `<button class="otn-chip${i === tonightIdx ? ' on' : ''}" data-i="${i}" role="tab" aria-selected="${i === tonightIdx}">${esc(e.year || '?')}</button>`).join('')}</div>` : '';
   b.innerHTML = `
     ${(() => { const sd = specialDay(); return sd ? `<button class="tile memo" data-t="memo" ${sd.pick ? `data-id="${esc(sd.pick.id)}"` : ''}><span class="k">${sd.kind === 'birthday' ? '17 June' : '13 April'}</span><span class="mt">${esc(sd.title)}</span><span class="ms">${esc(sd.sub)}</span>${sd.pick ? `<span class="mp">${I.play2}${esc(sd.pick.title)}</span>` : ''}</button>` : ''; })()}
-    <div class="otn-rail${list.length > 1 ? '' : ' solo'}">${cards}</div>${chips}
     <div class="quick">
       <button class="tile q radio${state.radio ? ' on' : ''}" data-t="radio"><svg viewBox="0 0 24 24" class="ln"><circle cx="12" cy="12" r="1.8"/><path d="M8.6 8.6a4.8 4.8 0 0 0 0 6.8M15.4 8.6a4.8 4.8 0 0 1 0 6.8M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg><span class="v">${state.radio ? 'On air' : 'Overnight'}</span></button>
       <button class="tile q" data-t="spin"><svg viewBox="0 0 24 24" class="ln"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v3.7h-3.7"/></svg><span class="v">Wild Card<small class="q-hint">Random show</small></span></button>
@@ -3617,7 +4013,7 @@ $('#bento').addEventListener('click', ev => {
   const chip = ev.target.closest('.otn-chip');
   if(chip){ const rail = $('#bento .otn-rail'), card = rail && rail.children[+chip.dataset.i];
     if(card){ tonightIdx = +chip.dataset.i; syncChips($('#bento')); rail.scrollTo({ left: card.offsetLeft - rail.children[0].offsetLeft, behavior:smooth() }); } return; }
-  const t = ev.target.closest('.tile'); if(!t) return; if(navigator.vibrate && !calm()) navigator.vibrate(8);
+  const t = ev.target.closest('.tile'); if(!t) return; 
   const k = t.dataset.t;
   if(k === 'tonight'){ const e = byId(t.dataset.id); if(e) playFrom(e, t.querySelector('.hero-art') || t); }
   if(k === 'spin'){
@@ -3643,9 +4039,9 @@ async function loadEpisode(e, autoplay){
   else {
     let src = streamUrl(e); if(!hosts[e.item]) learnHost(e.item);
     if(savedKeys.has(e.id)){ try{ const b = await db.get(e.id); if(b){ blobUrl = URL.createObjectURL(b); src = blobUrl; } }catch(x){} }
-    audio.src = src; audio.playbackRate = state.speed;
+    audio.src = src; audio.playbackRate = rateFor(e);
     const p = state.pos[e.id];
-    audio.addEventListener('loadedmetadata', function once(){ audio.removeEventListener('loadedmetadata', once); if(p && p.t && p.t < audio.duration-10) audio.currentTime = p.t; audio.playbackRate = state.speed; });
+    audio.addEventListener('loadedmetadata', function once(){ audio.removeEventListener('loadedmetadata', once); if(p && p.t && p.t < audio.duration-10) audio.currentTime = p.t; audio.playbackRate = rateFor(e); });
   }
   // Mini + now playing
   const c2 = coverStyle(e.id, e.show).ac;
@@ -3653,9 +4049,9 @@ async function loadEpisode(e, autoplay){
   $('#miniT').textContent = e.title; $('#miniM').textContent = `${e.show} · ${niceDate(e.date)}`;
   $('#mini').classList.add('show');
   $('#npArt').outerHTML = artHTML(e, 'bigart').replace('class="art ', 'id="npArt" class="art ').replace('</div>', `<span class="freq">${e.show.toUpperCase()} · ${niceDate(e.date).toUpperCase()}</span></div>`);
-  $('#npGlow').style.setProperty('--c2', c2); $('#np').style.setProperty('--npc', c2); $('#mini').style.setProperty('--mc', c2);
+  $('#npGlow').style.setProperty('--c2', c2); $('#np').style.setProperty('--npc', c2); $('#np').style.setProperty('--npf', seasonCol(progCol(e.show)[0], e.date)); $('#np').style.setProperty('--npl', progCol(e.show)[1]); $('#mini').style.setProperty('--mc', c2);
   $('#npShow').textContent = e.show;
-  $('#npTitle').textContent = e.title; $('#npTitle').onclick = () => openNotes(e); $('#npSub').textContent = niceDate(e.date);
+  $('#npTitle').textContent = e.title; $('#npTitle').onclick = () => openNotes(e); $('#npSub').innerHTML = billing(e);
   syncNPButtons(e);
   loadWave(e); updateMarkBadge();
   state.queue = state.queue.filter(x => x !== e.id); updateQueueBadge();
@@ -3674,7 +4070,7 @@ function syncNPButtons(e){
   $('#npFav').classList.toggle('on', !!state.favs[e.id]);
 }
 const current = () => byId(audio.dataset.id);
-function togglePlay(){ const e = current(); if(!e) return; if(e.demo){ toast('Preview mode — audio plays once the app is hosted'); return; } audio.paused ? audio.play().catch(()=>toast('Couldn’t start playback')) : audio.pause(); }
+function togglePlay(){ const e = current(); if(!e) return; if(e.demo){ toast('Preview mode — audio plays once the app is hosted'); return; } audio.paused ? audio.play().catch(()=>toast('That one won’t start just now. Try again in a moment.')) : audio.pause(); }
 function updatePP(){ const ic = audio.paused ? I.play2 : I.pause; $('#pp').innerHTML = ic; $('#miniPP').innerHTML = ic; }
 function setSeek(v){ $('#seek').value = v; wave.progress = v/1000; drawWave(); }
 audio.addEventListener('play', () => { updatePP(); markPlaying(); });
@@ -3748,7 +4144,7 @@ function updateQueueBadge(){ const n = state.queue.length; $('#queueVal').textCo
 function openQueue(){
   const items = state.queue.map(byId).filter(Boolean);
   $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Up next</div><div class="m">${items.length} queued · then ${!state.autoplay ? 'stops' : state.autoNext === 'related' ? 'plays something related' : 'keeps playing the list'}</div></div></div>
-    ${items.length ? items.map((e,i) => `<div class="li"><span class="tm">${i+1}</span><div class="tx"><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div><button class="x" data-q="${i}" aria-label="Remove">${I.trash}</button></div>`).join('') : '<div class="empty">Nothing queued. Use ⋯ → Play next, or Play all on any list.</div>'}
+    ${items.length ? items.map((e,i) => `<div class="li"><span class="tm">${i+1}</span><div class="tx"><div class="t">${esc(e.title)}</div><div class="m">${esc(e.show)} · ${niceDate(e.date)}</div></div><button class="x" data-q="${i}" aria-label="Remove">${I.trash}</button></div>`).join('') : '<div class="empty">Nothing lined up. Tap ⋯ on any show and choose Play next.</div>'}
     <button class="act" data-qa="auto">Autoplay next show<span class="toggle${state.autoplay ? ' on' : ''}"></span></button>
     <button class="act" data-qa="asq">Keep the next 3 saved offline<small>${state.autoSaveQ ? 'For the commute · removed after you play them' : 'Off'}</small><span class="toggle${state.autoSaveQ ? ' on' : ''}"></span></button>
     <button class="act" data-qa="rel">Pick something related<small>${state.autoNext === 'related' ? 'Shares guests or subjects' : 'Off · goes in list order'}</small><span class="toggle${state.autoNext === 'related' ? ' on' : ''}"></span></button>
@@ -3779,8 +4175,16 @@ $('#fwd').onclick = () => { if(audio.duration) audio.currentTime = Math.min(audi
 $('#prev').onclick = () => { if(audio.currentTime > 5){ audio.currentTime = 0; } else step(-1); };
 $('#next').onclick = () => step(1);
 const SPEEDS = [1, 1.25, 1.5, 1.75, 2, .8];
-$('#speedVal').textContent = state.speed + '×';
-$('#speed').onclick = () => { state.speed = SPEEDS[(SPEEDS.indexOf(state.speed)+1) % SPEEDS.length]; audio.playbackRate = state.speed; $('#speedVal').textContent = state.speed + '×'; saveState(); };
+/* Speed is remembered per programme, the way Overcast does it per podcast */
+function rateFor(e){ return (e && state.speedBy && state.speedBy[e.show]) || state.speed || 1; }
+const showSpeed = () => { $('#speedVal').textContent = rateFor(current()) + '×'; };
+showSpeed();
+$('#speed').onclick = () => {
+  const e = current(), cur = rateFor(e), next = SPEEDS[(SPEEDS.indexOf(cur) + 1) % SPEEDS.length];
+  if(e){ state.speedBy = state.speedBy || {}; state.speedBy[e.show] = next; } else state.speed = next;
+  audio.playbackRate = next; if(typeof trim !== 'undefined') trim.fast = false; showSpeed(); saveState(); buzz(6);
+  if(e) toast(`${next}× for ${e.show}`);
+};
 let sleepAt = 0, sleepEnd = false, sleepIdx = -1; const SLEEPS = [15, 30, 45, 60, 90, 'end'];
 function sleepLabel(){
   if(sleepEnd) return 'End of show';
@@ -3795,7 +4199,8 @@ $('#sleep').onclick = () => {
   $('#sleepVal').textContent = sleepLabel(); $('#sleep').classList.toggle('on', !!(sleepAt || sleepEnd));
   toast(sleepEnd ? 'Stopping at the end of this show' : sleepAt ? `Stopping in ${v} minutes` : 'Sleep timer off');
 };
-setInterval(() => { if(sleepAt) $('#sleepVal').textContent = sleepLabel(); }, 20000);
+setInterval(() => { if(sleepAt){ $('#sleepVal').textContent = sleepLabel(); lockMeta(); } }, 20000);
+$('#sleep').addEventListener('click', () => { lockMeta(); buzz(6); });
 $('#npFav').onclick = () => { const e = current(); if(e) toggleFav(e); };
 $('#npMore').onclick = () => { const e = current(); if(e) openSheet(e); };
 if('mediaSession' in navigator){
@@ -3856,7 +4261,7 @@ function seekTo(f){
   function show(f, clientX, tol){
     const e = current(); if(!e) return; const r = el.getBoundingClientRect(), d = durOf(e);
     const sn = snap(f, tol); f = sn.f;
-    if(sn.l !== snapL){ snapL = sn.l; if(snapL && navigator.vibrate && !calm()) navigator.vibrate(8); }
+    if(sn.l !== snapL){ snapL = sn.l;  }
     bub.textContent = fmt(f*d) + (snapL ? ' · ' + snapL : ''); bub.style.left = Math.min(r.width-36, Math.max(36, f*r.width)) + 'px'; bub.classList.add('show');
     $('#tCur').textContent = fmt(f*d); $('#tLeft').textContent = '-' + fmt(d - f*d);
     wave.preview = f; drawWave();
@@ -3864,7 +4269,7 @@ function seekTo(f){
   el.addEventListener('pointerdown', ev => {
     if(!current()) return; down = true; moved = false; el.setPointerCapture(ev.pointerId);
     const r = el.getBoundingClientRect(); x0 = lastX = ev.clientX; y0 = ev.clientY; p0 = (ev.clientX - r.left)/r.width; acc = p0;
-    snapL = ''; show(p0, 0, 16); if(navigator.vibrate && !calm()) navigator.vibrate(6);
+    snapL = ''; show(p0, 0, 16); 
   });
   el.addEventListener('pointermove', ev => {
     if(!down) return; const r = el.getBoundingClientRect();
@@ -3892,16 +4297,19 @@ function openNP(fromEl){ if($('#np').classList.contains('open')) return; if(stat
 function closeNP(){ if(!$('#np').classList.contains('open')) return; if(state.npView === 'tape' || state.npView === 'radio' || matchMedia('(min-width:1280px)').matches){ closeNPNow(); return; } morph(closeNPNow, $('#npArt'), '#miniArt'); }
 /* Overnight radio: plays back to back like a live station, tonight's date first */
 function radioPicks(n, skip){
-  const seen = new Set(skip || []), pool = episodes.filter(e => !seen.has(e.id) && !isPlayed(e.id) && e.length !== 0 && e.show !== 'Ghost to Ghost' || false);
+  const seen = new Set(skip || []), mix = state.radioMix && MIXES.find(m => m.k === state.radioMix);
+  let pool = episodes.filter(e => !seen.has(e.id) && !isPlayed(e.id) && e.length !== 0 && (mix ? mixHit(mix, e) : e.show !== 'Ghost to Ghost'));
+  if(mix && pool.length < n) pool = pool.concat(episodes.filter(e => !seen.has(e.id) && isPlayed(e.id) && e.length !== 0 && mixHit(mix, e)));
   for(let i = pool.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
   return pool.slice(0, n);
 }
 function toggleRadio(){
-  if(state.radio){ state.radio = false; state.queue = []; saveState(); renderBento(); toast('Overnight radio off'); return; }
+  if(state.radio){ const was = state.radioMix; state.radio = false; state.radioMix = ''; state.queue = []; saveState(); renderBento(); toast(was ? 'Endless mix off' : 'Overnight radio off'); return; }
+  state.radioMix = '';
   const tn = tonightShows().list.filter(e => !isPlayed(e.id));
   const first = tn.length ? tn : [];
   const rest = radioPicks(30, first.map(e => e.id));
-  const list = [...first, ...rest]; if(!list.length) return toast('Nothing left to play');
+  const list = [...first, ...rest]; if(!list.length) return toast('You’ve heard everything. Remarkable.');
   state.radio = true; state.autoplay = true; state.queue = list.slice(1).map(e => e.id); saveState();
   loadEpisode(list[0], true); renderBento();
   toast(first.length ? `On air: ${first.length} from tonight’s date, then the archive` : 'On air: back to back from the archive', 3500);
@@ -3914,8 +4322,37 @@ async function playFrom(e, el){
 $('#mini').addEventListener('click', () => openNP($('#miniArt')));
 $('#npClose').onclick = closeNP;
 let sy = null;
-$('#np').addEventListener('touchstart', ev => { if(ev.target.closest('.scrub')) return; sy = ev.touches[0].clientY; }, {passive:true});
-$('#np').addEventListener('touchend', ev => { if(sy !== null && ev.changedTouches[0].clientY - sy > 90) closeNP(); sy = null; }, {passive:true});
+// The player follows your finger: drag it down and it moves with you, frame-locked; let go and it closes or springs back,
+// depending on how far and how fast you flicked. The page behind never scrolls while the player is open.
+{ const np = $('#np'); let y0 = null, x0 = 0, dy = 0, dragging = false, hist = [], swallowTil = 0, raf = 0;
+  const paint = () => { raf = 0; np.style.transform = `translate3d(0, ${dy}px, 0)`; };
+  np.addEventListener('touchstart', ev => {
+    if(ev.touches.length > 1 || ev.target.closest('.scrub, .tp-panel, .tp-scrim, input') || $('#tpPanel').classList.contains('open') || matchMedia('(min-width:1280px)').matches){ y0 = null; return; }
+    const t = ev.touches[0]; y0 = t.clientY; x0 = t.clientX; dy = 0; dragging = false; hist = [[performance.now(), y0]];
+  }, { passive:true });
+  np.addEventListener('touchmove', ev => {
+    if(y0 === null) return; const t = ev.touches[0], d = t.clientY - y0;
+    if(!dragging){
+      if(Math.abs(d) < 6 && Math.abs(t.clientX - x0) < 6) return;
+      if(Math.abs(t.clientX - x0) > Math.abs(d) || d < 0){ y0 = null; return; }
+      dragging = true; np.classList.add('dragging');
+    }
+    ev.preventDefault();
+    hist.push([performance.now(), t.clientY]); if(hist.length > 6) hist.shift();
+    dy = d > 0 ? d : d * .2;
+    if(!raf) raf = requestAnimationFrame(paint);
+  }, { passive:false });
+  const end = () => {
+    if(y0 === null) return; y0 = null; if(!dragging) return; dragging = false; swallowTil = performance.now() + 350;
+    if(raf){ cancelAnimationFrame(raf); raf = 0; }
+    const a = hist[0], z = hist[hist.length - 1], vel = (z[1] - a[1]) / Math.max(16, z[0] - a[0]);   // px per ms over the last few moves
+    np.classList.remove('dragging');
+    np.style.transform = '';
+    if(dy > innerHeight * .25 || vel > .5) closeNPNow();
+  };
+  np.addEventListener('touchend', end, { passive:true }); np.addEventListener('touchcancel', end, { passive:true });
+  np.addEventListener('click', ev => { if(performance.now() < swallowTil){ ev.stopPropagation(); ev.preventDefault(); } }, true);
+}
 
 /* ================= Favourites, offline, download ================= */
 function toggleFav(e){ if(state.favs[e.id]) delete state.favs[e.id]; else state.favs[e.id] = 1; saveState(); syncNPButtons(e); toast(state.favs[e.id] ? 'Added to favourites' : 'Removed from favourites'); applyFilters(); }
@@ -3937,7 +4374,7 @@ async function saveOffline(e){
 
     try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(x){}
     toast('Saved — plays without signal'); syncNPButtons(e); render();
-  }catch(x){ syncNPButtons(e); toast('Couldn’t save offline — storage full or connection dropped'); }
+  }catch(x){ syncNPButtons(e); toast('Couldn’t save it. The phone may be full, or the signal dropped.'); }
 }
 /* Save a whole programme, year or favourites list for offline listening */
 const batch = { on:false, armed:false, stop:false };
@@ -4171,7 +4608,7 @@ function openNotes(e){
     <div class="notes">
       ${note ? `<div class="nt-ess"><b>The Essentials</b>${esc(note)}</div>` : ''}
       <dl class="nt-facts">
-        ${e.no ? `<div><dt>Catalogue</dt><dd>No. ${e.no}</dd></div>` : ''}
+        ${e.pno ? `<div><dt>Catalogue</dt><dd>${catLabel(e)} · show ${e.no.toLocaleString('en-GB')} of ${episodes.filter(x => x.no).length.toLocaleString('en-GB')}</dd></div>` : ''}${e.via ? `<div><dt>Source</dt><dd>Survives through a ${esc(e.via)} rebroadcast</dd></div>` : ''}
         <div><dt>Aired</dt><dd>${e.date ? niceDate(e.date) : 'Date unknown'}</dd></div>
         ${len ? `<div><dt>Length</dt><dd>${fmt(len)}</dd></div>` : ''}
         ${e.size ? `<div><dt>File</dt><dd>${Math.round(e.size/1048576)} MB MP3</dd></div>` : ''}
@@ -4204,6 +4641,54 @@ $('#sheet').addEventListener('click', ev => {
      play:()=>{ closeSheet(); loadEpisode(e, true); }, fav:()=>{ closeSheet(); toggleFav(e); }, lists:()=>openListPicker(e), save:()=>saveOffline(e), unsave:()=>removeOffline(e), dl:()=>downloadToPhone(e) })[b.dataset.a]();
 });
 
+/* Hold a show: it lifts out of the list, everything else blurs, and a compact menu appears beside it */
+const HI = {
+  play:'<path d="M8 5.5v13l10.5-6.5z"/>',
+  next:'<path d="M4 6.5h11M4 11.5h11M4 16.5h7M16 14v6l4.5-3z"/>',
+  fav:'<path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/>',
+  list:'<path d="M4 6.5h11M4 11.5h11M4 16.5h7M18 13v7M14.5 16.5h7"/>',
+  save:'<path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/>',
+  share:'<path d="M12 3.5v11M8 7.5l4-4 4 4M6 11.5v7.5a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5v-7.5"/>',
+  notes:'<path d="M6.5 3.5h8l4 4v13h-12zM14 3.5V8h4.5M9 12.5h7M9 16h7"/>',
+  more:'<circle cx="6" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="18" cy="12" r="1.2"/>'
+};
+let holdEp = null;
+function openHold(row, e){
+  const h = $('#hold'), menu = h.querySelector('.hold-menu'), lift = h.querySelector('.hold-row');
+  holdEp = e; try{ prepCard(e); }catch(_){}
+  const p = state.pos[e.id], resume = p && p.t > 30 && p.t < p.d - 60;
+  const item = (k, label) => `<button class="hm-i" role="menuitem" data-h="${k}"><span>${label}</span><svg viewBox="0 0 24 24" class="ln" aria-hidden="true">${HI[k]}</svg></button>`;
+  menu.innerHTML = `<div class="hm-g">${item('play', resume ? 'Resume from ' + fmt(p.t) : isPlayed(e.id) ? 'Play again' : 'Play')}${item('next', 'Play next')}</div>
+    <div class="hm-g">${item('fav', state.favs[e.id] ? 'Remove from Favourites' : 'Favourite')}${item('list', 'Add to a list…')}${item('save', savedKeys.has(e.id) ? 'Remove offline copy' : 'Save for offline')}</div>
+    <div class="hm-g">${item('share', 'Share')}${item('notes', 'Show notes')}${item('more', 'More')}</div>`;
+  const r = row.getBoundingClientRect();
+  lift.innerHTML = ''; const c = row.cloneNode(true); c.classList.remove('held'); c.style.scale = ''; lift.appendChild(c);
+  const pad = 14; // the lifted card is wider by its padding, so the row inside keeps its exact width
+  Object.assign(lift.style, { left: (r.left - pad) + 'px', top: r.top + 'px', width: (r.width + pad * 2) + 'px', height: r.height + 'px', transform: '' });
+  h.classList.add('measuring'); const mh = menu.offsetHeight, mw = menu.offsetWidth; h.classList.remove('measuring');
+  const gap = 10, top0 = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--st')) || 0;
+  let rowTop = r.top, menuTop;
+  if(r.bottom + gap + mh <= innerHeight - 16){ menuTop = r.bottom + gap; menu.style.transformOrigin = '24px 0'; }
+  else if(r.top - gap - mh >= 16 + top0){ menuTop = r.top - gap - mh; menu.style.transformOrigin = '24px 100%'; }
+  else { menuTop = innerHeight - 16 - mh; rowTop = Math.max(16 + top0, menuTop - gap - r.height); menu.style.transformOrigin = '24px 0'; }
+  if(rowTop !== r.top) lift.style.transform = `translateY(${rowTop - r.top}px)`;
+  menu.style.left = Math.min(Math.max(6, r.left - pad), innerWidth - mw - 6) + 'px'; menu.style.top = menuTop + 'px';
+  h.setAttribute('aria-hidden', 'false'); h.getBoundingClientRect(); h.classList.add('show');
+  if(!matchMedia('(pointer:coarse)').matches) setTimeout(() => { const f = menu.querySelector('.hm-i'); if(f) f.focus({ preventScroll:true }); }, 60);  // keyboard and mouse users start on the first item
+}
+function closeHold(){ const h = $('#hold'); if(!h.classList.contains('show')) return; h.classList.remove('show'); h.setAttribute('aria-hidden', 'true'); }
+$('#hold').addEventListener('click', ev => {
+  const b = ev.target.closest('[data-h]'); const e = holdEp;
+  if(!b){ if(!ev.target.closest('.hold-menu')) closeHold(); return; }
+  closeHold(); if(!e) return;
+  setTimeout(() => ({ play:() => loadEpisode(e, true), next:() => addToQueue(e, true), fav:() => toggleFav(e), list:() => openListPicker(e),
+    save:() => savedKeys.has(e.id) ? removeOffline(e) : saveOffline(e), share:() => shareMoment(e), notes:() => openNotes(e), more:() => openSheet(e) })[b.dataset.h](), b.dataset.h === 'share' ? 0 : 160);
+});
+$('#hold').addEventListener('keydown', ev => {
+  if(ev.key === 'Escape'){ closeHold(); return; }
+  if(ev.key === 'ArrowDown' || ev.key === 'ArrowUp'){ const it = [...$('#hold').querySelectorAll('.hm-i')], i = it.indexOf(document.activeElement); it[(i + (ev.key === 'ArrowDown' ? 1 : it.length - 1)) % it.length].focus(); ev.preventDefault(); }
+});
+
 /* ================= Bookmarks ================= */
 const curTime = e => (audio.dataset.id === e.id && audio.duration) ? audio.currentTime : ((state.pos[e.id] && state.pos[e.id].t) || 0);
 function updateMarkBadge(){ const e = current(), n = e && state.marks[e.id] ? state.marks[e.id].length : 0; $('#markVal').textContent = n ? `Marks (${n})` : 'Mark'; $('#markBtn').setAttribute('aria-label', n ? `Bookmarks, ${n} saved` : 'Bookmark this moment'); $('#markBtn').classList.toggle('on', n > 0); }
@@ -4212,13 +4697,14 @@ function openMarks(){
   $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Bookmarks</div><div class="m">${esc(e.title)}</div></div></div>
     <input class="field" id="markNote" maxlength="80" placeholder="Note for ${fmt(t)} (optional) – e.g. the Area 51 caller">
     <button class="btn" data-m="add" data-t="${t}">Bookmark ${fmt(t)}</button>
-    ${marks.length ? marks.map((m,i) => `<div class="li"><button class="tm" data-m="go" data-t="${m.t}">${fmt(m.t)}</button><div class="tx" data-m="go" data-t="${m.t}"><div class="t">${esc(m.note || 'Bookmark')}</div></div><button class="x" data-m="del" data-t="${m.t}" aria-label="Delete">${I.trash}</button></div>`).join('') : '<div class="empty">Your marks show up here and as pins on the waveform.</div>'}`;
+    ${marks.length ? marks.map((m,i) => `<div class="li"><button class="tm" data-m="go" data-t="${m.t}">${fmt(m.t)}</button><div class="tx" data-m="go" data-t="${m.t}"><div class="t">${esc(m.note || 'Bookmark')}</div></div><button class="x clipbtn" data-m="clip" data-t="${m.t}" aria-label="Share a clip from ${fmt(m.t)}">${I.share}</button><button class="x" data-m="del" data-t="${m.t}" aria-label="Delete">${I.trash}</button></div>`).join('') : '<div class="empty">Mark a moment worth keeping. It stays here, and as a pin on the waveform.</div>'}`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 }
 $('#sheet').addEventListener('click', ev => {
   const b = ev.target.closest('[data-m]'); if(!b) return; const e = current(); if(!e) return; const t = +b.dataset.t;
-  if(b.dataset.m === 'add'){ const note = ($('#markNote').value || '').trim(); (state.marks[e.id] = state.marks[e.id] || []).push({ t, note }); saveState(); updateMarkBadge(); drawWave(); toast('Bookmarked ' + fmt(t)); closeSheet(); }
+  if(b.dataset.m === 'add'){ const note = ($('#markNote').value || '').trim(); (state.marks[e.id] = state.marks[e.id] || []).push({ t, note }); saveState(); buzz(12); updateMarkBadge(); drawWave(); toast('Bookmarked ' + fmt(t)); closeSheet(); }
   if(b.dataset.m === 'go'){ closeSheet(); const d = durOf(e); if(d) seekTo(t/d); }
+  if(b.dataset.m === 'clip'){ const m = (state.marks[e.id] || []).find(x => x.t === t); buzz(8); shareClip(e, t, m && m.note); return; }
   if(b.dataset.m === 'del'){ state.marks[e.id] = (state.marks[e.id]||[]).filter(m => m.t !== t); saveState(); updateMarkBadge(); drawWave(); openMarks(); }
 });
 $('#markBtn').onclick = openMarks;
@@ -4234,16 +4720,19 @@ async function shareCard(e, t){
   const W = 1080, H = 1350, [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
   const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d');
   g.fillStyle = '#141210'; g.fillRect(0, 0, W, H);
-  g.fillStyle = fill; g.fillRect(0, 0, W, 14);
+  g.fillStyle = line; g.fillRect(0, 0, 18, H);   // the programme's colour spine, like every cover
   try{
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="900" height="810"><defs><filter id="w" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs><g filter="url(#w)" fill="none" stroke="${line}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${LINE_MOTIF[kind] || LINE_MOTIF.rings}</g></svg>`;
     const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); await img.decode();
     g.drawImage(img, 250, 70, 580, 522);
   }catch(x){}
   try{ await Promise.all([document.fonts.load('400 100px "Instrument Serif"'), document.fonts.load('italic 400 50px "Instrument Serif"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
+  // programme code top-left and catalogue number top-right, as on the covers
+  g.font = '600 30px "Inter", sans-serif'; g.fillStyle = line; g.fillText(progCode(e.show).split('').join(String.fromCharCode(8202, 8202)), 90, 96);
+  if(e.pno){ g.textAlign = 'right'; g.fillStyle = '#8e877b'; g.fillText(('No. ' + e.pno).toUpperCase().split('').join(String.fromCharCode(8202)), W - 90, 96); g.textAlign = 'left'; }
   const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n-1] = out[n-1].replace(/\s*\S*$/, '') + '…'; } return out; };
   let y = 690; const X = 90, M = W - 180;
-  g.font = '600 28px "Inter", sans-serif'; g.fillStyle = line; g.fillText((e.show + (e.no ? '   ·   No. ' + e.no : '')).toUpperCase().split('').join(String.fromCharCode(8202)), X, y);
+  g.font = '600 28px "Inter", sans-serif'; g.fillStyle = line; g.fillText(e.show.toUpperCase().split('').join(String.fromCharCode(8202)), X, y);
   y += 110; g.fillStyle = '#ece6da'; g.font = '400 112px "Instrument Serif", Georgia, serif';
   wrap(headOf(e), M, 2).forEach(l => { g.fillText(l, X, y); y += 112; });
   const tp = topicOf(e); if(tp){ g.font = 'italic 400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#b3aa9c'; wrap(tp, M, 2).forEach(l => { g.fillText(l, X, y); y += 62; }); }
@@ -4254,7 +4743,7 @@ async function shareCard(e, t){
   const w1 = g.measureText('The ').width; g.font = '400 40px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', X + w1, H - 100);
   const w2 = g.measureText('Art Bell ').width; g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#d4b483'; g.fillText('Tapes', X + w1 + w2, H - 100);
   g.font = '500 24px "Inter", sans-serif'; g.fillStyle = '#8e877b'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
-  return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-${e.no || 'show'}.png`, { type:'image/png' }) : null), 'image/png'));
+  return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.png`, { type:'image/png' }) : null), 'image/png'));
 }
 const cardReady = new Map();
 function prepCard(e){
@@ -4278,7 +4767,7 @@ async function shareMoment(e){
 function handleDeepLink(){
   let p; try{ p = new URLSearchParams(location.search); }catch(x){ return; }
   const id = p.get('ep'); if(!id) return; const e = byId(id); if(!e){ toast('That show isn’t in the library any more'); return; }
-  const t = +p.get('t') || 0;
+  const t = +p.get('t') || 0; clipEnd = +p.get('e') > t ? +p.get('e') : 0;
   if(t){ state.pos[e.id] = { t, d: Math.max(t + 1, (state.pos[e.id] && state.pos[e.id].d) || e.length || t + 1) }; saveState(); }
   loadEpisode(e, false); openNP(); toast(t ? `Tap play to start at ${fmt(t)}` : 'Tap play to start');
   try{ history.replaceState(null, '', location.pathname); }catch(x){}
@@ -4300,22 +4789,26 @@ function routeBoost(){
   if(!boost.src) return; try{ boost.src.disconnect(); }catch(x){}
   boost.src.connect(state.boost ? boost.chain : boost.ctx.destination);
 }
+// Web Audio needs CORS access to the stream; reload the current show with it, once
+async function graphReady(){
+  if(boost.src) return true;
+  const t = audio.currentTime, playing = !audio.paused, src = audio.currentSrc;
+  audio.crossOrigin = 'anonymous';
+  if(src && !src.startsWith('blob:')){
+    audio.src = src; await new Promise((res, rej) => { audio.addEventListener('loadedmetadata', res, {once:true}); audio.addEventListener('error', rej, {once:true}); });
+    audio.currentTime = t; audio.playbackRate = rateFor(current());
+  }
+  buildBoost(); routeBoost(); if(playing) await audio.play();
+  if(boost.ctx.state === 'suspended') await boost.ctx.resume();
+  return true;
+}
 async function setBoost(on){
   const e = current();
   if(e && e.demo){ toast('Preview mode — voice boost works once hosted'); return; }
   state.boost = on; saveState(); $('#boostBtn').classList.toggle('on', on);
   if(!on){ routeBoost(); toast('Voice boost off'); return; }
   try{
-    if(!boost.src){
-      // Web Audio needs CORS access to the stream; reload the current show with it
-      const t = audio.currentTime, playing = !audio.paused, src = audio.currentSrc;
-      audio.crossOrigin = 'anonymous';
-      if(src && !src.startsWith('blob:')){
-        audio.src = src; await new Promise((res, rej) => { audio.addEventListener('loadedmetadata', res, {once:true}); audio.addEventListener('error', rej, {once:true}); });
-        audio.currentTime = t;
-      }
-      buildBoost(); if(playing) await audio.play();
-    }
+    await graphReady();
     if(boost.ctx.state === 'suspended') await boost.ctx.resume();
     routeBoost(); toast('Voice boost on — quiet callers lifted, loud bits tamed');
   }catch(x){
@@ -4324,19 +4817,246 @@ async function setBoost(on){
     toast('Archive.org didn’t allow voice boost for this file', 3500);
   }
 }
-$('#boostBtn').onclick = () => setBoost(!state.boost);
+$('#boostBtn').onclick = openSound;
 if(state.boost) $('#boostBtn').classList.add('on');
 // if boost was left on, enable it on first play (needs a user gesture)
 audio.addEventListener('play', () => { if(state.boost && !boost.src) setBoost(true); else if(boost.ctx && boost.ctx.state === 'suspended') boost.ctx.resume(); });
+
+
+/* A24-style billing block: who, what and when, set tight in small capitals */
+function billing(e){
+  const guests = (e.guests || []).filter(g => !/^art bell$/i.test(g)).slice(0, 3);
+  const d = e.date && e.date.length === 10 ? new Date(e.date + 'T12:00:00').toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }) : niceDate(e.date);
+  const len = +e.length > 0 ? lenTxt(e.length) : '';
+  const parts = [`<b>${esc(e.show)}</b> presents`, `<b>Art Bell</b>`];
+  if(guests.length) parts.push(`with <b>${guests.map(esc).join('</b> and <b>')}</b>`);
+  return `<span class="bill">${parts.join(' ')}<span class="bill-2">${esc(d)}${len ? ' · ' + esc(len) : ''}${e.pno ? ' · ' + progCode(e.show) + ' ' + noMark(e.pno) : ''}</span></span>`;
+}
+/* ================= Finishing pass 2: collections, endless mixes, clips, trim silence, lock screen, feel ================= */
+var buzz = () => {};   // no haptics: the app stays silent and still
+['#pp', '#miniPP', '#npFav', '#next', '#prev'].forEach(s => { const b = $(s); if(b) b.addEventListener('click', () => buzz(s === '#pp' || s === '#miniPP' ? 10 : 6)); });
+
+// Collections: gathered by subject, or every night with one guest
+var COLLECTIONS = [
+  { k:'area51', title:'The Area 51 years', col:'#5b4a2c', re:/area 51|lazar|groom lake/i,
+    intro:'In 1989 Bob Lazar said he had worked on alien craft near Groom Lake in Nevada. Art’s show, broadcast from just down the road, became the place the story kept coming back to: John Lear, Glenn Campbell, Lazar himself, and the frantic caller of September 1997.' },
+  { k:'mel', title:'Mel’s Hole', col:'#3e4f3a', re:/mel'?s hole|mel waters/i,
+    intro:'In February 1997 a caller named Mel Waters described a hole on his land in Washington that seemed to have no bottom. He came back with stranger and stranger updates, and listeners have argued about it ever since.' },
+  { k:'hale', title:'Hale-Bopp and the companion', col:'#2f4660', re:/hale.?bopp|shramek/i,
+    intro:'In November 1996 an amateur astronomer’s photo seemed to show something travelling alongside Comet Hale-Bopp. For months it was the biggest story on the show, with remote viewers, astronomers and a lot of callers.' },
+  { k:'time', title:'Time travellers', col:'#4b3a5c', re:/time travel|time machine|titor|single seven|montauk|philadelphia experiment/i,
+    intro:'Time machines, the Philadelphia Experiment, Montauk, and callers who said they came from somewhere else in time. Art gave every one of them a hearing.' },
+  { k:'exorcism', title:'Possession and exorcism', col:'#5c2b28', re:/exorcis|possess|malachi/i,
+    intro:'Father Malachi Martin’s nights on possession and exorcism are among the most asked-for shows in the archive. These are the dark ones. Maybe not for the drive home.' },
+  { k:'cryptids', title:'Things in the woods', col:'#384a3f', re:/bigfoot|sasquatch|chupacabra|mothman|cryptozo|yeti|skunk ape|lake monster|loch ness/i,
+    intro:'Bigfoot recordings, the chupacabra, lake monsters and the Mothman. Some of the strangest calls Art ever took were about something out there in the trees.' },
+  { k:'triangles', title:'Black triangles', col:'#2d3540', re:/triangle/i,
+    intro:'Art and his wife Ramona saw a huge triangular craft in the sky over Pahrump and he told the story on air. Black triangles became a thread that ran through the years that followed.' },
+  { k:'shadow', title:'Shadow people', col:'#33303f', re:/shadow (people|beings)/i,
+    intro:'Dark, human-shaped figures seen at the edge of sight. Once listeners started describing them, the calls never really stopped.' },
+  { k:'evp', title:'Voices on tape', col:'#4a3f33', re:/\bevp\b|electronic voice/i,
+    intro:'Recordings of voices that shouldn’t be there. Researchers played their tapes on air, and Art played them to millions of people listening in the dark.' },
+  { k:'y2k', title:'Waiting for Y2K', col:'#3b4652', re:/y2k/i,
+    intro:'The year the clocks were meant to stop. Preparedness, worry and open lines as 1999 ran out.' },
+  { k:'earth', title:'Earth changes', col:'#2f4a4a', re:/earth changes|pole shift|superstorm/i,
+    intro:'Pole shifts, superstorms and prophecies of a changing planet. Art took the subject seriously enough to write a book about it with Whitley Strieber, The Coming Global Superstorm.' }
+];
+var GUEST_COLS = [['Richard C. Hoagland', '#4a3526'], ['Ed Dames', '#2e4552'], ['Linda Moulton Howe', '#4b3448'], ['Whitley Strieber', '#323c4e'], ['Michio Kaku', '#3a4636']];
+var colCache = null;
+function collections(){
+  if(colCache && colCache.n === episodes.length) return colCache.list;
+  const byAir = (a, b) => (a.date || '9').localeCompare(b.date || '9');
+  const yrsOf = l => { const y = l.map(e => +e.year).filter(Boolean); if(!y.length) return ''; const a = Math.min(...y), b = Math.max(...y); return a === b ? '' + a : `${a}–${b}`; };
+  const out = [];
+  COLLECTIONS.forEach(c => { const list = episodes.filter(e => c.re.test(e.title)).sort(byAir); if(list.length >= 5) out.push(Object.assign({}, c, { list, yrs: yrsOf(list) })); });
+  GUEST_COLS.forEach(([g, col]) => { const list = episodes.filter(e => (e.guests || []).includes(g)).sort(byAir); if(list.length >= 6) out.push({ k:'g:' + g, guest:g, title:g, col, list, yrs: yrsOf(list),
+    intro:`Every night ${g} spent with Art in the archive, ${list.length} of them, in the order they aired.` }); });
+  colCache = { n: episodes.length, list: out }; return out;
+}
+const colByKey = k => collections().find(c => c.k === k);
+function openCollection(k){
+  const c = colByKey(k); if(!c) return;
+  const hrs = Math.round(c.list.reduce((a, e) => a + (+e.length || 0), 0) / 3600);
+  $('#tribute').querySelector('.tb-head span').textContent = c.guest ? 'In conversation' : 'Collection';
+  $('#tribute').classList.add('colpage');
+  $('#tbBody').innerHTML = `
+    <section class="col-hero cfield" style="--pc:${c.col}">
+      <div class="col-k">${c.guest ? 'In conversation' : 'Collection No. ' + String(collections().filter(x => !x.guest).indexOf(c) + 1).padStart(2, '0')} · ${c.yrs}</div>
+      <h2 class="col-t">${esc(c.title)}</h2>
+      <p class="col-in">${esc(c.intro)}</p>
+      <div class="col-m">${c.list.length} shows${hrs ? ` · ${hrs} hours` : ''}</div>
+      <div class="col-acts"><button class="col-play" data-cplay="${esc(c.k)}">${I.play2}<span>Play in order</span></button><button class="col-shuf" data-cplay="${esc(c.k)}" data-shuf="1">Shuffle</button></div>
+    </section>
+    <ol class="col-list">${c.list.map((e, i) => `<li><button class="col-row" data-cplay="${esc(c.k)}" data-at="${esc(e.id)}"><span class="col-n">${i + 1}</span>${artHTML(e, 'sm')}<span class="col-tx"><span class="t">${esc(headOf(e))}</span><span class="m">${esc(topicOf(e) || e.show)} · ${esc(niceDate(e.date))}</span></span></button></li>`).join('')}</ol>`;
+  $('#tribute').classList.add('open'); $('#tribute').setAttribute('aria-hidden', 'false'); $('#tbBody').scrollTop = 0;
+}
+
+// Endless: a mood that keeps playing, one night after another
+var MIXES = [
+  { k:'ghosts', title:'Ghost stories', sub:'Hauntings, shadow people and voices on tape', col:'#3b3245', re:/\bghosts?\b|haunt|poltergeist|shadow people|\bevp\b|electronic voice/i },
+  { k:'ufos', title:'Lights in the sky', sub:'UFOs, abductions, Area 51 and black triangles', col:'#2c4257', re:/ufo|abduct|alien|triangle|area 51|roswell|disclosure/i },
+  { k:'open', title:'Open lines', sub:'Just Art and whoever got through', col:'#5a3a24', re:/open lines/i },
+  { k:'prophecy', title:'Prophecy', sub:'Predictions, prophets and the end of the world', col:'#4e2f2f', re:/prophec|predict|nostradamus|earth changes|apocalyp/i },
+  { k:'space', title:'Out there', sub:'Mars, the Moon, physics and deep time', col:'#2f4743', re:/\bmars\b|\bmoon\b|cydonia|physics|kaku|cosmos|universe|space/i },
+  { k:'dreamland', title:'Dreamland Sundays', sub:'Art’s weekend show, back to back', col:'#33415e', show:'Dreamland' }
+];
+var mixHit = (m, e) => m.show ? e.show === m.show : (m.re.test(e.title) || (e.guests || []).some(g => m.re.test(g)));
+function startMix(k){
+  const m = MIXES.find(x => x.k === k); if(!m) return;
+  if(state.radio && state.radioMix === k){ state.radio = false; state.radioMix = ''; state.queue = []; saveState(); renderBento(); toast('Endless mix off'); return; }
+  state.radioMix = k; const list = radioPicks(30, []); if(!list.length){ state.radioMix = ''; return toast('Nothing to play in this mix'); }
+  state.radio = true; state.autoplay = true; state.queue = list.slice(1).map(e => e.id); saveState();
+  loadEpisode(list[0], true); renderBento(); toast(`On air: ${m.title}, until you stop it`, 3200);
+}
+
+// Why tonight's show matters, in one line, from the archive itself
+function contextLine(e){
+  const n = essNote(e); if(n) return n;
+  const ord = i => i + (['th','st','nd','rd'][(i % 100 > 10 && i % 100 < 14) ? 0 : (i % 10 < 4 ? i % 10 : 0)] || 'th');
+  for(const g of (e.guests || [])){
+    const all = episodes.filter(x => (x.guests || []).includes(g) && x.date).sort((a, b) => a.date.localeCompare(b.date)), i = all.findIndex(x => x.id === e.id);
+    if(all.length < 3 || i < 0) continue;
+    if(i === 0) return `${g}’s first night on the show, of ${all.length} in the archive.`;
+    if(i === all.length - 1) return `The last of ${g}’s ${all.length} nights in the archive.`;
+    return `${g}’s ${ord(i + 1)} of ${all.length} nights in the archive.`;
+  }
+  const c = collections().find(c => !c.guest && c.list.some(x => x.id === e.id)); if(c) return `Part of the collection ${c.title}.`;
+  return '';
+}
+
+// Lock screen: the hour of the show and the sleep timer, under the cover
+var msArt = null, lockHr = -1;
+function lockWords(e){
+  const d = durOf(e), t = audio.dataset.id === e.id ? (audio.currentTime || 0) : 0, H = d > 3700 ? Math.round(d / 3600) : 0;
+  const hr = H ? ` · Hour ${Math.min(H, Math.floor(t / 3600) + 1)} of ${H}` : '';
+  const sl = sleepEnd ? 'Sleep timer · end of show' : sleepAt ? `Sleep timer · ${Math.max(1, Math.ceil((sleepAt - Date.now()) / 60000))} min left` : 'The Art Bell Tapes';
+  return { title: e.title, artist: `${e.show} · ${niceDate(e.date)}${hr}`, album: sl };
+}
+function lockMeta(){
+  const e = current(); if(!e || !('mediaSession' in navigator) || typeof MediaMetadata === 'undefined') return;
+  try{ navigator.mediaSession.metadata = new MediaMetadata(Object.assign(lockWords(e), msArt ? { artwork: msArt } : {})); }catch(x){}
+}
+audio.addEventListener('timeupdate', () => { const h = Math.floor((audio.currentTime || 0) / 3600); if(h !== lockHr){ lockHr = h; lockMeta(); } });
+audio.addEventListener('loadedmetadata', () => { lockHr = -1; });
+
+// A shared clip: plays from its start and stops at its end
+var clipEnd = 0;
+audio.addEventListener('timeupdate', () => { if(clipEnd && audio.currentTime >= clipEnd){ clipEnd = 0; audio.pause(); toast('End of the clip · tap play to keep listening', 3500); } });
+
+/* Clips: a minute of audio from a bookmark, plus a card with the note set as a quote */
+async function clipCard(e, t, note){
+  const W = 1080, H = 1350, [fill, line] = progCol(e.show), pc = seasonCol(fill, e.date);
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d');
+  // the colour field, as on the covers (canvas can't read color-mix, so resolve it through the page)
+  const probe = document.createElement('i'); probe.style.color = pc; document.body.appendChild(probe); const base = getComputedStyle(probe).color; probe.remove();
+  g.fillStyle = base; g.fillRect(0, 0, W, H);
+  const gr = g.createRadialGradient(W * .25, 0, 0, W * .25, 0, H * 1.1); gr.addColorStop(0, 'rgba(255,255,255,.16)'); gr.addColorStop(.42, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(8,6,5,.55)');
+  g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  g.fillStyle = line; g.fillRect(0, 0, 18, H);
+  try{ await Promise.all([document.fonts.load('400 100px "Instrument Serif"'), document.fonts.load('italic 400 50px "Instrument Serif"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
+  const sp = (s, n = 1) => s.split('').join(String.fromCharCode(8202).repeat(n));
+  g.font = '600 30px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.9)'; g.fillText(sp(progCode(e.show), 2), 90, 110);
+  g.textAlign = 'right'; g.fillStyle = 'rgba(246,239,227,.72)'; g.fillText(sp(('Clip · ' + fmt(t)).toUpperCase()), W - 90, 110); g.textAlign = 'left';
+  const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n - 1] = out[n - 1].replace(/\s*\S*$/, '') + '…'; } return out; };
+  const X = 90, M = W - 180, q = note || topicOf(e) || headOf(e);
+  g.font = 'italic 400 96px "Instrument Serif", Georgia, serif'; const ql = wrap(q, M, 5);
+  g.font = '400 54px "Instrument Serif", Georgia, serif'; const hl = wrap(headOf(e), M, 2);
+  const total = 150 + ql.length * 104 + 30 + hl.length * 60 + 50;   // quote mark, quote, name, programme line
+  let y = Math.round(170 + (H - 210 - 170 - total) / 2) + 150;       // centred between the top line and the footer
+  g.font = 'italic 400 300px "Instrument Serif", Georgia, serif'; g.fillStyle = 'rgba(246,239,227,.18)'; g.fillText('“', X - 14, y - 40);
+  g.font = 'italic 400 96px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3';
+  y += 50; ql.forEach(l => { g.fillText(l, X, y); y += 104; });
+  y += 30; g.font = '400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3'; hl.forEach(l => { g.fillText(l, X, y); y += 60; });
+  y += 10; g.font = '600 28px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.72)'; g.fillText(sp(`${e.show} · ${niceDate(e.date)}`.toUpperCase()), X, y);
+  g.fillStyle = 'rgba(246,239,227,.22)'; g.fillRect(X, H - 170, M, 2);
+  g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3'; g.fillText('The', X, H - 100);
+  const w1 = g.measureText('The ').width; g.font = '400 40px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', X + w1, H - 100);
+  const w2 = g.measureText('Art Bell ').width; g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillText('Tapes', X + w1 + w2, H - 100);
+  g.font = '500 24px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.72)'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
+  return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-clip-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.png`, { type:'image/png' }) : null), 'image/png'));
+}
+// The audio: MP3 frames resync on their own, so a byte range of the file plays as a clip
+async function clipAudio(e, t0, len){
+  if(e.demo || !e.size || !(+e.length > 0)) return null;
+  const bps = e.size / e.length, a = Math.max(0, Math.floor(t0 * bps)), b = Math.min(e.size - 1, Math.floor((t0 + len) * bps));
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 12000);
+  try{
+    const r = await fetch(streamUrl(e), { headers:{ Range:`bytes=${a}-${b}` }, signal: ctl.signal });
+    if(r.status !== 206) return null;
+    const blob = await r.blob(); if(blob.size < 20000 || blob.size > (b - a) * 1.5) return null;
+    return new File([blob], `art-bell-clip-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.mp3`, { type:'audio/mpeg' });
+  }catch(x){ return null; } finally { clearTimeout(to); }
+}
+async function shareClip(e, t, note){
+  const t0 = Math.max(0, t - 5), len = 60, u = new URL(shareUrl(e, t0)); u.searchParams.set('t', Math.floor(t0)); u.searchParams.set('e', Math.floor(t0 + len));
+  const text = `${note ? '“' + note + '” — ' : ''}${e.title} (${e.show}, ${niceDate(e.date)}) at ${fmt(t0)}`;
+  toast('Making the clip…', 6000);
+  const [card, snd] = await Promise.all([clipCard(e, t0, note).catch(() => null), clipAudio(e, t0, len)]);
+  const files = [snd, card].filter(Boolean);
+  if(navigator.share){
+    for(const fs of [files, card ? [card] : []]){
+      if(!fs.length || !(navigator.canShare && navigator.canShare({ files: fs }))) continue;
+      try{ await navigator.share({ files: fs, title:'The Art Bell Tapes', text: text + '\n' + u }); toast(fs.includes(snd) ? 'Clip shared' : 'Shared with a link to the moment'); return; }
+      catch(x){ if(x && x.name === 'AbortError'){ toast('Cancelled'); return; } }
+    }
+    try{ await navigator.share({ title:'The Art Bell Tapes', text, url: u.toString() }); toast('Shared'); return; }catch(x){ if(x && x.name === 'AbortError'){ toast('Cancelled'); return; } }
+  }
+  try{ await navigator.clipboard.writeText(text + '\n' + u); toast('Link to the clip copied'); }catch(x){ toast('Couldn’t share from here'); }
+}
+
+/* Trim silence: quiet gaps play fast, like Overcast's Smart Speed. Saved time is counted. */
+const trim = { an:null, buf:null, qs:0, fast:false, saved:+(store.get('abr.trimSaved', 0)) || 0, iv:0, zeros:0 };
+function trimTick(){
+  if(!state.trim || !trim.an || audio.paused) return;
+  const base = rateFor(current()); trim.an.getFloatTimeDomainData(trim.buf);
+  let sum = 0, nz = 0; for(let i = 0; i < trim.buf.length; i++){ const v = trim.buf[i]; sum += v * v; if(v !== 0) nz++; }
+  if(!nz){ if(++trim.zeros > 60){ setTrim(false, true); } return; } trim.zeros = 0;   // all zeros for 6s: the stream isn't readable
+  const rms = Math.sqrt(sum / trim.buf.length), now = performance.now();
+  if(rms < .012){ if(!trim.qs) trim.qs = now; if(now - trim.qs > 350 && !trim.fast){ trim.fast = true; audio.playbackRate = Math.min(4, base * 2.5); } }
+  else { trim.qs = 0; if(trim.fast){ trim.fast = false; audio.playbackRate = base; } }
+  if(trim.fast){ trim.saved += .1 * 1.5; if(Math.random() < .05) store.set('abr.trimSaved', trim.saved); }
+}
+async function setTrim(on, quiet){
+  state.trim = on; saveState();
+  if(!on){ clearInterval(trim.iv); trim.iv = 0; if(trim.fast){ trim.fast = false; audio.playbackRate = rateFor(current()); } if(!quiet) toast('Trim silence off'); else toast('Archive.org didn’t allow trimming for this file', 3500); renderSound(); return; }
+  const e = current(); if(e && e.demo){ state.trim = false; saveState(); toast('Preview mode — works once hosted'); return; }
+  try{
+    if(e) await graphReady();
+    if(boost.src && !trim.an){ trim.an = boost.ctx.createAnalyser(); trim.an.fftSize = 2048; trim.buf = new Float32Array(trim.an.fftSize); boost.src.connect(trim.an); }
+    if(!trim.iv) trim.iv = setInterval(trimTick, 100);
+    if(!quiet) toast('Trim silence on — quiet gaps pass quickly');
+  }catch(x){ state.trim = false; saveState(); toast('Archive.org didn’t allow trimming for this file', 3500); }
+  renderSound();
+}
+audio.addEventListener('play', () => { if(state.trim && !trim.iv) setTrim(true, true); });
+const savedTxt = () => { const m = Math.round(trim.saved / 60); return m >= 60 ? `${Math.floor(m / 60)} hr ${m % 60} min` : `${m} min`; };
+function renderSound(){
+  if(!$('#sheet').classList.contains('show') || !$('#sheet').querySelector('.snd')) return;
+  $('#sheet').querySelectorAll('[data-snd]').forEach(b => { const on = b.dataset.snd === 'boost' ? state.boost : state.trim; b.classList.toggle('on', !!on); b.setAttribute('aria-checked', on ? 'true' : 'false'); });
+  const sv = $('#sheet').querySelector('.snd-saved'); if(sv) sv.textContent = trim.saved > 30 ? `Trimming has saved you ${savedTxt()} so far` : 'Quiet gaps pass at speed, then normal again';
+}
+function openSound(){
+  const e = current();
+  $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Sound</div><div class="m">${e ? esc(e.show) + ' plays at ' + rateFor(e) + '×' : 'Settings for every show'}</div></div></div>
+    <div class="snd">
+      <button class="snd-row" data-snd="boost" role="switch"><span class="snd-tx"><span class="snd-t">Voice boost</span><span class="snd-s">Quiet callers lifted, loud bits tamed</span></span><span class="tgl"><i></i></span></button>
+      <button class="snd-row" data-snd="trim" role="switch"><span class="snd-tx"><span class="snd-t">Trim silence</span><span class="snd-s snd-saved"></span></span><span class="tgl"><i></i></span></button>
+    </div>`;
+  $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show'); renderSound();
+}
+$('#sheet').addEventListener('click', async ev => {
+  const b = ev.target.closest('[data-snd]'); if(!b) return; buzz(8);
+  if(b.dataset.snd === 'boost'){ await setBoost(!state.boost); renderSound(); } else await setTrim(!state.trim);
+});
 
 /* ================= Themes ================= */
 const DARK_BASE = { '--text':'#f2efe8', '--muted':'#8a8f9c', '--line':'rgba(255,255,255,.08)' };
 const THEMES = window.__THEMES;
 const THEME_RENAMES = { 'Amber':'Desert', 'Area 51':'Dreamland', 'Dopamine':'Neon' };
 if(state.theme === 'Collection'){ state.theme = 'Classic'; saveState(); }
-if(!['Classic','Dark','Paper','Auto'].includes(state.theme)){ state.theme = 'Classic'; saveState(); }
+if(!['Classic','Paper','Auto'].includes(state.theme)){ state.theme = 'Classic'; saveState(); }   // two looks now: Dark (Classic) and Light (Paper)
 // Auto: Paper in daylight hours, Dark at night
-const autoTheme = () => { const h = new Date().getHours(); return h >= 7 && h < 19 ? 'Paper' : 'Dark'; };
+const autoTheme = () => { const h = new Date().getHours(); return h >= 7 && h < 19 ? 'Paper' : 'Classic'; };
 const prefersLight = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : { matches:false };
 function applyTheme(name){
   if(name === 'Auto') name = autoTheme();
@@ -4426,8 +5146,9 @@ const LINES = [
   ['Special lines', 'On some nights he opened lines for very particular callers — former Area 51 workers, or time travellers.', [['1997-09-11', 'The Area 51 line'], ['1998-07-29', 'The time traveller line']]]
 ];
 const epOn = d => d && episodes.find(e => e.date === d);
-function listenBtn(d, label){ const e = epOn(d); return e ? `<button class="tb-listen" data-id="${esc(e.id)}">${I.play2}<span>${esc(label || 'Listen')}</span><small>No. ${e.no}</small></button>` : ''; }
+function listenBtn(d, label){ const e = epOn(d); return e ? `<button class="tb-listen" data-id="${esc(e.id)}">${I.play2}<span>${esc(label || 'Listen')}</span><small>${catLabel(e)}</small></button>` : ''; }
 function openTribute(){
+  $('#tribute').querySelector('.tb-head span').textContent = 'In memory'; $('#tribute').classList.remove('colpage');
   const first = episodes.slice().sort((a, b) => (a.date || '9').localeCompare(b.date || '9'))[0];
   $('#tbBody').innerHTML = `
     <section class="tb-hero">
@@ -4472,7 +5193,11 @@ function openTribute(){
 }
 function closeTribute(){ $('#tribute').classList.remove('open'); $('#tribute').setAttribute('aria-hidden', 'true'); }
 $('#tbClose').onclick = closeTribute;
-$('#tbBody').addEventListener('click', ev => { const b = ev.target.closest('.tb-listen'); if(!b) return; const e = byId(b.dataset.id); if(e){ closeTribute(); playFrom(e); } });
+$('#tbBody').addEventListener('click', ev => {
+  const r = ev.target.closest('[data-cplay]'); if(r){ const c = colByKey(r.dataset.cplay); if(!c) return; let list = c.list.slice(); if(r.dataset.shuf){ for(let i = list.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } }
+    const at = r.dataset.at ? list.findIndex(e => e.id === r.dataset.at) : 0; list = list.slice(Math.max(0, at));
+    state.radio = false; state.radioMix = ''; state.queue = list.slice(1).map(e => e.id); saveState(); buzz(10); closeTribute(); loadEpisode(list[0], true); openNP(); if(!r.dataset.at) toast(`Playing ${c.title} · ${list.length} shows`); return; }
+  const b = ev.target.closest('.tb-listen'); if(!b) return; const e = byId(b.dataset.id); if(e){ closeTribute(); playFrom(e); } });
 
 /* Special dates: his birthday (17 June) and the anniversary of his death (13 April) */
 function specialDay(){
@@ -4486,7 +5211,7 @@ function specialDay(){
 /* Back button: every open layer (player, tribute, sheets) gets a history entry,
    so Android's back gesture closes it instead of leaving the app */
 const layerStack = []; let layerSkip = 0;
-[['#np', 'open'], ['#tribute', 'open'], ['#sheet', 'show'], ['#tpPanel', 'open']].forEach(([sel, cls]) => {
+[['#np', 'open'], ['#tribute', 'open'], ['#sheet', 'show'], ['#tpPanel', 'open'], ['#hold', 'show']].forEach(([sel, cls]) => {
   const el = $(sel); let was = el.classList.contains(cls);
   new MutationObserver(() => {
     const now = el.classList.contains(cls); if(now === was) return; was = now;
@@ -4497,7 +5222,7 @@ const layerStack = []; let layerSkip = 0;
 addEventListener('popstate', ev => {
   if(layerSkip){ layerSkip--; nav.sync(); return; }
   const sel = layerStack.pop();
-  if(sel){ if(sel === '#tpPanel') closeTopics(); else if(sel === '#np'){ closeTopics(); closeNP(); } else if(sel === '#tribute') closeTribute(); else closeSheet(); return; }
+  if(sel){ if(sel === '#hold') closeHold(); else if(sel === '#tpPanel') closeTopics(); else if(sel === '#np'){ closeTopics(); closeNP(); } else if(sel === '#tribute') closeTribute(); else closeSheet(); return; }
   nav.restore(ev.state);
 });
 
@@ -4622,7 +5347,7 @@ function fitNP(){
   render = function(){
     const r = _r.apply(this, arguments);
     const h = $('#secTitle'), col = showFilter ? progCol(showFilter)[1] : '';
-    if(h){ if(col) h.style.setProperty('background-image', ul(col), 'important'); else h.style.removeProperty('background-image'); }
+    if(h){ h.style.removeProperty('background-image'); if(col) h.style.setProperty('--kc', col); else h.style.removeProperty('--kc'); }
     const showKey = tab === 'all' && !showFilter && !guestFilter && (yearFilter || allOpen);
     if(showKey){
       const present = new Set(view.map(e => e.show));
@@ -4633,6 +5358,50 @@ function fitNP(){
     key.style.display = showKey && key.innerHTML ? '' : 'none';
     return r;
   };
+})();
+
+document.addEventListener('touchstart', () => {}, { passive:true }); // lets iPhone show the press state instantly
+
+/* Phones: the large title shrinks into a slim bar as you scroll, like Apple's own apps. The bar names where you are
+   (Art Bell Tapes, a year, a guest, a programme, a search) and tapping it goes back to the top. */
+(function(){
+  const mq = matchMedia('(max-width:959px)');
+  const bar = document.createElement('button'); bar.type = 'button'; bar.className = 'topbar'; bar.id = 'topbar'; bar.setAttribute('aria-label', 'Back to top');
+  bar.innerHTML = '<span class="tb-t"></span><span class="tb-n"></span>';
+  document.body.appendChild(bar);
+  bar.onclick = () => scrollTo({ top:0, behavior:smooth() });
+  const T = bar.querySelector('.tb-t'), N = bar.querySelector('.tb-n');
+  let raf = 0, last = '';
+  function label(){
+    const n = view.length.toLocaleString('en-GB'), q = $('#q').value.trim(), plural = (k, w) => k + ' ' + w + (view.length === 1 ? '' : 's');
+    if(tab === 'guests') return ['Guests', ''];
+    if(tab === 'fav') return [listFilter ? ((state.lists.find(l => l.id === listFilter) || {}).name || 'List') : 'Favourites', plural(n, 'show')];
+    if(tab === 'recent') return ['Recent', ''];
+    if(tab === 'saved') return ['Offline', plural(n, 'show')];
+    if(guestFilter) return [guestFilter, plural(n, 'show')];
+    if(yearFilter) return [yearFilter + (showFilter ? ' · ' + (SHOW_SHORT[showFilter] || showFilter) : ''), plural(n, 'show')];
+    if(q) return ['“' + q + '”', plural(n, 'result')];
+    if(showFilter) return [SHOW_SHORT[showFilter] || showFilter, plural(n, 'show')];
+    if(allOpen){ let y = ''; for(const h of document.querySelectorAll('#list .yhead')){ if(h.getBoundingClientRect().top < 120) y = h.textContent; else break; } return ['All shows' + (y ? ' · ' + y : ''), plural(n, 'show')]; }
+    return ['', ''];
+  }
+  function update(){
+    raf = 0;
+    if(!mq.matches){ bar.classList.remove('show'); document.body.classList.remove('tb-on'); return; }
+    const h1 = $('.top h1'), hb = bar.offsetHeight || 44;
+    const past = h1 ? Math.min(1, Math.max(0, (hb - h1.getBoundingClientRect().bottom + 14) / 28)) : 1;
+    bar.style.setProperty('--p', past.toFixed(3));
+    const on = past > .02 && !document.body.classList.contains('np-open');
+    bar.classList.toggle('show', on); document.body.classList.toggle('tb-on', on);
+    if(on){
+      const [t, n] = label(), k = t + '|' + n;
+      if(k !== last){ last = k; T.textContent = t || 'Library'; T.classList.remove('logo'); N.textContent = n; }
+    }
+  }
+  const q = () => { if(!raf) raf = requestAnimationFrame(update); };
+  addEventListener('scroll', q, { passive:true }); addEventListener('resize', q);
+  { const _r = render; render = function(){ const r = _r.apply(this, arguments); last = ''; q(); return r; }; }
+  update();
 })();
 
 /* Bottom search on phones: keeps its place above the tab bar, beside the mini player, or above the keyboard */
@@ -4765,39 +5534,36 @@ if(state.calm) document.body.classList.add('calm');
 $('#gear').onclick = () => {
   const cached = store.get(INDEX_KEY, null);
   $('#sheet').innerHTML = `<div class="grab"></div>
-    <div class="hd"><div><div class="t">Settings</div><div class="m">${episodes.length.toLocaleString('en-GB')} shows in your library${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB') : ''}</div></div></div>
-    <div class="sh-lbl">Appearance</div><div class="swatches four">${[['Classic','Colour','#0e0d0c','#a8452b','#211f1c'],['Dark','Night','#0b0b0a','#86acd4','#1e1e1c'],['Paper','Day','#f2ede3','#a8432a','#e7e0d2'],['Auto','Day & night','linear-gradient(135deg,#f2ede3 0 50%,#0b0b0a 50% 100%)','#d4b483','rgba(128,128,128,.45)']].map(([n, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${n}<small>${sub}</small></span></button>`).join('')}</div>
-    <div class="txtpick" role="radiogroup" aria-label="Text style"><button class="tp-o${state.textStyle !== 'classic' ? ' on' : ''}" data-txt="easy" role="radio" aria-checked="${state.textStyle !== 'classic'}"><b class="sans">Aa</b><span>Easy reading<small>Clear sans for lists and notes</small></span></button><button class="tp-o${state.textStyle === 'classic' ? ' on' : ''}" data-txt="classic" role="radio" aria-checked="${state.textStyle === 'classic'}"><b class="serif">Aa</b><span>Classic<small>Serif everywhere</small></span></button></div>
-    <div class="sh-sub">Text size</div>
-    <div class="sizepick" role="radiogroup" aria-label="Text size">${[['auto','Auto','Follows your phone'],['n','Normal',''],['l','Large',''],['xl','Extra large','']].map(([k, l, sub]) => `<button class="sz-o${(state.textSize || 'auto') === k ? ' on' : ''}" data-ts="${k}" role="radio" aria-checked="${(state.textSize || 'auto') === k}"><b class="sz-${k}">Aa</b><span>${l}</span>${sub ? `<small>${sub}</small>` : ''}</button>`).join('')}</div>
-    <button class="act" data-s="simple"><span>Simple player<small class="act-sub">Big buttons and just the essentials</small></span><span class="toggle${state.simple ? ' on' : ''}"></span></button>
-    <button class="act" data-s="swipe"><span>Swipe rows to favourite or save<small class="act-sub">Turn off if it happens by accident</small></span><span class="toggle${state.noSwipe ? '' : ' on'}"></span></button>
-    <button class="act" data-s="calm"><span>Reduce motion${sysReduce.matches ? '<br><small style="margin:0;color:var(--muted)">On in your phone’s settings</small>' : ''}</span><span class="toggle${calm() ? ' on' : ''}"></span></button>
-    <div class="sh-lbl">Your listening</div>${statsHTML()}
-    <div class="sh-lbl">Your data</div>
-    <button class="act" data-s="sync">Sync phone and computer<small>${syncCfg().token ? 'On · ' + (syncCfg().last ? 'synced ' + new Date(syncCfg().last).toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' }) : 'connected') : 'Off'}</small></button>
-    <button class="act" data-s="backup">Back up favourites &amp; progress<small>Save a file</small></button>
-    <button class="act" data-s="restore">Restore from a backup<small>Choose file</small></button>
-    <div class="sh-lbl">About</div>
-    <button class="act" data-s="tribute">In memory of Art Bell<small>1945–2018</small></button>
-    <button class="act" data-s="about">About The Art Bell Tapes<small>Credits &amp; sources</small></button>
-    <button class="act" data-s="refresh">Check for new shows<small>From archive.org</small></button>`;
+    <div class="hd"><div><div class="t">Settings</div></div></div>
+    <div class="sh-lbl">Appearance</div><div class="swatches four three">${[['Classic','Dark','Default','#0e0d0c','#d4b483','#211f1c'],['Paper','Light','Always','#f2ede3','#a8432a','#e7e0d2'],['Auto','Auto','Light by day','linear-gradient(135deg,#f2ede3 0 50%,#0e0d0c 50% 100%)','#d4b483','rgba(128,128,128,.45)']].map(([n, name, sub, bg, ac, sf]) => `<button class="sw${(state.theme||'Classic')===n?' on':''}" data-theme="${n}"><i style="background:${bg}"><b style="background:${ac}"></b><u style="background:${sf}"></u><u style="background:${sf};width:38%"></u></i><span>${name}<small>${sub}</small></span></button>`).join('')}</div>
+    <div class="sh-lbl">Text size</div>
+    <div class="sizepick three" role="radiogroup" aria-label="Text size">${[['auto','Standard','Follows your phone'],['l','Large',''],['xl','Extra large','']].map(([k, l, sub]) => { const cur = state.textSize === 'n' ? 'auto' : (state.textSize || 'auto'); return `<button class="sz-o${cur === k ? ' on' : ''}" data-ts="${k}" role="radio" aria-checked="${cur === k}"><b>Aa</b>${l}${sub ? `<small>${sub}</small>` : ''}</button>`; }).join('')}</div>
+    <div class="sh-lbl">Listening</div>
+    <button class="act" data-s="simple"><span>Simple player<small class="act-sub">Big buttons, just the essentials</small></span><span class="toggle${state.simple ? ' on' : ''}"></span></button>
+    <button class="act" data-s="calm"><span>Less movement<small class="act-sub">${sysReduce.matches ? 'On in your phone’s settings' : 'No sliding or fading'}</small></span><span class="toggle${calm() ? ' on' : ''}"></span></button>
+    <div class="sh-lbl">Your library</div>
+    <button class="act" data-s="sync">Sync phone and computer<small>${syncCfg().token ? 'On' : 'Off'}</small></button>
+    <button class="act" data-s="data">Back up or restore<small>Favourites, lists and progress</small></button>
+    <button class="act" data-s="about">About<small>Credits and sources</small></button>
+    <div class="set-foot">${episodes.length.toLocaleString('en-GB')} shows${cached ? ' · updated ' + new Date(cached.at).toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : ''} · <button data-s="refresh">Check for new shows</button></div>`;
   $('#sheet').dataset.id = ''; $('#sheet').classList.add('show'); $('#scrim').classList.add('show');
 };
 $('#sheet').addEventListener('click', ev => {
   const tsb = ev.target.closest('[data-ts]'); if(tsb){ state.textSize = tsb.dataset.ts; saveState(); applyA11y(); document.querySelectorAll('.sz-o').forEach(x => { const on = x === tsb; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); }); return; }
   const tx = ev.target.closest('[data-txt]'); if(tx){ state.textStyle = tx.dataset.txt; saveState(); applyTextStyle(); document.querySelectorAll('.tp-o').forEach(x => { const on = x === tx; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); }); return; }
   const th = ev.target.closest('[data-theme]');
-  if(th){ state.theme = th.dataset.theme; saveState(); applyTheme(state.theme); document.querySelectorAll('.sw').forEach(x => x.classList.toggle('on', x === th)); if(navigator.vibrate && !calm()) navigator.vibrate(8); return; }
+  if(th){ state.theme = th.dataset.theme; saveState(); applyTheme(state.theme); document.querySelectorAll('.sw').forEach(x => x.classList.toggle('on', x === th));  return; }
   const b = ev.target.closest('[data-s]'); if(!b) return;
   if(b.dataset.s === 'calm'){ state.calm = !state.calm; saveState(); document.body.classList.toggle('calm', state.calm); b.querySelector('.toggle').classList.toggle('on', state.calm);
-    toast(state.calm ? 'Motion reduced: no animations, sliding or vibration' : 'Motion back on'); }
+    toast(state.calm ? 'Less movement: no sliding or fading' : 'Movement back on'); }
   if(b.dataset.s === 'refresh'){ closeSheet(); loadLibrary(true); }
   if(b.dataset.s === 'tribute'){ closeSheet(); openTribute(); }
   if(b.dataset.s === 'sync'){ openSync(); return; }
   if(b.dataset.s === 'simple'){ state.simple = !state.simple; saveState(); applyA11y(); b.querySelector('.toggle').classList.toggle('on', state.simple); return; }
   if(b.dataset.s === 'swipe'){ state.noSwipe = !state.noSwipe; saveState(); b.querySelector('.toggle').classList.toggle('on', !state.noSwipe); return; }
   if(b.dataset.s === 'about'){ openAbout(); return; }
+  if(b.dataset.s === 'data'){ $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div><div class="t">Back up or restore</div><div class="m">Your favourites, lists, bookmarks and where you got to</div></div></div>
+    <button class="act" data-s="backup">Back up<small>Saves a file</small></button><button class="act" data-s="restore">Restore<small>From a backup file</small></button><button class="act" data-s="back">Back to settings</button>`; return; }
   if(b.dataset.s === 'back'){ $('.gear').click(); return; }
   if(b.dataset.s === 'sources'){ closeSheet(); toast('Shows: Internet Archive (' + SOURCES.length + ' Art Bell collections). Topic tags: facts drawn from The Art Bell Archive podcast’s show notes.', 5000); }
 });
