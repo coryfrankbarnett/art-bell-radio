@@ -1900,15 +1900,6 @@ html.cine .prog.cvp :is(.yrs,.nm,.ct){z-index:1}
 .hs-name.long{font-size:clamp(28px,8vw,38px)}
 .hs-topic{grid-row:5}.hs-play{grid-row:6}.hs-meta{grid-row:7}
 
-/* Recently played */
-.shortcuts{margin:0 20px 6px}
-.shortcuts .sec{padding:0!important;margin:0 0 12px!important}
-.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.sc{position:relative;display:grid;grid-template-columns:56px 1fr;align-items:center;gap:10px;height:56px;padding-right:10px;border-radius:8px;overflow:hidden;background:var(--soft);text-align:left;color:var(--text)}
-.sc .art{width:56px!important;height:56px!important;border-radius:0!important;margin:0!important}
-.sc-t{font:600 13px/1.25 var(--font);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
-.sc-p{position:absolute;left:56px;bottom:0;height:2px;background:var(--accent)}
-body.has-shortcuts #contBig,body.has-shortcuts #contWrap{display:none!important}
 
 /* Editorial headings: label above, generous space, no hand-drawn underline */
 .sec h2,.tb-sec h3,html.light .sec h2{background-image:none!important;padding-bottom:0!important}
@@ -2057,7 +2048,6 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 
 
   <section class="hero" id="hero" aria-label="Tonight in Art Bell history" style="display:none"></section>
-  <section class="shortcuts" id="shortcuts" style="display:none"></section>
   <button class="continuebig" id="contBig" type="button" style="display:none"></button>
   <button class="browsetop" id="browseTop" type="button"><span class="bt-t">Browse all shows</span><span class="bt-s" id="browseTopN"></span><svg viewBox="0 0 24 24" class="ln" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <div class="skel" id="skel" aria-hidden="true">
@@ -3803,20 +3793,8 @@ function addKickers(){
 }
 { const _r = render; render = function(){ const r = _r.apply(this, arguments); addKickers(); return r; }; }
 
-/* Recently played: a Spotify-style grid of slim tiles, one tap to get back to a show */
-function renderShortcuts(){
-  const el = $('#shortcuts'), home = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !allOpen && !$('#q').value && episodes.length;
-  const list = home ? (state.recent || []).map(byId).filter(Boolean).slice(0, 6) : [];
-  const on = list.length >= 2; el.style.display = on ? '' : 'none'; document.body.classList.toggle('has-shortcuts', on); if(!on) return;
-  const n = list.length % 2 ? list.length - 1 : list.length;   // always full rows
-  el.innerHTML = `<div class="sec"><h2 data-k="Your listening">Recently played</h2></div><div class="sc-grid">${list.slice(0, n).map(e => {
-    const p = state.pos[e.id], pct = p && p.d && p.t < p.d - 60 ? Math.min(100, Math.round(p.t / p.d * 100)) : 0;
-    return `<button class="sc" data-id="${esc(e.id)}" aria-label="${esc(e.title)}">${artHTML(e, 'sm')}<span class="sc-t">${esc(headOf(e))}</span>${pct ? `<i class="sc-p" style="width:${pct}%"></i>` : ''}</button>`;
-  }).join('')}</div>`;
-}
-$('#shortcuts').addEventListener('click', ev => { const b = ev.target.closest('.sc'); if(!b) return; const e = byId(b.dataset.id); if(e) loadEpisode(e, true); });
 function renderBento(){
-  renderHero(); renderShortcuts();
+  renderHero();
   const show = tab === 'all' && !showFilter && !yearFilter && !guestFilter && !$('#q').value && episodes.length;
   const b = $('#bento'); b.style.display = show ? '' : 'none'; if(!show) return;
   const now = new Date(), tn = tonightShows(), list = tn.list;
