@@ -1636,6 +1636,10 @@ html.light .sec h2,html.light .tb-sec h3{background-image:url("data:image/svg+xm
   .progs .prog:last-child:nth-child(4n+2):not(:first-child){grid-column:span 2;aspect-ratio:auto}
   .progs .prog.cvp:last-child:nth-child(4n+2):not(:first-child) .skscene{width:40%;top:12px}
 }
+
+/* player's bottom row stays on one line (larger text sizes and the simple player may still wrap) */
+html:not(.ts-l):not(.ts-xl):not(.simple) .np .extras{flex-wrap:nowrap!important;justify-content:space-between;gap:0}
+html:not(.ts-l):not(.ts-xl):not(.simple) .np .extras button{min-width:0!important;flex:1 1 0;font-size:10.5px!important;white-space:nowrap;letter-spacing:0}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -1896,11 +1900,11 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   <div class="extras">
     <button id="speed"><b id="speedVal">1×</b>Speed</button>
     <button id="sleep"><svg viewBox="0 0 24 24" class="ln"><path d="M19.5 14.5A7.8 7.8 0 1 1 9.5 4.5a6.2 6.2 0 0 0 10 10z"/></svg><span id="sleepVal">Sleep</span></button>
-    <button id="markBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M7 3.5h10v17l-5-3.6-5 3.6z"/></svg><span id="markVal">Bookmark</span></button>
+    <button id="markBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M7 3.5h10v17l-5-3.6-5 3.6z"/></svg><span id="markVal">Mark</span></button>
     <button id="queueBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 6.5h11M4 11.5h11M4 16.5h7M16 14v6l4.5-3z"/></svg><span id="queueVal">Up next</span></button>
     <button id="bedBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M3 18.5v-6.5a2.5 2.5 0 0 1 2.5-2.5h13a2.5 2.5 0 0 1 2.5 2.5v6.5M3 15.5h18M6.5 9.5V7h4v2.5"/></svg><span>Bedside</span></button>
     <button id="castBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M3.5 17.5a3 3 0 0 1 3 3M3.5 13.5a7 7 0 0 1 7 7M3.5 9.5V6A1.5 1.5 0 0 1 5 4.5h14A1.5 1.5 0 0 1 20.5 6v12a1.5 1.5 0 0 1-1.5 1.5h-5"/></svg><span>Speaker</span></button>
-    <button id="boostBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>Voice boost</span></button>
+    <button id="boostBtn"><svg viewBox="0 0 24 24" class="ln"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>Boost</span></button>
   </div>
 </div>
 
@@ -4061,7 +4065,7 @@ $('#sheet').addEventListener('click', ev => {
 
 /* ================= Bookmarks ================= */
 const curTime = e => (audio.dataset.id === e.id && audio.duration) ? audio.currentTime : ((state.pos[e.id] && state.pos[e.id].t) || 0);
-function updateMarkBadge(){ const e = current(), n = e && state.marks[e.id] ? state.marks[e.id].length : 0; $('#markVal').textContent = n ? `Bookmarks (${n})` : 'Bookmark'; $('#markBtn').classList.toggle('on', n > 0); }
+function updateMarkBadge(){ const e = current(), n = e && state.marks[e.id] ? state.marks[e.id].length : 0; $('#markVal').textContent = n ? `Marks (${n})` : 'Mark'; $('#markBtn').setAttribute('aria-label', n ? `Bookmarks, ${n} saved` : 'Bookmark this moment'); $('#markBtn').classList.toggle('on', n > 0); }
 function openMarks(){
   const e = current(); if(!e) return; const t = Math.floor(curTime(e)), marks = (state.marks[e.id] || []).slice().sort((a,b) => a.t - b.t);
   $('#sheet').innerHTML = `<div class="grab"></div><div class="hd"><div style="flex:1"><div class="t">Bookmarks</div><div class="m">${esc(e.title)}</div></div></div>
@@ -4451,6 +4455,24 @@ if(matchMedia('(display-mode: standalone)').matches || navigator.standalone === 
 })();
 // loading shapes go once the shows arrive
 { const _r = render; render = function(){ const r = _r.apply(this, arguments); if(episodes.length){ const k = $('#skel'); if(k){ k.classList.add('gone'); setTimeout(() => k.remove(), 300); } } return r; }; }
+
+/* The player always fits the screen: if everything below the cover doesn't fit, the cover scales down
+   (as a whole, so its lettering keeps its proportions) until the bottom row is fully on screen */
+function fitNP(){
+  const np = $('#np'); if(!np || !np.classList.contains('open')) return;
+  const art = np.querySelector('#npArt, .bigart, .cassette, .radio'); const ex = np.querySelector('.extras'); if(!art || !ex) return;
+  art.style.transform = ''; art.style.marginBottom = ''; art.style.transformOrigin = '';
+  const pb = parseFloat(getComputedStyle(np).paddingBottom) || 0;
+  const over = ex.getBoundingClientRect().bottom - (innerHeight - pb);
+  if(over <= 0) return;
+  const h = art.getBoundingClientRect().height; if(!h) return;
+  const k = Math.max(0.45, (h - over) / h);
+  art.style.transformOrigin = '50% 0'; art.style.transform = `scale(${k.toFixed(3)})`; art.style.marginBottom = `${-(h * (1 - k)).toFixed(1)}px`;
+}
+{ let t = 0; const q = () => { cancelAnimationFrame(t); t = requestAnimationFrame(fitNP); };
+  addEventListener('resize', q);
+  new MutationObserver(q).observe($('#np'), { attributes:true, attributeFilter:['class'], childList:true, subtree:true, characterData:false });
+}
 
 /* Bottom search on phones: keeps its place above the tab bar, beside the mini player, or above the keyboard */
 (function(){
