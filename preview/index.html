@@ -1809,6 +1809,17 @@ html.light .hold-row,html.light .hold-menu{box-shadow:0 24px 60px rgba(60,40,10,
 .hm-i svg{width:20px;height:20px;flex:none;color:var(--text)}
 .hm-i:active,.hm-i:focus-visible{background:var(--soft);outline:none}
 @media (prefers-reduced-motion:reduce){ .hold-row,.hold-menu{transition:opacity .15s ease} .hold.show .hold-row{scale:1} }
+
+/* the player owns its gestures: no page scrolling or pull-to-refresh behind it */
+.np{touch-action:none;overscroll-behavior:contain;will-change:transform}
+.np .tp-list{touch-action:pan-y}
+@media (max-width:1279px){ html:has(body.np-open){overflow:hidden} body.np-open{overscroll-behavior:none} body.np-open .app{pointer-events:none} }
+.np.dragging,.np.dragging *{transition:none!important}
+/* no scroll bars on phones and tablets */
+@media (pointer:coarse){
+  html{scrollbar-width:none}
+  html::-webkit-scrollbar,body::-webkit-scrollbar{width:0;height:0;display:none}
+}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -3984,23 +3995,33 @@ async function playFrom(e, el){
 $('#mini').addEventListener('click', () => openNP($('#miniArt')));
 $('#npClose').onclick = closeNP;
 let sy = null;
-// The player follows your finger: drag it down and it moves with you; let go and it closes or springs back,
-// depending on how far and how fast you flicked
-{ const np = $('#np'); let y0 = null, x0 = 0, dy = 0, dragging = false, lastY = 0, lastT = 0, vel = 0, swallowTil = 0;
+// The player follows your finger: drag it down and it moves with you, frame-locked; let go and it closes or springs back,
+// depending on how far and how fast you flicked. The page behind never scrolls while the player is open.
+{ const np = $('#np'); let y0 = null, x0 = 0, dy = 0, dragging = false, hist = [], swallowTil = 0, raf = 0;
+  const paint = () => { raf = 0; np.style.transform = `translate3d(0, ${dy}px, 0)`; };
   np.addEventListener('touchstart', ev => {
-    if(ev.target.closest('.scrub, .tp-panel, .tp-scrim') || $('#tpPanel').classList.contains('open') || matchMedia('(min-width:1280px)').matches){ y0 = null; return; }
-    const t = ev.touches[0]; y0 = lastY = t.clientY; x0 = t.clientX; dy = 0; vel = 0; dragging = false; lastT = performance.now();
+    if(ev.touches.length > 1 || ev.target.closest('.scrub, .tp-panel, .tp-scrim, input') || $('#tpPanel').classList.contains('open') || matchMedia('(min-width:1280px)').matches){ y0 = null; return; }
+    const t = ev.touches[0]; y0 = t.clientY; x0 = t.clientX; dy = 0; dragging = false; hist = [[performance.now(), y0]];
   }, { passive:true });
   np.addEventListener('touchmove', ev => {
     if(y0 === null) return; const t = ev.touches[0], d = t.clientY - y0;
-    if(!dragging){ if(Math.abs(d) < 8) return; if(Math.abs(t.clientX - x0) > Math.abs(d) || d < 0){ y0 = null; return; } dragging = true; np.style.transition = 'none'; np.classList.add('dragging'); }
-    const now = performance.now(); vel = (t.clientY - lastY) / Math.max(1, now - lastT); lastY = t.clientY; lastT = now;
-    dy = Math.max(0, d); np.style.transform = `translateY(${dy}px)`;
-  }, { passive:true });
+    if(!dragging){
+      if(Math.abs(d) < 6 && Math.abs(t.clientX - x0) < 6) return;
+      if(Math.abs(t.clientX - x0) > Math.abs(d) || d < 0){ y0 = null; return; }
+      dragging = true; np.classList.add('dragging');
+    }
+    ev.preventDefault();
+    hist.push([performance.now(), t.clientY]); if(hist.length > 6) hist.shift();
+    dy = d > 0 ? d : d * .2;
+    if(!raf) raf = requestAnimationFrame(paint);
+  }, { passive:false });
   const end = () => {
     if(y0 === null) return; y0 = null; if(!dragging) return; dragging = false; swallowTil = performance.now() + 350;
-    np.classList.remove('dragging'); np.style.transition = '';
-    requestAnimationFrame(() => { np.style.transform = ''; if(dy > innerHeight * .22 || vel > .55) closeNPNow(); });
+    if(raf){ cancelAnimationFrame(raf); raf = 0; }
+    const a = hist[0], z = hist[hist.length - 1], vel = (z[1] - a[1]) / Math.max(16, z[0] - a[0]);   // px per ms over the last few moves
+    np.classList.remove('dragging');
+    np.style.transform = '';
+    if(dy > innerHeight * .25 || vel > .5) closeNPNow();
   };
   np.addEventListener('touchend', end, { passive:true }); np.addEventListener('touchcancel', end, { passive:true });
   np.addEventListener('click', ev => { if(performance.now() < swallowTil){ ev.stopPropagation(); ev.preventDefault(); } }, true);
