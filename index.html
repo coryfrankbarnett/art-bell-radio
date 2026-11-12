@@ -1757,7 +1757,9 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
   let seen = false, quick = false; const today = new Date().toDateString();
   try{ seen = sessionStorage.getItem('abr.intro') === '1'; sessionStorage.setItem('abr.intro','1'); quick = localStorage.getItem('abr.introDay') === today; localStorage.setItem('abr.introDay', today); }catch(_){}
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || (()=>{ try{ return JSON.parse(localStorage.getItem('abr.state.v2')||'{}').calm }catch(_){ return false } })();
-  if(seen){ el.remove(); return; }
+  // Installed on Android, the phone already shows the logo on its own opening screen; a second logo would cross-fade over it
+  const androidApp = /Android/i.test(navigator.userAgent) && (matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || matchMedia('(display-mode: minimal-ui)').matches);
+  if(seen || androidApp){ el.remove(); return; }
   const t0 = performance.now(), min = reduce ? 350 : quick ? 450 : 1900;
   if(quick) el.classList.add('quick');
   if(reduce){ el.querySelectorAll('.in-ttl i').forEach(x => { x.style.transform = 'none'; x.style.opacity = 1; x.style.filter = 'none'; }); }
