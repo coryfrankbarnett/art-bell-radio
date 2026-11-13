@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-GB" class="dir-am dir-mix">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -2045,6 +2045,77 @@ body.opened .app>*:nth-child(2){transition-delay:.06s}body.opened .app>*:nth-chi
 .sizepick.three{grid-template-columns:repeat(3,1fr)}
 .set-foot{margin:18px 2px 6px;font:400 12.5px/1.5 var(--font);color:var(--muted);text-align:center}
 .set-foot button{color:var(--text);text-decoration:underline;text-underline-offset:3px;font:inherit}
+
+/* ===================== Look directions (preview only until chosen) ===================== */
+@font-face{font-family:'AM Display';src:url(fonts/big-shoulders-800.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:block}
+@font-face{font-family:'IBM Plex Mono';src:url(fonts/ibm-plex-mono-latin-400-normal.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2');font-weight:500 900;font-display:swap}
+@font-face{font-family:'Pulp Display';src:url(fonts/anton.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:block}
+@font-face{font-family:'Courier Prime';src:url(fonts/courier-prime-latin-400-normal.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Courier Prime';src:url(fonts/courier-prime-latin-700-normal.woff2) format('woff2');font-weight:500 900;font-display:swap}
+html.dir-am,html.dir-pulp{font-synthesis:none}
+html.cine.dir-am{--serif:"AM Display","Arial Narrow",sans-serif;--dmono:"IBM Plex Mono",ui-monospace,monospace}
+html.cine.dir-pulp{--serif:"Pulp Display","Arial Narrow",sans-serif;--dmono:"Courier Prime","Courier New",monospace}
+html.cine.dir-am:not(.light){--bg:#0a0908!important;--accent:#ffb21e!important;--accent-soft:rgba(255,178,30,.14)!important}
+html.cine.dir-pulp:not(.light){--bg:#15120e!important;--accent:#ef5a2f!important;--accent-soft:rgba(239,90,47,.15)!important}
+html.cine.dir-pulp.light{--bg:#efe4cc!important;--accent:#c63b1c!important}
+/* the big words: upright, upper case, tracked for condensed type */
+:is(html.dir-am,html.dir-pulp) :is(h1,.sec h2,.hs-name,.cc-t,.mx-t,.col-t,.band-n,.ess-n,.col-n,.np .ttl,.hs-wm,.yy){font-style:normal!important}
+:is(html.dir-am,html.dir-pulp) :is(h1,.sec h2,.hs-name,.cc-t,.mx-t,.col-t,.np .ttl,#npTitle){text-transform:uppercase;letter-spacing:.005em!important}
+:is(html.dir-am,html.dir-pulp).cine .art.cv .hd{text-transform:uppercase;letter-spacing:.01em!important;line-height:.95!important;font-style:normal!important}
+/* small print in a typewriter or readout face */
+:is(html.dir-am,html.dir-pulp) :is(.art.cv .dt,.art.cv .no,.art.cv .pcode,.note.sc,.bill,.eyebrow,.hs-top,.hs-meta,.hs-ago,.cc-m,.cc-no,.cc-k,.band-k,.col-k,.col-m,.mx-k,.top .sub,.ess-intro,.sec h2[data-k]::before){font-family:var(--dmono)!important}
+:is(html.dir-am,html.dir-pulp) :is(.hs-why,.band-s){font-family:var(--dmono)!important;font-style:normal!important;font-size:14px!important;line-height:1.5!important}
+
+/* ---------- AM Radio, 1997: black, amber readouts, a dial lit in the dark ---------- */
+html.cine.dir-am .art.cv,html.cine.dir-am.light .art.cv,html.cine.dir-am .np .bigart.cv,html.cine.dir-am.light .np .bigart.cv,html.cine.dir-am .prog.cvp{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--pc) 46%,#0a0908) 0%,color-mix(in srgb,var(--pc) 16%,#0a0908) 62%,#0a0908 100%)!important}
+html.cine.dir-am .art.cv .hd{color:#f4ecdc!important}
+html.cine.dir-am .art.cv .no,html.cine.dir-am .hs-no{color:#ffb21e!important;opacity:1!important}
+html.cine.dir-am .art.cv .pcode{color:var(--pl)!important}
+html.cine.dir-am :is(.card,.np) .art.cv:not(.sm) .yy{color:#ffb21e!important;opacity:.11}
+html.cine.dir-am .art.cv:is(.sm) .yy,html.cine.dir-am :is(.row,.mini) .art.cv .yy{color:#ffb21e!important}
+html.dir-am .case{letter-spacing:.06em}
+html.dir-am .cfield{background:linear-gradient(180deg,color-mix(in srgb,var(--pc) 50%,#0a0908) 0%,color-mix(in srgb,var(--pc) 18%,#0a0908) 70%,#0a0908 100%)!important;box-shadow:inset 0 0 0 1px rgba(255,178,30,.12)}
+html.dir-am .np{background:linear-gradient(180deg,color-mix(in srgb,var(--npf,#3a2a20) 44%,#0a0908) 0%,#0a0908 70%)!important}
+html.dir-am .np .ctl .big{background:#ffb21e!important}
+html.dir-am .hs-play,html.dir-am .col-play,html.dir-am .mx-go{background:#ffb21e!important}
+html.dir-am .live{background:#ffb21e;box-shadow:0 0 12px #ffb21e,0 0 2px #ffb21e}
+html.dir-am:not(.light) .sec h2[data-k]::before{color:#ffb21e!important}
+html.dir-am .ess-n{color:#ffb21e!important}
+html.dir-am .band-n{color:#ffb21e}
+html.dir-am:not(.light) .hs-wm{color:#ffb21e;opacity:.08}
+
+/* ---------- Pulp Paperback: flat ink colours, halftone, a cream publisher's strip ---------- */
+html.cine.dir-pulp .art.cv,html.cine.dir-pulp.light .art.cv,html.cine.dir-pulp .np .bigart.cv,html.cine.dir-pulp.light .np .bigart.cv,html.cine.dir-pulp .prog.cvp{background:var(--pc)!important}
+html.cine.dir-pulp .art.cv::after{background-image:radial-gradient(circle,rgba(10,6,4,.36) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
+  -webkit-mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 35%,transparent 70%);mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 35%,transparent 70%)}
+html.cine.dir-pulp .art.cv .hd{color:#fbf2df!important;text-shadow:.055em .055em 0 rgba(12,8,5,.45)!important}
+html.cine.dir-pulp .card .art.cv:not(.sm) .pcode,html.cine.dir-pulp .np .bigart.cv .pcode{background:#f6ead2!important;color:#18120c!important;padding:.35em .6em .28em!important;border-radius:1px;font-weight:700!important;opacity:1!important}
+html.cine.dir-pulp .art.cv .no{color:#fbf2df!important;font-weight:700!important}
+html.cine.dir-pulp :is(.card,.np) .art.cv:not(.sm) .yy{color:#0d0805!important;opacity:.16}
+html.dir-pulp .cfield{background:var(--pc)!important}
+html.dir-pulp .cfield::after{background-image:radial-gradient(circle,rgba(10,6,4,.34) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
+  -webkit-mask-image:linear-gradient(to top,#000,transparent 75%);mask-image:linear-gradient(to top,#000,transparent 75%)}
+html.dir-pulp .np{background:var(--npf,#3a2a20)!important}
+html.dir-pulp .np::after{background-image:radial-gradient(circle,rgba(10,6,4,.3) 0 1.2px,transparent 1.7px)!important;background-size:7px 7px!important;opacity:1!important;mix-blend-mode:normal!important;-webkit-mask-image:linear-gradient(to top,#000,transparent 60%);mask-image:linear-gradient(to top,#000,transparent 60%)}
+html.dir-pulp :is(.hs-name,.cc-t,.mx-t,.col-t,.band-n){text-shadow:.05em .05em 0 rgba(12,8,5,.4)}
+html.dir-pulp .ess-n{color:var(--accent)!important}
+html.dir-pulp .live{background:var(--accent)}
+/* ---------- The chosen look: AM Radio chrome, Pulp's dot-printed covers ---------- */
+html.cine.dir-mix .art.cv,html.cine.dir-mix.light .art.cv,html.cine.dir-mix .np .bigart.cv,html.cine.dir-mix.light .np .bigart.cv,html.cine.dir-mix .prog.cvp{background:var(--pc)!important}
+html.cine.dir-mix .art.cv::after{background-image:radial-gradient(circle,rgba(10,6,4,.36) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
+  -webkit-mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 35%,transparent 70%);mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 35%,transparent 70%)}
+html.cine.dir-mix .art.cv .hd{color:#fbf2df!important;text-shadow:.055em .055em 0 rgba(12,8,5,.45)!important}
+html.cine.dir-mix .card .art.cv:not(.sm) .pcode,html.cine.dir-mix .np .bigart.cv .pcode{background:#f6ead2!important;color:#18120c!important;padding:.35em .6em .28em!important;border-radius:1px;font-weight:700!important;opacity:1!important}
+html.cine.dir-mix .art.cv .no{color:#fbf2df!important;font-weight:700!important}
+html.cine.dir-mix :is(.card,.np) .art.cv:not(.sm) .yy{color:#0d0805!important;opacity:.16}
+html.dir-mix .cfield{background:var(--pc)!important}
+html.dir-mix .cfield::after{background-image:radial-gradient(circle,rgba(10,6,4,.34) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
+  -webkit-mask-image:linear-gradient(to top,#000,transparent 75%);mask-image:linear-gradient(to top,#000,transparent 75%)}
+html.dir-mix .np{background:var(--npf,#3a2a20)!important}
+html.dir-mix .np::after{background-image:radial-gradient(circle,rgba(10,6,4,.3) 0 1.2px,transparent 1.7px)!important;background-size:7px 7px!important;opacity:1!important;mix-blend-mode:normal!important;-webkit-mask-image:linear-gradient(to top,#000,transparent 60%);mask-image:linear-gradient(to top,#000,transparent 60%)}
+html.dir-mix :is(.hs-name,.cc-t,.mx-t,.col-t,.band-n){text-shadow:.05em .05em 0 rgba(12,8,5,.4)}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2651,7 +2722,7 @@ function seasonCol(fill, date){
   const t = Math.cos((m - .5) / 12 * 2 * Math.PI), p = Math.round(Math.abs(t) * 15);
   return p < 4 ? fill : `color-mix(in oklab, ${fill}, ${t > 0 ? '#3f6fa6' : '#d4893a'} ${p}%)`;
 }
-const noMark = n => n ? `<span class="nmk">N<u>o</u></span>${n}` : '';
+const noMark = n => !n ? '' : document.documentElement.classList.contains('dir-am') ? `<span class="case">Case ${String(n).padStart(3, '0')}</span>` : `<span class="nmk">N<u>o</u></span>${n}`;
 function artHTML(e, cls=''){
   const [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
   const yy = e.year ? "’" + e.year.slice(2) : '—';
@@ -4726,22 +4797,22 @@ async function shareCard(e, t){
     const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); await img.decode();
     g.drawImage(img, 250, 70, 580, 522);
   }catch(x){}
-  try{ await Promise.all([document.fonts.load('400 100px "Instrument Serif"'), document.fonts.load('italic 400 50px "Instrument Serif"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
+  try{ await Promise.all([document.fonts.load('400 100px "AM Display"'), document.fonts.load('400 50px "AM Display"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
   // programme code top-left and catalogue number top-right, as on the covers
   g.font = '600 30px "Inter", sans-serif'; g.fillStyle = line; g.fillText(progCode(e.show).split('').join(String.fromCharCode(8202, 8202)), 90, 96);
   if(e.pno){ g.textAlign = 'right'; g.fillStyle = '#8e877b'; g.fillText(('No. ' + e.pno).toUpperCase().split('').join(String.fromCharCode(8202)), W - 90, 96); g.textAlign = 'left'; }
   const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n-1] = out[n-1].replace(/\s*\S*$/, '') + '…'; } return out; };
   let y = 690; const X = 90, M = W - 180;
   g.font = '600 28px "Inter", sans-serif'; g.fillStyle = line; g.fillText(e.show.toUpperCase().split('').join(String.fromCharCode(8202)), X, y);
-  y += 110; g.fillStyle = '#ece6da'; g.font = '400 112px "Instrument Serif", Georgia, serif';
+  y += 110; g.fillStyle = '#ece6da'; g.font = '400 112px "AM Display", "Arial Narrow", sans-serif';
   wrap(headOf(e), M, 2).forEach(l => { g.fillText(l, X, y); y += 112; });
-  const tp = topicOf(e); if(tp){ g.font = 'italic 400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#b3aa9c'; wrap(tp, M, 2).forEach(l => { g.fillText(l, X, y); y += 62; }); }
+  const tp = topicOf(e); if(tp){ g.font = '400 54px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#b3aa9c'; wrap(tp, M, 2).forEach(l => { g.fillText(l, X, y); y += 62; }); }
   y += 18; g.font = '600 30px "Inter", sans-serif'; g.fillStyle = '#8e877b';
   g.fillText(((e.date ? niceDate(e.date) : '') + (t > 5 ? '   ·   from ' + fmt(t) : '')).toUpperCase(), X, y);
   g.fillStyle = 'rgba(236,230,218,.16)'; g.fillRect(X, H - 170, M, 2);
-  g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#ece6da'; g.fillText('The', X, H - 100);
-  const w1 = g.measureText('The ').width; g.font = '400 40px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', X + w1, H - 100);
-  const w2 = g.measureText('Art Bell ').width; g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#d4b483'; g.fillText('Tapes', X + w1 + w2, H - 100);
+  g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#ece6da'; g.fillText('The', X, H - 100);
+  const w1 = g.measureText('The ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillText('Art Bell', X + w1, H - 100);
+  const w2 = g.measureText('Art Bell ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#d4b483'; g.fillText('Tapes', X + w1 + w2, H - 100);
   g.font = '500 24px "Inter", sans-serif'; g.fillStyle = '#8e877b'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
   return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.png`, { type:'image/png' }) : null), 'image/png'));
 }
@@ -4953,25 +5024,25 @@ async function clipCard(e, t, note){
   const gr = g.createRadialGradient(W * .25, 0, 0, W * .25, 0, H * 1.1); gr.addColorStop(0, 'rgba(255,255,255,.16)'); gr.addColorStop(.42, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(8,6,5,.55)');
   g.fillStyle = gr; g.fillRect(0, 0, W, H);
   g.fillStyle = line; g.fillRect(0, 0, 18, H);
-  try{ await Promise.all([document.fonts.load('400 100px "Instrument Serif"'), document.fonts.load('italic 400 50px "Instrument Serif"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
+  try{ await Promise.all([document.fonts.load('400 100px "AM Display"'), document.fonts.load('400 50px "AM Display"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
   const sp = (s, n = 1) => s.split('').join(String.fromCharCode(8202).repeat(n));
   g.font = '600 30px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.9)'; g.fillText(sp(progCode(e.show), 2), 90, 110);
   g.textAlign = 'right'; g.fillStyle = 'rgba(246,239,227,.72)'; g.fillText(sp(('Clip · ' + fmt(t)).toUpperCase()), W - 90, 110); g.textAlign = 'left';
   const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n - 1] = out[n - 1].replace(/\s*\S*$/, '') + '…'; } return out; };
   const X = 90, M = W - 180, q = note || topicOf(e) || headOf(e);
-  g.font = 'italic 400 96px "Instrument Serif", Georgia, serif'; const ql = wrap(q, M, 5);
-  g.font = '400 54px "Instrument Serif", Georgia, serif'; const hl = wrap(headOf(e), M, 2);
+  g.font = '400 96px "AM Display", "Arial Narrow", sans-serif'; const ql = wrap(q, M, 5);
+  g.font = '400 54px "AM Display", "Arial Narrow", sans-serif'; const hl = wrap(headOf(e), M, 2);
   const total = 150 + ql.length * 104 + 30 + hl.length * 60 + 50;   // quote mark, quote, name, programme line
   let y = Math.round(170 + (H - 210 - 170 - total) / 2) + 150;       // centred between the top line and the footer
-  g.font = 'italic 400 300px "Instrument Serif", Georgia, serif'; g.fillStyle = 'rgba(246,239,227,.18)'; g.fillText('“', X - 14, y - 40);
-  g.font = 'italic 400 96px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3';
+  g.font = '400 300px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = 'rgba(246,239,227,.18)'; g.fillText('“', X - 14, y - 40);
+  g.font = '400 96px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#f6efe3';
   y += 50; ql.forEach(l => { g.fillText(l, X, y); y += 104; });
-  y += 30; g.font = '400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3'; hl.forEach(l => { g.fillText(l, X, y); y += 60; });
+  y += 30; g.font = '400 54px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#f6efe3'; hl.forEach(l => { g.fillText(l, X, y); y += 60; });
   y += 10; g.font = '600 28px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.72)'; g.fillText(sp(`${e.show} · ${niceDate(e.date)}`.toUpperCase()), X, y);
   g.fillStyle = 'rgba(246,239,227,.22)'; g.fillRect(X, H - 170, M, 2);
-  g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3'; g.fillText('The', X, H - 100);
-  const w1 = g.measureText('The ').width; g.font = '400 40px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', X + w1, H - 100);
-  const w2 = g.measureText('Art Bell ').width; g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillText('Tapes', X + w1 + w2, H - 100);
+  g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#f6efe3'; g.fillText('The', X, H - 100);
+  const w1 = g.measureText('The ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillText('Art Bell', X + w1, H - 100);
+  const w2 = g.measureText('Art Bell ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillText('Tapes', X + w1 + w2, H - 100);
   g.font = '500 24px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.72)'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
   return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-clip-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.png`, { type:'image/png' }) : null), 'image/png'));
 }
