@@ -2045,6 +2045,63 @@ body.opened .app>*:nth-child(2){transition-delay:.06s}body.opened .app>*:nth-chi
 .sizepick.three{grid-template-columns:repeat(3,1fr)}
 .set-foot{margin:18px 2px 6px;font:400 12.5px/1.5 var(--font);color:var(--muted);text-align:center}
 .set-foot button{color:var(--text);text-decoration:underline;text-underline-offset:3px;font:inherit}
+
+/* ===================== Look directions (preview only until chosen) ===================== */
+@font-face{font-family:'AM Display';src:url(fonts/big-shoulders-800.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:block}
+@font-face{font-family:'IBM Plex Mono';src:url(fonts/ibm-plex-mono-latin-400-normal.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2');font-weight:500 900;font-display:swap}
+@font-face{font-family:'Pulp Display';src:url(fonts/anton.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:block}
+@font-face{font-family:'Courier Prime';src:url(fonts/courier-prime-latin-400-normal.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Courier Prime';src:url(fonts/courier-prime-latin-700-normal.woff2) format('woff2');font-weight:500 900;font-display:swap}
+html.dir-am,html.dir-pulp{font-synthesis:none}
+html.cine.dir-am{--serif:"AM Display","Arial Narrow",sans-serif;--dmono:"IBM Plex Mono",ui-monospace,monospace}
+html.cine.dir-pulp{--serif:"Pulp Display","Arial Narrow",sans-serif;--dmono:"Courier Prime","Courier New",monospace}
+html.cine.dir-am:not(.light){--bg:#0a0908!important;--accent:#ffb21e!important;--accent-soft:rgba(255,178,30,.14)!important}
+html.cine.dir-pulp:not(.light){--bg:#15120e!important;--accent:#ef5a2f!important;--accent-soft:rgba(239,90,47,.15)!important}
+html.cine.dir-pulp.light{--bg:#efe4cc!important;--accent:#c63b1c!important}
+/* the big words: upright, upper case, tracked for condensed type */
+:is(html.dir-am,html.dir-pulp) :is(h1,.sec h2,.hs-name,.cc-t,.mx-t,.col-t,.band-n,.ess-n,.col-n,.np .ttl,.hs-wm,.yy){font-style:normal!important}
+:is(html.dir-am,html.dir-pulp) :is(h1,.sec h2,.hs-name,.cc-t,.mx-t,.col-t,.np .ttl){text-transform:uppercase;letter-spacing:.005em!important}
+:is(html.dir-am,html.dir-pulp).cine .art.cv .hd{text-transform:uppercase;letter-spacing:.01em!important;line-height:.95!important;font-style:normal!important}
+/* small print in a typewriter or readout face */
+:is(html.dir-am,html.dir-pulp) :is(.art.cv .dt,.art.cv .no,.art.cv .pcode,.note.sc,.bill,.eyebrow,.hs-top,.hs-meta,.hs-ago,.cc-m,.cc-no,.cc-k,.band-k,.col-k,.col-m,.mx-k,.top .sub,.ess-intro,.sec h2[data-k]::before){font-family:var(--dmono)!important}
+:is(html.dir-am,html.dir-pulp) :is(.hs-why,.band-s){font-family:var(--dmono)!important;font-style:normal!important;font-size:14px!important;line-height:1.5!important}
+
+/* ---------- AM Radio, 1997: black, amber readouts, a dial lit in the dark ---------- */
+html.cine.dir-am .art.cv,html.cine.dir-am.light .art.cv,html.cine.dir-am .np .bigart.cv,html.cine.dir-am.light .np .bigart.cv,html.cine.dir-am .prog.cvp{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--pc) 46%,#0a0908) 0%,color-mix(in srgb,var(--pc) 16%,#0a0908) 62%,#0a0908 100%)!important}
+html.cine.dir-am .art.cv .hd{color:#f4ecdc!important}
+html.cine.dir-am .art.cv .no,html.cine.dir-am .hs-no{color:#ffb21e!important;opacity:1!important}
+html.cine.dir-am .art.cv .pcode{color:var(--pl)!important}
+html.cine.dir-am :is(.card,.np) .art.cv:not(.sm) .yy{color:#ffb21e!important;opacity:.11}
+html.cine.dir-am .art.cv:is(.sm) .yy,html.cine.dir-am :is(.row,.mini) .art.cv .yy{color:#ffb21e!important}
+html.dir-am .case{letter-spacing:.06em}
+html.dir-am .cfield{background:linear-gradient(180deg,color-mix(in srgb,var(--pc) 50%,#0a0908) 0%,color-mix(in srgb,var(--pc) 18%,#0a0908) 70%,#0a0908 100%)!important;box-shadow:inset 0 0 0 1px rgba(255,178,30,.12)}
+html.dir-am .np{background:linear-gradient(180deg,color-mix(in srgb,var(--npf,#3a2a20) 44%,#0a0908) 0%,#0a0908 70%)!important}
+html.dir-am .np .ctl .big{background:#ffb21e!important}
+html.dir-am .hs-play,html.dir-am .col-play,html.dir-am .mx-go{background:#ffb21e!important}
+html.dir-am .live{background:#ffb21e;box-shadow:0 0 12px #ffb21e,0 0 2px #ffb21e}
+html.dir-am:not(.light) .sec h2[data-k]::before{color:#ffb21e!important}
+html.dir-am .ess-n{color:#ffb21e!important}
+html.dir-am .band-n{color:#ffb21e}
+html.dir-am:not(.light) .hs-wm{color:#ffb21e;opacity:.08}
+
+/* ---------- Pulp Paperback: flat ink colours, halftone, a cream publisher's strip ---------- */
+html.cine.dir-pulp .art.cv,html.cine.dir-pulp.light .art.cv,html.cine.dir-pulp .np .bigart.cv,html.cine.dir-pulp.light .np .bigart.cv,html.cine.dir-pulp .prog.cvp{background:var(--pc)!important}
+html.cine.dir-pulp .art.cv::after{background-image:radial-gradient(circle,rgba(10,6,4,.36) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
+  -webkit-mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 35%,transparent 70%);mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 35%,transparent 70%)}
+html.cine.dir-pulp .art.cv .hd{color:#fbf2df!important;text-shadow:.055em .055em 0 rgba(12,8,5,.45)!important}
+html.cine.dir-pulp .card .art.cv:not(.sm) .pcode,html.cine.dir-pulp .np .bigart.cv .pcode{background:#f6ead2!important;color:#18120c!important;padding:.35em .6em .28em!important;border-radius:1px;font-weight:700!important;opacity:1!important}
+html.cine.dir-pulp .art.cv .no{color:#fbf2df!important;font-weight:700!important}
+html.cine.dir-pulp :is(.card,.np) .art.cv:not(.sm) .yy{color:#0d0805!important;opacity:.16}
+html.dir-pulp .cfield{background:var(--pc)!important}
+html.dir-pulp .cfield::after{background-image:radial-gradient(circle,rgba(10,6,4,.34) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
+  -webkit-mask-image:linear-gradient(to top,#000,transparent 75%);mask-image:linear-gradient(to top,#000,transparent 75%)}
+html.dir-pulp .np{background:var(--npf,#3a2a20)!important}
+html.dir-pulp .np::after{background-image:radial-gradient(circle,rgba(10,6,4,.3) 0 1.2px,transparent 1.7px)!important;background-size:7px 7px!important;opacity:1!important;mix-blend-mode:normal!important;-webkit-mask-image:linear-gradient(to top,#000,transparent 60%);mask-image:linear-gradient(to top,#000,transparent 60%)}
+html.dir-pulp :is(.hs-name,.cc-t,.mx-t,.col-t,.band-n){text-shadow:.05em .05em 0 rgba(12,8,5,.4)}
+html.dir-pulp .ess-n{color:var(--accent)!important}
+html.dir-pulp .live{background:var(--accent)}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2651,7 +2708,7 @@ function seasonCol(fill, date){
   const t = Math.cos((m - .5) / 12 * 2 * Math.PI), p = Math.round(Math.abs(t) * 15);
   return p < 4 ? fill : `color-mix(in oklab, ${fill}, ${t > 0 ? '#3f6fa6' : '#d4893a'} ${p}%)`;
 }
-const noMark = n => n ? `<span class="nmk">N<u>o</u></span>${n}` : '';
+const noMark = n => !n ? '' : document.documentElement.classList.contains('dir-am') ? `<span class="case">Case ${String(n).padStart(3, '0')}</span>` : `<span class="nmk">N<u>o</u></span>${n}`;
 function artHTML(e, cls=''){
   const [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
   const yy = e.year ? "’" + e.year.slice(2) : '—';
