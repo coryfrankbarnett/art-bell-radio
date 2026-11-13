@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-GB" class="dir-am dir-mix">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -2102,6 +2102,20 @@ html.dir-pulp .np::after{background-image:radial-gradient(circle,rgba(10,6,4,.3)
 html.dir-pulp :is(.hs-name,.cc-t,.mx-t,.col-t,.band-n){text-shadow:.05em .05em 0 rgba(12,8,5,.4)}
 html.dir-pulp .ess-n{color:var(--accent)!important}
 html.dir-pulp .live{background:var(--accent)}
+/* ---------- The chosen look: AM Radio chrome, Pulp's dot-printed covers ---------- */
+html.cine.dir-mix .art.cv,html.cine.dir-mix.light .art.cv,html.cine.dir-mix .np .bigart.cv,html.cine.dir-mix.light .np .bigart.cv,html.cine.dir-mix .prog.cvp{background:var(--pc)!important}
+html.cine.dir-mix .art.cv::after{background-image:radial-gradient(circle,rgba(10,6,4,.36) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
+  -webkit-mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 35%,transparent 70%);mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 35%,transparent 70%)}
+html.cine.dir-mix .art.cv .hd{color:#fbf2df!important;text-shadow:.055em .055em 0 rgba(12,8,5,.45)!important}
+html.cine.dir-mix .card .art.cv:not(.sm) .pcode,html.cine.dir-mix .np .bigart.cv .pcode{background:#f6ead2!important;color:#18120c!important;padding:.35em .6em .28em!important;border-radius:1px;font-weight:700!important;opacity:1!important}
+html.cine.dir-mix .art.cv .no{color:#fbf2df!important;font-weight:700!important}
+html.cine.dir-mix :is(.card,.np) .art.cv:not(.sm) .yy{color:#0d0805!important;opacity:.16}
+html.dir-mix .cfield{background:var(--pc)!important}
+html.dir-mix .cfield::after{background-image:radial-gradient(circle,rgba(10,6,4,.34) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
+  -webkit-mask-image:linear-gradient(to top,#000,transparent 75%);mask-image:linear-gradient(to top,#000,transparent 75%)}
+html.dir-mix .np{background:var(--npf,#3a2a20)!important}
+html.dir-mix .np::after{background-image:radial-gradient(circle,rgba(10,6,4,.3) 0 1.2px,transparent 1.7px)!important;background-size:7px 7px!important;opacity:1!important;mix-blend-mode:normal!important;-webkit-mask-image:linear-gradient(to top,#000,transparent 60%);mask-image:linear-gradient(to top,#000,transparent 60%)}
+html.dir-mix :is(.hs-name,.cc-t,.mx-t,.col-t,.band-n){text-shadow:.05em .05em 0 rgba(12,8,5,.4)}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -4783,22 +4797,22 @@ async function shareCard(e, t){
     const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); await img.decode();
     g.drawImage(img, 250, 70, 580, 522);
   }catch(x){}
-  try{ await Promise.all([document.fonts.load('400 100px "Instrument Serif"'), document.fonts.load('italic 400 50px "Instrument Serif"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
+  try{ await Promise.all([document.fonts.load('400 100px "AM Display"'), document.fonts.load('400 50px "AM Display"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
   // programme code top-left and catalogue number top-right, as on the covers
   g.font = '600 30px "Inter", sans-serif'; g.fillStyle = line; g.fillText(progCode(e.show).split('').join(String.fromCharCode(8202, 8202)), 90, 96);
   if(e.pno){ g.textAlign = 'right'; g.fillStyle = '#8e877b'; g.fillText(('No. ' + e.pno).toUpperCase().split('').join(String.fromCharCode(8202)), W - 90, 96); g.textAlign = 'left'; }
   const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n-1] = out[n-1].replace(/\s*\S*$/, '') + '…'; } return out; };
   let y = 690; const X = 90, M = W - 180;
   g.font = '600 28px "Inter", sans-serif'; g.fillStyle = line; g.fillText(e.show.toUpperCase().split('').join(String.fromCharCode(8202)), X, y);
-  y += 110; g.fillStyle = '#ece6da'; g.font = '400 112px "Instrument Serif", Georgia, serif';
+  y += 110; g.fillStyle = '#ece6da'; g.font = '400 112px "AM Display", "Arial Narrow", sans-serif';
   wrap(headOf(e), M, 2).forEach(l => { g.fillText(l, X, y); y += 112; });
-  const tp = topicOf(e); if(tp){ g.font = 'italic 400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#b3aa9c'; wrap(tp, M, 2).forEach(l => { g.fillText(l, X, y); y += 62; }); }
+  const tp = topicOf(e); if(tp){ g.font = '400 54px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#b3aa9c'; wrap(tp, M, 2).forEach(l => { g.fillText(l, X, y); y += 62; }); }
   y += 18; g.font = '600 30px "Inter", sans-serif'; g.fillStyle = '#8e877b';
   g.fillText(((e.date ? niceDate(e.date) : '') + (t > 5 ? '   ·   from ' + fmt(t) : '')).toUpperCase(), X, y);
   g.fillStyle = 'rgba(236,230,218,.16)'; g.fillRect(X, H - 170, M, 2);
-  g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#ece6da'; g.fillText('The', X, H - 100);
-  const w1 = g.measureText('The ').width; g.font = '400 40px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', X + w1, H - 100);
-  const w2 = g.measureText('Art Bell ').width; g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#d4b483'; g.fillText('Tapes', X + w1 + w2, H - 100);
+  g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#ece6da'; g.fillText('The', X, H - 100);
+  const w1 = g.measureText('The ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillText('Art Bell', X + w1, H - 100);
+  const w2 = g.measureText('Art Bell ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#d4b483'; g.fillText('Tapes', X + w1 + w2, H - 100);
   g.font = '500 24px "Inter", sans-serif'; g.fillStyle = '#8e877b'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
   return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.png`, { type:'image/png' }) : null), 'image/png'));
 }
@@ -5010,25 +5024,25 @@ async function clipCard(e, t, note){
   const gr = g.createRadialGradient(W * .25, 0, 0, W * .25, 0, H * 1.1); gr.addColorStop(0, 'rgba(255,255,255,.16)'); gr.addColorStop(.42, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(8,6,5,.55)');
   g.fillStyle = gr; g.fillRect(0, 0, W, H);
   g.fillStyle = line; g.fillRect(0, 0, 18, H);
-  try{ await Promise.all([document.fonts.load('400 100px "Instrument Serif"'), document.fonts.load('italic 400 50px "Instrument Serif"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
+  try{ await Promise.all([document.fonts.load('400 100px "AM Display"'), document.fonts.load('400 50px "AM Display"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
   const sp = (s, n = 1) => s.split('').join(String.fromCharCode(8202).repeat(n));
   g.font = '600 30px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.9)'; g.fillText(sp(progCode(e.show), 2), 90, 110);
   g.textAlign = 'right'; g.fillStyle = 'rgba(246,239,227,.72)'; g.fillText(sp(('Clip · ' + fmt(t)).toUpperCase()), W - 90, 110); g.textAlign = 'left';
   const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n - 1] = out[n - 1].replace(/\s*\S*$/, '') + '…'; } return out; };
   const X = 90, M = W - 180, q = note || topicOf(e) || headOf(e);
-  g.font = 'italic 400 96px "Instrument Serif", Georgia, serif'; const ql = wrap(q, M, 5);
-  g.font = '400 54px "Instrument Serif", Georgia, serif'; const hl = wrap(headOf(e), M, 2);
+  g.font = '400 96px "AM Display", "Arial Narrow", sans-serif'; const ql = wrap(q, M, 5);
+  g.font = '400 54px "AM Display", "Arial Narrow", sans-serif'; const hl = wrap(headOf(e), M, 2);
   const total = 150 + ql.length * 104 + 30 + hl.length * 60 + 50;   // quote mark, quote, name, programme line
   let y = Math.round(170 + (H - 210 - 170 - total) / 2) + 150;       // centred between the top line and the footer
-  g.font = 'italic 400 300px "Instrument Serif", Georgia, serif'; g.fillStyle = 'rgba(246,239,227,.18)'; g.fillText('“', X - 14, y - 40);
-  g.font = 'italic 400 96px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3';
+  g.font = '400 300px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = 'rgba(246,239,227,.18)'; g.fillText('“', X - 14, y - 40);
+  g.font = '400 96px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#f6efe3';
   y += 50; ql.forEach(l => { g.fillText(l, X, y); y += 104; });
-  y += 30; g.font = '400 54px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3'; hl.forEach(l => { g.fillText(l, X, y); y += 60; });
+  y += 30; g.font = '400 54px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#f6efe3'; hl.forEach(l => { g.fillText(l, X, y); y += 60; });
   y += 10; g.font = '600 28px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.72)'; g.fillText(sp(`${e.show} · ${niceDate(e.date)}`.toUpperCase()), X, y);
   g.fillStyle = 'rgba(246,239,227,.22)'; g.fillRect(X, H - 170, M, 2);
-  g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillStyle = '#f6efe3'; g.fillText('The', X, H - 100);
-  const w1 = g.measureText('The ').width; g.font = '400 40px "Instrument Serif", Georgia, serif'; g.fillText('Art Bell', X + w1, H - 100);
-  const w2 = g.measureText('Art Bell ').width; g.font = 'italic 400 40px "Instrument Serif", Georgia, serif'; g.fillText('Tapes', X + w1 + w2, H - 100);
+  g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#f6efe3'; g.fillText('The', X, H - 100);
+  const w1 = g.measureText('The ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillText('Art Bell', X + w1, H - 100);
+  const w2 = g.measureText('Art Bell ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillText('Tapes', X + w1 + w2, H - 100);
   g.font = '500 24px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.72)'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
   return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-clip-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.png`, { type:'image/png' }) : null), 'image/png'));
 }
