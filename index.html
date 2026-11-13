@@ -2123,6 +2123,31 @@ html.dir-mix :is(.hs-name,.cc-t,.mx-t,.col-t,.band-n){text-shadow:.05em .05em 0 
 #nightVeil{position:fixed;inset:0;pointer-events:none;z-index:9990;background:rgba(0,0,0,.16);opacity:0;transition:opacity 2s ease}
 html.night #nightVeil{opacity:1}
 html.night.dir-am:not(.light){--accent:#d99a26!important}
+
+/* Programmes: each has its own printed pattern, like a paperback series */
+html.cine .prog.cvp{background:var(--pc)!important;overflow:hidden}
+html.cine .prog.cvp::before{content:""!important;display:block!important;position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  --ink:rgba(10,6,4,.26);-webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.75) 45%,rgba(0,0,0,.15) 100%);mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.75) 45%,rgba(0,0,0,.15) 100%)}
+html.cine .prog.cvp>*{position:relative;z-index:1}
+/* Coast to Coast AM: radio waves spreading from the transmitter */
+html.cine .prog.cvp[data-show="Coast to Coast AM"]::before{background:repeating-radial-gradient(circle at 100% 0%,transparent 0 11px,var(--ink) 11px 14px)}
+/* Area 2000: a survey grid, like a map of the range */
+html.cine .prog.cvp[data-show="Area 2000"]::before{background:linear-gradient(var(--ink) 1.5px,transparent 1.5px) 0 0/18px 18px,linear-gradient(90deg,var(--ink) 1.5px,transparent 1.5px) 0 0/18px 18px}
+/* Dreamland: soft diagonal bands */
+html.cine .prog.cvp[data-show="Dreamland"]::before{background:repeating-linear-gradient(135deg,var(--ink) 0 7px,transparent 7px 18px)}
+/* Ghost to Ghost: big halftone dots */
+html.cine .prog.cvp[data-show="Ghost to Ghost"]::before{background:radial-gradient(circle,var(--ink) 0 3.2px,transparent 3.8px) 0 0/13px 13px}
+/* Somewhere in Time: fine lines, like tape */
+html.cine .prog.cvp[data-show="Somewhere in Time"]::before{background:repeating-linear-gradient(0deg,var(--ink) 0 2px,transparent 2px 7px)}
+/* Dark Matter: a scattered star field */
+html.cine .prog.cvp[data-show="Dark Matter"]::before{--ink:rgba(255,248,230,.32);background:radial-gradient(circle,var(--ink) 0 1.2px,transparent 1.8px) 0 0/23px 29px,radial-gradient(circle,var(--ink) 0 .9px,transparent 1.4px) 11px 14px/31px 19px,radial-gradient(circle,var(--ink) 0 1.6px,transparent 2.2px) 5px 21px/47px 41px}
+/* Midnight in the Desert: rays from a low sun */
+html.cine .prog.cvp[data-show="Midnight in the Desert"]::before{background:repeating-conic-gradient(from 0deg at 50% 115%,var(--ink) 0 4deg,transparent 4deg 11deg)}
+/* Everything else: fine dot print */
+html.cine .prog.cvp[data-show="Art Bell"]::before{background:radial-gradient(circle,var(--ink) 0 1.2px,transparent 1.7px) 0 0/7px 7px}
+html.cine .prog.cvp .yrs{position:static!important;left:auto!important;top:auto!important;margin:0 0 auto!important;padding:0!important;align-self:flex-start;transform:none!important}
+html.dir-am .prog.cvp .nm{text-transform:uppercase;letter-spacing:.005em!important;text-shadow:.05em .05em 0 rgba(12,8,5,.4)!important}
+html.dir-am .prog.cvp :is(.yrs,.ct){font-family:var(--dmono)!important;letter-spacing:.1em!important}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -3846,26 +3871,34 @@ function emblemImage(show, color, px){
   });
 }
 async function coverPNG(e, S = 512){
-  const key = e.id + '|' + S + '|v2'; if(artCache.has(key)) return artCache.get(key);
+  // The lock-screen and share artwork, drawn in the app's look: flat programme colour, dot print, poster capitals
+  const key = e.id + '|' + S + '|v3'; if(artCache.has(key)) return artCache.get(key);
   const [fill, line] = progCol(e.show);
   const cv = document.createElement('canvas'); cv.width = cv.height = S; const g = cv.getContext('2d');
-  g.fillStyle = '#16140f'; g.fillRect(0, 0, S, S);
-  // motif, drawn from the same line art as the app
-  try{
-    const kind = coverStyle(e.id, e.show, e.title).kind;
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="${S}" height="${S*.9}" fill="none" stroke="${line}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${LINE_MOTIF[kind] || LINE_MOTIF.rings}</svg>`;
-    const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-    await img.decode(); g.drawImage(img, S*.12, S*.02, S*.76, S*.684);
-  }catch(x){}
-  try{ await Promise.all([document.fonts.load(`400 ${Math.round(S*.1)}px "Instrument Serif"`), document.fonts.load(`600 ${Math.round(S*.04)}px "Inter"`)]); }catch(x){}
-  const wrap = (txt, max) => { const words = txt.split(' '), lines = []; let cur = ''; for(const w of words){ const t = cur ? cur + ' ' + w : w; if(g.measureText(t).width > max && cur){ lines.push(cur); cur = w; } else cur = t; } if(cur) lines.push(cur); return lines.slice(0, 2); };
-  g.fillStyle = '#ece6da'; g.font = `400 ${Math.round(S*.105)}px "Instrument Serif", Georgia, serif`;
-  const lines = wrap(headOf(e), S*.84); lines.forEach((l, i) => g.fillText(l, S*.08, S*(.8 - (lines.length - 1 - i)*.1)));
-  g.font = `600 ${Math.round(S*.036)}px "Inter", sans-serif`; g.fillStyle = line;
-  g.fillText((e.pno ? catLabel(e) + '   ' : ''), S*.08, S*.9);
-  const w0 = g.measureText(e.pno ? catLabel(e) + '   ' : '').width; g.fillStyle = '#9a9286';
-  g.fillText(((e.date ? niceDate(e.date) : '') + ' · ' + (SHOW_SHORT[e.show] || e.show)).toUpperCase(), S*.08 + w0, S*.9);
-  const url = cv.toDataURL('image/png'); artCache.set(key, url); return url;
+  g.fillStyle = fill; g.fillRect(0, 0, S, S);
+  // halftone dots, heavier towards the bottom
+  const step = S / 64, r0 = step * .22;
+  for(let y = step / 2; y < S; y += step) for(let x = step / 2; x < S; x += step){
+    const k = Math.max(0, (y / S - .3) / .7); if(k <= 0) continue;
+    g.fillStyle = `rgba(10,6,4,${(.38 * k).toFixed(3)})`; g.beginPath(); g.arc(x, y, r0 + step * .12 * k, 0, 6.283); g.fill();
+  }
+  g.fillStyle = line; g.fillRect(0, 0, Math.round(S * .03), S);
+  try{ await Promise.all([document.fonts.load(`400 ${Math.round(S*.15)}px "AM Display"`), document.fonts.load(`500 ${Math.round(S*.04)}px "IBM Plex Mono"`)]); }catch(x){}
+  // the year, huge and faint
+  if(e.year){ g.font = `400 ${Math.round(S*.62)}px "AM Display", "Arial Narrow", sans-serif`; g.fillStyle = 'rgba(10,6,4,.16)'; g.textAlign = 'right'; g.fillText('’' + e.year.slice(2), S * 1.02, S * 1.04); g.textAlign = 'left'; }
+  // cream publisher label and case number
+  const mono = px => `500 ${Math.round(px)}px "IBM Plex Mono", ui-monospace, monospace`;
+  g.font = mono(S * .042); const code = progCode(e.show), cw = g.measureText(code).width;
+  g.fillStyle = '#f6ead2'; g.fillRect(S * .09, S * .075, cw + S * .05, S * .07); g.fillStyle = '#18120c'; g.fillText(code, S * .115, S * .127);
+  if(e.pno){ g.fillStyle = '#fbf2df'; g.textAlign = 'right'; g.fillText('CASE ' + String(e.pno).padStart(3, '0'), S * .91, S * .127); g.textAlign = 'left'; }
+  // the name in poster capitals, with a printed drop shadow
+  const fs = Math.round(S * .15); g.font = `400 ${fs}px "AM Display", "Arial Narrow", sans-serif`;
+  const wrap = (txt, max) => { const words = txt.split(' '), lines = []; let cur = ''; for(const w of words){ const t = cur ? cur + ' ' + w : w; if(g.measureText(t).width > max && cur){ lines.push(cur); cur = w; } else cur = t; } if(cur) lines.push(cur); return lines.slice(0, 3); };
+  const lines = wrap(headOf(e).toUpperCase(), S * .8), lh = fs * .95, base = S * .8;
+  lines.forEach((l, i) => { const y = base - (lines.length - 1 - i) * lh; g.fillStyle = 'rgba(12,8,5,.45)'; g.fillText(l, S * .09 + fs * .05, y + fs * .05); g.fillStyle = '#fbf2df'; g.fillText(l, S * .09, y); });
+  g.font = mono(S * .036); g.fillStyle = 'rgba(251,242,223,.82)';
+  g.fillText(((e.date ? niceDate(e.date) : '') + '  ·  ' + (SHOW_SHORT[e.show] || e.show)).toUpperCase(), S * .09, S * .9);
+const url = cv.toDataURL('image/png'); artCache.set(key, url); return url;
 }
 async function setNowPlayingMeta(e){
   if(!('mediaSession' in navigator) || typeof MediaMetadata === 'undefined') return;
