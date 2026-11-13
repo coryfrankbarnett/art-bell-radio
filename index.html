@@ -2116,6 +2116,13 @@ html.dir-mix .cfield::after{background-image:radial-gradient(circle,rgba(10,6,4,
 html.dir-mix .np{background:var(--npf,#3a2a20)!important}
 html.dir-mix .np::after{background-image:radial-gradient(circle,rgba(10,6,4,.3) 0 1.2px,transparent 1.7px)!important;background-size:7px 7px!important;opacity:1!important;mix-blend-mode:normal!important;-webkit-mask-image:linear-gradient(to top,#000,transparent 60%);mask-image:linear-gradient(to top,#000,transparent 60%)}
 html.dir-mix :is(.hs-name,.cc-t,.mx-t,.col-t,.band-n){text-shadow:.05em .05em 0 rgba(12,8,5,.4)}
+
+/* Opening and closing the player: a calm, springy grow and shrink of the cover */
+::view-transition-group(cover){animation-duration:.5s;animation-timing-function:cubic-bezier(.2,.85,.25,1)}
+/* Overnight: a little dimmer, a little softer */
+#nightVeil{position:fixed;inset:0;pointer-events:none;z-index:9990;background:rgba(0,0,0,.16);opacity:0;transition:opacity 2s ease}
+html.night #nightVeil{opacity:1}
+html.night.dir-am:not(.light){--accent:#d99a26!important}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -3090,6 +3097,7 @@ function afterLoad(quiet){
   maybeTour();
   handleDeepLink();
   if(state.last){ const e = byId(state.last); if(e) loadEpisode(e, false); }
+  if(typeof openingMoves === 'function') setTimeout(openingMoves, 50);
 }
 topicsReady.then(t => { if(t && episodes.length && !episodes.some(e => e.tags)){ afterLoad(true); } });
 let idMap = new Map();
@@ -3593,7 +3601,8 @@ const TOPIC_ALIASES = [
 const plainQ = h => /[’‘“”]/.test(h) ? h.replace(/[’‘]/g, "'").replace(/[“”]/g, '"') : h;
 const termHit = (hay, t) => { hay = plainQ(hay); const g = TOPIC_ALIASES.find(g => g[0] === t || (t === 'sasquatch' && g[0] === 'bigfoot') || (t === 'yeti' && g[0] === 'bigfoot')); return g ? g.some(a => hay.includes(a)) : hay.includes(t); };
 function applyFilters(){
-  const terms = $('#q').value.trim().toLowerCase().replace(/[’‘]/g, "'").replace(/[“”]/g, '"').split(/\s+/).filter(Boolean);
+  const yq = []; const rawQ = $('#q').value.trim().replace(/(^|\s)['’]?((?:19[89]\d|20[01]\d)|9[2-9])(?=\s|$)/g, (m, sp, y) => { yq.push(y.length === 2 ? '19' + y : y); return ' '; }).replace(/\s+/g, ' ').trim();
+  const terms = rawQ.toLowerCase().replace(/[’‘]/g, "'").replace(/[“”]/g, '"').split(/\s+/).filter(Boolean);
   let list = episodes;
   if(tab === 'fav'){ const L = listFilter && state.lists.find(l => l.id === listFilter); if(!L) listFilter = ''; list = L ? L.ids.map(byId).filter(Boolean) : list.filter(e => state.favs[e.id]); }
   if(tab === 'saved') list = list.filter(e => savedKeys.has(e.id));
@@ -3601,13 +3610,14 @@ function applyFilters(){
   if(showFilter) list = list.filter(e => e.show === showFilter);
   if(yearFilter) list = list.filter(e => e.year === yearFilter);
   if(guestFilter) list = list.filter(e => e.guests.includes(guestFilter));
+  if(yq.length) list = list.filter(e => yq.includes(e.year));
   let ranked = false;
   const codeQ = $('#q').value.trim().match(/^(cc|dl|gg|dm|md|at)\s*(?:no\.?\s*)?0*(\d{1,4})$/i);
   if(codeQ){ list = list.filter(e => progCode(e.show).toLowerCase() === codeQ[1].toLowerCase() && e.pno === +codeQ[2]); }  // "DL 46" goes straight to that show
   else if(terms.length){
-    const q0 = $('#q').value.trim().toLowerCase(), phrase = TOPIC_ALIASES.find(g => g[0] === q0);
+    const q0 = rawQ.toLowerCase(), phrase = TOPIC_ALIASES.find(g => g[0] === q0);
     const exact = phrase ? list.filter(e => phrase.some(a => plainQ(e.hay).includes(a))) : list.filter(e => terms.every(t => termHit(e.hay, t)));
-    const q = $('#q').value.trim();
+    const q = rawQ;
     if(fuse && q.length > 2 && !/^\d+$/.test(q)){
       const allowed = new Set(list.map(e => e.id)), seen = new Set(exact.map(e => e.id));
       const fuzzy = fuse.search(q, { limit:300 }).map(r => r.item).filter(e => allowed.has(e.id) && !seen.has(e.id));
@@ -5120,6 +5130,80 @@ $('#sheet').addEventListener('click', async ev => {
   if(b.dataset.snd === 'boost'){ await setBoost(!state.boost); renderSound(); } else await setTrim(!state.trim);
 });
 
+
+/* ================= Finishing pass 3: the last premium touches ================= */
+// 1. The player opens out of the cover you tapped, and closes back into it
+var npFrom = null;
+function morphTo(update, fromEl, toEl){
+  const np = $('#np');
+  if(!document.startViewTransition || calm() || !fromEl || !toEl){ update(); return; }
+  fromEl.style.viewTransitionName = 'cover'; np.classList.add('vt');
+  const t = document.startViewTransition(() => { fromEl.style.viewTransitionName = ''; update(); toEl.style.viewTransitionName = 'cover'; });
+  t.finished.finally(() => { toEl.style.viewTransitionName = ''; np.classList.remove('vt'); });
+}
+{ const _o = openNP; openNP = function(fromEl){ npFrom = fromEl && fromEl.closest && fromEl.closest('[data-id]') && !fromEl.closest('#mini') ? fromEl : null; return _o(fromEl); };
+  const _c = closeNP; closeNP = function(){
+    const el = npFrom, np = $('#np'), e = current();
+    if(el && el.isConnected && e && np.classList.contains('open') && state.npView !== 'tape' && state.npView !== 'radio' && !matchMedia('(min-width:1280px)').matches){
+      const host = el.closest('[data-id]'), r = el.getBoundingClientRect();
+      if(host && host.dataset.id === e.id && r.width && r.bottom > 60 && r.top < innerHeight - 120){ npFrom = null; return morphTo(closeNPNow, $('#npArt'), el); }
+    }
+    npFrom = null; return _c();
+  };
+  $('#npClose').onclick = () => closeNP();
+}
+
+// 2. Overnight: after midnight the screen dims a touch and the amber softens; the sleep timer fades out over its last minute
+const veil = document.createElement('div'); veil.id = 'nightVeil'; document.body.appendChild(veil);
+function nightCheck(){ const h = new Date().getHours(); document.documentElement.classList.toggle('night', h < 5 && !document.documentElement.classList.contains('light')); }
+nightCheck(); setInterval(nightCheck, 5 * 60000);
+audio.addEventListener('timeupdate', () => {
+  let left = Infinity;
+  if(sleepAt) left = (sleepAt - Date.now()) / 1000;
+  else if(sleepEnd){ const d = durOf(current()); if(d) left = (d - audio.currentTime) / (audio.playbackRate || 1); }
+  const v = left < 60 ? Math.max(.04, left / 60) : 1;
+  if(Math.abs(audio.volume - v) > .01) try{ audio.volume = v; }catch(x){}
+});
+audio.addEventListener('pause', () => { if(!sleepAt && !sleepEnd) setTimeout(() => { if(audio.paused) try{ audio.volume = 1; }catch(x){} }, 300); });
+
+// 4. Back after a long pause: step back a few seconds to catch the thread
+audio.addEventListener('pause', () => { if(!audio.ended) store.set('abr.pausedAt', Date.now()); });
+audio.addEventListener('play', () => {
+  const at = +store.get('abr.pausedAt', 0); store.set('abr.pausedAt', 0);
+  if(!at || audio.currentTime < 30) return;
+  const gone = Date.now() - at, back = gone > 3 * 3600e3 ? 15 : gone > 3600e3 ? 10 : gone > 10 * 60e3 ? 5 : 0;
+  if(back){ audio.currentTime = Math.max(0, audio.currentTime - back); toast(`Back ${back} seconds to catch the thread`); }
+});
+
+// 7. Start sound (off unless chosen): a short, quiet burst of AM static
+var tickCtx = null;
+function staticTick(){
+  try{
+    tickCtx = tickCtx || new (window.AudioContext || window.webkitAudioContext)(); const c = tickCtx; if(c.state === 'suspended') c.resume();
+    const n = Math.floor(c.sampleRate * .32), buf = c.createBuffer(1, n, c.sampleRate), d = buf.getChannelData(0);
+    for(let i = 0; i < n; i++){ const crackle = Math.random() < .004 ? (Math.random() * 2 - 1) * 3 : 0; d[i] = (Math.random() * 2 - 1) * .5 + crackle; }
+    const src = c.createBufferSource(); src.buffer = buf;
+    const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1600; bp.Q.value = .7;
+    const g = c.createGain(), t = c.currentTime; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.05, t + .03); g.gain.exponentialRampToValueAtTime(.0005, t + .3);
+    src.connect(bp).connect(g).connect(c.destination); src.start(t); src.stop(t + .32);
+  }catch(x){}
+}
+audio.addEventListener('play', () => { if(state.tick && audio.currentTime < 3) staticTick(); });
+
+// 3 + 5. Opening the app: pick up where you left off, or follow a home-screen shortcut
+function openingMoves(){
+  const p = new URLSearchParams(location.search), go = p.get('go');
+  if(go){ history.replaceState(null, '', location.pathname);
+    if(go === 'ghosts' || MIXES.some(m => m.k === go)){ startMix(go === 'ghosts' ? 'ghosts' : go); openNP(); return; }
+    if(go === 'tonight'){ const b = document.querySelector('#hero [data-play]'), e = b && byId(b.dataset.play); if(e){ loadEpisode(e, true); openNP(); } return; }
+    if(go === 'resume'){ const e = state.last && byId(state.last); if(e){ openNP(); audio.play().catch(() => {}); } return; }
+  }
+  if(p.get('ep') || p.get('t')) return;
+  const e = state.last && byId(state.last), pos = e && state.pos[e.id];
+  if(!e || !pos || !pos.t || pos.t < 60 || (pos.d && pos.t > pos.d - 120) || Date.now() - (pos.at || 0) > 18 * 3600e3) return;
+  setTimeout(() => { if(!$('#np').classList.contains('open') && !document.querySelector('.sheet.show, #sheet.show')){ openNP(); toast(`Picking up from ${fmt(pos.t)}`, 3000); } }, 1400);
+}
+
 /* ================= Themes ================= */
 const DARK_BASE = { '--text':'#f2efe8', '--muted':'#8a8f9c', '--line':'rgba(255,255,255,.08)' };
 const THEMES = window.__THEMES;
@@ -5611,6 +5695,7 @@ $('#gear').onclick = () => {
     <div class="sizepick three" role="radiogroup" aria-label="Text size">${[['auto','Standard','Follows your phone'],['l','Large',''],['xl','Extra large','']].map(([k, l, sub]) => { const cur = state.textSize === 'n' ? 'auto' : (state.textSize || 'auto'); return `<button class="sz-o${cur === k ? ' on' : ''}" data-ts="${k}" role="radio" aria-checked="${cur === k}"><b>Aa</b>${l}${sub ? `<small>${sub}</small>` : ''}</button>`; }).join('')}</div>
     <div class="sh-lbl">Listening</div>
     <button class="act" data-s="simple"><span>Simple player<small class="act-sub">Big buttons, just the essentials</small></span><span class="toggle${state.simple ? ' on' : ''}"></span></button>
+    <button class="act" data-s="tick"><span>Start sound<small class="act-sub">A soft crackle of static as a show begins</small></span><span class="toggle${state.tick ? ' on' : ''}"></span></button>
     <button class="act" data-s="calm"><span>Less movement<small class="act-sub">${sysReduce.matches ? 'On in your phone’s settings' : 'No sliding or fading'}</small></span><span class="toggle${calm() ? ' on' : ''}"></span></button>
     <div class="sh-lbl">Your library</div>
     <button class="act" data-s="sync">Sync phone and computer<small>${syncCfg().token ? 'On' : 'Off'}</small></button>
@@ -5630,6 +5715,7 @@ $('#sheet').addEventListener('click', ev => {
   if(b.dataset.s === 'refresh'){ closeSheet(); loadLibrary(true); }
   if(b.dataset.s === 'tribute'){ closeSheet(); openTribute(); }
   if(b.dataset.s === 'sync'){ openSync(); return; }
+  if(b.dataset.s === 'tick'){ state.tick = !state.tick; saveState(); b.querySelector('.toggle').classList.toggle('on', !!state.tick); if(state.tick) staticTick(); return; }
   if(b.dataset.s === 'simple'){ state.simple = !state.simple; saveState(); applyA11y(); b.querySelector('.toggle').classList.toggle('on', state.simple); return; }
   if(b.dataset.s === 'swipe'){ state.noSwipe = !state.noSwipe; saveState(); b.querySelector('.toggle').classList.toggle('on', !state.noSwipe); return; }
   if(b.dataset.s === 'about'){ openAbout(); return; }
