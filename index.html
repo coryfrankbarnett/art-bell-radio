@@ -52,11 +52,8 @@ window.__THEMES = {
 <link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1206x2622.png">
 <link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="brand/splash/1320x2868.png">
 <style>
-/* Fonts bundled with the app (SIL Open Font License): Space Grotesk (headings), Inter (text), Geist Mono (times) */
-@font-face{font-family:'Space Grotesk';src:url(fonts/space-grotesk.woff2) format('woff2-variations');font-weight:300 700;font-display:swap}
+/* Fonts bundled with the app (SIL Open Font License): Big Shoulders Display (headlines), Inter (text), IBM Plex Mono (dates, numbers) */
 @font-face{font-family:'Inter';src:url(fonts/inter.woff2) format('woff2-variations');font-weight:100 900;font-display:swap}
-@font-face{font-family:'Geist Mono';src:url(fonts/geist-mono-400.woff2) format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'Geist Mono';src:url(fonts/geist-mono-500.woff2) format('woff2');font-weight:500;font-display:swap}
 :root{
   /* ---- Tweak these to restyle the whole app ---- */
   --bg:#08090c;
@@ -70,9 +67,9 @@ window.__THEMES = {
   --glow:rgba(255,140,30,.35);
   --radius:18px;
   --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  --display:"Space Grotesk","Inter",sans-serif;
+  --display:"AM Display","Arial Narrow",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;   /* dates, times, data */
-  --serif:"Instrument Serif",Georgia,serif;               /* headlines */
+  --serif:"AM Display","Arial Narrow",sans-serif;          /* headlines */
   --grid:rgba(255,255,255,.035);                           /* schematic grid lines */
   /* ----------------------------------------------- */
   --st:env(safe-area-inset-top,0px); --sb:env(safe-area-inset-bottom,0px);
@@ -382,9 +379,9 @@ html.calm-scroll{scroll-behavior:auto}
 /* ================= 2026 refresh: one modern typeface, less decoration ================= */
 :root{
   --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  --display:"Space Grotesk","Inter",-apple-system,sans-serif;
-  --serif:"Space Grotesk","Inter",-apple-system,sans-serif;
-  --mono:"Geist Mono",ui-monospace,Menlo,monospace;
+  --display:"AM Display","Arial Narrow",sans-serif;
+  --serif:"AM Display","Arial Narrow",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
   --radius:22px;
   --line:rgba(255,255,255,.08);
 }
@@ -721,11 +718,9 @@ h1 em{display:inline}
 .otn-chip{flex:none;height:30px;padding:0 12px;border-radius:99px;font:600 13px/30px var(--font);color:var(--muted);background:var(--surface);border:1px solid var(--line);transition:background .2s,color .2s}
 .otn-chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
 /* ---- Opening animation: the app icon comes alive (plays once per launch, tap to skip) ---- */
-@font-face{font-family:'Instrument Serif';src:url(fonts/instrument-serif.woff2) format('woff2');font-weight:400;font-style:normal;font-display:block}
-@font-face{font-family:'Instrument Serif';src:url(fonts/instrument-serif-italic.woff2) format('woff2');font-weight:400;font-style:italic;font-display:block}
 #intro{position:fixed;inset:0;z-index:9999;background:#141210;display:flex;align-items:center;justify-content:center;transition:opacity .7s ease;overflow:hidden}
 #intro .in-card{position:relative;transition:transform .8s cubic-bezier(.4,0,.2,1),filter .7s ease}
-#intro .in-ttl{color:#ece6da;font-family:'Instrument Serif',Georgia,serif;line-height:1}
+#intro .in-ttl{color:#ece6da;font-family:'AM Display','Arial Narrow',sans-serif;line-height:1}
 #intro .in-ttl span{display:block}
 #intro .in-ttl i{display:block;font-style:normal;opacity:0;filter:blur(10px);transform:translateY(14px)}
 #intro .the{font-size:clamp(28px,9.5vw,42px);margin-bottom:-.04em}#intro .the i{font-style:italic}
@@ -837,7 +832,7 @@ html.cine.light .tile.tonight .go{background:#f2ede3}html.cine.light .tile.tonig
 .sw.feat i{width:92px;flex:none;margin:0;background:#0e0d0c!important}
 .sw.feat span{white-space:normal;font:400 22px/1 var(--serif)}
 .sw.feat small{display:block;font:500 11.5px/1.3 var(--font);color:var(--muted);margin-top:4px}
-html.cine{--radius:3px;--serif:"Instrument Serif",Georgia,serif}
+html.cine{--radius:3px;--serif:"AM Display","Arial Narrow",sans-serif}
 html.cine body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 html.cine .eyebrow{font:500 10px/1 var(--font);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
 html.cine .eyebrow .live{background:var(--accent)}
@@ -2050,15 +2045,9 @@ body.opened .app>*:nth-child(2){transition-delay:.06s}body.opened .app>*:nth-chi
 @font-face{font-family:'AM Display';src:url(fonts/big-shoulders-800.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:block}
 @font-face{font-family:'IBM Plex Mono';src:url(fonts/ibm-plex-mono-latin-400-normal.woff2) format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'IBM Plex Mono';src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2');font-weight:500 900;font-display:swap}
-@font-face{font-family:'Pulp Display';src:url(fonts/anton.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:block}
-@font-face{font-family:'Courier Prime';src:url(fonts/courier-prime-latin-400-normal.woff2) format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'Courier Prime';src:url(fonts/courier-prime-latin-700-normal.woff2) format('woff2');font-weight:500 900;font-display:swap}
 html.dir-am,html.dir-pulp{font-synthesis:none}
-html.cine.dir-am{--serif:"AM Display","Arial Narrow",sans-serif;--dmono:"IBM Plex Mono",ui-monospace,monospace}
-html.cine.dir-pulp{--serif:"Pulp Display","Arial Narrow",sans-serif;--dmono:"Courier Prime","Courier New",monospace}
+html.cine.dir-am{--serif:"AM Display","Arial Narrow",sans-serif;--display:"AM Display","Arial Narrow",sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;--dmono:"IBM Plex Mono",ui-monospace,monospace}
 html.cine.dir-am:not(.light){--bg:#0a0908!important;--accent:#ffb21e!important;--accent-soft:rgba(255,178,30,.14)!important}
-html.cine.dir-pulp:not(.light){--bg:#15120e!important;--accent:#ef5a2f!important;--accent-soft:rgba(239,90,47,.15)!important}
-html.cine.dir-pulp.light{--bg:#efe4cc!important;--accent:#c63b1c!important}
 /* the big words: upright, upper case, tracked for condensed type */
 :is(html.dir-am,html.dir-pulp) :is(h1,.sec h2,.hs-name,.cc-t,.mx-t,.col-t,.band-n,.ess-n,.col-n,.np .ttl,.hs-wm,.yy){font-style:normal!important}
 :is(html.dir-am,html.dir-pulp) :is(h1,.sec h2,.hs-name,.cc-t,.mx-t,.col-t,.np .ttl,#npTitle){text-transform:uppercase;letter-spacing:.005em!important}
@@ -2086,22 +2075,6 @@ html.dir-am .ess-n{color:#ffb21e!important}
 html.dir-am .band-n{color:#ffb21e}
 html.dir-am:not(.light) .hs-wm{color:#ffb21e;opacity:.08}
 
-/* ---------- Pulp Paperback: flat ink colours, halftone, a cream publisher's strip ---------- */
-html.cine.dir-pulp .art.cv,html.cine.dir-pulp.light .art.cv,html.cine.dir-pulp .np .bigart.cv,html.cine.dir-pulp.light .np .bigart.cv,html.cine.dir-pulp .prog.cvp{background:var(--pc)!important}
-html.cine.dir-pulp .art.cv::after{background-image:radial-gradient(circle,rgba(10,6,4,.36) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
-  -webkit-mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 35%,transparent 70%);mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.5) 35%,transparent 70%)}
-html.cine.dir-pulp .art.cv .hd{color:#fbf2df!important;text-shadow:.055em .055em 0 rgba(12,8,5,.45)!important}
-html.cine.dir-pulp .card .art.cv:not(.sm) .pcode,html.cine.dir-pulp .np .bigart.cv .pcode{background:#f6ead2!important;color:#18120c!important;padding:.35em .6em .28em!important;border-radius:1px;font-weight:700!important;opacity:1!important}
-html.cine.dir-pulp .art.cv .no{color:#fbf2df!important;font-weight:700!important}
-html.cine.dir-pulp :is(.card,.np) .art.cv:not(.sm) .yy{color:#0d0805!important;opacity:.16}
-html.dir-pulp .cfield{background:var(--pc)!important}
-html.dir-pulp .cfield::after{background-image:radial-gradient(circle,rgba(10,6,4,.34) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
-  -webkit-mask-image:linear-gradient(to top,#000,transparent 75%);mask-image:linear-gradient(to top,#000,transparent 75%)}
-html.dir-pulp .np{background:var(--npf,#3a2a20)!important}
-html.dir-pulp .np::after{background-image:radial-gradient(circle,rgba(10,6,4,.3) 0 1.2px,transparent 1.7px)!important;background-size:7px 7px!important;opacity:1!important;mix-blend-mode:normal!important;-webkit-mask-image:linear-gradient(to top,#000,transparent 60%);mask-image:linear-gradient(to top,#000,transparent 60%)}
-html.dir-pulp :is(.hs-name,.cc-t,.mx-t,.col-t,.band-n){text-shadow:.05em .05em 0 rgba(12,8,5,.4)}
-html.dir-pulp .ess-n{color:var(--accent)!important}
-html.dir-pulp .live{background:var(--accent)}
 /* ---------- The chosen look: AM Radio chrome, Pulp's dot-printed covers ---------- */
 html.cine.dir-mix .art.cv,html.cine.dir-mix.light .art.cv,html.cine.dir-mix .np .bigart.cv,html.cine.dir-mix.light .np .bigart.cv,html.cine.dir-mix .prog.cvp{background:var(--pc)!important}
 html.cine.dir-mix .art.cv::after{background-image:radial-gradient(circle,rgba(10,6,4,.36) 0 1.1px,transparent 1.6px)!important;background-size:6px 6px!important;opacity:1!important;mix-blend-mode:normal!important;
@@ -2192,6 +2165,22 @@ body.inprog .yhead::before{background:var(--prog-l)}
 @media (min-width:960px){ .list .yhead,#list .yhead{grid-column:1/-1} }
 /* small covers: the year in cream, like every other word on a cover */
 html.cine.dir-am .art.cv:is(.sm) .yy,html.cine.dir-am :is(.row,.mini) .art.cv .yy{color:#fbf2df!important}
+.tabs .side-brand{text-transform:uppercase;letter-spacing:.01em;font-family:var(--serif)!important;font-style:normal!important;line-height:.95}
+.tabs .side-brand em{display:block;font-style:normal!important;color:#ffb21e}
+html.light .tabs .side-brand em{color:var(--accent)}
+
+/* In memory page and About, in the app's type */
+.tb-fig.tb-scene{position:relative;max-width:420px;aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;margin:6px auto 30px;display:flex;align-items:flex-end;padding:14px 16px;background:var(--pc)!important}
+.tb-fig.tb-scene::after{content:""!important;display:block!important;position:absolute!important;inset:0!important;z-index:-1!important;background:var(--scene) right bottom/cover no-repeat!important;opacity:1!important;-webkit-mask-image:none!important;mask-image:none!important}
+.tb-fig.tb-scene figcaption{position:relative;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#fbf2df;margin:0}
+.tb-name{text-transform:uppercase;font-style:normal!important;letter-spacing:.005em}
+.tb-dates{font:500 13px/1.4 var(--mono)!important;letter-spacing:.14em;text-transform:uppercase;font-style:normal!important}
+.tb-lede{font:400 18px/1.55 var(--font)!important;font-style:normal!important}
+.tb-sec h3{text-transform:uppercase;font-style:normal!important;letter-spacing:.01em}
+#tribute :is(em,i,blockquote,q){font-style:normal}
+.ab-n{text-transform:uppercase;font-style:normal!important;letter-spacing:.005em}
+.ab-n em{font-style:normal!important;color:#ffb21e}
+html.light .ab-n em{color:var(--accent)}
 html.ts-l .row .t{font-size:18px!important}html.ts-l .row .m{font-size:13.5px!important}
 html.ts-l .card .t,html.ts-l .esscard .t,html.ts-l .rcard .t{font-size:17px!important}html.ts-l .note,html.ts-l .ess-intro,html.ts-l .ab-p,html.ts-l .tour-p,html.ts-l .tt-tx,html.ts-l .notes p{font-size:17px!important}
 html.ts-l .act{font-size:17px!important}html.ts-l .act small,html.ts-l .chip,html.ts-l .nt-h,html.ts-l .sh-lbl,html.ts-l .seeall,html.ts-l .times{font-size:13px!important}
@@ -2402,7 +2391,7 @@ html.ts-l .cb-t{font-size:19px}html.ts-xl .cb-t{font-size:21px}
 </div>
 
 <!-- Tab bar -->
-<nav class="tabs"><div class="side-brand" aria-hidden="true"><span>The</span>Art Bell<em>Tapes</em></div><div class="inner" id="tabs">
+<nav class="tabs"><div class="side-brand" aria-hidden="true">Art Bell<em>Tapes</em></div><div class="inner" id="tabs">
   <button class="tab on" data-tab="all"><svg viewBox="0 0 24 24" class="ln"><path d="M5.5 4.5v15M10 4.5v15M14 5.5l4.5 14"/></svg>Library</button>
   <button class="tab" data-tab="guests"><svg viewBox="0 0 24 24" class="ln"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg>Guests</button>
   <button class="tab" data-tab="fav"><svg viewBox="0 0 24 24" class="ln"><path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/></svg>Favourites</button>
@@ -2628,7 +2617,7 @@ const pgClass = show => 'pg-' + progCode(show).toLowerCase();
   st.textContent = Object.keys(SCENES).map(n => `.${pgClass(n)}{--scene:url("${sceneURI(n)}")}`).join('\n'); document.head.appendChild(st); }
 const sceneImg = {};
 function sceneImage(show){ if(!SCENES[show]) return Promise.resolve(null); if(sceneImg[show]) return sceneImg[show];
-  const img = new Image(); img.src = sceneURI(show); return sceneImg[show] = img.decode().then(() => img, () => null); }
+  const img = new Image(); img.src = 'data:image/svg+xml,' + encodeURIComponent(SCENES[show].replace('<svg ', '<svg width="400" height="300" ')); return sceneImg[show] = img.decode().then(() => img, () => null); }
 // draw a scene to fill a box, anchored bottom-right like the CSS (cover crop)
 function drawScene(g, img, x, y, w, h){ const r = Math.max(w / 400, h / 300), sw = w / r, sh = h / r; g.drawImage(img, 400 - sw, 300 - sh, sw, sh, x, y, w, h); }
 
@@ -3450,7 +3439,7 @@ $('#sheet').addEventListener('click', ev => {
 function openAbout(){
   const nights = new Set(episodes.filter(e => e.date && e.date.length === 10).map(e => e.date)).size;
   $('#sheet').innerHTML = `<div class="grab"></div>
-    <div class="ab-head"><div class="ab-the">The</div><div class="ab-n">Art Bell <em>Tapes</em></div><div class="ab-s">${episodes.length.toLocaleString('en-GB')} recordings · ${nights.toLocaleString('en-GB')} nights · Art’s voice only</div></div>
+    <div class="ab-head"><div class="ab-n">Art Bell <em>Tapes</em></div><div class="ab-s">${episodes.length.toLocaleString('en-GB')} recordings · ${nights.toLocaleString('en-GB')} nights · Art’s voice only</div></div>
     <p class="ab-p">A listening room for Art Bell’s radio shows, made by a fan. Everything streams straight from the Internet Archive; nothing is copied or hosted here.</p>
     <div class="sh-lbl">The recordings</div>
     <p class="ab-p">Every show here exists because listeners taped it off the radio, kept the cassettes for years, digitised them and shared them on the Internet Archive. Thank you to all of them. These are the collections, and how many shows each one gives this app:</p>
@@ -3463,7 +3452,7 @@ function openAbout(){
     <div class="sh-lbl">Topics and moments</div>
     <p class="ab-p">Subject tags and the times subjects come up are facts drawn from the show notes and transcripts of <a href="https://artbellarchive.org" target="_blank" rel="noopener">The Art Bell Archive</a> podcast. None of their writing is stored.</p>
     <div class="sh-lbl">Type</div>
-    <p class="ab-p">Instrument Serif, Inter, Space Grotesk and Geist Mono, under the SIL Open Font License.</p>
+    <p class="ab-p">Big Shoulders Display, IBM Plex Mono and Inter, under the SIL Open Font License.</p>
     <p class="ab-p ab-small">Art Bell’s programmes belong to their rights holders. This app is a non-commercial tribute.</p>
     <div class="ab-ded">For Art Bell, 1945–2018,<br>and everyone who stayed up to listen.</div>
     <p class="ab-p ab-small" style="text-align:center">Version ${APP_VERSION}</p>
@@ -4396,7 +4385,7 @@ function drawWave(){
   bar(0, Math.max(th, prog*w), wave.preview != null ? txt : accent);
   const e = current(), d = e ? durOf(e) : 0;
   if(d > 3600){ // radio-hour markers
-    g.fillStyle = mut; g.font = '500 9.5px "Geist Mono", monospace'; g.textAlign = 'center';
+    g.fillStyle = mut; g.font = '500 9.5px "IBM Plex Mono", monospace'; g.textAlign = 'center';
     for(let hr = 1; hr*3600 < d; hr++){ const x = hr*3600/d*w; g.fillRect(x-.5, y + th/2 + 3, 1, 5); g.fillText('HR '+(hr+1), Math.min(w-16, x+18), h-2); }
     g.fillText('HR 1', 16, h-2);
   }
@@ -4884,33 +4873,34 @@ function shareUrl(e, t){
   return u.toString();
 }
 /* Share card: a 1080×1350 picture of the show to send with the link */
+/* One footer for every card the app makes: ART BELL TAPES, with Tapes in amber */
+function cardFooter(g, W, H, X){
+  g.fillStyle = 'rgba(251,242,223,.22)'; g.fillRect(X, H - 170, W - X * 2, 2);
+  g.font = '400 44px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#fbf2df'; g.fillText('ART BELL', X, H - 98);
+  const w = g.measureText('ART BELL ').width; g.fillStyle = '#ffb21e'; g.fillText('TAPES', X + w, H - 98);
+  g.font = '500 24px "IBM Plex Mono", ui-monospace, monospace'; g.fillStyle = 'rgba(251,242,223,.72)'; g.textAlign = 'right'; g.fillText('IN MEMORY OF ART BELL · 1945–2018', W - X, H - 102); g.textAlign = 'left';
+}
 async function shareCard(e, t){
-  const W = 1080, H = 1350, [fill, line] = progCol(e.show), kind = coverStyle(e.id, e.show, e.title).kind;
+  // The programme's colour and scene, the name in poster capitals, the details in the readout type
+  const W = 1080, H = 1350, [fill, line] = progCol(e.show);
   const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d');
-  g.fillStyle = '#141210'; g.fillRect(0, 0, W, H);
-  g.fillStyle = line; g.fillRect(0, 0, 18, H);   // the programme's colour spine, like every cover
-  try{
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="900" height="810"><defs><filter id="w" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></defs><g filter="url(#w)" fill="none" stroke="${line}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${LINE_MOTIF[kind] || LINE_MOTIF.rings}</g></svg>`;
-    const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); await img.decode();
-    g.drawImage(img, 250, 70, 580, 522);
-  }catch(x){}
-  try{ await Promise.all([document.fonts.load('400 100px "AM Display"'), document.fonts.load('400 50px "AM Display"'), document.fonts.load('600 30px "Inter"')]); }catch(x){}
-  // programme code top-left and catalogue number top-right, as on the covers
-  g.font = '600 30px "Inter", sans-serif'; g.fillStyle = line; g.fillText(progCode(e.show).split('').join(String.fromCharCode(8202, 8202)), 90, 96);
-  if(e.pno){ g.textAlign = 'right'; g.fillStyle = '#8e877b'; g.fillText(('No. ' + e.pno).toUpperCase().split('').join(String.fromCharCode(8202)), W - 90, 96); g.textAlign = 'left'; }
-  const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n-1] = out[n-1].replace(/\s*\S*$/, '') + '…'; } return out; };
-  let y = 690; const X = 90, M = W - 180;
-  g.font = '600 28px "Inter", sans-serif'; g.fillStyle = line; g.fillText(e.show.toUpperCase().split('').join(String.fromCharCode(8202)), X, y);
-  y += 110; g.fillStyle = '#ece6da'; g.font = '400 112px "AM Display", "Arial Narrow", sans-serif';
-  wrap(headOf(e), M, 2).forEach(l => { g.fillText(l, X, y); y += 112; });
-  const tp = topicOf(e); if(tp){ g.font = '400 54px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#b3aa9c'; wrap(tp, M, 2).forEach(l => { g.fillText(l, X, y); y += 62; }); }
-  y += 18; g.font = '600 30px "Inter", sans-serif'; g.fillStyle = '#8e877b';
-  g.fillText(((e.date ? niceDate(e.date) : '') + (t > 5 ? '   ·   from ' + fmt(t) : '')).toUpperCase(), X, y);
-  g.fillStyle = 'rgba(236,230,218,.16)'; g.fillRect(X, H - 170, M, 2);
-  g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#ece6da'; g.fillText('The', X, H - 100);
-  const w1 = g.measureText('The ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillText('Art Bell', X + w1, H - 100);
-  const w2 = g.measureText('Art Bell ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#d4b483'; g.fillText('Tapes', X + w1 + w2, H - 100);
-  g.font = '500 24px "Inter", sans-serif'; g.fillStyle = '#8e877b'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
+  g.fillStyle = fill; g.fillRect(0, 0, W, H);
+  const sc = await sceneImage(e.show); if(sc) drawScene(g, sc, 0, H * .52, W, H * .48);
+  const fade = g.createLinearGradient(0, H * .5, 0, H); fade.addColorStop(0, 'rgba(8,5,3,0)'); fade.addColorStop(1, 'rgba(8,5,3,.55)'); g.fillStyle = fade; g.fillRect(0, 0, W, H);
+  g.fillStyle = line; g.fillRect(0, 0, 18, H);
+  try{ await Promise.all([document.fonts.load('400 100px "AM Display"'), document.fonts.load('500 30px "IBM Plex Mono"')]); }catch(x){}
+  const X = 90, M = W - 180, mono = px => `500 ${px}px "IBM Plex Mono", ui-monospace, monospace`;
+  g.font = mono(34); const code = progCode(e.show), cw = g.measureText(code).width;
+  g.fillStyle = '#f6ead2'; g.fillRect(X, 84, cw + 44, 58); g.fillStyle = '#18120c'; g.fillText(code, X + 22, 125);
+  if(e.pno){ g.fillStyle = '#fbf2df'; g.textAlign = 'right'; g.fillText('CASE ' + String(e.pno).padStart(3, '0'), W - X, 125); g.textAlign = 'left'; }
+  const wrap = (txt, max, n) => { const words = String(txt).split(' '), out = []; let cur = ''; for(const w of words){ const tt = cur ? cur + ' ' + w : w; if(g.measureText(tt).width > max && cur){ out.push(cur); cur = w; } else cur = tt; } if(cur) out.push(cur); if(out.length > n){ out.length = n; out[n - 1] = out[n - 1].replace(/\s*\S*$/, '') + '…'; } return out; };
+  g.font = '400 168px "AM Display", "Arial Narrow", sans-serif'; const nl = wrap(headOf(e).toUpperCase(), M, 3);
+  let y = 210 + 160;
+  nl.forEach(l => { g.fillStyle = 'rgba(12,8,5,.45)'; g.fillText(l, X + 8, y + 8); g.fillStyle = '#fbf2df'; g.fillText(l, X, y); y += 152; });
+  const topic = topicOf(e); if(topic){ g.font = '500 40px "Inter", sans-serif'; g.fillStyle = 'rgba(251,242,223,.92)'; wrap(topic, M, 2).forEach(l => { y += 6; g.fillText(l, X, y); y += 50; }); }
+  y += 20; g.font = mono(30); g.fillStyle = 'rgba(251,242,223,.8)';
+  g.fillText(((e.date ? niceDate(e.date) : '') + '  ·  ' + (SHOW_SHORT[e.show] || e.show) + (t > 5 ? '  ·  FROM ' + fmt(t) : '')).toUpperCase(), X, y);
+  cardFooter(g, W, H, X);
   return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.png`, { type:'image/png' }) : null), 'image/png'));
 }
 const cardReady = new Map();
@@ -5137,11 +5127,7 @@ async function clipCard(e, t, note){
   y += 50; ql.forEach(l => { g.fillText(l, X, y); y += 104; });
   y += 30; g.font = '400 54px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#f6efe3'; hl.forEach(l => { g.fillText(l, X, y); y += 60; });
   y += 10; g.font = '600 28px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.72)'; g.fillText(sp(`${e.show} · ${niceDate(e.date)}`.toUpperCase()), X, y);
-  g.fillStyle = 'rgba(246,239,227,.22)'; g.fillRect(X, H - 170, M, 2);
-  g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillStyle = '#f6efe3'; g.fillText('The', X, H - 100);
-  const w1 = g.measureText('The ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillText('Art Bell', X + w1, H - 100);
-  const w2 = g.measureText('Art Bell ').width; g.font = '400 40px "AM Display", "Arial Narrow", sans-serif'; g.fillText('Tapes', X + w1 + w2, H - 100);
-  g.font = '500 24px "Inter", sans-serif'; g.fillStyle = 'rgba(246,239,227,.72)'; g.textAlign = 'right'; g.fillText('In memory of Art Bell · 1945–2018', W - X, H - 102); g.textAlign = 'left';
+  cardFooter(g, W, H, X);
   return new Promise(res => cv.toBlob(b => res(b ? new File([b], `art-bell-clip-${(catLabel(e) || 'show').replace(' ', '-').toLowerCase()}.png`, { type:'image/png' }) : null), 'image/png'));
 }
 // The audio: MP3 frames resync on their own, so a byte range of the file plays as a clip
@@ -5395,7 +5381,7 @@ function openTribute(){
   const first = episodes.slice().sort((a, b) => (a.date || '9').localeCompare(b.date || '9'))[0];
   $('#tbBody').innerHTML = `
     <section class="tb-hero">
-      <figure class="tb-fig">${STUDIO_SVG}<figcaption>The studio, Pahrump · after midnight</figcaption></figure>
+      <figure class="tb-fig tb-scene cfield ${pgClass('Coast to Coast AM')}" style="--pc:${progCol('Coast to Coast AM')[0]}"><figcaption>Pahrump, Nevada · after midnight</figcaption></figure>
       <div class="tb-k">In memory of</div>
       <h2 class="tb-name">Art Bell</h2>
       <div class="tb-dates">17 June 1945 — 13 April 2018</div>
